@@ -22,7 +22,8 @@ class Club:
         self.defeat = 0
         self.games_played = 0
         self.club_force = 0 # club overall
-
+        self.ranking_points = 0
+         
         # squad
         self.squad = {}
         self.formation = None
