@@ -1,7 +1,11 @@
 import csv 
+import sqlite3
 
 with open('ranking_conmebol.csv') as file:
     lines = file.readlines() # isso é uma lista de strings
+
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
 
     for line in lines:
         line = line.split(',')
@@ -10,7 +14,13 @@ with open('ranking_conmebol.csv') as file:
         val = float(val)
         del line[-1]
         line.append(val)
-        print(line)
+
+        cursor.execute("""
+        INSERT INTO clubs_ranking (name, country, points) VALUES (?,?,?)
+        """, line)
+
+        conn.commit()
+    conn.close()    
 
 def define_conmebol_points(clubs):
     with open('ranking_conmebol.csv') as file:
