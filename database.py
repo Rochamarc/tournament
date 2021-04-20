@@ -33,6 +33,15 @@ CREATE TABLE IF NOT EXISTS player (
     ); 
     """)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS clubs_ranking (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        country TEXT NOT NULL,
+        points REAL NOT NULL
+    );
+    """)
+
     print("Tabelas criadas com sucesso!")
 
     conn.close() # close database
