@@ -283,12 +283,12 @@ class Stadium:
 
     def db_insertion(self):
 
-        ls = [ self.name, self.location, self.club_owner, self.capacity ]
+        ls = [ self.name, self.location, self.capacity, self.club_owner ]
 
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO stadium (name, location, club_owner, capacity) VALUES (?,?,?,?)", ls)
+        cursor.execute("INSERT INTO stadium (name, location, capacity, club_owner) VALUES (?,?,?,?)", ls)
 
         conn.commit()
         conn.close()
