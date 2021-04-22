@@ -136,4 +136,4 @@ def define_group_stage(clubs_sorted, qualifying_phase, verbose=False):
         groups[group_sorted].append(club)
     
 
-    pprint(groups)
+    return groups
