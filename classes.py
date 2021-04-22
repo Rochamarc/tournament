@@ -13,6 +13,7 @@ class Club:
     def __init__(self,name,country):
         self.name = name
         self.country = country
+        self.short_country = self.country[:3].upper()
         self.points = 0
         self.goals_scored = 0
         self.goals_conceded = 0
@@ -27,7 +28,7 @@ class Club:
         self.squad = {}
         self.formation = None
         self.start_eleven = []
-        self.reserve = []
+        self.bench = []
         self.unrelated = []
 
     def __repr__(self):
@@ -59,23 +60,24 @@ class Club:
         {self.goals_balance}
         """)
 
-    def register_squad(self):
+    def register_squad(self, skip_db=False):
         self.squad["goal_keeper"] = [ Player(fake.name_male(), fake.country(), randint(16,37), 'Goalkeeper', current_club=self.name ) for _ in range(3) ] # 3 goleiros
         self.squad["defender"] = [ Player(fake.name_male(), fake.country(), randint(16,37), choice(['Center Back', 'Left Back', 'Right Back']),  current_club=self.name ) for _ in range(12) ]
         self.squad["midfielder"] = [ Player(fake.name_male(), fake.country(), randint(16,37), choice(['Defender Midfielder', 'Center Midfielder', 'Attacking Midfielder']),  current_club=self.name ) for _ in range(12) ]
         self.squad["attacker"] = [ Player(fake.name_male(), fake.country(), randint(16,37), choice(['Center Forward', 'Second Striker', 'Winger']), current_club=self.name ) for _ in range(6)  ]
 
-        # registrate on the database
-        print("Inserting players into database")
-        for player in self.squad["goal_keeper"]:
-            player.db_insertion()
-        for player in self.squad['defender']:
-            player.db_insertion()
-        for player in self.squad['midfielder']:
-            player.db_insertion()
-        for player in self.squad['attacker']:
-            player.db_insertion()
-        print("Insertion completed sucessfully!")
+        if not skip_db:
+            # registrate on the database
+            print("Inserting players into database")
+            for player in self.squad["goal_keeper"]:
+                player.db_insertion()
+            for player in self.squad['defender']:
+                player.db_insertion()
+            for player in self.squad['midfielder']:
+                player.db_insertion()
+            for player in self.squad['attacker']:
+                player.db_insertion()
+            print("Insertion completed sucessfully!")
         
     def show_cast(self):
         # return name, position, matches, goals, assists, average points
@@ -83,7 +85,7 @@ class Club:
 
         for player in self.start_eleven:
             players.append(player.return_stats())
-        for player in self.reserve:
+        for player in self.bench:
             players.append(player.return_stats())
         for player in self.unrelated:
             players.append(player.return_stats())
@@ -97,8 +99,8 @@ class Club:
         for player in self.start_eleven:
             player.basic_info()
 
-        print("REVERSER\n")
-        for player in self.reserve:
+        print("BENCH\n")
+        for player in self.bench:
             player.basic_info()
 
         print("UNRELATAED\n")
@@ -117,7 +119,7 @@ class Club:
         self.start_eleven.append(cp_squad['goal_keeper'][0])
         del cp_squad['goal_keeper'][0]
 
-        self.reserve.append(cp_squad['goal_keeper'][1])
+        self.bench.append(cp_squad['goal_keeper'][1])
         del cp_squad['goal_keeper'][0]
 
         # garbage code
@@ -153,9 +155,9 @@ class Club:
                 del cp_squad['attacker'][0]
 
         for i in range(2):
-            self.reserve.append(cp_squad['defender'][0])
-            self.reserve.append(cp_squad['midfielder'][0])
-            self.reserve.append(cp_squad['attacker'][0])
+            self.bench.append(cp_squad['defender'][0])
+            self.bench.append(cp_squad['midfielder'][0])
+            self.bench.append(cp_squad['attacker'][0])
 
             del cp_squad['defender'][0]
             del cp_squad['midfielder'][0]
@@ -215,14 +217,14 @@ class Player:
         self.matches_played = 0
         self.goals = 0
         self.assists = 0
-        self.points = [] # every match another point is add here, thent is calculated by the average
+        self.points = 0  # every match another point is add here, thent is calculated by the average
         self.avg = self.average()
 
     def average(self):
         try:
-            return len(self.points) / sum(self.points)
+            self.avg = self.points / self.matches_played
         except:
-            return 0
+            self.avg = 0
 
     # Gera o output pro desenvolvedor
     def __repr__(self):
