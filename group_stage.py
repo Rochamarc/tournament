@@ -1,6 +1,7 @@
 from game_match import game_match
+import pandas as pd 
 
-def group_stage(group, group_list, verbose=False):
+def group_stage(group, group_list, competition, verbose=False):
     """ Retorna um dicionario """
     club_one, club_two, club_three, club_four = group_list[0], group_list[1], group_list[2], group_list[3]
 
@@ -20,44 +21,44 @@ def group_stage(group, group_list, verbose=False):
         # Rodada 1 de 6
         if i == 1:
             # club_one x club_two
-            game_match(i, club_one,club_two)
+            game_match(i, competition, club_one,club_two)
             # club_three x club_four
-            game_match(i, club_three,club_four)
+            game_match(i, competition, club_three,club_four)
             if verbose:
                 sleep(2)
         elif i == 2:
             # club_one x club_four
-            game_match(i, club_one,club_four)
+            game_match(i, competition, club_one,club_four)
             # club_two x club_three
-            game_match(i, club_two,club_three)
+            game_match(i, competition, club_two,club_three)
             if verbose:
                 sleep(2)
         elif i == 3:
             # dotmund x club_one
-            game_match(i, club_three,club_one)
+            game_match(i, competition, club_three,club_one)
             # club_four x club_two
-            game_match(i, club_four,club_two)
+            game_match(i, competition, club_four,club_two)
             if verbose:
                 sleep(2)
         elif i == 4:
             # club_two x club_one
-            game_match(i, club_two,club_one)
+            game_match(i, competition, club_two,club_one)
             # club_four x club_three
-            game_match(i, club_four,club_three)
+            game_match(i, competition, club_four,club_three)
             if verbose:
                 sleep(2)
         elif i == 5:
             # club_four x club_one
-            game_match(i, club_four,club_one)
+            game_match(i, competition, club_four,club_one)
             # dormtund x club_two 
-            game_match(i, club_three,club_two)
+            game_match(i, competition, club_three,club_two)
             if verbose:
                 sleep(2)
         elif i == 6:
             # club_one x club_three
-            game_match(i, club_one,club_three)
+            game_match(i, competition, club_one,club_three)
             # club_two x club_four
-            game_match(i, club_two,club_four)
+            game_match(i, competition, club_two,club_four)
             if verbose:
                 sleep(2)
 
