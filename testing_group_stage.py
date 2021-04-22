@@ -1,6 +1,7 @@
 from classes import Club
 from ranking import define_conmebol_points
 from group_stage_draw import *
+from group_stage import *
 
 ls = {
     "Palmeiras": "Brasil",
@@ -39,10 +40,20 @@ ls = {
 clubs = []
 
 for club, country in ls.items():
-    clubs.append(Club(club, country))
+    c = Club(club, country)
+    c.register_squad(skip_db=True)
+    c.formation_auto()
+
+    clubs.append(c)
 
 define_conmebol_points(clubs) # add conmebol points to each correspondent club
 
 qualifying_phase = ['Santos', 'Always Ready','Junior', 'Atlético Nacional', 'Unión La Calera', 'Independiente del Valle', 'Rentistas','Deportivo La Guaira']
-define_group_stage(clubs, qualifying_phase)
+try:
+    groups = define_group_stage(clubs, qualifying_phase, verbose=True)
+except:
+    groups = define_group_stage(clubs, qualifying_phase, verbose=True)
 
+    
+first_group = group_stage("A", groups['A'], 'Conmebol Libertadores')
+print(first_group)
