@@ -199,7 +199,7 @@ def subs(starting, bench, verbose=False):
         elif p.position == 'Goalkeeper' and player_out.position == 'Goalkeeper':
             options.append(p)
     
-    if len(options) == 0:
+    if options:
         return False 
     
     player_in = choice(options) # select the player
@@ -215,34 +215,6 @@ def subs(starting, bench, verbose=False):
 
     return True
     
-# active -> execute the action // passive -> adversary
-def action(active_player, opposite_player, action, passive_player=None):
-    active_prob = [ 0, 3, 3, 1, 1, 1, 1 ]
-    opposite_prob = [ 0, 3, 3, 1, 1, 1 ,1 ]
-
-    for _ in range(active_player.overall // 9):
-        active_prob.append(0)
-    
-    for _ in range(oposite_player.overall // 9):
-        opositive_prob.append(0)
-    
-    make_action = choice(active_prob)
-    make_interception = choice(passive_prob)
-
-    sucess =  None 
-
-    if make_action % 2 == 0:
-        if make_interception % 2 == 0:
-            sucess = False 
-        else:
-            sucess = True
-    else:
-        # this is a mistake
-        sucess = False
-
-    if action in ['Pass', 'Launch', 'Crossing']:
-        if sucess:
-            pass 
 
 def select_player(start_eleven, position):
     player = None
@@ -255,8 +227,8 @@ def select_player(start_eleven, position):
     elif position == 'defender':
         player = choice([ p for p in start_eleven if p.position in ['Center Back', 'Right Back', 'Left Back']])        
     elif position == 'midfielder':
-        player = choice([ p for p in start_eleven if p.position in ['Denfesive Midfielder', 'Center Midfielder', 'Attacking Midfielder']])        
+        player = choice([ p for p in start_eleven if p.position in ['Defender Midfielder', 'Center Midfielder', 'Attacking Midfielder']])        
     elif position in 'attacker':
         player = choice([ p for p in start_eleven if p.position in ['Center Forward', 'Second Striker', 'Winger']])        
-    
+
     return player 
