@@ -76,12 +76,12 @@ class Club:
             natio_ = generate_nationality(self.country)
             name_ = generate_name(natio_) 
             pos_ = choice(['Defender Midfielder', 'Center Midfielder', 'Attacking Midfielder'])
-            self.squad["midfielder"].append(Player(name_, natio_, randint(16,97), pos_,  current_club=self.name))
+            self.squad["midfielder"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name))
         for _ in range(6):
             natio_ = generate_nationality(self.country)
             name_ = generate_name(natio_) 
             pos_ = choice(['Center Forward', 'Second Striker', 'Winger'])
-            self.squad["attacker"].append(Player(name_, natio_, randint(16,97), pos_,  current_club=self.name))
+            self.squad["attacker"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name))
         
         if not skip_db:
             # registrate on the database
