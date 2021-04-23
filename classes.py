@@ -91,26 +91,35 @@ class Club:
 
         return v_coeff
     def register_squad(self, skip_db=False):
+        shirt_numbers = [ x for x in range(1,50) ]
 
         for _ in range(3):
             natio_ = generate_nationality(self.country)
             name_ = generate_name(natio_) 
-            self.squad['goal_keeper'].append( Player(name_, natio_, randint(16,37), 'Goalkeeper', current_club=self.name, club_coeff=self.coeff))
+            number = choice(shirt_numbers)
+            shirt_numbers.remove(number)
+            self.squad['goal_keeper'].append(Player(name_, natio_, randint(16,37), 'Goalkeeper', current_club=self.name, shirt_number=number, club_coeff=self.coeff))
         for _ in range(12):
             natio_ = generate_nationality(self.country)
             name_ = generate_name(natio_) 
             pos_ = choice(['Center Back', 'Left Back', 'Right Back'])
-            self.squad['defender'].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, club_coeff=self.coeff))
+            number = choice(shirt_numbers)
+            shirt_numbers.remove(number)
+            self.squad['defender'].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, shirt_number=number, club_coeff=self.coeff))
         for _ in range(12):
             natio_ = generate_nationality(self.country)
             name_ = generate_name(natio_) 
             pos_ = choice(['Defender Midfielder', 'Center Midfielder', 'Attacking Midfielder'])
-            self.squad["midfielder"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, club_coeff=self.coeff))
+            number = choice(shirt_numbers)
+            shirt_numbers.remove(number)
+            self.squad["midfielder"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, shirt_number=number, club_coeff=self.coeff))
         for _ in range(6):
             natio_ = generate_nationality(self.country)
             name_ = generate_name(natio_) 
             pos_ = choice(['Center Forward', 'Second Striker', 'Winger'])
-            self.squad["attacker"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, club_coeff=self.coeff))
+            number = choice(shirt_numbers)
+            shirt_numbers.remove(number)
+            self.squad["attacker"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, shirt_number=number, club_coeff=self.coeff))
         
         if not skip_db:
             # registrate on the database
@@ -251,13 +260,14 @@ class Club:
 #### Player Base Object #####
 class Player:
 
-    def __init__(self, name, nationality, age, position, current_club=None, club_coeff=65):
+    def __init__(self, name, nationality, age, position, current_club=None, shirt_number=None, club_coeff=65):
         self.name = name
         self.nationality = nationality
         self.age = age
         self.overall = randint(50, club_coeff)
         self.current_club = current_club
         self.position = position
+        self.shirt_number = shirt_number
 
         #stats de competição
         self.matches_played = 0
