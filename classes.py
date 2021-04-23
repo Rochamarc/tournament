@@ -25,6 +25,7 @@ class Club:
         self.games_played = 0
         self.club_force = 0 # club overall
         self.ranking_points = 0
+        self.coeff = self.coeff()
         # squad
         self.squad = { 'goal_keeper': [], 'defender': [], 'midfielder': [], 'attacker': [] }
         self.formation = None
@@ -61,27 +62,55 @@ class Club:
         {self.goals_balance}
         """)
 
+    def coeff(self):
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor() 
+
+        cursor.execute("SELECT points FROM clubs_ranking WHERE name=?", (self.name,))
+
+        val = cursor.fetchall()[0][0]
+        
+        v_coeff = 65
+
+        if val >= 800:
+            v_coeff += 1
+        if val >= 900:
+            v_coeff += 1
+        if val >= 1000:
+            v_coeff += 2
+        if val >= 3000:
+            v_coeff += 2
+        if val >= 4000:
+            v_coeff += 2
+        if val >= 5000:
+            v_coeff += 2
+        if val >= 6000:
+            v_coeff += 2
+        else:
+            v_coeff += 1
+
+        return v_coeff
     def register_squad(self, skip_db=False):
 
         for _ in range(3):
             natio_ = generate_nationality(self.country)
             name_ = generate_name(natio_) 
-            self.squad['goal_keeper'].append( Player(name_, natio_, randint(16,37), 'Goalkeeper', current_club=self.name ))
+            self.squad['goal_keeper'].append( Player(name_, natio_, randint(16,37), 'Goalkeeper', current_club=self.name, club_coeff=self.coeff))
         for _ in range(12):
             natio_ = generate_nationality(self.country)
             name_ = generate_name(natio_) 
             pos_ = choice(['Center Back', 'Left Back', 'Right Back'])
-            self.squad['defender'].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name))
+            self.squad['defender'].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, club_coeff=self.coeff))
         for _ in range(12):
             natio_ = generate_nationality(self.country)
             name_ = generate_name(natio_) 
             pos_ = choice(['Defender Midfielder', 'Center Midfielder', 'Attacking Midfielder'])
-            self.squad["midfielder"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name))
+            self.squad["midfielder"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, club_coeff=self.coeff))
         for _ in range(6):
             natio_ = generate_nationality(self.country)
             name_ = generate_name(natio_) 
             pos_ = choice(['Center Forward', 'Second Striker', 'Winger'])
-            self.squad["attacker"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name))
+            self.squad["attacker"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, club_coeff=self.coeff))
         
         if not skip_db:
             # registrate on the database
@@ -222,11 +251,11 @@ class Club:
 #### Player Base Object #####
 class Player:
 
-    def __init__(self, name, nationality, age, position, current_club=None):
+    def __init__(self, name, nationality, age, position, current_club=None, club_coeff=65):
         self.name = name
         self.nationality = nationality
         self.age = age
-        self.overall = randint(65,89)
+        self.overall = randint(50, club_coeff)
         self.current_club = current_club
         self.position = position
 
