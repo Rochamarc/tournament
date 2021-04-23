@@ -5,6 +5,7 @@ import pandas as pd
 import os
 import sqlite3
 from faker import Faker
+from name_nationality import *
 
 fake = Faker()
 
@@ -25,7 +26,7 @@ class Club:
         self.club_force = 0 # club overall
         self.ranking_points = 0
         # squad
-        self.squad = {}
+        self.squad = { 'goal_keeper': [], 'defender': [], 'midfielder': [], 'attacker': [] }
         self.formation = None
         self.start_eleven = []
         self.bench = []
@@ -61,11 +62,27 @@ class Club:
         """)
 
     def register_squad(self, skip_db=False):
-        self.squad["goal_keeper"] = [ Player(fake.name_male(), fake.country(), randint(16,37), 'Goalkeeper', current_club=self.name ) for _ in range(3) ] # 3 goleiros
-        self.squad["defender"] = [ Player(fake.name_male(), fake.country(), randint(16,37), choice(['Center Back', 'Left Back', 'Right Back']),  current_club=self.name ) for _ in range(12) ]
-        self.squad["midfielder"] = [ Player(fake.name_male(), fake.country(), randint(16,37), choice(['Defender Midfielder', 'Center Midfielder', 'Attacking Midfielder']),  current_club=self.name ) for _ in range(12) ]
-        self.squad["attacker"] = [ Player(fake.name_male(), fake.country(), randint(16,37), choice(['Center Forward', 'Second Striker', 'Winger']), current_club=self.name ) for _ in range(6)  ]
 
+        for _ in range(3):
+            natio_ = generate_nationality(self.country)
+            name_ = generate_name(natio_) 
+            self.squad['goal_keeper'].append( Player(name_, natio_, randint(16,37), 'Goalkeeper', current_club=self.name ))
+        for _ in range(12):
+            natio_ = generate_nationality(self.country)
+            name_ = generate_name(natio_) 
+            pos_ = choice(['Center Back', 'Left Back', 'Right Back'])
+            self.squad['defender'].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name))
+        for _ in range(12):
+            natio_ = generate_nationality(self.country)
+            name_ = generate_name(natio_) 
+            pos_ = choice(['Defender Midfielder', 'Center Midfielder', 'Attacking Midfielder'])
+            self.squad["midfielder"].append(Player(name_, natio_, randint(16,97), pos_,  current_club=self.name))
+        for _ in range(6):
+            natio_ = generate_nationality(self.country)
+            name_ = generate_name(natio_) 
+            pos_ = choice(['Center Forward', 'Second Striker', 'Winger'])
+            self.squad["attacker"].append(Player(name_, natio_, randint(16,97), pos_,  current_club=self.name))
+        
         if not skip_db:
             # registrate on the database
             print("Inserting players into database")

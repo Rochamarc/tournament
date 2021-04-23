@@ -41,7 +41,7 @@ clubs = []
 
 for club, country in ls.items():
     c = Club(club, country)
-    c.register_squad(skip_db=True)
+    c.register_squad()
     c.formation_auto()
 
     clubs.append(c)
