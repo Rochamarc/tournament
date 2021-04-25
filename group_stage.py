@@ -1,5 +1,6 @@
 from game_match import game_match
 import pandas as pd 
+from time import sleep 
 
 def group_stage(group, group_list, competition, verbose=False):
     """ Retorna um dicionario """
