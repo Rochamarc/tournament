@@ -39,8 +39,14 @@ ls = {
 }
 clubs = []
 
+# Creating a save file
+save_file = input("Digite um valor de ate 30 caracteres pra criar um save file: ")
+
 for club, country in ls.items():
-    c = Club(club, country)
+    if save_file:
+        c = Club(club, country, save_file=save_file)
+    else:
+        c = Club(club, country)
     c.register_squad()
     c.formation_auto()
 
@@ -55,5 +61,21 @@ except:
     groups = define_group_stage(clubs, qualifying_phase, verbose=True)
 
     
-first_group = group_stage("A", groups['A'], 'Conmebol Libertadores')
-print(first_group)
+a_group = group_stage("A", groups['A'], 'Conmebol Libertadores')
+b_group = group_stage("B", groups['B'], 'Conmebol Libertadores')
+c_group = group_stage("C", groups['C'], 'Conmebol Libertadores')
+d_group = group_stage("D", groups['D'], 'Conmebol Libertadores')
+e_group = group_stage("E", groups['E'], 'Conmebol Libertadores')
+f_group = group_stage("F", groups['F'], 'Conmebol Libertadores')
+g_group = group_stage("G", groups['G'], 'Conmebol Libertadores')
+h_group = group_stage("H", groups['H'], 'Conmebol Libertadores')
+
+
+print(a_group)
+print(b_group)
+print(c_group)
+print(d_group)
+print(e_group)
+print(f_group)
+print(g_group)
+print(h_group)
