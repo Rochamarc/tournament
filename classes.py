@@ -11,7 +11,7 @@ fake = Faker()
 
 class Club:
 
-    def __init__(self,name,country):
+    def __init__(self,name,country,save_file=None):
         self.name = name
         self.country = country
         self.short_country = self.country[:3].upper()
@@ -26,6 +26,7 @@ class Club:
         self.club_force = 0 # club overall
         self.ranking_points = 0
         self.coeff = self.coeff()
+        self.save_file = save_file
         # squad
         self.squad = { 'goal_keeper': [], 'defender': [], 'midfielder': [], 'attacker': [] }
         self.formation = None
@@ -98,28 +99,28 @@ class Club:
             name_ = generate_name(natio_) 
             number = choice(shirt_numbers)
             shirt_numbers.remove(number)
-            self.squad['goal_keeper'].append(Player(name_, natio_, randint(16,37), 'Goalkeeper', current_club=self.name, shirt_number=number, club_coeff=self.coeff))
+            self.squad['goal_keeper'].append(Player(name_, natio_, randint(16,37), 'Goalkeeper', current_club=self.name, shirt_number=number, club_coeff=self.coeff, save_file=self.save_file))
         for _ in range(12):
             natio_ = generate_nationality(self.country)
             name_ = generate_name(natio_) 
             pos_ = choice(['Center Back', 'Left Back', 'Right Back'])
             number = choice(shirt_numbers)
             shirt_numbers.remove(number)
-            self.squad['defender'].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, shirt_number=number, club_coeff=self.coeff))
+            self.squad['defender'].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, shirt_number=number, club_coeff=self.coeff, save_file=self.save_file))
         for _ in range(12):
             natio_ = generate_nationality(self.country)
             name_ = generate_name(natio_) 
             pos_ = choice(['Defender Midfielder', 'Center Midfielder', 'Attacking Midfielder'])
             number = choice(shirt_numbers)
             shirt_numbers.remove(number)
-            self.squad["midfielder"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, shirt_number=number, club_coeff=self.coeff))
+            self.squad["midfielder"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, shirt_number=number, club_coeff=self.coeff, save_file=self.save_file))
         for _ in range(6):
             natio_ = generate_nationality(self.country)
             name_ = generate_name(natio_) 
             pos_ = choice(['Center Forward', 'Second Striker', 'Winger'])
             number = choice(shirt_numbers)
             shirt_numbers.remove(number)
-            self.squad["attacker"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, shirt_number=number, club_coeff=self.coeff))
+            self.squad["attacker"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=self.name, shirt_number=number, club_coeff=self.coeff, save_file=self.save_file))
         
         if not skip_db:
             # registrate on the database
@@ -260,7 +261,7 @@ class Club:
 #### Player Base Object #####
 class Player:
 
-    def __init__(self, name, nationality, age, position, current_club=None, shirt_number=None, club_coeff=65):
+    def __init__(self, name, nationality, age, position, current_club=None, shirt_number=None, club_coeff=65, save_file=None):
         self.name = name
         self.nationality = nationality
         self.age = age
@@ -268,6 +269,7 @@ class Player:
         self.current_club = current_club
         self.position = position
         self.shirt_number = shirt_number
+        self.save_file = save_file
 
         #stats de competição
         self.matches_played = 0
@@ -312,12 +314,12 @@ class Player:
         return [self.name, self.nationality, self.current_club, self.age, self.position, self.overall]
 
     def db_insertion(self):
-        ls = [ self.name, self.nationality, self.age, self.overall, self.current_club, self.position, self.matches_played, self.goals, self.assists, self.avg ]
+        ls = [ self.name, self.nationality, self.age, self.overall, self.current_club, self.position, self.matches_played, self.goals, self.assists, self.avg, self.save_file ]
 
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO player (name, nationality, age, overall, current_club, position, matches_played, goals, assists, avg) VALUES (?,?,?,?,?,?,?,?,?,?)", ls)
+        cursor.execute("INSERT INTO player (name, nationality, age, overall, current_club, position, matches_played, goals, assists, avg, save_file) VALUES (?,?,?,?,?,?,?,?,?,?,?)", ls)
 
         conn.commit() # save the changes
         conn.close()
