@@ -16,9 +16,7 @@ def define_conmebol_points(clubs):
 
                     club.ranking_points += val
 
-
-if __name__ == "__main__":
-        
+def upload_ranking_db():
     with open('ranking_conmebol.csv') as file:
         lines = file.readlines() # isso é uma lista de strings
     
@@ -38,6 +36,8 @@ if __name__ == "__main__":
             """, line)
     
             conn.commit()
+
+        print("Conmebol ranking upload succesfully!")
         conn.close()    
     
     
