@@ -1,5 +1,6 @@
 from game_match import match_actions
 from random import randint 
+from time import sleep 
 
 """
 Competicao:
@@ -27,6 +28,7 @@ Rodada: {game_stats['round']}
 Jogo: {game_stats['game']} de {1 if game_stats['round'] == 'Final' else 2 }
 {home_team.name.upper()} ({home_team.short_country}) 0 x 0 {away_team.name.upper()} ({away_team.short_country})
     """)
+        sleep(3)
 
     out_string = f"""
 Competição: {game_stats['competition']}
@@ -176,6 +178,7 @@ Jogo: {game_stats['game']} de {1 if game_stats['round'] == 'Final' else 2}
     home_team.register_knock_out_game(home_goals, away_goals) 
     away_team.register_knock_out_game(away_goals, home_goals)    
     
+    cont = input("Continue...")
     return game_stats
 
 def add_points(winner_team):

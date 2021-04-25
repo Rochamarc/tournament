@@ -71,7 +71,8 @@ def group_stage(group, group_list, competition, verbose=False):
             print("END GROUP STAGE")
         
     print(sorted_data_frame)
-
+    if verbose:
+        cont = input("Continue...")
     
     f_name = sorted_data_frame.iat[0,0]  
     s_name = sorted_data_frame.iat[1,0] 
