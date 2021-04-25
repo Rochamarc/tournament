@@ -61,14 +61,14 @@ except:
     groups = define_group_stage(clubs, qualifying_phase, verbose=True)
 
     
-a_group = group_stage("A", groups['A'], 'Conmebol Libertadores')
-b_group = group_stage("B", groups['B'], 'Conmebol Libertadores')
-c_group = group_stage("C", groups['C'], 'Conmebol Libertadores')
-d_group = group_stage("D", groups['D'], 'Conmebol Libertadores')
-e_group = group_stage("E", groups['E'], 'Conmebol Libertadores')
-f_group = group_stage("F", groups['F'], 'Conmebol Libertadores')
-g_group = group_stage("G", groups['G'], 'Conmebol Libertadores')
-h_group = group_stage("H", groups['H'], 'Conmebol Libertadores')
+a_group = group_stage("A", groups['A'], 'Conmebol Libertadores', verbose=True)
+b_group = group_stage("B", groups['B'], 'Conmebol Libertadores', verbose=True)
+c_group = group_stage("C", groups['C'], 'Conmebol Libertadores', verbose=True)
+d_group = group_stage("D", groups['D'], 'Conmebol Libertadores', verbose=True)
+e_group = group_stage("E", groups['E'], 'Conmebol Libertadores', verbose=True)
+f_group = group_stage("F", groups['F'], 'Conmebol Libertadores', verbose=True)
+g_group = group_stage("G", groups['G'], 'Conmebol Libertadores', verbose=True)
+h_group = group_stage("H", groups['H'], 'Conmebol Libertadores', verbose=True)
 
 
 print(a_group)
