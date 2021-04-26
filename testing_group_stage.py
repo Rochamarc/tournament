@@ -5,6 +5,7 @@ from group_stage import *
 from knock_out_draw import define_knock_out_stage
 from knock_out import knock_out_match
 from pprint import pprint 
+from ranking import players_podium
 
 ls = {
     "Palmeiras": "Brasil",
@@ -114,6 +115,14 @@ for i in range(len(round_of_16)):
         'home_goal': 0,
         'away_goal': 0
     }
-    idas.append(knock_out_match(d, verbose=True))
+    idas.append(knock_out_match(d))
 
 pprint(idas)
+
+best_player = players_podium(clubs, 'Best Player', '2021', save_file=save_file)
+top_scorer = players_podium(clubs, 'Top Scorer', '2021', save_file=save_file)
+assist = players_podium(clubs, 'Assists', '2021', save_file=save_file)
+
+print(best_player)
+print(top_scorer)
+print(assist)
