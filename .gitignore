@@ -130,3 +130,6 @@ dmypy.json
 
 # Database
 database.db
+
+# Statistics
+files/
