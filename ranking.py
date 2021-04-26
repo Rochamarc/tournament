@@ -19,6 +19,7 @@ def define_conmebol_points(clubs):
                     club.ranking_points += val
 
 def upload_ranking_db():
+    print("Inserindo ranking da conmebol na base de dados!")
     with open('ranking_conmebol.csv') as file:
         lines = file.readlines() # isso é uma lista de strings
     
@@ -39,7 +40,7 @@ def upload_ranking_db():
     
             conn.commit()
 
-        print("Conmebol ranking upload succesfully!")
+        print("Ranking da conmebol inserido com sucesso!")
         conn.close()    
 
 def players_podium(all_clubs, category, season, save_file=None):

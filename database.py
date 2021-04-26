@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS player (
         name TEXT NOT NULL, 
         location TEXT NOT NULL, 
         capacity INTEGER NOT NULL, 
-        club_owner TEXT NOT NULL 
+        club_owner TEXT  
     ); 
     """)
 
