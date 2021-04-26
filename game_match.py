@@ -24,7 +24,7 @@ Conditions: {weather}
 {home_team.name.upper()} ({home_team.short_country}) x {away_team.name.upper()} ({away_team.short_country})
     """)
 
-    goals = match_actions(home_team, away_team, 90) # start match 
+    goals = match_actions(home_team, away_team, 45) # start match 
 
     home_goals = goals['home_goal']
     away_goals = goals['away_goal']
@@ -61,7 +61,7 @@ def match_actions(home_team, away_team, match_time):
 
     basic_stats = [ True, False, False, False, False, False ] # 1 in 6 chances
 
-    if match_time == 90:
+    if match_time == 45:
 
         for player in home_players:
             player.matches_played += 1
