@@ -1,6 +1,7 @@
 from game_match import game_match
 import pandas as pd 
 from time import sleep 
+from ranking import update_player_stats
 
 def group_stage(group, group_list, competition, verbose=False):
     """ Retorna um dicionario """
@@ -85,5 +86,7 @@ def group_stage(group, group_list, competition, verbose=False):
             first = club
         if club.name == s_name:
             second = club 
+
+    update_player_stats(group_list) # update average
 
     return { 'group': group, 'first place': first, 'second place': second }
