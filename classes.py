@@ -280,7 +280,7 @@ class Player:
 
     def average(self):
         try:
-            self.avg = self.points / self.matches_played
+            self.avg = round((self.points / self.matches_played), 1)
         except:
             self.avg = 0
 
@@ -307,7 +307,7 @@ class Player:
 
     def return_stats(self):
         # return name, position, matches, goals, assists, average points
-        return [self.name,  self.position, self.matches_played, self.goals, self.assists, self.avg ]
+        return [self.name,  self.current_club, self.position, self.matches_played, self.goals, self.assists, self.avg ]
 
     def return_personal_stats(self):
         # return name, position, overall, age
