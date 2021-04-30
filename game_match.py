@@ -1,4 +1,4 @@
-from random import choice 
+from random import choice, randint 
 
 def game_match(match_round, competition, home_team, away_team, verbose=False):
     # stadium = home_team.stadium 
@@ -86,9 +86,9 @@ def match_actions(home_team, away_team, match_time):
             """ Ataque = toca + chuta """
             """ Defesa = corta + defende """
 
-            touch = choice(basic_stats + [ True for _ in range((midfielder.overall // 9) //2) ])
-            tackle = choice(basic_stats + [ True for _ in range((defensor.overall // 9) // 2) ])
-
+            touch = decision(midfielder.overall)
+            tackle = decision(defensor.overall)
+            
             # substitution
             if home_subs > 0:
                 sub = choice([True, False])
@@ -101,18 +101,27 @@ def match_actions(home_team, away_team, match_time):
 
             if tackle:
                 """ defender success """
-                defensor.points += 0.7 # clearence
+                defensor.points += 0.3 # clearence
             else:
                 if touch:
                     """ touch sucess """
                     midfielder.points += 0.5 # pass 
 
-                    finish = choice(basic_stats + [ True for _ in range((attacker.overall // 9) // 2) ])
-                    defense = choice(basic_stats + [ True for _ in range((keeper.overall // 9) // 2) ])
-
+                    #finish = choice(basic_stats + [ True for _ in range((attacker.overall // 9) // 2) ])
+                    #defense = choice(basic_stats + [ True for _ in range((keeper.overall // 9) // 2) ])
+                    finish = decision(attacker.overall)
+                    defense = decision(keeper.overall)
+                    
                     if defense:
                         """ keeper sucess """
-                        keeper.points += 0.8 # defense
+                        dd = choice([True, False])
+
+                        if dd:
+                            """ difficult defense """
+                            keeper.points += 0.8 # defense
+                        else:
+                            keeper.points += 0.4
+
                     else:
                         if finish:
                             """ goal """ 
@@ -124,7 +133,7 @@ def match_actions(home_team, away_team, match_time):
                                 midfielder.assists += 1 
 
                             home_goal += 1
-                            attacker.points += 1.4 # goals 
+                            attacker.points += 1.5 # goals 
                             attacker.goals += 1
                             keeper.points -= 0.9 # conceded
                             defensor.points -= 0.6 # conceded
@@ -141,8 +150,11 @@ def match_actions(home_team, away_team, match_time):
             """ Ataque = toca + chuta """
             """ Defesa = corta + defende """
 
-            touch = choice(basic_stats + [ True for _ in range((midfielder.overall // 9) // 2) ])
-            tackle = choice(basic_stats + [ True for _ in range((defensor.overall // 9) // 2) ])
+            #touch = choice(basic_stats + [ True for _ in range((midfielder.overall // 9) // 2) ])
+            #tackle = choice(basic_stats + [ True for _ in range((defensor.overall // 9) // 2) ])
+            
+            touch = decision(midfielder.overall)
+            tackle = decision(defensor.overall)
 
             # substitution
             if away_subs > 0:
@@ -156,18 +168,27 @@ def match_actions(home_team, away_team, match_time):
 
             if tackle:
                 """ defender success """
-                defensor.points += 0.7 # clearence
+                defensor.points += 0.3 # clearence
             else:
                 if touch:
                     """ touch sucess """
                     midfielder.points += 0.5 # pass 
 
-                    finish = choice(basic_stats + [ True for _ in range((attacker.overall // 9) // 2) ])
-                    defense = choice(basic_stats + [ True for _ in range((keeper.overall // 9) // 2) ])
+                    #finish = choice(basic_stats + [ True for _ in range((attacker.overall // 9) // 2) ])
+                    #defense = choice(basic_stats + [ True for _ in range((keeper.overall // 9) // 2) ])
+                    
+                    finish = decision(attacker.overall)
+                    defense = decision(keeper.overall)
 
                     if defense:
                         """ keeper sucess """
-                        keeper.points += 0.8 # defense
+                        dd = choice([True, False])
+
+                        if dd:
+                            """ difficult defense """
+                            keeper.points += 0.8 # defense
+                        else:
+                            keeper.points += 0.4
                     else:
                         if finish:
                             """ goal """ 
@@ -179,7 +200,7 @@ def match_actions(home_team, away_team, match_time):
                                 midfielder.assists += 1 
 
                             away_goal += 1
-                            attacker.points += 1.4 # goals 
+                            attacker.points += 1.5 # goals 
                             attacker.goals += 1
                             keeper.points -= 0.9 # conceded
                             defensor.points -= 0.6 # conceded
@@ -232,3 +253,6 @@ def select_player(start_eleven, position):
         player = choice([ p for p in start_eleven if p.position in ['Center Forward', 'Second Striker', 'Winger']])        
 
     return player 
+
+def decision(p_overall):
+    return randint(1,100) < p_overall 
