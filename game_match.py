@@ -1,4 +1,5 @@
 from random import choice, randint 
+from collections import defaultdict
 
 def game_match(match_round, competition, home_team, away_team, verbose=False):
     # stadium = home_team.stadium 
@@ -35,7 +36,7 @@ Conditions: {weather}
 
     game_stats['home_goals'] = home_goals
     game_stats['away_goals'] = away_goals
-
+    
     print(f"""
 Round: {match_round}
 Competition: {competition}
@@ -58,8 +59,9 @@ def match_actions(home_team, away_team, match_time):
 
     home_bench = [ player for player in home_team.bench ]
     away_bench = [ player for player in away_team.bench ]
-
-    basic_stats = [ True, False, False, False, False, False ] # 1 in 6 chances
+    
+    h_player_goals = defaultdict(int) 
+    a_player_goals = defaultdict(int)
 
     if match_time == 45:
 
@@ -107,8 +109,6 @@ def match_actions(home_team, away_team, match_time):
                     """ touch sucess """
                     midfielder.points += 0.5 # pass 
 
-                    #finish = choice(basic_stats + [ True for _ in range((attacker.overall // 9) // 2) ])
-                    #defense = choice(basic_stats + [ True for _ in range((keeper.overall // 9) // 2) ])
                     finish = decision(attacker.overall)
                     defense = decision(keeper.overall)
                     
@@ -137,6 +137,8 @@ def match_actions(home_team, away_team, match_time):
                             attacker.goals += 1
                             keeper.points -= 0.9 # conceded
                             defensor.points -= 0.6 # conceded
+
+                            h_player_goals[attacker] += 1 # register the number of goals by player
         else:
             # defensives
             keeper = select_player(home_players, 'goalkeeper')
@@ -150,9 +152,6 @@ def match_actions(home_team, away_team, match_time):
             """ Ataque = toca + chuta """
             """ Defesa = corta + defende """
 
-            #touch = choice(basic_stats + [ True for _ in range((midfielder.overall // 9) // 2) ])
-            #tackle = choice(basic_stats + [ True for _ in range((defensor.overall // 9) // 2) ])
-            
             touch = decision(midfielder.overall)
             tackle = decision(defensor.overall)
 
@@ -174,9 +173,6 @@ def match_actions(home_team, away_team, match_time):
                     """ touch sucess """
                     midfielder.points += 0.5 # pass 
 
-                    #finish = choice(basic_stats + [ True for _ in range((attacker.overall // 9) // 2) ])
-                    #defense = choice(basic_stats + [ True for _ in range((keeper.overall // 9) // 2) ])
-                    
                     finish = decision(attacker.overall)
                     defense = decision(keeper.overall)
 
@@ -204,8 +200,12 @@ def match_actions(home_team, away_team, match_time):
                             attacker.goals += 1
                             keeper.points -= 0.9 # conceded
                             defensor.points -= 0.6 # conceded
-                     
-    return { 'home_goal': home_goal, 'away_goal': away_goal }
+
+                            a_player_goals[attacker] += 1
+    
+    check_game_stats(home_players, home_goal, h_player_goals, away_players, away_goal, a_player_goals)
+
+    return { 'home_goal': home_goal, 'away_goal': away_goal, 'home_player_goals': h_player_goals, 'away_player_goals': a_player_goals }
 
 def subs(starting, bench, verbose=False):
     player_out = choice(starting)
@@ -256,3 +256,33 @@ def select_player(start_eleven, position):
 
 def decision(p_overall):
     return randint(1,100) < p_overall 
+
+def check_game_stats(home_team, home_goal, h_player_goals, away_team, away_goal, a_player_goals):
+    """ Check for clean sheets, hat tricks and update pontuation """
+    h_defensors = [ player for player in home_team if player.position in ['Goalkeeper', 'Center Back', 'Right Back', 'Left Back', 'Defender Midfielder' ]]
+    h_attackers = [ player for player in home_team if player.position in ['Center Midfielder', 'Attacking Midfielder', 'Center Forward', 'Second Striker', 'Winger']]
+    
+    a_defensors = [ player for player in away_team if player.position in ['Goalkeeper', 'Center Back', 'Right Back', 'Left Back', 'Defender Midfielder' ]]
+    a_attackers = [ player for player in away_team if player.position in ['Center Midfielder', 'Attacking Midfielder', 'Center Forward', 'Second Striker', 'Winger']]
+
+    if home_goal == 0:
+        for _def in h_defensors : _def.points += 0.4
+    if away_goal == 0:
+        for _def in a_defensors : _def.points += 0.4
+    
+    if home_goal > away_goal:
+        for player in home_team : player.points += 1.0
+    elif home_goal < away_goal:
+        for player in away_team : player.points += 1.0
+    
+    if home_goal >= 3:
+        for player, goals in h_player_goals.items():
+            if goals >= 3:
+                player.points += 5.0
+    if away_goal >= 3:
+        for player, goals in a_player_goals.items():
+            if goals >= 3:
+                player.points += 5.0
+            
+    return None
+
