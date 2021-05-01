@@ -37,11 +37,30 @@ Conditions: {weather}
     game_stats['home_goals'] = home_goals
     game_stats['away_goals'] = away_goals
     
+    h_player_goal_string = ""
+    a_player_goal_string = ""
+    
+    print(goals)
+    """ here i need to iterate through the for mark in defaultdict.items() : return ('item', int) """    
+    for tpl in goals['home_player_goals'].items(): 
+        goal_time = "" 
+        for _ in range(tpl[-1]):
+            goal_time += f"{randint(1,90)}' "
+        h_player_goal_string += f"{tpl[0]} {goal_time}\n"
+    
+    for tpl in goals['away_player_goals'].items():
+        goal_time = ""
+        for _ in range(tpl[-1]):
+            goal_time += f"{randint(1,90)}' " 
+        a_player_goal_string += f"{tpl[0]} {goal_time}\n"
+
     print(f"""
 Round: {match_round}
 Competition: {competition}
 {home_team.name.upper()} ({home_team.short_country}) {home_goals} x {away_goals} {away_team.name.upper()} ({away_team.short_country})
     """)
+    print(h_player_goal_string, end=" ")
+    print(a_player_goal_string)
 
     return game_stats
 
