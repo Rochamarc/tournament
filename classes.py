@@ -1,13 +1,10 @@
 from random import choice, randint
-import numpy as np
 from pprint import pprint
 import pandas as pd
 import os
 import sqlite3
-from faker import Faker
 from name_nationality import *
 
-fake = Faker()
 
 # Remove the faker lib and add some class methods, and class variables
 # some magic methods, change the return of repr, change how variables inside the class 
@@ -24,16 +21,17 @@ class Club:
         self.points = 0
         self.goals_scored = 0
         self.goals_conceded = 0
-        self.goals_balance = 0
+        self.goal_difference = 0
         self.victory = 0
         self.draw = 0
         self.defeat = 0
         self.games_played = 0
-        self.club_force = 0 # club overall
+        self.overall = 0 
         self.ranking_points = 0
-        self.coeff = self.coeff()
+        self.coeff = self.set_coeff()
         self.save_file = save_file
-        # squad
+        
+        # The next attr are refering to handle the squad
         self.squad = { 'goal_keeper': [], 'defender': [], 'midfielder': [], 'attacker': [] }
         self.formation = None
         self.start_eleven = []
@@ -41,35 +39,17 @@ class Club:
         self.unrelated = []
 
     def __repr__(self):
-        return self.name
+        return f"Club({self.name})"
 
-    def show_season_stats(self):
-        print(f"""
-        {self.name.upper()}
+    def get_season_stats(self):
+        return f"{self.name.upper()}\nGroup Stage Points: {self.points}\nVictory: {self.victory}\nDraws: {self.draw}\nDefeat: {self.defeat}\nGoals Scored: {self.goals_scored}\nGoals Conceded: {self.goals_conceded}\nGoals Diff: {self.goal_difference}"
 
-        Group Stage Points:
-        {self.points}
+    def set_overall(self):
+        ''' Define the club overall on the average of player overall '''
+        players = [ player.overall for player in self.start_eleven ] + [ player.overall for player in self.bench ] + [ player.overall for player in self,unrelated ]
+        self.overall = sum(players) / len(players) 
 
-        Victory:
-        {self.victory}
-
-        Draws:
-        {self.draw}
-
-        Defeat:
-        {self.defeat}
-
-        Goals Scored:
-        {self.goals_scored}
-
-        Goals Conceded:
-        {self.goals_conceded}
-
-        Goals Diff:
-        {self.goals_balance}
-        """)
-
-    def coeff(self):
+    def set_coeff(self):
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor() 
 
@@ -97,7 +77,8 @@ class Club:
             v_coeff += 1
 
         return v_coeff
-    def register_squad(self, skip_db=False):
+
+    def set_squad(self, skip_db=False):
         shirt_numbers = [ x for x in range(1,50) ]
 
         for _ in range(3):
@@ -141,20 +122,16 @@ class Club:
                 player.db_insertion()
             print("Insertion completed sucessfully!")
         
-    def show_cast(self):
-        # return name, position, matches, goals, assists, average points
-        players = []
+    def get_df_cast(self):
+        ''' return a dataframe with name, position, matches, goals, assists, average points '''
 
-        for player in self.start_eleven:
-            players.append(player.return_stats())
-        for player in self.bench:
-            players.append(player.return_stats())
-        for player in self.unrelated:
-            players.append(player.return_stats())
+        # get all the players
+        players = [ player.get_stats() for player in self.start_eleven ] + [ player.get_stats() for player in self.bench ] + [ player.get_stats() for player in self.unrelated ]
 
         return pd.DataFrame(players, index=None, columns=['Name','Position','MP','GS','A','Avg'])
 
-    def show_formation(self):
+    def get_formation(self):
+        ''' probably gonna be deleted '''
         print(f"FORMATION: {self.formation}\n")
 
         print("STARTING ELEVEN\n")
@@ -169,7 +146,7 @@ class Club:
         for player in self.unrelated:
             player.basic_info()
 
-    def formation_auto(self):
+    def set_formation(self):
         # sorting squad
         for key, value in self.squad.items():
             value.sort(key=lambda player: player.overall, reverse=True)
@@ -230,39 +207,30 @@ class Club:
                 self.unrelated.append(player)
 
         self.squad = {}
+        self.set_overall()
 
-    def register_game(self, goals_scored, goals_conceded):
+    def register_game(self, goals_scored, goals_conceded, match_type):
+        ''' match type group_stage or knock_out '''
         if goals_scored > goals_conceded:
-            self.points += 3
+            if match_type == 'group_satge' : self.points += 3 
             self.victory += 1
         if goals_scored == goals_conceded:
-            self.points += 1
+            if match_type == 'group_satge' :  self.points += 1
             self.draw += 1
         if goals_scored < goals_conceded:
             self.defeat += 1
 
-        self.balance_goals(goals_scored, goals_conceded)
+        self.set_goal_diff(goals_scored, goals_conceded)
 
-    def register_knock_out_game(self, goals_scored, goals_conceded):
-        if goals_scored > goals_conceded:
-            self.victory += 1
-        if goals_scored == goals_conceded:
-            self.draw += 1
-        if goals_scored < goals_conceded:
-            self.defeat += 1
-
-        self.balance_goals(goals_scored, goals_conceded)
-
-
-    # Balanceando os gols
-    def balance_goals(self,goals_scored,goals_conceded):
+    def set_goal_diff(self, goals_scored, goals_conceded):
         self.games_played += 1
         self.goals_scored += goals_scored
         self.goals_conceded += goals_conceded
-        self.goals_balance += goals_scored - goals_conceded
+        self.goal_difference += goals_scored - goals_conceded
 
-    def show_stats(self):
-        return [self.name, self.points, self.victory, self.draw, self.defeat, self.goals_scored, self.goals_conceded, self.goals_balance]
+    def get_stats(self):
+        ''' return a list[ name, points, victory, draw, defeat, goal_scored, goals_conceded, goal_balance ] '''
+        return [self.name, self.points, self.victory, self.draw, self.defeat, self.goals_scored, self.goals_conceded, self.goal_difference]
 
 #### Player Base Object #####
 class Player:
@@ -282,9 +250,9 @@ class Player:
         self.goals = 0
         self.assists = 0
         self.points = 0  # every match another point is add here, thent is calculated by the average
-        self.avg = self.average()
+        self.avg = self.avg()
 
-    def average(self):
+    def set_avg(self):
         try:
             self.avg = round((self.points / self.matches_played), 1)
         except:
@@ -292,31 +260,24 @@ class Player:
 
     # Gera o output pro desenvolvedor
     def __repr__(self):
-        return self.name
+        return f'Player({self.name})'
 
     # Gera o output para o usuario final
     def __str__(self):
-        return self.name
+        return f'Player({self.name})'
 
-    def basic_info(self):
-        print(f"{self.name} :: {self.overall} \n{self.position}\n")
+    def get_short_info(self):
+        return f"{self.name} :: {self.overall} \n{self.position}\n"
 
-    def show(self):
-        print(f"""
-        Name: {self.name}
-        Overall: {self.overall}
-        Position: {self.position}
-        Current Club: {self.current_club}
-        Age: {self.age}
-        Nationality: {self.nationality}
-        """)
+    def get_info(self):
+        return f"Name: {self.name}\nOverall: {self.overall}\nPosition: {self.position}\nCurrent Club: {self.current_club}\nAge: {self.age}\nNationality: {self.nationality}"
 
-    def return_stats(self):
-        # return name, position, matches, goals, assists, average points
+    def get_stats(self):
+        ''' return list[ name, position, matches, goals, assists, average points ] '''
         return [self.name,  self.current_club, self.position, self.matches_played, self.goals, self.assists, self.avg ]
 
-    def return_personal_stats(self):
-        # return name, position, overall, age
+    def get_personal_stats(self):
+        ''' return list[ name, position, overall, age ] '''
         return [self.name, self.nationality, self.current_club, self.age, self.position, self.overall]
 
     def db_insertion(self):
