@@ -1,6 +1,10 @@
 from random import choice, randint 
 from collections import defaultdict
 
+# This is all became a class Game: with static methods
+#
+#
+
 def game_match(match_round, competition, home_team, away_team, verbose=False):
     # stadium = home_team.stadium 
     hour = choice(['19:00', '21:00', '19:15'])
@@ -16,14 +20,7 @@ def game_match(match_round, competition, home_team, away_team, verbose=False):
     }
 
     if verbose:
-        print(f"""
-Competition: {competition}
-Round: {match_round}
-
-Hour: {hour}
-Conditions: {weather}
-{home_team.name.upper()} ({home_team.short_country}) x {away_team.name.upper()} ({away_team.short_country})
-    """)
+        print(f"Competition: {competition}\nRound: {match_round}\nHour: {hour}\nConditions: {weather}\n{home_team.name.upper()} ({home_team.short_country}) x {away_team.name.upper()} ({away_team.short_country})")
 
     goals = match_actions(home_team, away_team, 45) # start match 
 
@@ -37,30 +34,24 @@ Conditions: {weather}
     game_stats['home_goals'] = home_goals
     game_stats['away_goals'] = away_goals
     
-    h_player_goal_string = ""
-    a_player_goal_string = ""
+    player_goal_string = ""
     
-    print(goals)
     """ here i need to iterate through the for mark in defaultdict.items() : return ('item', int) """    
     for tpl in goals['home_player_goals'].items(): 
         goal_time = "" 
         for _ in range(tpl[-1]):
             goal_time += f"{randint(1,90)}' "
-        h_player_goal_string += f"{tpl[0]} {goal_time}\n"
+        player_goal_string += f"({home_team.name[0:3].upper()}) {tpl[0]} {goal_time}\n"
     
     for tpl in goals['away_player_goals'].items():
         goal_time = ""
         for _ in range(tpl[-1]):
             goal_time += f"{randint(1,90)}' " 
-        a_player_goal_string += f"{tpl[0]} {goal_time}\n"
+        player_goal_string += f"({away_team.name[0:3].upper()}) {tpl[0]} {goal_time}\n"
 
-    print(f"""
-Round: {match_round}
-Competition: {competition}
-{home_team.name.upper()} ({home_team.short_country}) {home_goals} x {away_goals} {away_team.name.upper()} ({away_team.short_country})
-    """)
-    print(h_player_goal_string, end=" ")
-    print(a_player_goal_string)
+    print(f"Round: {match_round}\nCompetition: {competition}\n{home_team.name.upper()} ({home_team.short_country}) {home_goals} x {away_goals} {away_team.name.upper()} ({away_team.short_country})")
+
+    print(player_goal_string)
 
     return game_stats
 
