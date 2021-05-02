@@ -3,6 +3,10 @@ import sqlite3
 import pandas as pd 
 from datetime import datetime 
 
+# This will became a class Ranking: with static methods
+#
+#
+
 def define_conmebol_points(clubs):
     with open('ranking_conmebol.csv') as file:
         lines = file.readlines() 
