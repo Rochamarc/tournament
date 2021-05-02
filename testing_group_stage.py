@@ -44,15 +44,15 @@ ls = {
 clubs = []
 
 # Creating a save file
-save_file = input("Digite um valor de ate 30 caracteres pra criar um save file: ")
+save_file = None # input("Digite um valor de ate 30 caracteres pra criar um save file: ")
 
 for club, country in ls.items():
     if save_file:
         c = Club(club, country, save_file=save_file)
     else:
         c = Club(club, country)
-    c.register_squad(skip_db=True)
-    c.formation_auto()
+    c.set_squad(skip_db=True)
+    c.set_formation()
 
     clubs.append(c)
 

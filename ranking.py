@@ -61,13 +61,14 @@ def players_podium(all_clubs, category, season, save_file=None):
 
     for club in all_clubs:
         """ add players to series_data """
-        series_data += [ player.return_stats() for player in club.start_eleven ] 
-        series_data += [ player.return_stats() for player in club.bench ]
+        series_data += [ player.get_stats() for player in club.start_eleven ] 
+        series_data += [ player.get_stats() for player in club.bench ]
 
     df = pd.DataFrame(series_data, index=None, columns=['Name', 'Club','Position','MP','Goal','Assist','Avg'])
     sorted_data_frame = df.sort_values(by=stats, axis=0, ascending=False)
 
-    sorted_data_frame.to_csv(f"./files/{save_file}/{category}_{season}.csv")
+    if save_file:
+        sorted_data_frame.to_csv(f"./files/{save_file}/{category}_{season}.csv")
     return sorted_data_frame[:10]
 
 def update_player_stats(all_clubs):

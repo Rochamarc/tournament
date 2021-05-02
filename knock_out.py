@@ -1,4 +1,4 @@
-from game_match import match_actions
+from game_match import Game
 from random import randint 
 from time import sleep 
 from ranking import update_player_stats
@@ -43,7 +43,7 @@ Jogo: {game_stats['game']} de {1 if game_stats['round'] == 'Final' else 2}
     total_home = game_stats['home_goal'] # variaveis somando os gols da partida anterior
     total_away = game_stats['away_goal'] # variaveis somando os gols da partida anterior
 
-    goals = match_actions(home_team, away_team, 45) # Normal Time Actions
+    goals = Game.match_actions(home_team, away_team, 45) # Normal Time Actions
     home_goals += goals['home_goal']
     away_goals += goals['away_goal']
 
@@ -58,7 +58,7 @@ Jogo: {game_stats['game']} de {1 if game_stats['round'] == 'Final' else 2}
     # only in the final match 
     if game_stats['round'] == 'Final':
 
-        e_goals = match_actions(home_team, away_team, 15)
+        e_goals = Game.match_actions(home_team, away_team, 15)
         e_home_goals += e_goals['home_goal']
         e_away_goals += e_goals['away_goal']
         
@@ -176,8 +176,8 @@ Jogo: {game_stats['game']} de {1 if game_stats['round'] == 'Final' else 2}
     game_stats['home_goal'] += home_goals
     game_stats['away_goal'] += away_goals
 
-    home_team.register_knock_out_game(home_goals, away_goals) 
-    away_team.register_knock_out_game(away_goals, home_goals)    
+    home_team.register_game(home_goals, away_goals, 'knock_out') 
+    away_team.register_game(away_goals, home_goals, 'knock_out')    
     
     update_player_stats([home_team, away_team])
 
