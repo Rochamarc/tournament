@@ -1,5 +1,10 @@
 from random import choice
 
+# This will became class NameAndNationality: with static methods
+# probably gonna write an API to handle this 
+#
+
+
 def generate_nationality(team_nationality):
     outsider_prob = choice([True, False, False, False, False, False])
 
