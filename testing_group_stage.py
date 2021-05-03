@@ -44,13 +44,13 @@ ls = {
 clubs = []
 
 # Creating a save file
-save_file = None # input("Digite um valor de ate 30 caracteres pra criar um save file: ")
+save_file = input("Digite um valor de ate 30 caracteres pra criar um save file: ")
+
+if not save_file:
+    save_file = None
 
 for club, country in ls.items():
-    if save_file:
-        c = Club(club, country, save_file=save_file)
-    else:
-        c = Club(club, country)
+    c = Club(club, country, save_file=save_file)
     c.set_squad(skip_db=True)
     c.set_formation()
 
@@ -59,11 +59,14 @@ for club, country in ls.items():
 define_conmebol_points(clubs) # add conmebol points to each correspondent club
 
 qualifying_phase = ['Santos', 'Always Ready','Junior', 'Atlético Nacional', 'Unión La Calera', 'Independiente del Valle', 'Rentistas','Deportivo La Guaira']
+
+# Define the group stage draw
 try:
     groups = define_group_stage(clubs, qualifying_phase)
 except:
     groups = define_group_stage(clubs, qualifying_phase)
 
+# Define group stage phase
 a_group = group_stage("A", groups['A'], 'Conmebol Libertadores') #, verbose=True)
 b_group = group_stage("B", groups['B'], 'Conmebol Libertadores') #, verbose=True)
 c_group = group_stage("C", groups['C'], 'Conmebol Libertadores') #, verbose=True)
@@ -73,7 +76,7 @@ f_group = group_stage("F", groups['F'], 'Conmebol Libertadores') #, verbose=True
 g_group = group_stage("G", groups['G'], 'Conmebol Libertadores') #, verbose=True)
 h_group = group_stage("H", groups['H'], 'Conmebol Libertadores') #, verbose=True)
 
-
+# Classified clubs to next round
 classified_groups = {
     'first': [
         a_group['first place'],
