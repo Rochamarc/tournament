@@ -46,7 +46,7 @@ class Club:
 
     def set_overall(self):
         ''' Define the club overall on the average of player overall '''
-        players = [ player.overall for player in self.start_eleven ] + [ player.overall for player in self.bench ] + [ player.overall for player in self,unrelated ]
+        players = [ player.overall for player in self.start_eleven ] + [ player.overall for player in self.bench ] + [ player.overall for player in self.unrelated ]
         self.overall = sum(players) / len(players) 
 
     def set_coeff(self):
@@ -250,7 +250,7 @@ class Player:
         self.goals = 0
         self.assists = 0
         self.points = 0  # every match another point is add here, thent is calculated by the average
-        self.avg = self.avg()
+        self.avg = self.set_avg()
 
     def set_avg(self):
         try:

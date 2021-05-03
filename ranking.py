@@ -75,6 +75,6 @@ def update_player_stats(all_clubs):
     """ Update players stats Return void """
 
     for club in all_clubs:
-        for player in club.start_eleven : player.average() # update average
-        for player in club.bench : player.average() # update average
+        for player in club.start_eleven : player.set_avg() # update average
+        for player in club.bench : player.set_avg() # update average
 
