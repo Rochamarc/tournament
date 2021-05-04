@@ -2,6 +2,30 @@ from classes import *
 from name_nationality import *
 
 class GenerateClass:
+    @staticmethod 
+    def set_clubs(clubs_dict):
+        ''' Generate a list of clubs <class 'Club'> 
+            return a list(clubs)
+        '''
+
+        clubs = []
+
+        # Creating a save file
+        save_file = None # = input("Digite um valor de ate 30 caracteres pra criar um save file: ")
+
+        if not save_file:
+            save_file = None
+
+        for club, country in clubs_dict.items():
+            c = Club(club, country, save_file=save_file)
+            # c.set_squad(skip_db=True)
+            sq = GenerateClass().set_players(c.name, c.country, c.coeff) # this will generate the club squad
+            c.set_formation(sq)
+            print(c.squad)
+            clubs.append(c)
+
+        return clubs 
+
     @staticmethod
     def set_players(club_name, country, coeff, skip_db=True):
         ''' Generate players <class 'Player'> to the club <class 'Club'> 
