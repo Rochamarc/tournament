@@ -44,40 +44,10 @@ class Club:
     def get_season_stats(self):
         return f"{self.name.upper()}\nGroup Stage Points: {self.points}\nVictory: {self.victory}\nDraws: {self.draw}\nDefeat: {self.defeat}\nGoals Scored: {self.goals_scored}\nGoals Conceded: {self.goals_conceded}\nGoals Diff: {self.goal_difference}"
 
-    def set_overall(self):
-        ''' Define the club overall on the average of player overall '''
-        players = [ player.overall for player in self.start_eleven ] + [ player.overall for player in self.bench ] + [ player.overall for player in self.unrelated ]
-        self.overall = sum(players) / len(players) 
-
-    def set_coeff(self):
-        conn = sqlite3.connect('database.db')
-        cursor = conn.cursor() 
-
-        cursor.execute("SELECT points FROM clubs_ranking WHERE name=?", (self.name,))
-
-        val = cursor.fetchall()[0][0]
-        
-        v_coeff = 65
-
-        if val >= 800:
-            v_coeff += 1
-        if val >= 900:
-            v_coeff += 1
-        if val >= 1000:
-            v_coeff += 2
-        if val >= 3000:
-            v_coeff += 2
-        if val >= 4000:
-            v_coeff += 2
-        if val >= 5000:
-            v_coeff += 2
-        if val >= 6000:
-            v_coeff += 2
-        else:
-            v_coeff += 1
-
-        return v_coeff
-   
+    def get_stats(self):
+        ''' return a list[ name, points, victory, draw, defeat, goal_scored, goals_conceded, goal_balance ] '''
+        return [self.name, self.points, self.victory, self.draw, self.defeat, self.goals_scored, self.goals_conceded, self.goal_difference]
+    
     def get_df_cast(self):
         ''' return a dataframe with name, position, matches, goals, assists, average points '''
 
@@ -101,6 +71,11 @@ class Club:
         print("UNRELATAED\n")
         for player in self.unrelated:
             print(player.get_info())
+
+    def set_overall(self):
+        ''' Define the club overall on the average of player overall '''
+        players = [ player.overall for player in self.start_eleven ] + [ player.overall for player in self.bench ] + [ player.overall for player in self.unrelated ]
+        self.overall = sum(players) / len(players) 
 
     def set_formation(self, squad):
         self.squad = squad
@@ -148,6 +123,35 @@ class Club:
         self.squad = {}
         self.set_overall()
 
+    def set_coeff(self):
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor() 
+
+        cursor.execute("SELECT points FROM clubs_ranking WHERE name=?", (self.name,))
+
+        val = cursor.fetchall()[0][0]
+        
+        v_coeff = 65
+
+        if val >= 800:
+            v_coeff += 1
+        if val >= 900:
+            v_coeff += 1
+        if val >= 1000:
+            v_coeff += 2
+        if val >= 3000:
+            v_coeff += 2
+        if val >= 4000:
+            v_coeff += 2
+        if val >= 5000:
+            v_coeff += 2
+        if val >= 6000:
+            v_coeff += 2
+        else:
+            v_coeff += 1
+
+        return v_coeff   
+
     """ this should not be here, this is a stats function not an club """
     def register_game(self, goals_scored, goals_conceded, match_type):
         ''' match type group_stage or knock_out '''
@@ -168,9 +172,7 @@ class Club:
         self.goals_conceded += goals_conceded
         self.goal_difference += goals_scored - goals_conceded
 
-    def get_stats(self):
-        ''' return a list[ name, points, victory, draw, defeat, goal_scored, goals_conceded, goal_balance ] '''
-        return [self.name, self.points, self.victory, self.draw, self.defeat, self.goals_scored, self.goals_conceded, self.goal_difference]
+
 
 #### Player Base Object #####
 class Player:
