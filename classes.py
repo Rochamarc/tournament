@@ -32,7 +32,7 @@ class Club:
         self.save_file = save_file
         
         # The next attr are refering to handle the squad
-        self.squad = { 'goal_keeper': [], 'defender': [], 'midfielder': [], 'attacker': [] }
+        self.squad = None
         self.formation = None
         self.start_eleven = []
         self.bench = []
@@ -92,17 +92,19 @@ class Club:
 
         print("STARTING ELEVEN\n")
         for player in self.start_eleven:
-            player.basic_info()
+            print(player.get_info())
 
         print("BENCH\n")
         for player in self.bench:
-            player.basic_info()
+            print(player.get_info())
 
         print("UNRELATAED\n")
         for player in self.unrelated:
-            player.basic_info()
+            print(player.get_info())
 
-    def set_formation(self):
+    def set_formation(self, squad):
+        self.squad = squad
+
         # sorting squad
         for key, value in self.squad.items():
             value.sort(key=lambda player: player.overall, reverse=True)
@@ -117,37 +119,18 @@ class Club:
         self.bench.append(cp_squad['goal_keeper'][1])
         del cp_squad['goal_keeper'][0]
 
-        # garbage code
-        if self.formation == '3-5-2':
-            for i in range(3):
-                self.start_eleven.append(cp_squad['defender'][0])
-                del cp_squad['defender'][0]
-            for i in range(5):
-                self.start_eleven.append(cp_squad['midfielder'][0])
-                del cp_squad['midfielder'][0]
-            for i in range(2):
-                self.start_eleven.append(cp_squad['attacker'][0])
-                del cp_squad['attacker'][0]
-        if self.formation == '4-3-3':
-            for i in range(4):
-                self.start_eleven.append(cp_squad['defender'][0])
-                del cp_squad['defender'][0]
-            for i in range(3):
-                self.start_eleven.append(cp_squad['midfielder'][0])
-                del cp_squad['midfielder'][0]
-            for i in range(3):
-                self.start_eleven.append(cp_squad['attacker'][0])
-                del cp_squad['attacker'][0]
-        if self.formation == '4-4-2':
-            for i in range(4):
-                self.start_eleven.append(cp_squad['defender'][0])
-                del cp_squad['defender'][0]
-            for i in range(4):
-                self.start_eleven.append(cp_squad['midfielder'][0])
-                del cp_squad['midfielder'][0]
-            for i in range(2):
-                self.start_eleven.append(cp_squad['attacker'][0])
-                del cp_squad['attacker'][0]
+        forma = [ int(i) for i in self.formation.replace('-', ' ').split(' ') ]
+            
+        for _ in range(forma[0]):
+            self.start_eleven.append(cp_squad['defender'][0])
+            del cp_squad['defender'][0]
+        for _ in range(forma[1]):
+            self.start_eleven.append(cp_squad['midfielder'][0])
+            del cp_squad['midfielder'][0]
+        for _ in range(forma[2]):
+            self.start_eleven.append(cp_squad['attacker'][0])
+            del cp_squad['attacker'][0]
+        
 
         for i in range(2):
             self.bench.append(cp_squad['defender'][0])
@@ -165,6 +148,7 @@ class Club:
         self.squad = {}
         self.set_overall()
 
+    """ this should not be here, this is a stats function not an club """
     def register_game(self, goals_scored, goals_conceded, match_type):
         ''' match type group_stage or knock_out '''
         if goals_scored > goals_conceded:
@@ -226,7 +210,7 @@ class Player:
         return f"{self.name} :: {self.overall} \n{self.position}\n"
 
     def get_info(self):
-        return f"Name: {self.name}\nOverall: {self.overall}\nPosition: {self.position}\nCurrent Club: {self.current_club}\nAge: {self.age}\nNationality: {self.nationality}"
+        return f"Name: {self.name}\nOverall: {self.overall}\nPosition: {self.position}\nCurrent Club: {self.current_club}\nAge: {self.age}\nNationality: {self.nationality}\n"
 
     def get_stats(self):
         ''' return list[ name, position, matches, goals, assists, average points ] '''
