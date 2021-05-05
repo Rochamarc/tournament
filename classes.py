@@ -156,10 +156,10 @@ class Club:
     def register_game(self, goals_scored, goals_conceded, match_type):
         ''' match type group_stage or knock_out '''
         if goals_scored > goals_conceded:
-            if match_type == 'group_satge' : self.points += 3 
+            if match_type == 'group_stage' : self.points += 3 
             self.victory += 1
         if goals_scored == goals_conceded:
-            if match_type == 'group_satge' :  self.points += 1
+            if match_type == 'group_stage' :  self.points += 1
             self.draw += 1
         if goals_scored < goals_conceded:
             self.defeat += 1
@@ -172,7 +172,9 @@ class Club:
         self.goals_conceded += goals_conceded
         self.goal_difference += goals_scored - goals_conceded
 
-
+# all the stats players are gonna became self.__ and controlled by the methods with decoractor
+#
+#
 
 #### Player Base Object #####
 class Player:
