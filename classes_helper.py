@@ -21,7 +21,6 @@ class GenerateClass:
             # c.set_squad(skip_db=True)
             sq = GenerateClass().set_players(c.name, c.country, c.coeff) # this will generate the club squad
             c.set_formation(sq)
-            print(c.squad)
             clubs.append(c)
 
         return clubs 
