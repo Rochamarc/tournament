@@ -17,7 +17,7 @@ class NameAndNationality:
         return team_nationality
 
     @staticmethod 
-    def genrate_name(nationality):
+    def generate_name(nationality):
         if nationality == 'Brasil':
             first_name = choice(NameAndNationality().access_file('first_name_br.txt'))
             last_name = choice(NameAndNationality().access_file('last_name_br.txt')) 
@@ -33,4 +33,4 @@ class NameAndNationality:
             return [ line.replace('\n', '') for line in f.readlines() ]
 
 if __name__ == '__main__':
-    print(NameAndNationality().genrate_name(''))
+    print(NameAndNationality().generate_name(''))
