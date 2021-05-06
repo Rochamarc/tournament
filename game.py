@@ -50,7 +50,7 @@ class Game:
         }
 
         
-        print(f"Competition: {self.competition}\nRound: {self.round}\nHour: {hour}\nConditions: {weather}\n{self.home_club.name.upper()} ({self.home_club.short_country}) x {self.away_club.name.upper()} ({self.away_club.short_country})")
+        print(f"\nCompetition: {self.competition}\nRound: {self.round}\nLocation: {game_stats['location']}\nHour: {hour}\nConditions: {game_stats['conditions']}\n{self.home_club.name.upper()} ({self.home_club.short_country}) x {self.away_club.name.upper()} ({self.away_club.short_country})\n")
 
         goals = self.actions() # start match 
 
@@ -79,7 +79,7 @@ class Game:
                 goal_time += f"{randint(1,90)}' " 
             player_goal_string += f"({self.away_club.name[0:3].upper()}) {tpl[0]} {goal_time}\n"
 
-        print(f"Round: {self.round}\nCompetition: {self.competition}\n{self.home_club.name.upper()} ({self.home_club.short_country}) {self.home_goal} x {self.away_goal} {self.away_club.name.upper()} ({self.away_club.short_country})")
+        print(f"\nRound: {self.round}\nCompetition: {self.competition}\n{self.home_club.name.upper()} ({self.home_club.short_country}) {self.home_goal} x {self.away_goal} {self.away_club.name.upper()} ({self.away_club.short_country})\n")
         print(player_goal_string)
 
         return game_stats
@@ -99,86 +99,57 @@ class Game:
 
         for i in range(45):
             if i % 2 == 0:
-
-                # defensives
-                keeper = self.select_player(self.away_club, 'goalkeeper')
-                defensor = self.select_player(self.away_club, 'defender')
-
-                # attackers
-                midfielder = self.select_player(self.home_club, 'midfielder')
-                attacker = self.select_player(self.home_club, 'attacker')
-
-                """ Ataque = toca + chuta """
-                """ Defesa = corta + defende """
-                
-                if self.home_subs > 0: 
-                    sub = choice([True, False])
-                    if sub:
-                        self.subs(self.home_club)
-
-                touch = self.decision(midfielder.overall)
-                tackle = self.decision(defensor.overall)
-
-                if tackle:
-                    """ clerance """
-                    self.add_points(defensor, 0.3)
-                else:
-                    if touch:
-                        """ touch sucess """
-                        self.add_points(midfielder, 0.5) # sucessful pass
-
-                        finish = self.decision(attacker.overall)
-                        defense = self.decision(keeper.overall)
-
-                        if defense:
-                            self.defense(keeper)
-
-                        else:
-                            if finish:
-                                self.finish(keeper, defensor, midfielder, attacker, self.home_club)
+                self.move(self.home_club, self.away_club)
             else:
-                # defensives
-                keeper = self.select_player(self.home_club, 'goalkeeper')
-                defensor = self.select_player(self.home_club, 'defender')
+                self.move(self.away_club, self.home_club)
 
-                # attackers
-                midfielder = self.select_player(self.away_club, 'midfielder')
-                attacker = self.select_player(self.away_club, 'attacker')
-
-                """ Ataque = toca + chuta """
-                """ Defesa = corta + defende """
-
-                touch = self.decision(midfielder.overall)
-                tackle = self.decision(defensor.overall)
-
-
-                if self.away_subs > 0: 
-                    sub = choice([True, False])
-                    if sub:
-                        self.subs(self.away_club)
-
-                if tackle:
-                    """ clerance """
-                    self.add_points(defensor, 0.3)
-                else:
-                    if touch:
-                        """ touch sucess """
-                        self.add_points(midfielder, 0.5) # sucessful pass
-
-                        finish = self.decision(attacker.overall)
-                        defense = self.decision(keeper.overall)
-
-                        if defense:
-                            self.defense(keeper)
-
-                        else:
-                            if finish:
-                                self.finish(keeper, defensor, midfielder, attacker, self.away_club)
-        
         self.check_game_stats()
 
         return { 'home_goal': self.home_goal, 'away_goal': self.away_goal, 'home_player_goals': self.h_player_goals, 'away_player_goals': self.a_player_goals } 
 
+    def move(self, attack_club, defense_club):
+        # defensives
+        keeper = self.select_player(defense_club, 'goalkeeper')
+        defensor = self.select_player(defense_club, 'defender')
+        
+        # attackers
+        midfielder = self.select_player(attack_club, 'midfielder')
+        attacker = self.select_player(attack_club, 'attacker')
+        
+        """ Ataque = toca + chuta """
+        """ Defesa = corta + defende """
+        
+        touch = self.decision(midfielder.overall)
+        tackle = self.decision(defensor.overall)
+
+        if attack_club == self.home_club:
+            if self.home_subs > 0: 
+                sub = choice([True, False])
+                if sub:
+                    self.subs(self.home_club)
+        elif attack_club == self.away_club:
+            if self.away_subs > 0: 
+                sub = choice([True, False])
+                if sub:
+                    self.subs(self.away_club)
+        else:
+            pass 
+
+        if tackle:
+            """ clerance """
+            self.add_points(defensor, 0.3)
+        else:
+            if touch:
+                """ touch sucess """
+                self.add_points(midfielder, 0.5) # sucessful pass
+                finish = self.decision(attacker.overall)
+                defense = self.decision(keeper.overall)
+                if defense:
+                    self.defense(keeper)
+                else:
+                    if finish:
+                        self.finish(keeper, defensor, midfielder, attacker, self.away_club)
+        
     def decision(self, p_overall):
         return randint(1,100) < p_overall 
 
