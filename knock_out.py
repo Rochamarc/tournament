@@ -1,7 +1,7 @@
-from game_match import Game
 from random import randint 
 from time import sleep 
 from ranking import update_player_stats
+from game import Game 
 
 """
 Competicao:
@@ -13,178 +13,181 @@ Gol Qualificado: (em caso de gol qualificado)
 Pealtis: (em caso de penaltis)
 """
 
-def knock_out_match(game_stats, verbose=False):
-    """ Receive a dict and return the same dict updated"""
+# Whole shit is working, but is missing extra_time()
+# 
+#
 
-    home_team = game_stats['home_team']
-    away_team = game_stats['away_team']
-
-    penalty = False 
-    qualified_goal = False 
-
-    if verbose:
-        print(f"""
-Competição: {game_stats['competition']}
-Rodada: {game_stats['round']}
-Jogo: {game_stats['game']} de {1 if game_stats['round'] == 'Final' else 2 }
-{home_team.name.upper()} ({home_team.short_country}) 0 x 0 {away_team.name.upper()} ({away_team.short_country})
-    """)
-        sleep(3)
-
-    out_string = f"""
-Competição: {game_stats['competition']}
-Rodada: {game_stats['round']}
-Jogo: {game_stats['game']} de {1 if game_stats['round'] == 'Final' else 2}
-"""
-
-    home_goals = 0 # variaveis comecando 0
-    away_goals = 0 # variaveis comecando 0
-
-    total_home = game_stats['home_goal'] # variaveis somando os gols da partida anterior
-    total_away = game_stats['away_goal'] # variaveis somando os gols da partida anterior
-
-    goals = Game.match_actions(home_team, away_team, 45) # Normal Time Actions
-    home_goals += goals['home_goal']
-    away_goals += goals['away_goal']
-
-    total_home += home_goals # partida anterior + partida atual -> fim de tempo normal
-    total_away += away_goals # partida anterior + partida atual -> fim de tempo normal
-
-
-    e_home_goals = 0
-    e_away_goals = 0
-
-    # EXTRA TIME
-    # only in the final match 
-    if game_stats['round'] == 'Final':
-
-        e_goals = Game.match_actions(home_team, away_team, 15)
-        e_home_goals += e_goals['home_goal']
-        e_away_goals += e_goals['away_goal']
+class KnockOutGame(Game):
+    def __init__(self, home_club, away_club, competition, m_round, phase, head_stadium):
+        super().__init__(home_club, away_club, competition, m_round, head_stadium)
+        self.phase = phase 
+        self.extra_time = False 
+        self.qualified_goal = False
+        self.penalty = False
         
-    # QUALIFIED GOAL
-    # from round_16 to semi_finals
-    if total_home == total_away and game_stats['game'] == 2:
-        """ Verifica o gol qualificado """
-        f_home_goals = game_stats['home_goal']
-        f_away_goals = game_stats['away_goal']
+        self.total_home = 0
+        self.total_away = 0
+        
+        self.f_home_goal = 0
+        self.f_away_goal = 0
 
-        if f_home_goals > away_goals:
-            qualified_goal = True 
-            game_stats['winner'] = home_team
-            game_stats['loser'] = away_team
-            q_score = f"\u0332{f_home_goals} - {f_away_goals}"
+        self.p_home = 0
+        self.p_away = 0
+        
+        self.winner = None 
+        self.loser = None 
 
-        elif away_goals > f_home_goals:
-            qualified_goal = True
-            add_points(away_team) 
-            game_stats['loser'] = home_team
-            game_stats['winner'] = away_team 
-            q_score = f"{home_goals} - \u0332{away_goals}"
+        self.q_score = "" # ?????
+        self.scoreboard['phase'] = self.phase 
 
+    def first_leg(self):
+        self.start()
     
-    total_home += e_home_goals # Somos todos os gols com os da prorrogação 
-    total_away += e_away_goals # Somos todos os gols com os da prorrogação 
+    def second_leg(self):
+        self.update_attr()
+
+        # self.stadium = self.home_club.stadium
+
+        r = self.start()
+
+        self.total_home += self.home_goal 
+        self.total_away += self.away_goal
+
+        self.h_player_goals.clear()
+        self.a_player_goals.clear()
+
+        self.check_qualified_goal() # check and if True calculates if has a qualified goal
+        # self.check_extra_time() # check and simulates a extra time if True
+        self.check_penalties() # check for penalties
+        self.penalty_shots()
+
+        self.scoreboard['total_home'] = self.total_home
+        self.scoreboard['total_away'] = self.total_away 
+
+        return self.scoreboard
+
+    def check_qualified_goal(self):        
+        # QUALIFIED GOAL
+        # from round_16 to semi_finals
+        if self.round == 2:
+            if self.total_home == self.total_away:
+                """ Verify for qualified goal """
+                if self.f_home_goal > self.away_goal:
+                    self.qualified_goal = True 
+                    self.scoreboard['winner'] = self.home_club
+                    self.scoreboard['loser'] = self.away_club
+                    self.scoreboard['q_score'] = f"\u0332{self.f_home_goal} - {self.f_away_goal}"
+                elif self.away_goal > self.f_home_goal:
+                    self.qualified_goal = True 
+                    self.scoreboard['loser'] = self.home_club 
+                    self.scoreboard['winner'] = self.away_club 
+                    self.scoreboard['q_score'] = f"{self.home_goal} - \u0332{self.away_goals}"
+
+
+    def check_winner(self):
+        ''' Check for the winner club '''
+
+        if self.total_home > self.total_away:
+            self.winner = self.home_club
+            self.loser = self.away_club
+        else:
+            self.winner = self.away_club
+            self.loser = self.home_club 
+        
+        self.scoreboard['total_home'] = self.total_home 
+        self.scoreboard['total_away'] = self.total_away
+        self.scoreboard['winner'] = self.winner 
+        self.scoreboard['loser'] = self.loser
+
+        return True 
+         
+    def check_extra_time(self):
+        # EXTRA TIME
+        # only in the final match 
+        if self.phase == 'Final' and not self.qualified_goal:
+            
+            print('Prorrogacao')
+            # e_goals = self.actions()
+            # self.e_home_goals += e_goals['home_goal']
+            # self.e_away_goals += e_goals['away_goal']
     
-    # Verifica se a partida vai pros penaltis
-    if total_home == total_away:
-        if not qualified_goal:
-            if game_stats['game'] == 2 or game_stats['round'] == 'Final':
-                penalty = True 
+    def check_penalties(self):
+        # Verifica se a partida vai pros penaltis
+        if self.total_home == self.total_away:
+            if not self.qualified_goal:
+                if self.round == 2:
+                    self.penalty = True 
 
-    # PENALTY
-    # works fine, all the knock_out matches have penaltys
-    if penalty: 
-        p_home = 0  
-        p_away = 0
+    def update_attr(self):
+        ''' Update the attr and scoreboard dict '''
 
-        for i in range(10):
-            if i % 2 == 0:
-                # penalty away
-                shot = randint(1,6)
-                defense = randint(1,5)
-                if shot != defense:
-                    if shot != 6: 
-                        p_home += 1
-            else:
-                # penalty away
-                shot = randint(1,6)
-                defense = randint(1,5)
-                if shot != defense:
-                    if shot != 6:
-                        p_away += 1
+        # update class attr
+        self.home_club, self.away_club = self.away_club, self.home_club # update home/away clubs
+        self.total_home, self.total_away = self.away_goal, self.home_goal # in the second leg the total of goals from the pervious game are switched
+        self.f_home_goal, f_away_goal = self.away_goal, self.home_goal # the same rule aply here
+        self.home_goal, self.away_goal = 0, 0
+        self.home_subs += 3
+        self.away_subs += 3
+        self.round = 2
+        
+        # update from the scoreboard dict
+        self.scoreboard['home_club'], self.scoreboard['away_club'] = self.home_club, self.away_club 
+        self.scoreboard['round'] = self.round 
+        self.scoreboard['home_player_goals'].clear()
+        self.scoreboard['away_player_goals'].clear()
 
-        # Sudden death
-        if p_home == p_away:
-            while p_home == p_away:
+        return True 
 
-                shot_1 = randint(1,6)
-                defense_1 = randint(1,5)
-                
-                if shot_1 != defense_1:
-                    if shot_1 != 6:
-                        p_home += 1
-                
-                shot_2 = randint(1,6)
-                defense_2 = randint(1,5)
-
-                if shot_2 != defense_2:
-                    if shot_2 != 6:
-                        p_away += 1
-
-        # Salvo as estatisticas no dicionario de saida
-        game_stats['penalty_home'] = p_home 
-        game_stats['penalty_away'] = p_away
-    
-    home_goals += e_home_goals
-    away_goals += e_away_goals
-
-    if game_stats['game'] == 2:
-        out_string += f"Ida: {game_stats['home_goal']} - {game_stats['away_goal']}\n"
-    
-    out_string += f"{home_team.name.upper()} ({home_team.short_country}) {home_goals} x {away_goals} {away_team.name.upper()} ({away_team.short_country})\n"
-    
-    if qualified_goal:
-        out_string += f"GQ: {q_score}\n"
-
-    if penalty:
-        out_string += f"Pênaltis: {p_home} - {p_away}\n"
-
-    print(out_string) 
-
-    # WINNER REGISTRATION
-    if total_home == total_away:
-        if not qualified_goal:
-            if game_stats['game'] == 2 or game_stats['round'] == 'Final':
-                if p_home > p_away:
-                    add_points(home_team)
-                    game_stats['winner'] = home_team
-                    game_stats['loser'] = away_team 
+    def penalty_shots(self):
+        if self.penalty: 
+            for i in range(10):
+                if i % 2 == 0:
+                    # penalty away
+                    shot = randint(1,6)
+                    defense = randint(1,5)
+                    if shot != defense:
+                        if shot != 6: 
+                            self.p_home += 1
                 else:
-                    add_points(away_team)
-                    game_stats['winner'] = away_team
-                    game_stats['loser'] = home_team  
-    if total_home > total_away:
-        add_points(home_team)
-        game_stats['winner'] = home_team 
-        game_stats['loser'] = away_team
-    if total_home < total_away:
-        add_points(away_team)
-        game_stats['winner'] = away_team
-        game_stats['loser'] = home_team  
+                    # penalty away
+                    shot = randint(1,6)
+                    defense = randint(1,5)
+                    if shot != defense:
+                        if shot != 6:
+                            self.p_away += 1
 
-    game_stats['home_goal'] += home_goals
-    game_stats['away_goal'] += away_goals
+            # Sudden death
+            if self.p_home == self.p_away:
+                while self.p_home == self.p_away:
 
-    home_team.register_game(home_goals, away_goals, 'knock_out') 
-    away_team.register_game(away_goals, home_goals, 'knock_out')    
-    
-    update_player_stats([home_team, away_team])
+                    shot_1 = randint(1,6)
+                    defense_1 = randint(1,5)
 
-    if verbose : cont = input("Continue...")
-   
-    return game_stats
+                    if shot_1 != defense_1:
+                        if shot_1 != 6:
+                            self.p_home += 1
 
-def add_points(winner_team):
-    for player in winner_team.start_eleven:
-        player.points += 1
+                    shot_2 = randint(1,6)
+                    defense_2 = randint(1,5)
+
+                    if shot_2 != defense_2:
+                        if shot_2 != 6:
+                            self.p_away += 1
+            
+            if self.p_home > self.p_away:
+                self.winner = self.home_club
+                self.loser = self.away_club 
+            else:
+                self.winner = self.away_club
+                self.loser = self.home_club 
+
+            self.scoreboard['p_home'] = self.p_home
+            self.scoreboard['p_away'] = self.p_away 
+            self.scoreboard['winner'] = self.winner 
+            self.scoreboard['loser'] = self.loser 
+
+            return True 
+
+
+
+
