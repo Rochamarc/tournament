@@ -10,6 +10,16 @@ from name_nationality import NameAndNationality as name_and_nat
 Name = name_and_nat()
 
 class GenerateClass:
+    @staticmethod
+    def update_player_stats(clubs):
+        ''' Update players stats return None '''
+
+        for club in clubs:
+            for player in club.start_eleven : player.set_avg() # update average
+            for player in club.bench : player.set_avg() # update average
+
+        return None 
+
     @staticmethod 
     def set_clubs(clubs_dict):
         ''' Generate a list of clubs <class 'Club'> 
