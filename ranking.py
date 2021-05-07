@@ -47,7 +47,7 @@ def upload_ranking_db():
         print("Ranking da conmebol inserido com sucesso!")
         conn.close()    
 
-def players_podium(all_clubs, category, season, save_file=None):
+def individual_leaderboard(all_clubs, category, season, save_file=None):
     """ Return a dataframe contains name, current_club, position, matches_played, goals, assists, average """
     
     series_data = []
