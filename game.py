@@ -56,8 +56,8 @@ class Game:
         self.home_club.register_game(self.home_goal, self.away_goal, 'group_stage')
         self.away_club.register_game(self.away_goal, self.home_goal, 'group_stage')
 
-        self.scoreboard['home_goals'] = self.home_goal # add to the dict
-        self.scoreboard['away_goals'] = self.away_goal # add to the dict 
+        self.scoreboard['home_goal'] = self.home_goal # add to the dict
+        self.scoreboard['away_goal'] = self.away_goal # add to the dict 
 
         self.get_score_board(end_game=True) # print the scorebaord
 
