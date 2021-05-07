@@ -29,60 +29,39 @@ class Game:
         
         self.h_player_goals = defaultdict(int) 
         self.a_player_goals = defaultdict(int)
+
+        self.scoreboard = {
+            'competition': self.competition,
+            'round': self.round,
+            'hour': choice(['19:00', '21:00', '23:00']),
+            'location': self.stadium.location,
+            'home_club': self.home_club,
+            'away_club': self.away_club,
+            'conditions': f"{choice(['Frio', 'Calor', 'Ambiente'])} {choice(['Limpo', 'Nublado', 'Chuvoso'])}"
+        }
     
     def start(self):
         ''' Simultes a match 
             return a dict
         '''
         
-        hour = choice(['19:00', '21:00', '19:15'])
-        weather = choice(['Frio', 'Calor', 'Ambiente'])
-        conditions = choice(['Limpo', 'Nublado', 'Chuvoso'])
-        
-        game_stats = {
-            "competition": self.competition,
-            "round": self.round,
-            "hour": hour,
-            "location": self.stadium.location,
-            "home_team": self.home_club,
-            "away_team": self.away_club,
-            "conditions": f'{weather} {conditions}' 
-        }
+        self.get_score_board() # print the scoreboard
 
-        
-        print(f"\nCompetition: {self.competition}\nRound: {self.round}\nLocation: {game_stats['location']}\nHour: {hour}\nConditions: {game_stats['conditions']}\n{self.home_club.name.upper()} ({self.home_club.short_country}) x {self.away_club.name.upper()} ({self.away_club.short_country})\n")
+        self.actions() # start match 
 
-        goals = self.actions() # start match 
-
-        self.home_goal = goals['home_goal']
-        self.away_goal = goals['away_goal']
+        self.home_goal = self.scoreboard['home_goal']
+        self.away_goal = self.scoreboard['away_goal']
 
         """ You only have to register their goals and theis oponent goals and the object define if its a win, lose or draw """
         self.home_club.register_game(self.home_goal, self.away_goal, 'group_stage')
         self.away_club.register_game(self.away_goal, self.home_goal, 'group_stage')
 
-        game_stats['home_goals'] = self.home_goal # add to the dict
-        game_stats['away_goals'] = self.away_goal # add to the dict 
+        self.scoreboard['home_goals'] = self.home_goal # add to the dict
+        self.scoreboard['away_goals'] = self.away_goal # add to the dict 
 
-        player_goal_string = "" 
-        
-        # Generate player_goal_string    
-        for tpl in goals['home_player_goals'].items(): 
-            goal_time = "" 
-            for _ in range(tpl[-1]):
-                goal_time += f"{randint(1,90)}' "
-            player_goal_string += f"({self.home_club.name[0:3].upper()}) {tpl[0]} {goal_time}\n"
-        
-        for tpl in goals['away_player_goals'].items():
-            goal_time = ""
-            for _ in range(tpl[-1]):
-                goal_time += f"{randint(1,90)}' " 
-            player_goal_string += f"({self.away_club.name[0:3].upper()}) {tpl[0]} {goal_time}\n"
+        self.get_score_board(end_game=True) # print the scorebaord
 
-        print(f"\nRound: {self.round}\nCompetition: {self.competition}\n{self.home_club.name.upper()} ({self.home_club.short_country}) {self.home_goal} x {self.away_goal} {self.away_club.name.upper()} ({self.away_club.short_country})\n")
-        print(player_goal_string)
-
-        return game_stats
+        return True 
 
     def actions(self):
         ''' Simulates a football actions, pass, defense, tackle and goals
@@ -105,7 +84,12 @@ class Game:
 
         self.check_game_stats()
 
-        return { 'home_goal': self.home_goal, 'away_goal': self.away_goal, 'home_player_goals': self.h_player_goals, 'away_player_goals': self.a_player_goals } 
+        self.scoreboard['home_goal'] = self.home_goal 
+        self.scoreboard['away_goal'] = self.away_goal  
+        self.scoreboard['home_player_goals'] =  self.h_player_goals
+        self.scoreboard['away_player_goals'] = self.a_player_goals
+
+        return True 
 
     def move(self, attack_club, defense_club):
         # defensives
@@ -149,6 +133,39 @@ class Game:
                 else:
                     if finish:
                         self.finish(keeper, defensor, midfielder, attacker, self.away_club)
+    
+    def get_score_board(self, end_game=False):
+        
+        exit_string = ""
+        player_goal_string = ""
+
+        exit_string += f"\nCompetition: {self.scoreboard['competition']}\n"
+        exit_string += f"Round: {self.scoreboard['round']}\n" 
+        exit_string += f"Location: {self.scoreboard['location']}\n"
+        exit_string += f"Hour: {self.scoreboard['hour']}\n"
+        exit_string += f"Conditions: {self.scoreboard['conditions']}\n"
+        if end_game:
+            exit_string += f"{self.scoreboard['home_club'].name.upper()} ({self.scoreboard['home_club'].short_country}) {self.scoreboard['home_goal']} x {self.scoreboard['away_goal']} {self.scoreboard['away_club'].name.upper()} ({self.scoreboard['away_club'].short_country})\n"
+        else:
+            exit_string += f"{self.scoreboard['home_club'].name.upper()} ({self.scoreboard['home_club'].short_country}) x {self.scoreboard['away_club'].name.upper()} ({self.scoreboard['away_club'].short_country})\n"
+
+        print(exit_string)
+
+        if end_game:
+            ''' Prepare the goal string with the players that score the goals '''
+            for tpl in self.scoreboard['home_player_goals'].items(): 
+                goal_time = "" 
+                for _ in range(tpl[-1]):
+                    goal_time += f"{randint(1,90)}' "
+                player_goal_string += f"({self.home_club.name[0:3].upper()}) {tpl[0]} {goal_time}\n"
+
+            for tpl in self.scoreboard['away_player_goals'].items():
+                goal_time = ""
+                for _ in range(tpl[-1]):
+                    goal_time += f"{randint(1,90)}' " 
+                player_goal_string += f"({self.away_club.name[0:3].upper()}) {tpl[0]} {goal_time}\n"
+
+            print(player_goal_string) # show the players scoreboard
         
     def decision(self, p_overall):
         return randint(1,100) < p_overall 
