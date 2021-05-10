@@ -246,11 +246,11 @@ class Stadium:
         else:
             self.capacity = capacity
 
-    def show_info(self):
-        print(f"NAME: {self.name}")
-        print(f"LOCATION: {self.location}")
-        print(f"CAPACITY: {self.capacity}")
-        print(f"OWNER: {self.club_owner}")
+    def __repr__(self):
+        return f'Stadium({self.name})'
+
+    def get_info(self):
+        return f"\nName: {self.name}\nLocation: {self.location}\nCapacity: {self.capacity}\nOwner: {self.club_owner}\n"
 
     def db_insertion(self):
 

@@ -101,7 +101,27 @@ class GenerateClass:
 
         return squad 
 
+    @staticmethod
+    def set_stadium():
+        stadiums = []
+        with open('files/clubs_stadiums/stadiums.txt') as file:
+            for line in file.readlines():
+                line = line.split(',') # isso é o que eu quero 
+                line[-1] = line[-1].replace('\n', '')
+                name = line[0]
+                capacity = int(line[1])
+                location = f'{line[2]} {line[3]}'
+                club_owner = line[-1]
+                stadiums.append(Stadium(name, location, capacity=capacity, club_owner=club_owner))
+        return stadiums
+
+            
+            
 
 if __name__ == "__main__":
-    a = GenerateClass().set_players('Barcelona', 'Spain', 90)
-    print(a)
+    # a = GenerateClass().set_players('Barcelona', 'Spain', 90)
+    # print(a)
+    a = GenerateClass().set_stadium()
+
+    for stadium in a:
+        print(stadium.get_info())
