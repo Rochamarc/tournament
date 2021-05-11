@@ -1,11 +1,16 @@
-from classes import Club
-from ranking import define_conmebol_points
+
 from group_stage_draw import *
 from group_stage import *
 from knock_out_draw import define_knock_out_stage
-from knock_out import knock_out_match
+from knock_out import *
 from pprint import pprint 
-from ranking import players_podium
+from classes_helper import *
+from game import *
+from ranking import * 
+
+
+gener = GenerateClass()
+r = Ranking()
 
 ls = {
     "Palmeiras": "Brasil",
@@ -41,32 +46,51 @@ ls = {
     "América de Cali": "Colombia",
     "Deportivo La Guaira": "Venezuela"
 }
-clubs = []
 
-# Creating a save file
-save_file = input("Digite um valor de ate 30 caracteres pra criar um save file: ")
 
-if not save_file:
-    save_file = None
+maraca = Stadium('Maracana', 'Rio de Janeiro, Brasil')
+clubs = gener.set_clubs(ls)
 
-for club, country in ls.items():
-    c = Club(club, country, save_file=save_file)
-    c.set_squad(skip_db=True)
-    c.set_formation()
+'''
+g = KnockOutGame(clubs[0], clubs[1], 'Conmebol Liberadores', 1, 'Round of 16', maraca)
 
-    clubs.append(c)
+result = g.first_leg()
+result = g.second_leg()
+pprint(result)
 
-define_conmebol_points(clubs) # add conmebol points to each correspondent club
+
+print(g.total_home)
+print(g.total_away)
+
+# print(inspect.get(result = g.second_leg() 
+# print(result)
+
+'''
+
+"""
+g = KnockOutGame(clubs[0], clubs[1], 'Conmebol Liberadores', 1, 'Final', maraca)
+r = g.first_leg()
+print(r)
+"""
+
+
+r.define_conmebol_points(clubs) # add conmebol points to each correspondent club
 
 qualifying_phase = ['Santos', 'Always Ready','Junior', 'Atlético Nacional', 'Unión La Calera', 'Independiente del Valle', 'Rentistas','Deportivo La Guaira']
 
 # Define the group stage draw
-try:
-    groups = define_group_stage(clubs, qualifying_phase)
-except:
-    groups = define_group_stage(clubs, qualifying_phase)
+groups = define_group_stage(clubs, qualifying_phase)
 
-# Define group stage phase
+group_phase = []
+for key, item in groups.items():
+    g = group_stage(key, item, 'Conmebol Libertadores', verbose=True)
+    group_phase.append(g)
+
+pprint(group_phase)
+
+
+
+"""
 a_group = group_stage("A", groups['A'], 'Conmebol Libertadores') #, verbose=True)
 b_group = group_stage("B", groups['B'], 'Conmebol Libertadores') #, verbose=True)
 c_group = group_stage("C", groups['C'], 'Conmebol Libertadores') #, verbose=True)
@@ -129,3 +153,4 @@ assist = players_podium(clubs, 'Assists', '2021', save_file=save_file)
 print(best_player)
 print(top_scorer)
 print(assist)
+"""

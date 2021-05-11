@@ -1,6 +1,6 @@
 from random import randint 
 from time import sleep 
-from ranking import update_player_stats
+from ranking import *
 from game import Game 
 
 """
