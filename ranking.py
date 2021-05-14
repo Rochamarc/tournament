@@ -1,11 +1,7 @@
 import csv 
 import sqlite3
 import pandas as pd 
-from datetime import datetime 
 
-# This will became a class Ranking: with static methods
-#
-#
 
 class Ranking:
     @staticmethod

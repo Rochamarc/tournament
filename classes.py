@@ -6,12 +6,6 @@ import sqlite3
 from name_nationality import *
 
 
-# Remove the faker lib and add some class methods, and class variables
-# some magic methods, change the return of repr, change how variables inside the class 
-# are being updated, rename methods like show_season_stats - get_stats
-#
-#
-
 class Club:
 
     def __init__(self,name,country,save_file=None):

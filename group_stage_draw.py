@@ -5,11 +5,6 @@ from classes_helper import GenerateClass
 import pandas as pd 
 from game import Game 
 
-# 32 equipes 
-# potes 4 grupos de 8
-# 8 grupos do A ao H com uma equipe de cada pote
-# A unica definição previa é que o atual campeao fica como cabeca do grupo A
-
 g = GenerateClass()
 
 class GroupStage:
@@ -31,7 +26,7 @@ class GroupStage:
                     if quali == club.name:
                         temp = club 
                         clubs_sorted.remove(temp)
-                        clubs_sorted.append(temp) # add no final da lista
+                        clubs_sorted.append(temp) 
 
             pots = {
                 "1": clubs_sorted[0:8],
@@ -160,18 +155,14 @@ class GroupStage:
 
         competition = 'Conmebol Libertadores'
 
-        # Gerando as seis partidas
+        # Generating the matches
         for i in range(1,7):
-            # Definindo e mostrando a tabela
-            series_data = [club_one.get_stats(),club_two.get_stats(),club_three.get_stats(),club_four.get_stats()]
-            # Cria a tabela
-            df = pd.DataFrame(series_data, index=None, columns=['Club','Pts','Victory','Draw','Defeat','GS','GC','GB'])
+            series_data = [club_one.get_stats(),club_two.get_stats(),club_three.get_stats(),club_four.get_stats()] # extrating data stats
+            df = pd.DataFrame(series_data, index=None, columns=['Club','Pts','Victory','Draw','Defeat','GS','GC','GB']) # create the dataframe
             sorted_data_frame = df.sort_values(by=['Pts','GB'], axis=0, ascending=False)
             print("")
-            print(sorted_data_frame)
+            print(sorted_data_frame) 
             print("")
-
-            # print(f"Group: {group}\nRound {i} of 6")
 
             Game(confronts[0][0], confronts[0][-1], competition, i).start()
             Game(confronts[-1][0], confronts[-1][-1], competition, i).start()
@@ -180,7 +171,6 @@ class GroupStage:
             del confronts[-1]
 
             if i == 6:
-                # Salvando os stats da ultima rodada!
                 series_data = [club_one.get_stats(),club_two.get_stats(),club_three.get_stats(),club_four.get_stats()]
                 df = pd.DataFrame(series_data, index=None, columns=['Club','Pts','Victory','Draw','Defeat','GS','GC','GB'])
                 sorted_data_frame = df.sort_values(by=['Pts','GB'], axis=0, ascending=False)

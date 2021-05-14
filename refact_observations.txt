@@ -40,3 +40,7 @@
 # ranking.py 
 #
 # nao faço a minima ideia de como lidar com ele
+
+# Missing Stadiums
+# Serra Dourada, Fonte Nova, Tomás Adolfo Ducó, Pedro Bidegain, Engenhão, Allianz Parque
+# Malvinas Argentinas, Arena da Baixada, Defensores del Chaco, Metropolitano de Mérida, Garcilaso de la Vega 

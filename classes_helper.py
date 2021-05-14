@@ -1,11 +1,6 @@
 from classes import *
 from name_nationality import NameAndNationality as name_and_nat
 
-# Tera um methodo de criar stadios e salvar na db
-# Tera um metodo de gerar 32 clubs aleatoriamente
-#
-#
-#
 
 Name = name_and_nat()
 
@@ -142,13 +137,5 @@ class GenerateClass:
             
 
 if __name__ == "__main__":
-    # a = GenerateClass().set_players('Barcelona', 'Spain', 90)
-    # print(a)
-    s = GenerateClass().set_stadium()
-    c = GenerateClass().set_clubs()
-    GenerateClass().define_clubs_stadium(c,s)
-    
-    for i in c:
-        print(i.name, " :: ", i.stadium.name)
-        
+    pass 
 

@@ -13,7 +13,7 @@ Gol Qualificado: (em caso de gol qualificado)
 Pealtis: (em caso de penaltis)
 """
 
-# Whole shit is working, but is missing extra_time()
+# extra_time() missing
 # 
 #
 

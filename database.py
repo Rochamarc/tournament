@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS player (
     ); 
     """)
 
+    # clubs_ranking table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS clubs_ranking (
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
