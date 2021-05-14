@@ -1,5 +1,7 @@
 import sqlite3 
-from ranking import upload_ranking_db
+from ranking import Ranking
+
+r = Ranking()
 
 def create_db():
     conn = sqlite3.connect('database.db')
@@ -50,4 +52,4 @@ CREATE TABLE IF NOT EXISTS player (
 
 if __name__ == '__main__':
     create_db()
-    upload_ranking_db()
+    r.upload_ranking_db()
