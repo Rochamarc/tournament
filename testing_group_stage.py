@@ -9,8 +9,8 @@ from game import *
 from ranking import * 
 
 
-gener = GenerateClass()
-r = Ranking()
+# gener = GenerateClass()
+# r = Ranking()
 
 ls = {
     "Palmeiras": "Brasil",
@@ -47,9 +47,13 @@ ls = {
     "Deportivo La Guaira": "Venezuela"
 }
 
+with open('files/seasons/2021.txt', 'w') as file:
+    for key, item in ls.items():
+        file.write(f'{key},{item}\n')
 
-maraca = Stadium('Maracana', 'Rio de Janeiro, Brasil')
-clubs = gener.set_clubs(ls)
+
+# maraca = Stadium('Maracana', 'Rio de Janeiro, Brasil')
+# clubs = gener.set_clubs(ls)
 
 '''
 g = KnockOutGame(clubs[0], clubs[1], 'Conmebol Liberadores', 1, 'Round of 16', maraca)
