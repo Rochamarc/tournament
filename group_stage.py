@@ -5,7 +5,6 @@ from ranking import *
 from classes import *
 from classes_helper import GenerateClass
 
-maraca = Stadium('Maracana', 'Rio de Janeiro, Brasil') # stadium test
 g = GenerateClass()
 
 def group_stage(group, group_list, competition, verbose=False):
@@ -33,8 +32,8 @@ def group_stage(group, group_list, competition, verbose=False):
 
         # print(f"Group: {group}\nRound {i} of 6")
 
-        Game(confronts[0][0], confronts[0][-1], competition, i, maraca).start()
-        Game(confronts[-1][0], confronts[-1][-1], competition, i, maraca).start()
+        Game(confronts[0][0], confronts[0][-1], competition, i).start()
+        Game(confronts[-1][0], confronts[-1][-1], competition, i).start()
 
         del confronts[0]
         del confronts[-1]
