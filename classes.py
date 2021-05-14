@@ -38,6 +38,8 @@ class Club:
         self.bench = []
         self.unrelated = []
 
+        self.stadium = None 
+        
     def __repr__(self):
         return f"Club({self.name})"
 
