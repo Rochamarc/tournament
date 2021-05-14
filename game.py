@@ -8,13 +8,15 @@ from classes import *
 #
 
 class Game:
-    def __init__(self, home_club, away_club, competition, m_round, head_stadium):
+    def __init__(self, home_club, away_club, competition, m_round, head_stadium=None):
         self.home_club = home_club 
         self.away_club = away_club
         self.competition = competition 
         self.round = m_round
-        self.stadium = head_stadium
-                
+        if head_stadium:
+            self.stadium = head_stadium
+        else:
+            self.stadium = self.home_club.stadium 
         self.home_goal = 0
         self.away_goal = 0
 
