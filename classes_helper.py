@@ -21,7 +21,7 @@ class GenerateClass:
         return None 
 
     @staticmethod 
-    def set_clubs(clubs_dict):
+    def set_clubs():
         ''' Generate a list of clubs <class 'Club'> 
             return a list(clubs)
         '''
@@ -34,13 +34,18 @@ class GenerateClass:
         if not save_file:
             save_file = None
 
-        for club, country in clubs_dict.items():
-            c = Club(club, country, save_file=save_file)
-            # c.set_squad(skip_db=True)
-            sq = GenerateClass().set_players(c.name, c.country, c.coeff) # this will generate the club squad
-            c.set_formation(sq)
-            clubs.append(c)
-
+        with open('files/seasons/2021.txt', 'r') as file:
+            for line in file.readlines():
+                ''' Manage the data that are gonna be used '''
+                line = line.split(',') 
+                line[-1] = line[-1].replace('\n', '')
+                name = line[0]
+                country = line[-1]
+                c = Club(name, country) # Instace the club object
+                sq = GenerateClass.set_players(c.name, c.country, c.coeff) # Instance the players object 
+                c.set_formation(sq) # set the formation 
+                clubs.append(c)
+        
         return clubs 
 
     @staticmethod
@@ -106,22 +111,44 @@ class GenerateClass:
         stadiums = []
         with open('files/clubs_stadiums/stadiums.txt') as file:
             for line in file.readlines():
-                line = line.split(',') # isso é o que eu quero 
+                ''' Manage the data that are gonna be used '''
+                line = line.split(',')  
                 line[-1] = line[-1].replace('\n', '')
                 name = line[0]
                 capacity = int(line[1])
                 location = f'{line[2]} {line[3]}'
-                club_owner = line[-1]
-                stadiums.append(Stadium(name, location, capacity=capacity, club_owner=club_owner))
+                club_owner = line[-1][1::] # Remove the blank space on the 0 pos
+                stadiums.append(Stadium(name, location, capacity=capacity, club_owner=club_owner)) # Instance the object
         return stadiums
 
-            
+    @staticmethod
+    def set_generic_stadium(club_country):
+        s_name = f'{Name.generate_name(club_country)} stadium'
+        return Stadium(s_name, club_country)
+
+    @staticmethod
+    def define_clubs_stadium(clubs, stadiums):
+        for club in clubs:
+            for stadium in stadiums:
+                s_name = stadium.club_owner.split('/')
+                if club.name in s_name:
+                    club.stadium = stadium
+                    break
+                else:
+                    club.stadium = GenerateClass().set_generic_stadium(club.country)
+                                    
+
+
             
 
 if __name__ == "__main__":
     # a = GenerateClass().set_players('Barcelona', 'Spain', 90)
     # print(a)
-    a = GenerateClass().set_stadium()
+    s = GenerateClass().set_stadium()
+    c = GenerateClass().set_clubs()
+    GenerateClass().define_clubs_stadium(c,s)
+    
+    for i in c:
+        print(i.name, " :: ", i.stadium.name)
+        
 
-    for stadium in a:
-        print(stadium.get_info())
