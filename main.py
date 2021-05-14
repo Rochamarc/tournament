@@ -1,6 +1,5 @@
 from classes_helper import *
 from group_stage_draw import *
-from group_stage import group_stage
 from ranking import Ranking
 
 gene = GenerateClass()
