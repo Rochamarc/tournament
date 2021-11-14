@@ -1,0 +1,20 @@
+America Mineiro,Minas Gerais
+Atlético Mineiro,Minas Gerais
+Athletico Paranaense,Paraná
+Ceará,Ceará
+Fortaleza,Ceará 
+Flamengo,Rio de Janeiro
+Fluminense,Rio de Janeiro
+Cuiabá,Mato Grosso
+Grêmio,Rio Grande do Sul
+International,Rio Grande do Sul
+Chapecoense,Santa Catarina
+Juventude,Rio Grande do Sul
+São Paulo,São Paulo
+Corinthians,São Paulo 
+Palmeiras,São Paulo
+Santos,São Paulo 
+Red Bull Bragantino,São Paulo 
+Sport Recife,Pernanbuco
+Bahia,Bahia 
+Atlético Goianiense,Goiás
