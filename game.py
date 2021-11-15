@@ -1,5 +1,6 @@
 from collections import defaultdict 
-from random import choice 
+from random import choice
+# from sqlite3.dbapi2 import register_adapter 
 from classes import *
 
 
@@ -8,7 +9,7 @@ from classes import *
 #
 
 class Game:
-    def __init__(self, home_club, away_club, competition, m_round, head_stadium=None):
+    def __init__(self, home_club, away_club, competition, m_round, head_stadium=None, verbose=True):
         self.home_club = home_club 
         self.away_club = away_club
         self.competition = competition 
@@ -29,7 +30,7 @@ class Game:
         self.away_players = [ player for player in self.away_club.start_eleven ]
         self.away_bench = [ player for player in self.away_club.bench ]
         
-        self.h_player_goals = defaultdict(int) 
+        self.h_player_goals = defaultdict(int)
         self.a_player_goals = defaultdict(int)
 
         self.scoreboard = {
@@ -41,13 +42,14 @@ class Game:
             'away_club': self.away_club,
             'conditions': f"{choice(['Frio', 'Calor', 'Ambiente'])} {choice(['Limpo', 'Nublado', 'Chuvoso'])}"
         }
+
+        self.verbose = verbose
     
     def start(self):
         ''' Simultes a match 
-            return a dict
         '''
         
-        self.get_score_board() # print the scoreboard
+        if self.verbose : self.get_score_board() # print the scoreboard
 
         self.actions() # start match 
 
@@ -63,13 +65,40 @@ class Game:
 
         self.get_score_board(end_game=True) # print the scorebaord
 
-        return True 
+        return self.register_winner() 
+
+    def register_winner(self):
+        ''' 
+            Following the database needs, will return a dict
+            {
+                home_team: [ won, draw, lost, goal_f, goal_a, goal_diff, points, club_name ],
+                away_team: [ ... ]
+            }
+        '''
+        
+        register = {
+            'home_team': [],
+            'away_team': []
+        }
+
+        if self.home_goal == self.away_goal:
+            register['home_team'] = [0, 1, 0, self.home_goal, self.away_goal, (self.home_goal - self.away_goal), 1, self.home_club.name ]
+            register['away_team'] = [0, 1, 0, self.away_goal, self.home_goal, (self.away_goal - self.home_goal), 1, self.away_club.name ]
+        elif self.home_goal > self.away_goal:
+            register['home_team'] = [1, 0, 0, self.home_goal, self.away_goal, (self.home_goal - self.away_goal), 3, self.home_club.name ]
+            register['away_team'] = [0, 0, 1, self.away_goal, self.home_goal, (self.away_goal - self.home_goal), 0, self.away_club.name ]
+        else:
+            register['home_team'] = [0, 0, 1, self.home_goal, self.away_goal, (self.home_goal - self.away_goal), 0, self.home_club.name ]
+            register['away_team'] = [1, 0, 0, self.away_goal, self.home_goal, (self.away_goal - self.home_goal), 3, self.away_club.name ]
+
+        return register
 
     def actions(self):
         ''' Simulates a football actions, pass, defense, tackle and goals
             return a dict { 'home_goal': <class 'int'>, 'away_goal': <class 'int'> , 'home_player_goals': <class 'defaultdict'>, 'away_player_goals': <class 'defaultdict'> } 
         '''
 
+        ''' Add one digit to player.match and points '''
         for player in self.home_players:
             self.add_matches(player)
             self.add_points(player, 4.0)
@@ -84,11 +113,11 @@ class Game:
             else:
                 self.move(self.away_club, self.home_club)
 
-        self.check_game_stats()
+        self.check_game_stats() # add extra points to the players
 
         self.scoreboard['home_goal'] = self.home_goal 
         self.scoreboard['away_goal'] = self.away_goal  
-        self.scoreboard['home_player_goals'] =  self.h_player_goals
+        self.scoreboard['home_player_goals'] = self.h_player_goals
         self.scoreboard['away_player_goals'] = self.a_player_goals
 
         return True 
@@ -119,7 +148,7 @@ class Game:
                 if sub:
                     self.subs(self.away_club)
         else:
-            pass 
+            NameError("Club name doesn't match")
 
         if tackle:
             """ clerance """
@@ -134,41 +163,8 @@ class Game:
                     self.defense(keeper)
                 else:
                     if finish:
-                        self.finish(keeper, defensor, midfielder, attacker, self.away_club)
-    
-    def get_score_board(self, end_game=False):
-        
-        exit_string = ""
-        player_goal_string = ""
-
-        exit_string += f"\nCompetition: {self.scoreboard['competition']}\n"
-        exit_string += f"Round: {self.scoreboard['round']}\n" 
-        exit_string += f"Location: {self.scoreboard['location']}\n"
-        exit_string += f"Hour: {self.scoreboard['hour']}\n"
-        exit_string += f"Conditions: {self.scoreboard['conditions']}\n"
-        if end_game:
-            exit_string += f"{self.scoreboard['home_club'].name.upper()} ({self.scoreboard['home_club'].short_country}) {self.scoreboard['home_goal']} x {self.scoreboard['away_goal']} {self.scoreboard['away_club'].name.upper()} ({self.scoreboard['away_club'].short_country})\n"
-        else:
-            exit_string += f"{self.scoreboard['home_club'].name.upper()} ({self.scoreboard['home_club'].short_country}) x {self.scoreboard['away_club'].name.upper()} ({self.scoreboard['away_club'].short_country})\n"
-
-        print(exit_string)
-
-        if end_game:
-            ''' Prepare the goal string with the players that score the goals '''
-            for tpl in self.scoreboard['home_player_goals'].items(): 
-                goal_time = "" 
-                for _ in range(tpl[-1]):
-                    goal_time += f"{randint(1,90)}' "
-                player_goal_string += f"({self.home_club.name[0:3].upper()}) {tpl[0]} {goal_time}\n"
-
-            for tpl in self.scoreboard['away_player_goals'].items():
-                goal_time = ""
-                for _ in range(tpl[-1]):
-                    goal_time += f"{randint(1,90)}' " 
-                player_goal_string += f"({self.away_club.name[0:3].upper()}) {tpl[0]} {goal_time}\n"
-
-            print(player_goal_string) # show the players scoreboard
-        
+                        self.finish(keeper, defensor, midfielder, attacker, attack_club)
+            
     def decision(self, p_overall):
         return randint(1,100) < p_overall 
 
@@ -212,18 +208,24 @@ class Game:
         assist = choice([True,False])
 
         if assist:
-            """ goal with assist """
+            ''' goal with assist '''
             self.add_points(midfielder, 1.0) # Points for assist
             self.add_assist(midfielder)
 
         # register a goal inside this class
         # register a  { player : goals } on the current match
+        ''' Will check if the club_finish matches home or away team
+            then add the one digit to home_goal or away_goal
+            and to the defaultdict(int) variable 
+        '''
         if club_finish.name == self.home_club.name:
             self.home_goal += 1
             self.h_player_goals[attacker] += 1 
         elif club_finish.name == self.away_club.name:
             self.away_goal += 1
             self.a_player_goals[attacker] += 1
+        else:
+            NameError("Club finish doesn't match with home or away club")
 
         self.add_points(attacker, 1.5)    
         self.add_goal(attacker)
@@ -273,9 +275,10 @@ class Game:
         if club.name == self.home_club.name : self.home_subs -= 1
         if club.name == self.away_club.name : self.away_subs -= 1
 
-        print(f'{club.name}')
-        print(f"In: {player_in} {player_in.position}")
-        print(f"Out: {player_out} {player_in.position}")
+        if self.verbose:
+            print(f'{club.name}')
+            print(f"In: {player_in} {player_in.position}")
+            print(f"Out: {player_out} {player_in.position}")
 
         return True
 
@@ -293,6 +296,43 @@ class Game:
                 return [ b for b in bench if b.position in positions[key] ]
 
         return False
+
+    def get_score_board(self, end_game=False):
+        
+        exit_string = ""
+        player_goal_string = ""
+
+        exit_string += f"\nCompetition: {self.scoreboard['competition']}\n"
+        exit_string += f"Round: {self.scoreboard['round']}\n" 
+        exit_string += f"Location: {self.scoreboard['location']}\n"
+        exit_string += f"Hour: {self.scoreboard['hour']}\n"
+        exit_string += f"Conditions: {self.scoreboard['conditions']}\n"
+        if end_game:
+            print("="*80)
+            exit_string += f"{self.scoreboard['home_club'].name.upper()} ({self.scoreboard['home_club'].short_country}) {self.scoreboard['home_goal']} x {self.scoreboard['away_goal']} {self.scoreboard['away_club'].name.upper()} ({self.scoreboard['away_club'].short_country})\n"
+        else:
+            exit_string += f"{self.scoreboard['home_club'].name.upper()} ({self.scoreboard['home_club'].short_country}) x {self.scoreboard['away_club'].name.upper()} ({self.scoreboard['away_club'].short_country})\n"
+
+        print(exit_string)
+
+        if end_game:
+            ''' player_goal_string will return something like these
+                    (FLU) Player(Fred) 60'
+            '''
+            
+            for tpl in self.scoreboard['home_player_goals'].items(): 
+                goal_time = "" 
+                for _ in range(tpl[-1]):
+                    goal_time += f"{randint(1,90)}' "
+                player_goal_string += f"({self.home_club.name[0:3].upper()}) {tpl[0].name} {goal_time}\n"
+
+            for tpl in self.scoreboard['away_player_goals'].items():
+                goal_time = ""
+                for _ in range(tpl[-1]):
+                    goal_time += f"{randint(1,90)}' " 
+                player_goal_string += f"({self.away_club.name[0:3].upper()}) {tpl[0].name} {goal_time}\n"
+
+            print(player_goal_string) # show the players scoreboard
 
     def check_game_stats(self):
         """ Check for clean sheets, hat tricks and update pontuation """
