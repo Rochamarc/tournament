@@ -8,10 +8,12 @@ from name_nationality import *
 
 class Club:
 
-    def __init__(self,name,country,save_file=None):
+    def __init__(self,name,country,state=None,save_file=None,skip_conf=False):
         self.name = name
         self.country = country
         self.short_country = self.country[:3].upper()
+        self.state = state
+        self.matches = 0
         self.points = 0
         self.goals_scored = 0
         self.goals_conceded = 0
@@ -22,7 +24,10 @@ class Club:
         self.games_played = 0
         self.overall = 0 
         self.ranking_points = 0
-        self.coeff = self.set_coeff()
+        if skip_conf:
+            self.coeff = randint(60,86)
+        else:
+            self.coeff = self.set_coeff()
         self.save_file = save_file
         
         # The next attr are refering to handle the squad
@@ -44,6 +49,17 @@ class Club:
         ''' return a list[ name, points, victory, draw, defeat, goal_scored, goals_conceded, goal_balance ] '''
         return [self.name, self.points, self.victory, self.draw, self.defeat, self.goals_scored, self.goals_conceded, self.goal_difference]
     
+    def get_data(self):
+        ''' Return the data to de domestic cup table'''
+        # the ideal is to insert the competition and the season as a parameter
+        # and rescue this data from the database.db, not storing them in the object
+        # but thats not the case righ now, so let leave this like that
+        #
+
+        return [self.name, self.matches, self.victory, self.draw, self.defeat, 
+        self.goals_scored, self.goals_conceded, self.goal_difference, self.points
+        ]
+
     def get_df_cast(self):
         ''' return a dataframe with name, position, matches, goals, assists, average points '''
 
@@ -78,6 +94,7 @@ class Club:
 
         # sorting squad
         for key, value in self.squad.items():
+            ''' Sorting squad by overall '''
             value.sort(key=lambda player: player.overall, reverse=True)
 
         cp_squad = self.squad.copy()
@@ -160,8 +177,9 @@ class Club:
         if goals_scored < goals_conceded:
             self.defeat += 1
 
+        self.matches += 1
         self.set_goal_diff(goals_scored, goals_conceded)
-
+        
     def set_goal_diff(self, goals_scored, goals_conceded):
         self.games_played += 1
         self.goals_scored += goals_scored
@@ -219,6 +237,12 @@ class Player:
     def get_personal_stats(self):
         ''' return list[ name, position, overall, age ] '''
         return [self.name, self.nationality, self.current_club, self.age, self.position, self.overall]
+
+    def get_data(self):
+        return [
+            self.name, self.nationality, self.age, self.overall, self.current_club,
+            self.position, self.matches_played, self.goals, self.assists, self.points, self.avg
+        ]
 
     def db_insertion(self):
         ls = [ self.name, self.nationality, self.age, self.overall, self.current_club, self.position, self.matches_played, self.goals, self.assists, self.avg, self.save_file ]
