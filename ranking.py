@@ -71,4 +71,14 @@ class Ranking:
             sorted_data_frame.to_csv(f"./files/{save_file}/{category}_{season}.csv")
         return sorted_data_frame[:10]
 
-
+    @staticmethod 
+    def table(clubs_data):
+        ''' 
+        Return a panda series with the tables below
+        Position    Club    Matches    Won  Draw    Lost   Goals For    Goals Away    Goals Diff    Points
+        '''
+        # statistics
+        stats = ['Points', 'Won', 'GD', 'GF']
+        df = pd.DataFrame(clubs_data, columns=['Club','Matches','Won','Draw','Lost','GF','GA','GD','Points'])
+        sorted_data_frame = df.sort_values(by=stats, axis=0, ascending=False) # Sort the data
+        return sorted_data_frame
