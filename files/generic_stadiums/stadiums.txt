@@ -1,13 +1,13 @@
 Rei Pelé Arena,São Paulo,Brasil
 Estádio Porto Alegre,Porto Alegre,Brasil 
-Estadio Arthur Antunes Coimbra,Rio de Janeiro,Brasil
+Estádio Arthur Antunes Coimbra,Rio de Janeiro,Brasil
 Arena do Castelo,Fortaleza,Brasil
 Arena Dom Pedro II,Rio de Janeiro,Brasil 
-Estadio do Tupiniquim,Mato Grosso,Brasil 
+Estádio do Tupiniquim,Mato Grosso,Brasil 
 Zumbi dos Palmeres,Recife,Brasil
 Arena Princesa Izabel,Salvador,Brasil 
 Arena Joviedade,Santa Catarina,Brasil 
-Estadio da Paulista,São Paulo,Brasil
-Estadio Sertanejo,Goiás,Brasil 
+Estádio da Paulista,São Paulo,Brasil
+Estádio Sertanejo,Goiás,Brasil 
 Arena Mário Jorge Lobo Zagallo,Máceio,Brasil 
 Arena João Leite Ortiz,Belo Horizonte,Brasil
