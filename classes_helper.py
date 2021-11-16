@@ -16,7 +16,7 @@ class GenerateClass:
         return None 
 
     @staticmethod 
-    def set_clubs():
+    def set_clubs(text_file_path):
         ''' Generate a list of clubs <class 'Club'> 
             return a list(clubs)
         '''
@@ -29,7 +29,8 @@ class GenerateClass:
         if not save_file:
             save_file = None
 
-        with open('files/seasons/2021.txt', 'r') as file:
+        # files/seasons/2021.txt 
+        with open(text_file_path, 'r') as file:
             for line in file.readlines():
                 ''' Manage the data that are gonna be used '''
                 line = line.split(',') 
@@ -131,7 +132,20 @@ class GenerateClass:
                     break
                 else:
                     club.stadium = GenerateClass().set_generic_stadium(club.country)
-                                    
+
+    @staticmethod
+    def get_players_list(clubs):
+        '''
+        Return a list with all players data enrolled on the championship
+        '''
+        players = []
+
+        for club in clubs:                                
+            players += [player for player in club.start_eleven]
+            players += [player for player in club.bench]
+            players += [player for player in club.unrelated]
+        
+        return players
 
 
             
