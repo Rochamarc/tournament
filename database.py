@@ -10,7 +10,7 @@ def create_db():
 
     # player table
     cursor.execute("""
-CREATE TABLE IF NOT EXISTS player (
+CREATE TABLE IF NOT EXISTS players (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     nationality TEXT NOT NULL,
@@ -56,10 +56,12 @@ CREATE TABLE IF NOT EXISTS player (
 # Dometic Cup
 #
 
-def create_domestic_table(season):
+def create_domestic_table(season, verbose=False):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
+    if verbose : print(f"Criando tabela da copa doméstica {season}")
+    
     cursor.execute(f"""
     CREATE TABLE IF NOT EXISTS campeonato_brasileiro_serie_a_{season} (
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -75,25 +77,32 @@ def create_domestic_table(season):
     );
     """)
 
-    print("Tabela criada com sucesso")
-
     conn.close() # close database
 
-def domestic_table_basic(club_names,season):
+    if verbose : print("Tabela criada com sucesso")
 
 
-    # the static 2021 is temporary
+def domestic_table_basic(club_names,season, verbose=False):
+    '''
+    Insert club domestic cup data into the database
+    '''
+
+    print("Inserting clubs into domestic cup table")
+
+    
     for club in club_names:
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
         
         ls = [club, 0, 0, 0, 0, 0, 0, 0, 0]
-        print(f"Inserting {club} into the database.")
+        
+        if verbose : print(f"Inserting {club} into the database.")
+        
         cursor.execute(f"INSERT INTO campeonato_brasileiro_serie_a_{season} (club, matches, won, draw, lost, goals_for, goals_away, goal_diff, points) VALUES (?,?,?,?,?,?,?,?,?)", ls)
         conn.commit()
         conn.close()
         
-    print("Database populada com sucesso!")
+    if verbose : print("Database populada com sucesso!")
 
 def update_domestic_table(club_stats, season):
     conn = sqlite3.connect('database.db')
@@ -115,7 +124,30 @@ def update_domestic_table(club_stats, season):
     conn.commit()
     conn.close()
 
+def insert_players_db(players, verbose=False):
+    '''
+    Insert players data into the database
+    '''
 
+    print("Inserting players on the database")
+    
+    for player in players:
+        if verbose : print(f"Insert player {player} into the database")
+
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()        
+        
+        player_data = player.get_data()
+        
+        cursor.execute('''
+            INSERT INTO players (name, nationality, age, overall, current_club, position, matches_played, goals, assists, points, avg)
+            values (?,?,?,?,?,?,?,?,?,?,?)
+        ''', player_data)
+
+        conn.commit()
+        conn.close()
+
+    
 if __name__ == '__main__':
     create_db()
     r.upload_ranking_db()
