@@ -239,6 +239,10 @@ class Player:
         return [self.name, self.nationality, self.current_club, self.age, self.position, self.overall]
 
     def get_data(self):
+        ''' 
+        return list[name, nationality, age, overall, current_club, position, matches, goals, assists, points, avg]
+        '''
+        
         return [
             self.name, self.nationality, self.age, self.overall, self.current_club,
             self.position, self.matches_played, self.goals, self.assists, self.points, self.avg
