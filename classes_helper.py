@@ -119,18 +119,25 @@ class GenerateClass:
 
     @staticmethod
     def set_generic_stadium(club_country):
+        ''' Set a generic stadium '''
         s_name = f'{Name.generate_name(club_country)} stadium'
         return Stadium(s_name, club_country)
 
     @staticmethod
     def define_clubs_stadium(clubs, stadiums):
+        ''' 
+        Defines a stadium to a club if the have a stadium 
+        Defines a generic stadium to a club if he dosent have one
+        '''
         for club in clubs:
             for stadium in stadiums:
-                s_name = stadium.club_owner.split('/')
+                s_name = stadium.club_owner.split('/') # manage the string
                 if club.name in s_name:
+                    ''' Check if the club have a stadium '''
                     club.stadium = stadium
                     break
                 else:
+                    ''' Generate a generic stadium '''
                     club.stadium = GenerateClass().set_generic_stadium(club.country)
 
     @staticmethod
