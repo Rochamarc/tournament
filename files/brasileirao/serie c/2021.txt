@@ -1,0 +1,20 @@
+Paysandu,Pará
+Tombense,Minas Gerais
+Botafogo-PB,Paraíba
+Manaus,Amazonas
+Volta Redonda,Rio de Janeiro
+Ferroviário,São Paulo
+Altos,Piauí
+Floresta,Ceará
+Jacuipense,Bahia
+Santa Cruz,Pernanbuco
+Novorizontino,São Paulo
+Ituano,São Paulo
+Ypiranga,Rio Grande do Sul
+Criciúma,Santa Catarina
+Figueirense,São Paulo
+São José,Rio Grande do Sul
+Botafogo SP,São Paulo
+Mirasol,São Paulo
+Paraná,Paraná
+Oeste,São Paulo

@@ -1,0 +1,20 @@
+Vasco da Game,Rio de Janeiro
+Botafogo,Rio de Janeiro
+Cruzeiro,Minas Gerais
+Operário,Paraná
+Coritiba,Paraná
+Goiás,Goiás
+Guarani,São Paulo
+Avaí,Santa Catarina
+CRB,Alagoas
+CSA,Alagoas
+Náutico,Pernanbuco
+Sampaio Corrêa,Maranhão
+Vila Nova,Goiás
+Ponte Preta,São Paulo
+Brusque,Santa Catarina
+Remo,Pará
+Londrina,Paraná
+Vitória,Bahia
+Confiança,Sergipe
+Brasil de Pelotas,Rio Grande do Sul
