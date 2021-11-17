@@ -208,7 +208,7 @@ class Player:
         self.goals = 0
         self.assists = 0
         self.points = 0  # every match another point is add here, thent is calculated by the average
-        self.avg = self.set_avg()
+        self.avg = 0
 
     def set_avg(self):
         try:
@@ -242,6 +242,9 @@ class Player:
         ''' 
         return list[name, nationality, age, overall, current_club, position, matches, goals, assists, points, avg]
         '''
+        
+        # update average
+        self.set_avg()
         
         return [
             self.name, self.nationality, self.age, self.overall, self.current_club,
