@@ -1,8 +1,5 @@
 import sqlite3
-from sqlite3.dbapi2 import connect 
-from ranking import Ranking
-
-r = Ranking()
+import os
 
 def create_db():
     conn = sqlite3.connect('database.db')
@@ -52,6 +49,37 @@ CREATE TABLE IF NOT EXISTS players (
 
     conn.close() # close database
 
+# Upload conmebol ranking for the libertadores cup
+def upload_ranking_db(verbose=False):
+    
+    os.system('clear')
+    print("Inserindo ranking da conmebol na base de dados!")
+    
+    with open('ranking_conmebol.csv') as file:
+        lines = file.readlines() 
+    
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+    
+        for line in lines:
+            print('.', sep=' ', end=' ', flush=True)
+            line = line.split(',')
+            val = line[-1] 
+            val.replace('\n', '')
+            val = float(val)
+            del line[-1]
+            line.append(val)
+    
+            cursor.execute("""
+            INSERT INTO clubs_ranking (name, country, points) VALUES (?,?,?)
+            """, line)
+    
+            conn.commit()
+        
+        conn.close()
+
+        if verbose : print("Ranking da conmebol inserido com sucesso!")
+
 #
 # Dometic Cup
 #
@@ -87,10 +115,12 @@ def domestic_table_basic(club_names,season, verbose=False):
     Insert club domestic cup data into the database
     '''
 
+    os.system('clear')
     print("Inserting clubs into domestic cup table")
-
     
     for club in club_names:
+        print('.', sep=' ', end=' ', flush=True)
+
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
         
@@ -101,8 +131,11 @@ def domestic_table_basic(club_names,season, verbose=False):
         cursor.execute(f"INSERT INTO campeonato_brasileiro_serie_a_{season} (club, matches, won, draw, lost, goals_for, goals_away, goal_diff, points) VALUES (?,?,?,?,?,?,?,?,?)", ls)
         conn.commit()
         conn.close()
-        
+
+    os.system('clear')    
     if verbose : print("Database populada com sucesso!")
+    
+    return True 
 
 def update_domestic_table(club_stats, season):
     conn = sqlite3.connect('database.db')
@@ -124,14 +157,37 @@ def update_domestic_table(club_stats, season):
     conn.commit()
     conn.close()
 
+def get_domestic_cup_table(season):
+    ''' Get the domestic cup table data '''
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    val = cursor.execute(f"""
+        SELECT * FROM campeonato_brasileiro_serie_a_{season} 
+        ORDER BY 
+            points DESC, 
+            goals_for DESC, 
+            goal_diff DESC
+        """).fetchall()
+    
+    data = val.copy() # create a copy of the fetch data
+    conn.close()
+    
+    return data
+    
+
+
 def insert_players_db(players, verbose=False):
     '''
     Insert players data into the database
     '''
 
+    os.system('clear')
     print("Inserting players on the database")
     
     for player in players:
+        print('.', sep=' ', end=' ', flush=True)
+
         if verbose : print(f"Insert player {player} into the database")
 
         conn = sqlite3.connect('database.db')
@@ -147,7 +203,9 @@ def insert_players_db(players, verbose=False):
         conn.commit()
         conn.close()
 
+    if verbose : print("Players inserted into the database sucessfully!")
+    return True
     
 if __name__ == '__main__':
     create_db()
-    r.upload_ranking_db()
+    upload_ranking_db()
