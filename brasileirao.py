@@ -6,6 +6,10 @@ from ranking import *
 from database import *
 import os 
 
+
+# testing
+from time import sleep 
+
 os.system('./reset_database.sh') # reseting the database
 
 gene = GenerateClass() 
@@ -39,7 +43,7 @@ with open('files/brasileirao/serie a/2021.txt') as file:
         clubs.append(Club(name, country, state=state, skip_conf=True))
 
 club_names = [ club.name for club in clubs ]
-domestic_table_basic(club_names,season) # populate the database with basics
+domestic_table_basic(club_names,season) #Insert intial domestic cup table to the db 
 
 for club in clubs:
     players = gene.set_players(club.name, club.country, club.coeff) # dict of players
@@ -68,32 +72,24 @@ for clb in clubs:
     ''' Define a schedule '''
     schedule[clb] = [ club for club in clubs if club.name != clb.name ]
 
+tb = rk.table(season) # Get the initial domestic cup table
+print(tb) # show the table
 
-clubs_data = [ club.get_data() for club in clubs ] # this will return the data needed to create the table
-tb = rk.table(clubs_data) # return a table
-print(tb)
-
-# Testing
+# Confirmation
 ctn = input("Type enter to continue: ")
 
 for home_club, home_matches in schedule.items():
     for away_club in home_matches:
-        r_match = randint(1,38)
-        # Start a new game
-        g = Game(home_club, away_club, competition_name, r_match, head_stadium=choice(stadiums), verbose=False)
-        result = g.start()
+        r_match = randint(1,38) # define the round match
+        g = Game(home_club, away_club, competition_name, r_match, head_stadium=choice(stadiums), verbose=False) # Instance class Game
+        result = g.start() # Initiate the match
         update_domestic_table(result['home_team'], season) # home_team table update
         update_domestic_table(result['away_team'], season) # away_team table update
 
-    clubs_data = [ club.get_data() for club in clubs ]
-    tb = rk.table(clubs_data)
+    tb = rk.table(season)
     print(tb)
-
+    
 players = gene.get_players_list(clubs) # this get the players list
-'''
-for player in players:
-    print(player)
-'''
 
 insert_players_db(players) # insert into the database
 
