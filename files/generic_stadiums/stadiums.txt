@@ -4,7 +4,7 @@ Estádio Arthur Antunes Coimbra,Rio de Janeiro,Brasil
 Arena do Castelo,Fortaleza,Brasil
 Arena Dom Pedro II,Rio de Janeiro,Brasil 
 Estádio do Tupiniquim,Mato Grosso,Brasil 
-Zumbi dos Palmeres,Recife,Brasil
+Zumbi dos Palmares,Recife,Brasil
 Arena Princesa Izabel,Salvador,Brasil 
 Arena Joviedade,Santa Catarina,Brasil 
 Estádio da Paulista,São Paulo,Brasil
