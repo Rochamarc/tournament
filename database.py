@@ -1,8 +1,10 @@
 import sqlite3
 import os
 
+database = 'database.db'
+
 def create_db():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
     # player table
@@ -58,7 +60,7 @@ def upload_ranking_db(verbose=False):
     with open('ranking_conmebol.csv') as file:
         lines = file.readlines() 
     
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(database)
         cursor = conn.cursor()
     
         for line in lines:
@@ -85,7 +87,7 @@ def upload_ranking_db(verbose=False):
 #
 
 def create_domestic_table(season, verbose=False):
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
     if verbose : print(f"Criando tabela da copa doméstica {season}")
@@ -121,7 +123,7 @@ def domestic_table_basic(club_names,season, verbose=False):
     for club in club_names:
         print('.', sep=' ', end=' ', flush=True)
 
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(database)
         cursor = conn.cursor()
         
         ls = [club, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -138,7 +140,7 @@ def domestic_table_basic(club_names,season, verbose=False):
     return True 
 
 def update_domestic_table(club_stats, season):
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
     cursor.execute(f"""
@@ -159,7 +161,7 @@ def update_domestic_table(club_stats, season):
 
 def get_domestic_cup_table(season):
     ''' Get the domestic cup table data '''
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
     val = cursor.execute(f"""
@@ -175,7 +177,21 @@ def get_domestic_cup_table(season):
     
     return data
     
+def get_players(club_name, verbose=False):
+    ''' 
+    Get the players info from database
+    '''
 
+    conn = sqlite3.connect(database)
+
+    val = conn.execute("""
+    SELECT * FROM players WHERE club=?
+    """, club_name).fetchall() # fetch the result
+
+    players_data = val.copy 
+    conn.close() # close database 
+
+    return players_data
 
 def insert_players_db(players, verbose=False):
     '''
@@ -190,7 +206,7 @@ def insert_players_db(players, verbose=False):
 
         if verbose : print(f"Insert player {player} into the database")
 
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(database)
         cursor = conn.cursor()        
         
         player_data = player.get_data()
