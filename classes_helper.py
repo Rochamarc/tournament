@@ -150,11 +150,40 @@ class GenerateClass:
         for club in clubs:                                
             players += [player for player in club.start_eleven]
             players += [player for player in club.bench]
-            players += [player for player in club.unrelated]
+            # players += [player for player in club.unrelated]
         
         return players
 
+    @staticmethod
+    def define_schedule(clubs,stadiums):
+        '''
+        Return a dict of lists with all the rounds filled with
+        [ home_club, away_club, stadium ]
+        '''
 
+        # Not properly working yet
+        # need to add max of 10 matches per round
+        # and tha same club doesnt play two or more times per round
+        # and the stadium cant have two or more matcher per round
+        # now the method doesnt have any limitation
+        # and the method will return a dict of Game() lists not list of listss
+
+        schedule = {}
+
+        rounds = {}
+        for i in range(1,39):
+            rounds[f'Round {i}'] = []
+
+        for clb in clubs:
+            ''' Define a schedule '''
+            schedule[clb] = [ club for club in clubs if club.name != clb.name ]
+
+        for home_club, away_clubs in schedule.items():
+            for away_club in away_clubs:
+                rnd = randint(1,38)
+                rounds[f'Round {rnd}'].append([home_club, away_club, choice(stadiums)])
+
+        return rounds 
             
 
 if __name__ == "__main__":
