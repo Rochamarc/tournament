@@ -60,14 +60,6 @@ class Club:
         self.goals_scored, self.goals_conceded, self.goal_difference, self.points
         ]
 
-    def get_df_cast(self):
-        ''' return a dataframe with name, position, matches, goals, assists, average points '''
-
-        # get all the players
-        players = [ player.get_stats() for player in self.start_eleven ] + [ player.get_stats() for player in self.bench ] + [ player.get_stats() for player in self.unrelated ]
-
-        return pd.DataFrame(players, index=None, columns=['Name','Position','MP','GS','A','Avg'])
-
     def get_formation(self):
         ''' probably gonna be deleted '''
         print(f"FORMATION: {self.formation}\n")
