@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS players (
     matches_played INTEGER,
     goals INTEGER,
     assists INTEGER,
-    points REAL,
     avg REAL,
     save_file VARCHAR(30)
 );
@@ -212,8 +211,8 @@ def insert_players_db(players, verbose=False):
         player_data = player.get_data()
         
         cursor.execute('''
-            INSERT INTO players (name, nationality, age, overall, current_club, position, matches_played, goals, assists, points, avg)
-            values (?,?,?,?,?,?,?,?,?,?,?)
+            INSERT INTO players (name, nationality, age, overall, current_club, position, matches_played, goals, assists, avg)
+            values (?,?,?,?,?,?,?,?,?,?)
         ''', player_data)
 
         conn.commit()
