@@ -5,7 +5,7 @@ class NameAndNationality:
     def generate_nationality(team_nationality):
         outsider_prob = choice([True, False, False, False, False, False])
 
-        south = ['Brasil', 'Argentina', 'Uruguay', 'Ecuado', 'Peru', 'Chile', 'Venezuela', 'Paraguay', 'Bolivia', 'Guiana', 'Panama']
+        south = ['Brasil', 'Argentina', 'Uruguay', 'Ecuador', 'Peru', 'Chile', 'Venezuela', 'Paraguay', 'Bolivia', 'Guiana', 'Panama']
 
         if outsider_prob:
             # gringo
