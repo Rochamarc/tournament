@@ -12,16 +12,7 @@ class Club:
         self.name = name
         self.country = country
         self.short_country = self.country[:3].upper()
-        self.state = state
-        self.matches = 0
-        self.points = 0
-        self.goals_scored = 0
-        self.goals_conceded = 0
-        self.goal_difference = 0
-        self.victory = 0
-        self.draw = 0
-        self.defeat = 0
-        self.games_played = 0
+        self.state = state        
         self.overall = 0 
         self.ranking_points = 0
         if skip_conf:
@@ -42,23 +33,6 @@ class Club:
     def __repr__(self):
         return f"Club({self.name})"
 
-    def get_season_stats(self):
-        return f"{self.name.upper()}\nGroup Stage Points: {self.points}\nVictory: {self.victory}\nDraws: {self.draw}\nDefeat: {self.defeat}\nGoals Scored: {self.goals_scored}\nGoals Conceded: {self.goals_conceded}\nGoals Diff: {self.goal_difference}"
-
-    def get_stats(self):
-        ''' return a list[ name, points, victory, draw, defeat, goal_scored, goals_conceded, goal_balance ] '''
-        return [self.name, self.points, self.victory, self.draw, self.defeat, self.goals_scored, self.goals_conceded, self.goal_difference]
-    
-    def get_data(self):
-        ''' Return the data to de domestic cup table'''
-        # the ideal is to insert the competition and the season as a parameter
-        # and rescue this data from the database.db, not storing them in the object
-        # but thats not the case righ now, so let leave this like that
-        #
-
-        return [self.name, self.matches, self.victory, self.draw, self.defeat, 
-        self.goals_scored, self.goals_conceded, self.goal_difference, self.points
-        ]
 
     def get_df_cast(self):
         ''' return a dataframe with name, position, matches, goals, assists, average points '''
@@ -163,28 +137,8 @@ class Club:
         else:
             v_coeff += 1
 
-        return v_coeff   
-
-    """ this should not be here, this is a stats function not an club """
-    def register_game(self, goals_scored, goals_conceded, match_type):
-        ''' match type group_stage or knock_out '''
-        if goals_scored > goals_conceded:
-            if match_type == 'group_stage' : self.points += 3 
-            self.victory += 1
-        if goals_scored == goals_conceded:
-            if match_type == 'group_stage' :  self.points += 1
-            self.draw += 1
-        if goals_scored < goals_conceded:
-            self.defeat += 1
-
-        self.matches += 1
-        self.set_goal_diff(goals_scored, goals_conceded)
+        return v_coeff      
         
-    def set_goal_diff(self, goals_scored, goals_conceded):
-        self.games_played += 1
-        self.goals_scored += goals_scored
-        self.goals_conceded += goals_conceded
-        self.goal_difference += goals_scored - goals_conceded
 
 # all the stats players are gonna became self.__ and controlled by the methods with decoractor
 #
@@ -251,16 +205,6 @@ class Player:
             self.position, self.matches_played, self.goals, self.assists, self.points, self.avg
         ]
 
-    def db_insertion(self):
-        ls = [ self.name, self.nationality, self.age, self.overall, self.current_club, self.position, self.matches_played, self.goals, self.assists, self.avg, self.save_file ]
-
-        conn = sqlite3.connect('database.db')
-        cursor = conn.cursor()
-
-        cursor.execute("INSERT INTO player (name, nationality, age, overall, current_club, position, matches_played, goals, assists, avg, save_file) VALUES (?,?,?,?,?,?,?,?,?,?,?)", ls)
-
-        conn.commit() # save the changes
-        conn.close()
 
 class Stadium:
 
