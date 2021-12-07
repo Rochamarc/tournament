@@ -1,4 +1,4 @@
-America Mineiro,Minas Gerais
+América Mineiro,Minas Gerais
 Atlético Mineiro,Minas Gerais
 Athletico Paranaense,Paraná
 Ceará,Ceará

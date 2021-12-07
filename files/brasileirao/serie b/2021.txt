@@ -1,4 +1,4 @@
-Vasco da Game,Rio de Janeiro
+Vasco da Gama,Rio de Janeiro
 Botafogo,Rio de Janeiro
 Cruzeiro,Minas Gerais
 Operário,Paraná
