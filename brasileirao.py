@@ -81,7 +81,7 @@ ctn = input("Type enter to continue: ")
 for home_club, home_matches in schedule.items():
     for away_club in home_matches:
         r_match = randint(1,38) # define the round match
-        g = Game(home_club, away_club, competition_name, r_match, head_stadium=choice(stadiums), verbose=False) # Instance class Game
+        g = Game(home_club, away_club, competition_name, r_match, head_stadium=choice(stadiums)) # Instance class Game
         result = g.start() # Initiate the match
         update_domestic_table(result['home_team'], season) # home_team table update
         update_domestic_table(result['away_team'], season) # away_team table update
