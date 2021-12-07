@@ -30,8 +30,8 @@ class Game:
         self.away_players = [ player for player in self.away_club.start_eleven ]
         self.away_bench = [ player for player in self.away_club.bench ]
         
-        self.h_player_goals = defaultdict(int)
-        self.a_player_goals = defaultdict(int)
+        self.home_player_goals = defaultdict(int)
+        self.away_player_goals = defaultdict(int)
 
         # Stats
         self.home_shots = 0
@@ -133,8 +133,8 @@ class Game:
 
         self.scoreboard['home_goal'] = self.home_goal 
         self.scoreboard['away_goal'] = self.away_goal  
-        self.scoreboard['home_player_goals'] = self.h_player_goals
-        self.scoreboard['away_player_goals'] = self.a_player_goals
+        self.scoreboard['home_player_goals'] = self.home_player_goals
+        self.scoreboard['away_player_goals'] = self.away_player_goals
 
         return True 
 
@@ -153,6 +153,7 @@ class Game:
         touch = self.decision(midfielder.overall)
         tackle = self.decision(defensor.overall)
 
+        # Check and execute a Substitution
         if attack_club == self.home_club:
             if self.home_subs > 0: 
                 sub = choice([True, False])
@@ -181,6 +182,7 @@ class Game:
                     self.add_stats(defense_club, 'save')
                     self.add_stats(attack_club, 'shot on target')
                     self.defense(keeper)
+
                 else:
                     ''' Shot not on goal'''
                     self.add_stats(attack_club, 'shot')
@@ -195,10 +197,10 @@ class Game:
     def select_player(self, club, player_position):
         ''' Return a player from the club start eleven '''
 
-        if club.name == self.home_club.name:
+        if club == self.home_club:
             start_eleven = self.home_players
-        elif club.name == self.away_club.name:
-            start_eleven = self.home_players 
+        elif club == self.away_club:
+            start_eleven = self.away_players 
         else:
             raise NameError('Club not match home_team.name or away_team.name')
 
@@ -228,13 +230,15 @@ class Game:
         return True
 
     def finish(self, keeper, defensor, midfielder, attacker, club_finish):
-        ''' Represent a gols, will add points to attacker and remove opposite '''
-        assist = choice([True,False])
+        ''' Represent a gols, will add points to attacker and remove opposite 
+            and register the goals and asssits inside the class
+        '''
+        assist = choice([True,False]) # defines if the goal have an assist
 
         if assist:
             ''' goal with assist '''
             self.add_points(midfielder, 1.0) # Points for assist
-            self.add_assist(midfielder)
+            self.add_assist(midfielder) # add assist
 
         # register a goal inside this class
         # register a  { player : goals } on the current match
@@ -242,12 +246,12 @@ class Game:
             then add the one digit to home_goal or away_goal
             and to the defaultdict(int) variable 
         '''
-        if club_finish.name == self.home_club.name:
+        if club_finish == self.home_club:
             self.home_goal += 1
-            self.h_player_goals[attacker] += 1 
-        elif club_finish.name == self.away_club.name:
+            self.home_player_goals[attacker] += 1 
+        elif club_finish == self.away_club:
             self.away_goal += 1
-            self.a_player_goals[attacker] += 1
+            self.away_player_goals[attacker] += 1
         else:
             raise NameError("Club finish doesn't match with home or away club")
 
@@ -264,12 +268,12 @@ class Game:
         ''' Will make a sub if everything goes well return True '''
 
         # Defines s_check, startin, bench, n_subs 
-        if club.name == self.home_club.name:
+        if club == self.home_club:
             s_check = self.check_subs(self.home_subs)
             starting = self.home_players
             bench = self.home_bench
             n_subs = self.home_subs
-        elif club.name == self.away_club.name:
+        elif club == self.away_club:
             s_check = self.check_subs(self.away_subs)
             starting = self.away_players
             bench = self.away_bench
@@ -277,13 +281,11 @@ class Game:
         else:
             raise NameError('Club not match home_team.name or away_team.name')
 
-        player_out = choice(starting)
+        player_out = choice(starting) # Select the player that is going to leave
 
-        options = self.set_options(player_out.position, bench) # return a list of players
+        options = self.set_options(player_out.position, bench) # Select the possible players based on the position
         
-        if not s_check:
-            return False 
-        if not options:
+        if not s_check or not options:
             return False 
 
         player_in = choice(options) # select the player
@@ -296,8 +298,8 @@ class Game:
         
         starting.append(player_in) # into the pitch
         
-        if club.name == self.home_club.name : self.home_subs -= 1
-        if club.name == self.away_club.name : self.away_subs -= 1
+        if club == self.home_club : self.home_subs -= 1
+        if club == self.away_club : self.away_subs -= 1
 
         if self.verbose:
             print(f'{club.name}')
@@ -406,11 +408,11 @@ class Game:
             for player in self.away_players : self.add_points(player, 1.0)
         
         if self.home_goal >= 3:
-            for player, goals in self.h_player_goals.items():
+            for player, goals in self.home_player_goals.items():
                 if goals >= 3:
                     self.add_points(player, 5.0)
         if self.away_goal >= 3:
-            for player, goals in self.a_player_goals.items():
+            for player, goals in self.away_player_goals.items():
                 if goals >= 3:
                     self.add_points(player, 5.0)
                 

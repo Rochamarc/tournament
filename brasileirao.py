@@ -1,29 +1,24 @@
 from classes_helper import *
 from classes import *
-from game import Game 
-from pprint import pprint 
+from game import Game  
 from ranking import *
 from database import DomesticLeague, insert_players_db
 import os 
 
-
-# testing
-from time import sleep 
-
 os.system('./reset_database.sh') # reseting the database
 
 gene = GenerateClass() 
+league = DomesticLeague()
 rk = Ranking()
+
 clubs = []
 stadiums = []
-league = DomesticLeague()
+matches = []
 
 competition_name = "Campeonato Brasileiro Série A"
 season = "2021"
 
 league.create_domestic_table(season) # Create the domestic table
-
-schedule = {}
 
 #
 #
@@ -68,15 +63,21 @@ with open('files/generic_stadiums/stadiums.txt') as file:
 #
 # 
 
-for clb in clubs:
-    ''' Define a schedule '''
-    schedule[clb] = [ club for club in clubs if club.name != clb.name ]
+schedule = gene.define_schedule(clubs,stadiums) # the schedule
+
+for rnd, game_info in schedule.items():
+    for match in game_info:
+        matches.append(Game(match[0], match[1], competition_name, int(rnd.split(' ')[-1]), head_stadium=match[-1]))
+
 
 tb = rk.domestic_table(season) # Get the initial domestic cup table
 print(tb) # show the table
 
-# Confirmation
-ctn = input("Type enter to continue: ")
+for match in matches:
+    ''' execute the matches '''
+    r = match.start()
+    update_domestic_table(r['home_team'], season)
+    update_domestic_table(r['away_team'], season)
 
 for home_club, home_matches in schedule.items():
     for away_club in home_matches:
@@ -88,8 +89,12 @@ for home_club, home_matches in schedule.items():
 
     tb = rk.table(season)
     print(tb)
+
+ctn = input("Type enter to continue: ")
     
+for club in clubs:
+    print(club.get_data())  
+
 players = gene.get_players_list(clubs) # this get the players list
 
 insert_players_db(players) # insert into the database
-

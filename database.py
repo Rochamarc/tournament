@@ -1,9 +1,11 @@
 import sqlite3
 import os
 
+database = 'database.db'
+
 def create_db():
     ''' Create database tables '''
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
     # create player table
@@ -60,7 +62,7 @@ def upload_ranking_db(verbose=False):
     with open('ranking_conmebol.csv') as file:
         lines = file.readlines() 
     
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(database)
         cursor = conn.cursor()
     
         for line in lines:
@@ -83,11 +85,12 @@ def upload_ranking_db(verbose=False):
         if verbose : print("Ranking da conmebol inserido com sucesso!")
 
 
+
 class DomesticLeague():
 
     @staticmethod
     def create_domestic_table(season, verbose=False):
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
         if verbose : print(f"Criando tabela da copa doméstica {season}")
@@ -107,6 +110,7 @@ class DomesticLeague():
         );
         """)
 
+
         conn.close() # close database
 
         if verbose : print("Tabela criada com sucesso")
@@ -123,7 +127,7 @@ class DomesticLeague():
         for club in club_names:
             print('.', sep=' ', end=' ', flush=True)
 
-            conn = sqlite3.connect('database.db')
+            conn = sqlite3.connect(database)
             cursor = conn.cursor()
 
             ls = [club, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -141,7 +145,7 @@ class DomesticLeague():
 
     @staticmethod
     def update_domestic_table(club_stats, season):
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
         cursor.execute(f"""
@@ -163,7 +167,7 @@ class DomesticLeague():
     @staticmethod
     def get_domestic_cup_table(season):
         ''' Get the domestic cup table data '''
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
         val = cursor.execute(f"""
@@ -184,7 +188,7 @@ class InternationalCup():
     @staticmethod
     def create_international_cup(season, group, verbose=False):
         ''' Create international cup table '''
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
         if verbose : print(f"Criando tabela da copa doméstica {season} {group}")
@@ -211,7 +215,7 @@ class InternationalCup():
     @staticmethod
     def update_international_table(club_stats, group, season):
         ''' Insert into the international cup table '''
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
         cursor.execute(f"""
@@ -243,6 +247,7 @@ class InternationalCup():
 
             conn = sqlite3.connect('database.db')
             cursor = conn.cursor()
+
 
             ls = [club, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -284,6 +289,21 @@ class InternationalCup():
         
         return full_data
 
+def get_players(club_name, verbose=False):
+    ''' 
+    Get the players info from database
+    '''
+
+    conn = sqlite3.connect(database)
+
+    val = conn.execute("""
+    SELECT * FROM players WHERE club=?
+    """, club_name).fetchall() # fetch the result
+
+    players_data = val.copy 
+    conn.close() # close database 
+
+    return players_data
 
 def insert_players_db(players, verbose=False):
     '''
@@ -298,14 +318,14 @@ def insert_players_db(players, verbose=False):
 
         if verbose : print(f"Insert player {player} into the database")
 
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(database)
         cursor = conn.cursor()        
         
         player_data = player.get_data()
         
         cursor.execute('''
-            INSERT INTO players (name, nationality, age, overall, current_club, position, matches_played, goals, assists, points, avg)
-            values (?,?,?,?,?,?,?,?,?,?,?)
+            INSERT INTO players (name, nationality, age, overall, current_club, position, matches_played, goals, assists, avg)
+            values (?,?,?,?,?,?,?,?,?,?)
         ''', player_data)
 
         conn.commit()

@@ -34,14 +34,6 @@ class Club:
         return f"Club({self.name})"
 
 
-    def get_df_cast(self):
-        ''' return a dataframe with name, position, matches, goals, assists, average points '''
-
-        # get all the players
-        players = [ player.get_stats() for player in self.start_eleven ] + [ player.get_stats() for player in self.bench ] + [ player.get_stats() for player in self.unrelated ]
-
-        return pd.DataFrame(players, index=None, columns=['Name','Position','MP','GS','A','Avg'])
-
     def get_formation(self):
         ''' probably gonna be deleted '''
         print(f"FORMATION: {self.formation}\n")
@@ -194,7 +186,7 @@ class Player:
 
     def get_data(self):
         ''' 
-        return list[name, nationality, age, overall, current_club, position, matches, goals, assists, points, avg]
+        return list[name, nationality, age, overall, current_club, position, matches, goals, assists, avg]
         '''
         
         # update average
@@ -202,7 +194,7 @@ class Player:
         
         return [
             self.name, self.nationality, self.age, self.overall, self.current_club,
-            self.position, self.matches_played, self.goals, self.assists, self.points, self.avg
+            self.position, self.matches_played, self.goals, self.assists, self.avg
         ]
 
 
