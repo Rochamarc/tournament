@@ -2,14 +2,16 @@ from random import choice
 from time import sleep
 from pprint import pprint 
 from classes_helper import GenerateClass
-import pandas as pd 
+import pandas as pd
+from database import InternationalCup 
 from game import Game 
 
 g = GenerateClass()
+inter = InternationalCup()
 
 class GroupStage:
     @staticmethod
-    def define_group_stage(clubs_sorted, qualifying_phase, verbose=False):
+    def define_group_stage(clubs_sorted, qualifying_phase, season, verbose=False):
         """ Lista de clubes, lista de nomes dos qualificados na pré e um argumento verbose opicional """
         
         ex_club_sorted = clubs_sorted.copy()
@@ -138,7 +140,12 @@ class GroupStage:
                 groups[group_sorted].append(club)
         
         except:
-            return GroupStage.define_group_stage(ex_club_sorted, ex_qualifyin)
+            return GroupStage.define_group_stage(ex_club_sorted, ex_qualifyin, season)
+
+        for group, clubs in groups.items():
+            group_name = f"group_{group}"
+            inter.create_international_cup(season, group_name, verbose=True)
+            inter.international_group_table_basic( [club.name for club in clubs], season, group_name, verbose=True)
 
         return groups
 
@@ -157,7 +164,8 @@ class GroupStage:
 
         # Generating the matches
         for i in range(1,7):
-            series_data = [club_one.get_stats(),club_two.get_stats(),club_three.get_stats(),club_four.get_stats()] # extrating data stats
+            # series_data = [club_one.get_stats(),club_two.get_stats(),club_three.get_stats(),club_four.get_stats()] # extrating data stats
+            
             df = pd.DataFrame(series_data, index=None, columns=['Club','Pts','Victory','Draw','Defeat','GS','GC','GB']) # create the dataframe
             sorted_data_frame = df.sort_values(by=['Pts','GB'], axis=0, ascending=False)
             print("")

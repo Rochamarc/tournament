@@ -1,12 +1,16 @@
 from classes_helper import *
 from group_stage_draw import *
 from ranking import Ranking
+from database import InternationalCup
 
 gene = GenerateClass()
 rank = Ranking()
 gs = GroupStage()
+inter = InternationalCup()
 
-clubs = gene.set_clubs() # Generate the 32 clubs
+season = '2021'
+
+clubs = gene.set_clubs('files/libertadores/2021/clubs.txt') # Generate the 32 clubs
 stadiums = gene.set_stadium() # Generate all stadiums
 gene.define_clubs_stadium(clubs, stadiums) # 
 
@@ -23,8 +27,10 @@ qualifying_phase = [
         'Deportivo La Guaira'
 ]
 
-groups = gs.define_group_stage(clubs, qualifying_phase)
-group_phase = [ gs.group_stage(key, item, 'Conmebol Libertadores', verbose=True) for key, item in groups.items() ]
-from pprint import pprint
+groups = gs.define_group_stage(clubs, qualifying_phase, season) # working
+tb = rank.international_group_table('2021')
 
-pprint(group_phase)
+# group_phase = [ gs.group_stage(key, item, 'Conmebol Libertadores', verbose=True) for key, item in groups.items() ]
+# from pprint import pprint
+
+# pprint(group_phase)

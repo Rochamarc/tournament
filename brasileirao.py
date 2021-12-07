@@ -2,13 +2,15 @@ from classes_helper import *
 from classes import *
 from game import Game  
 from ranking import *
-from database import *
+from database import DomesticLeague, insert_players_db
 import os 
 
 os.system('./reset_database.sh') # reseting the database
 
 gene = GenerateClass() 
+league = DomesticLeague()
 rk = Ranking()
+
 clubs = []
 stadiums = []
 matches = []
@@ -16,7 +18,7 @@ matches = []
 competition_name = "Campeonato Brasileiro Série A"
 season = "2021"
 
-create_domestic_table(season) # Create the domestic table
+league.create_domestic_table(season) # Create the domestic table
 
 #
 #
@@ -36,7 +38,7 @@ with open('files/brasileirao/serie a/2021.txt') as file:
         clubs.append(Club(name, country, state=state, skip_conf=True))
 
 club_names = [ club.name for club in clubs ]
-domestic_table_basic(club_names,season) #Insert intial domestic cup table to the db 
+league.domestic_table_basic(club_names,season, verbose=True) #Insert intial domestic cup table to the db 
 
 for club in clubs:
     players = gene.set_players(club.name, club.country, club.coeff) # dict of players
@@ -68,7 +70,7 @@ for rnd, game_info in schedule.items():
         matches.append(Game(match[0], match[1], competition_name, int(rnd.split(' ')[-1]), head_stadium=match[-1]))
 
 
-tb = rk.table(season) # Get the initial domestic cup table
+tb = rk.domestic_table(season) # Get the initial domestic cup table
 print(tb) # show the table
 
 for match in matches:
@@ -77,9 +79,17 @@ for match in matches:
     update_domestic_table(r['home_team'], season)
     update_domestic_table(r['away_team'], season)
 
-    
-tb = rk.table(season)
-print(tb)
+for home_club, home_matches in schedule.items():
+    for away_club in home_matches:
+        r_match = randint(1,38) # define the round match
+        g = Game(home_club, away_club, competition_name, r_match, head_stadium=choice(stadiums)) # Instance class Game
+        result = g.start() # Initiate the match
+        league.update_domestic_table(result['home_team'], season) # home_team table update
+        league.update_domestic_table(result['away_team'], season) # away_team table update
+
+    tb = rk.table(season)
+    print(tb)
+
 ctn = input("Type enter to continue: ")
     
 for club in clubs:

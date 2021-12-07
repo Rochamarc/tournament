@@ -33,6 +33,25 @@ class Game:
         self.home_player_goals = defaultdict(int)
         self.away_player_goals = defaultdict(int)
 
+        # Stats
+        self.home_shots = 0
+        self.home_shots_on_target = 0
+        self.home_fouls = 0
+        self.home_tackles = 0
+        self.home_saves = 0
+        self.home_ball_possesion = 0
+        self.home_offsides = 0
+        self.home_free_kicks = 0
+
+        self.away_shots = 0
+        self.away_shots_on_target = 0
+        self.away_fouls = 0
+        self.away_tackles = 0
+        self.away_saves = 0
+        self.away_ball_possesion = 0
+        self.away_offsides = 0
+        self.away_free_kicks = 0
+
         self.scoreboard = {
             'competition': self.competition,
             'round': self.round,
@@ -56,9 +75,6 @@ class Game:
         self.home_goal = self.scoreboard['home_goal']
         self.away_goal = self.scoreboard['away_goal']
 
-        """ You only have to register their goals and theis oponent goals and the object define if its a win, lose or draw """
-        self.home_club.register_game(self.home_goal, self.away_goal, 'group_stage')
-        self.away_club.register_game(self.away_goal, self.home_goal, 'group_stage')
 
         self.scoreboard['home_goal'] = self.home_goal # add to the dict
         self.scoreboard['away_goal'] = self.away_goal # add to the dict 
@@ -107,7 +123,7 @@ class Game:
             self.add_matches(player)
             self.add_points(player, 4.0)
 
-        for i in range(45):
+        for i in range(90):
             if i % 2 == 0:
                 self.move(self.home_club, self.away_club)
             else:
@@ -149,10 +165,11 @@ class Game:
                 if sub:
                     self.subs(self.away_club)
         else:
-            NameError("Club name doesn't match")
+            raise NameError("Club name doesn't match")
 
         if tackle:
             """ clerance """
+            self.add_stats(defense_club, 'tackle')
             self.add_points(defensor, 0.3)
         else:
             if touch:
@@ -161,9 +178,17 @@ class Game:
                 finish = self.decision(attacker.overall)
                 defense = self.decision(keeper.overall)
                 if defense:
-                    self.defense(keeper) # only add points to keeper
+                    ''' shot on goal and a save '''
+                    self.add_stats(defense_club, 'save')
+                    self.add_stats(attack_club, 'shot on target')
+                    self.defense(keeper)
+
                 else:
+                    ''' Shot not on goal'''
+                    self.add_stats(attack_club, 'shot')
                     if finish:
+                        ''' shot on goal and a goal'''
+                        self.add_stats(attack_club, 'shot on target')
                         self.finish(keeper, defensor, midfielder, attacker, attack_club)
             
     def decision(self, p_overall):
@@ -228,7 +253,7 @@ class Game:
             self.away_goal += 1
             self.away_player_goals[attacker] += 1
         else:
-            NameError("Club finish doesn't match with home or away club")
+            raise NameError("Club finish doesn't match with home or away club")
 
         self.add_points(attacker, 1.5)    
         self.add_goal(attacker)
@@ -311,6 +336,18 @@ class Game:
         if end_game:
             print("="*80)
             exit_string += f"{self.scoreboard['home_club'].name.upper()} ({self.scoreboard['home_club'].short_country}) {self.scoreboard['home_goal']} x {self.scoreboard['away_goal']} {self.scoreboard['away_club'].name.upper()} ({self.scoreboard['away_club'].short_country})\n"
+            
+            ''' Stats '''
+            if self.verbose:
+                exit_string += f"{self.home_shots} SHOTS {self.away_shots}\n"
+                exit_string += f"{self.home_shots_on_target} SHOTS ON TARGET {self.away_shots_on_target}\n"
+                exit_string += f"{self.home_fouls} FOULS {self.away_fouls}\n"
+                exit_string += f"{self.home_tackles} TACKLES {self.away_tackles}\n"
+                exit_string += f"{self.home_saves} SAVES {self.away_saves}\n"
+                exit_string += f"{self.home_ball_possesion} BALL POSSESSION {self.away_ball_possesion}\n"
+                exit_string += f"{self.home_offsides} OFFSIDES {self.away_offsides}\n"
+                exit_string += f"{self.home_free_kicks} FREE KICKS {self.away_free_kicks}\n"
+        
         else:
             exit_string += f"{self.scoreboard['home_club'].name.upper()} ({self.scoreboard['home_club'].short_country}) x {self.scoreboard['away_club'].name.upper()} ({self.scoreboard['away_club'].short_country})\n"
 
@@ -331,9 +368,26 @@ class Game:
                 goal_time = ""
                 for _ in range(tpl[-1]):
                     goal_time += f"{randint(1,90)}' " 
-                player_goal_string += f"({self.away_club.name[0:3].upper()}) {tpl[0].name} {goal_time}\n"
+                player_goal_string += f"({self.away_club.name[0:3].upper()}) {tpl[0].name} {goal_time}\n" 
 
             print(player_goal_string) # show the players scoreboard
+
+            if end_game:
+                if self.verbose:
+                    ''' save a file with a string '''
+                    with open(f'files/brasileirao/serie a/2021/{self.home_club.name} x {self.away_club.name}.txt', 'w+') as file:
+
+                        file.write(f"{self.scoreboard['home_club'].name.upper()} ({self.scoreboard['home_club'].short_country}) x {self.scoreboard['away_club'].name.upper()} ({self.scoreboard['away_club'].short_country})\n")
+                        
+                        for line in exit_string:
+                            file.write(line)
+
+                        file.write('\n')
+                        
+                        for line in player_goal_string:
+                            file.write(line)
+
+                return True
 
     def check_game_stats(self):
         """ Check for clean sheets, hat tricks and update pontuation """
@@ -364,6 +418,50 @@ class Game:
                 
         return True 
 
+    def add_stats(self, club, move):
+        if club == self.home_club:
+            if move == 'shot':
+                self.home_shots += 1
+            elif move == 'shot on target':
+                self.home_shots += 1
+                self.home_shots_on_target += 1
+            elif move == 'tackle':
+                self.home_tackles += 1
+            elif move == 'save':
+                self.home_saves += 1
+            elif move == 'foul':
+                self.home_fouls += 1
+            elif move == 'offside':
+                self.home_offsides += 1
+            elif move == 'free kicks':
+                self.home_free_kicks += 1
+            else:
+                raise NameError('Move doesnt match')
+
+        elif club == self.away_club:
+            if move == 'shot':
+                self.away_shots += 1
+            elif move == 'shot on target':
+                self.away_shots += 1
+                self.away_shots_on_target += 1
+            elif move == 'tackle':
+                self.away_tackles += 1
+            elif move == 'save':
+                self.away_saves += 1
+            elif move == 'foul':
+                self.away_fouls += 1
+            elif move == 'offside':
+                self.away_offsides += 1
+            elif move == 'free kicks':
+                self.away_free_kicks += 1
+            else:
+                raise NameError('Move doesnt match')
+
+        else: 
+            raise NameError('Club name doesnt match')
+
+        
+        
     def check_subs(self, n_subs):
         ''' Boolean: returns True if the team still have subs left '''
         return n_subs > 0
