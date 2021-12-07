@@ -89,14 +89,16 @@ def upload_ranking_db(verbose=False):
 class DomesticLeague():
 
     @staticmethod
-    def create_domestic_table(season, verbose=False):
+    def create_domestic_table(division, season, verbose=False):
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
-        if verbose : print(f"Criando tabela da copa doméstica {season}")
+        division.replace(' ', '_')
+
+        if verbose : print(f"Criando tabela da copa doméstica {division} {season}")
 
         cursor.execute(f"""
-        CREATE TABLE IF NOT EXISTS campeonato_brasileiro_serie_a_{season} (
+        CREATE TABLE IF NOT EXISTS campeonato_brasileiro_{division}_{season} (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             club TEXT NOT NULL,
             matches INTEGER NOT NULL,
@@ -116,11 +118,12 @@ class DomesticLeague():
         if verbose : print("Tabela criada com sucesso")
     
     @staticmethod
-    def domestic_table_basic(club_names,season, verbose=False):
+    def domestic_table_basic(club_names, division, season, verbose=False):
         '''
         Insert club domestic cup data into the database
         '''
 
+        division.replace(' ', '_')
         
         print("Inserting clubs into domestic cup table")
 
@@ -134,7 +137,7 @@ class DomesticLeague():
 
             if verbose : print(f"Inserting {club} into the database.")
 
-            cursor.execute(f"INSERT INTO campeonato_brasileiro_serie_a_{season} (club, matches, won, draw, lost, goals_for, goals_away, goal_diff, points) VALUES (?,?,?,?,?,?,?,?,?)", ls)
+            cursor.execute(f"INSERT INTO campeonato_brasileiro_{division}_{season} (club, matches, won, draw, lost, goals_for, goals_away, goal_diff, points) VALUES (?,?,?,?,?,?,?,?,?)", ls)
             conn.commit()
             conn.close()
 
@@ -144,12 +147,14 @@ class DomesticLeague():
         return True 
 
     @staticmethod
-    def update_domestic_table(club_stats, season):
+    def update_domestic_table(club_stats, division, season):
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
+        division.replace(' ', '_')
+
         cursor.execute(f"""
-            UPDATE campeonato_brasileiro_serie_a_{season} 
+            UPDATE campeonato_brasileiro_{division}_{season} 
             SET matches=matches+1, 
                 won=won + ?,
                 draw=draw + ?,
@@ -165,13 +170,13 @@ class DomesticLeague():
         conn.close()
 
     @staticmethod
-    def get_domestic_cup_table(season):
+    def get_domestic_cup_table(division, season):
         ''' Get the domestic cup table data '''
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
         val = cursor.execute(f"""
-            SELECT * FROM campeonato_brasileiro_serie_a_{season} 
+            SELECT * FROM campeonato_brasileiro_{division}_{season} 
             ORDER BY 
                 points DESC, 
                 goals_for DESC, 
