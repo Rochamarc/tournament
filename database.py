@@ -294,50 +294,53 @@ class InternationalCup():
         
         return full_data
 
-def get_players(club_name, verbose=False):
-    ''' 
-    Get the players info from database
-    '''
-
-    conn = sqlite3.connect(database)
-
-    val = conn.execute("""
-    SELECT * FROM players WHERE club=?
-    """, club_name).fetchall() # fetch the result
-
-    players_data = val.copy 
-    conn.close() # close database 
-
-    return players_data
-
-def insert_players_db(players, verbose=False):
-    '''
-    Insert players data into the database
-    '''
-
-    os.system('clear')
-    print("Inserting players on the database")
-    
-    for player in players:
-        print('.', sep=' ', end=' ', flush=True)
-
-        if verbose : print(f"Insert player {player} into the database")
+class PlayerData():
+    @staticmethod
+    def get_players(club_name, verbose=False):
+        ''' 
+        Get the players info from database
+        '''
 
         conn = sqlite3.connect(database)
-        cursor = conn.cursor()        
-        
-        player_data = player.get_data()
-        
-        cursor.execute('''
-            INSERT INTO players (name, nationality, age, overall, current_club, position, matches_played, goals, assists, avg)
-            values (?,?,?,?,?,?,?,?,?,?)
-        ''', player_data)
 
-        conn.commit()
-        conn.close()
+        val = conn.execute("""
+        SELECT * FROM players WHERE club=?
+        """, club_name).fetchall() # fetch the result
 
-    if verbose : print("Players inserted into the database sucessfully!")
-    return True
+        players_data = val.copy 
+        conn.close() # close database 
+
+        return players_data
+
+    @staticmethod
+    def insert_players_db(players, verbose=False):
+        '''
+        Insert players data into the database
+        '''
+
+        os.system('clear')
+        print("Inserting players on the database")
+
+        for player in players:
+            print('.', sep=' ', end=' ', flush=True)
+
+            if verbose : print(f"Insert player {player} into the database")
+
+            conn = sqlite3.connect(database)
+            cursor = conn.cursor()        
+
+            player_data = player.get_data()
+
+            cursor.execute('''
+                INSERT INTO players (name, nationality, age, overall, current_club, position, matches_played, goals, assists, avg)
+                values (?,?,?,?,?,?,?,?,?,?)
+            ''', player_data)
+
+            conn.commit()
+            conn.close()
+
+        if verbose : print("Players inserted into the database sucessfully!")
+        return True
     
 if __name__ == '__main__':
     create_db()
