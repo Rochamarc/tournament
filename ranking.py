@@ -2,8 +2,10 @@ import csv
 import sqlite3
 import pandas as pd
 
-from database import get_domestic_cup_table 
+from database import DomesticLeague, InternationalCup
 
+league = DomesticLeague()
+inter = InternationalCup()
 
 class Ranking:
     @staticmethod
@@ -48,13 +50,32 @@ class Ranking:
         return sorted_data_frame[:10]
 
     @staticmethod 
-    def table(season):
+    def domestic_table(season):
         ''' 
         Return a panda series with the tables below
         Position    Club    Matches    Won  Draw    Lost   Goals For    Goals Away    Goals Diff    Points
         '''
-        value = get_domestic_cup_table(season)
+        value = league.get_domestic_cup_table(season)
         
         df = pd.DataFrame(value, index=None, columns=['id','Club','Matches','Won','Draw','Lost','GF','GA','GD','Points'])
         
         return df
+
+    @staticmethod
+    def international_group_table(season):
+        ''' 
+        Return a panda series with the group stage tables
+        '''
+        value = inter.get_group_stage_data('2021')
+        dfs = []
+
+        for group, data in value.items():
+            print('\n')
+            print(f"Conmebol Libertadores Group {group}")
+            df = pd.DataFrame(data, index=None, columns=['id', 'Club', 'Matches', 'Won', 'Draw', 'Lost', 'GF', 'GA', 'GD', 'Points'])
+            print(df)
+            print('\n')
+            dfs.append(df)
+        
+        return dfs
+        
