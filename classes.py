@@ -215,14 +215,6 @@ class Stadium:
     def get_info(self):
         return f"\nName: {self.name}\nLocation: {self.location}\nCapacity: {self.capacity}\nOwner: {self.club_owner}\n"
 
-    def db_insertion(self):
+    def get_data(self):
 
-        ls = [ self.name, self.location, self.capacity, self.club_owner ]
-
-        conn = sqlite3.connect('database.db')
-        cursor = conn.cursor()
-
-        cursor.execute("INSERT INTO stadium (name, location, capacity, club_owner) VALUES (?,?,?,?)", ls)
-
-        conn.commit()
-        conn.close()
+        return [ self.name, self.location, self.capacity, self.club_owner ]
