@@ -2,18 +2,21 @@ from collections import defaultdict
 from random import choice
 # from sqlite3.dbapi2 import register_adapter 
 from classes import *
-
+from database import GameData
 
 # Registrar os jogos 
 #
 #
 
+game_data = GameData()
+
 class Game:
-    def __init__(self, home_club, away_club, competition, m_round, head_stadium=None, verbose=True):
+    def __init__(self, home_club, away_club, competition, m_round, season, head_stadium=None, verbose=True):
         self.home_club = home_club 
         self.away_club = away_club
         self.competition = competition 
         self.round = m_round
+        self.season = season
         if head_stadium:
             self.stadium = head_stadium
         else:
@@ -82,6 +85,21 @@ class Game:
         self.get_score_board(end_game=True) # print the scorebaord
 
         return self.register_winner() 
+
+    def save_game_database(self):
+        # variables
+        score = f"{self.scoreboard['home_goal']} x {self.scoreboard['away_goal']}"
+        hour = self.scoreboard['hour']
+
+
+        game_info = [
+            self.competition, self.season, hour, self.home_club, self.away_club, score, self.stadium,
+            self.home_shots, self.home_shots_on_target, self.home_fouls, self.home_tackles, self.home_saves,
+            self.home_ball_possesion, self.home_offsides, self.home_free_kicks, self.away_shots, self.away_shots_on_target, 
+            self.away_fouls, self.away_tackles, self.away_saves, self.away_ball_possesion, self.away_offsides, self.away_free_kicks,    
+        ]
+        
+        game_data.insert_games_db(game_info)
 
     def register_winner(self):
         ''' 
