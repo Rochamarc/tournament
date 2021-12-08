@@ -331,15 +331,14 @@ class PlayerData():
         '''
 
         conn = sqlite3.connect(database)
+        cursor = conn.cursor()
 
-        val = conn.execute("""
-        SELECT * FROM players WHERE club=?
-        """, club_name).fetchall() # fetch the result
+        val = cursor.execute("SELECT * FROM players WHERE current_club=?", (club_name, ) ).fetchall() # fetch the result
 
-        players_data = val.copy 
+        data = val.copy()
         conn.close() # close database 
 
-        return players_data
+        return data
 
     @staticmethod
     def insert_players_db(players, verbose=False):
