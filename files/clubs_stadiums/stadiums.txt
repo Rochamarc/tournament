@@ -1,31 +1,31 @@
-Monumental de la U, 80903, Lima, Peru, Universitario de Deportes
-Maracanã, 78838, Rio de Janeiro, Brasil, Flamengo/Fluminense
-Mané Garrincha, 72788, Brasília, Brasil, None
-Morumbi, 72039, São Paulo, Brasil, São Paulo
-Monumental de Núñez, 70074, Buenos Aires, Argentina, River Plate
-Mineirão, 61846, Belo Horizonte, Brasil, Cruzeiro/Atlético Mineiro
-Arena do Grêmio, 60540, Porto Alegre, Brasil, Grêmio
-Centenario, 60235, Monetevidéu, Uruguay, Nacional/Peñarol
-Estadio Nacional del Peru, 60000, Lima, Peru, None
-Arruda, 60044, Recife, Brasil, Santa Cruz
-Estadio Monumental Isidro Romero Carbo, 57267, Guayaquil, Ecuador, Barcelona de Guayaquil
-Estadio Mario Alberto Kempes, 57000, Córdoba, Argentina, Talleres/Belgrano/Instituto
-Estadio La Bombonera, 54000, Buenos Aires, Argentina, Boca Juniors
-Municipal João Avelange, 53350, Uberlândia, Brasil, Uberlândia
-Ciudad de La Plata, 53000, Buenos Aires, Estudiantes/Gimnasia y Esgrima
-Castelão, 52552, Fortaleza, Brasil, Ceará/Fortaleza
-Deportivo Cali, 52000, Cali, Colombia, Deportivo Cali
-Monumental de Maturín, 51796, Maturín, Venezuela, Monagas
-Presidente Juan Domingo Perón, 51389, Buenos Aires, Argentina, Racing
-Beira-Rio, 50842, Porto Alegre, Brasil, Internacional
-Libertadores da America, 49592, Buenos Aires, Argentina, Independiente
-José Amalfitani, 49540, Buenos Aires, Argentina, Vélez Sársfield
-Néo Química Arena, 49205, São Paulo, Brasil, Corinthians  
-Nacional de Chile, 48665, Santiago, Chile, Universidad de Chile
-Metropolitano Lara, 47913, Cabudare, Venezuela, Deportivo Lara
-Monumental de Chile, 47347, Santiago, Chile, Colo-Colo
-Ciudad de Lanús, 47027, Lanús, Argentina, Lánus
-Metropolitano de Barranquilla, 46692, Barranquilla, Colombia, Junior
-Olímpico Pascual Guerrero, 46400, Cali, Colombia, América de Cali
-General Pablo Rojas, 45000, Assunção, Paraguay, Cerro Porteño
-Atanasio Girardot, 44739, Medellín, Colombia, Atlético Nacional/Independiente Medellín
+Monumental de la U,80903,Lima,Peru,Universitario de Deportes
+Maracanã,78838,Rio de Janeiro,Brasil,Flamengo/Fluminense
+Mané Garrincha,72788,Brasília,Brasil, None
+Morumbi,72039,São Paulo,Brasil,São Paulo
+Monumental de Núñez,70074,Buenos Aires,Argentina,River Plate
+Mineirão,61846,Belo Horizonte,Brasil,Cruzeiro/Atlético Mineiro
+Arena do Grêmio,60540,Porto Alegre,Brasil,Grêmio
+Centenario,60235,Monetevidéu,Uruguay,Nacional/Peñarol
+Estadio Nacional del Peru,60000,Lima,Peru,None
+Arruda,60044,Recife,Brasil,Santa Cruz
+Estadio Monumental Isidro Romero Carbo,57267,Guayaquil,Ecuador,Barcelona de Guayaquil
+Estadio Mario Alberto Kempes,57000,Córdoba,Argentina,Talleres/Belgrano/Instituto
+Estadio La Bombonera,54000,Buenos Aires,Argentina,Boca Juniors
+Municipal João Avelange,53350,Uberlândia,Brasil,Uberlândia
+Ciudad de La Plata,53000,Buenos Aires,Estudiantes/Gimnasia y Esgrima
+Castelão,52552,Fortaleza,Brasil,Ceará/Fortaleza
+Deportivo Cali,52000,Cali,Colombia,Deportivo Cali
+Monumental de Maturín,51796,Maturín,Venezuela,Monagas
+Presidente Juan Domingo Perón,51389,Buenos Aires,Argentina,Racing
+Beira-Rio,50842,Porto Alegre,Brasil,Internacional
+Libertadores da America,49592,Buenos Aires,Argentina,Independiente
+José Amalfitani,49540,Buenos Aires,Argentina,Vélez Sársfield
+Néo Química Arena,49205,São Paulo,Brasil,Corinthians  
+Nacional de Chile,48665,Santiago,Chile,Universidad de Chile
+Metropolitano Lara,47913,Cabudare,Venezuela,Deportivo Lara
+Monumental de Chile,47347,Santiago,Chile,Colo-Colo
+Ciudad de Lanús,47027,Lanús,Argentina,Lánus
+Metropolitano de Barranquilla,46692,Barranquilla,Colombia,Junior
+Olímpico Pascual Guerrero,46400,Cali,Colombia,América de Cali
+General Pablo Rojas,45000,Assunção,Paraguay,Cerro Porteño
+Atanasio Girardot,44739,Medellín,Colombia,Atlético Nacional/Independiente Medellín
