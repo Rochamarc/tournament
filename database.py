@@ -341,7 +341,32 @@ class PlayerData():
 
         if verbose : print("Players inserted into the database sucessfully!")
         return True
-    
+
+class StadiumData():
+    @staticmethod
+    def insert_stadiums_db(stadiums, verbose=False):
+        ''' Insert stadiums to the database '''
+        
+        print("Inserting stadiums into the database ")
+
+        for stadium in stadiums:
+            print('.', sep=' ', end=' ', flush=True)
+
+            if verbose : print(f"Insert stadium {stadium} into the database")
+
+            conn = sqlite3.connect(database)
+            cursor = conn.cursor()
+
+            std_data = stadium.get_data()
+
+            cursor.execute("INSERT INTO stadium (name, location, capacity, club_owner) VALUES (?,?,?,?)", std_data)
+
+            conn.commit()
+            conn.close()
+
+        if verbose : print("Players inserted into the database sucessfully!")
+        return True
+
 if __name__ == '__main__':
     create_db()
     upload_ranking_db()
