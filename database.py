@@ -1,5 +1,5 @@
 import sqlite3
-import os
+
 
 database = 'database.db'
 
@@ -85,7 +85,7 @@ def create_db():
 def upload_ranking_db(verbose=False):
     ''' Upload conmebol ranking '''    
     
-    os.system('clear')
+    
     print("Inserindo ranking da conmebol na base de dados!")
     
     with open('ranking_conmebol.csv') as file:
@@ -347,7 +347,7 @@ class PlayerData():
         Insert players data into the database
         '''
 
-        os.system('clear')
+
         print("Inserting players on the database")
 
         for player in players:
