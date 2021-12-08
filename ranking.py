@@ -50,12 +50,12 @@ class Ranking:
         return sorted_data_frame[:10]
 
     @staticmethod 
-    def domestic_table(season):
+    def domestic_table(division, season):
         ''' 
         Return a panda series with the tables below
         Position    Club    Matches    Won  Draw    Lost   Goals For    Goals Away    Goals Diff    Points
         '''
-        value = league.get_domestic_cup_table(season)
+        value = league.get_domestic_cup_table(division, season)
         
         df = pd.DataFrame(value, index=None, columns=['id','Club','Matches','Won','Draw','Lost','GF','GA','GD','Points'])
         
