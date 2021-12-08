@@ -78,4 +78,15 @@ class Ranking:
             dfs.append(df)
         
         return dfs
+    
+    @staticmethod
+    def player_info(players):
+        '''
+        Return a squad dataframe from the players inside the club
+        '''
+
+        cols = ['id', 'name', 'nationality', 'age', 'overall', 'club', 'position', 'matches played', 'goals', 'assists', 'points', 'average', 'save_file']
         
+        df = pd.DataFrame(players, index=None, columns=cols)
+
+        return df
