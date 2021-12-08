@@ -48,6 +48,35 @@ def create_db():
     );
     """)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS game (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        competition TEXT NOT NULL,
+        season TEXT NOT NULL,
+        hour TEXT NOT NULL,
+        home_team TEXT NOT NULL,
+        away_team TEXT NOT NULL,
+        score TEXT NOT NULL,
+        stadium TEXT NOT NULL,
+        home_shots INTEGER NOT NULL,
+        home_shots_on_target INTEGER NOT NULL,
+        home_fouls INTEGER NOT NULL, 
+        home_tackles INTEGER NOT NULL,
+        home_saves INTEGER NOT NULL,
+        home_ball_possession INTEGER NOT NULL,
+        home_offsides INTEGER NOT NULL,
+        home_freekicks INTEGER NOT NULL,
+        away_shots INTEGER NOT NULL,
+        away_shots_on_target INTEGER NOT NULL,
+        away_fouls INTEGER NOT NULL,
+        away_tackles INTEGER NOT NULL,
+        away_saves INTEGER NOT NULL,
+        away_ball_possession INTEGER NOT NULL,
+        away_offsides INTEGER NOT NULL,
+        away_freekicks INTEGER NOT NULL
+    );
+    """)
+
     print("Tabelas criadas com sucesso!")
 
     conn.close()
@@ -367,6 +396,58 @@ class StadiumData():
         if verbose : print("Players inserted into the database sucessfully!")
         return True
 
+class GameData():
+    @staticmethod
+    def insert_games_db(game_data, verbose=False):
+        ''' 
+            Insert game data into database 
+
+            below the order to receive the data 
+            [ competition, season, hour, home_team, away_team, score, stadium, home_shots, home_shots_on_target, home_fouls, 
+            home_tackles, home_saves, home_ball_possession, home_offsides, home_freekicks, away_shots, away_shots_on_target,
+            away_fouls, away_tackles, away_saves, away_ball_possession, away_offsides, away_freekicks ]
+        '''
+
+        if verbose : print("Inserting game into de database")
+
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
+        cursor.execute("""
+        INSERT INTO game (
+            competition,
+            season,
+            hour,
+            home_team,
+            away_team,
+            score,
+            stadium,
+            home_shots,
+            home_shots_on_target,
+            home_fouls,
+            home_tackles,
+            home_saves,
+            home_ball_possession,
+            home_offsides,
+            home_freekicks,
+            away_shots,
+            away_shots_on_target,
+            away_fouls,
+            away_tackles,
+            away_saves,
+            away_ball_possession,
+            away_offsides,
+            away_freekicks
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        """, game_data)
+
+        conn.commit()
+        conn.close()
+
+        if verbose : print("Game data inserted sucessfully")
+
+        return True
+    
 if __name__ == '__main__':
     create_db()
     upload_ranking_db()
