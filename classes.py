@@ -130,11 +130,8 @@ class Club:
             v_coeff += 1
 
         return v_coeff      
-        
 
-# all the stats players are gonna became self.__ and controlled by the methods with decoractor
-#
-#
+
 
 #### Player Base Object #####
 class Player:
