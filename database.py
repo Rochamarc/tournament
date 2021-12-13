@@ -77,6 +77,18 @@ def create_db():
     );
     """)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS club (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        country TEXT NOT NULL,
+        state TEXT NOT NULL,
+        coeff INTEGER NOT NULL,
+        club_class VARCHAR(1) NOT NULL,
+        formation TEXT NOT NULL
+    );
+    """)
+
     print("Tabelas criadas com sucesso!")
 
     conn.close()
@@ -112,7 +124,6 @@ def upload_ranking_db(verbose=False):
         conn.close()
 
         if verbose : print("Ranking da conmebol inserido com sucesso!")
-
 
 
 class DomesticLeague():
@@ -322,6 +333,49 @@ class InternationalCup():
         conn.close()
         
         return full_data
+
+
+class ClubData():
+    @staticmethod
+    def insert_clubs_db(clubs, verbose=False):
+        '''
+        Insert clubs into the databse
+        '''
+
+        print('Insertinf clubs into the database')
+
+        for club in clubs:
+            print('.', sep=' ', end=' ', flush=True)
+
+            if verbose : print(f"Insert club {club} into the database")
+
+            conn = sqlite3.connect(database)
+            cursor = conn.cursor()
+
+            club_data = club.get_data()
+
+            cursor.execute("INSERT INTO clubs (name, country, state, coeff, club_class, formation) values (?,?,?,?,?)", club_data)
+            
+            conn.commit()
+            conn.close()
+
+        if verbose : print("Players inserted into the database sucessfully!")
+        return True
+
+    @staticmethod
+    def get_clubs(club_name, verbose=False):
+        ''' Get clubs info from database '''
+
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
+        val = cursor.execute("SELECT * FROM clubs WHERE name=?", (club_name, )).fetchall() 
+
+        data = val.copy()
+        conn.close()
+
+        return data
+
 
 class PlayerData():
     @staticmethod
