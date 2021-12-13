@@ -395,6 +395,20 @@ class StadiumData():
         if verbose : print("Players inserted into the database sucessfully!")
         return True
 
+    @staticmethod
+    def get_stadiums():
+        ''' Get stadiums data '''
+
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
+        val = cursor.execute("SELECT name, location, capacity, club_owner FROM stadium").fetchall()
+
+        data = val.copy()
+        conn.close()
+
+        return data 
+
 class GameData():
     @staticmethod
     def insert_games_db(game_data, verbose=False):
