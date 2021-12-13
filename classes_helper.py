@@ -64,28 +64,28 @@ class GenerateClass:
             name_ = Name.generate_name(natio_) 
             number = choice(shirt_numbers)
             shirt_numbers.remove(number)
-            squad['goal_keeper'].append(Player(name_, natio_, randint(16,37), 'GK', current_club=club_name, shirt_number=number, club_coeff=coeff))
+            squad['goal_keeper'].append(Player(name_, natio_, randint(16,37), 'GK', current_club=club_name, shirt_number=number))
         for _ in range(12):
             natio_ = Name.generate_nationality(country)
             name_ = Name.generate_name(natio_) 
             pos_ = choice(['CB', 'LB', 'RB'])
             number = choice(shirt_numbers)
             shirt_numbers.remove(number)
-            squad['defender'].append(Player(name_, natio_, randint(16,37), pos_,  current_club=club_name, shirt_number=number, club_coeff=coeff))
+            squad['defender'].append(Player(name_, natio_, randint(16,37), pos_,  current_club=club_name, shirt_number=number))
         for _ in range(12):
             natio_ = Name.generate_nationality(country)
             name_ = Name.generate_name(natio_) 
             pos_ = choice(['DM', 'CM', 'AM'])
             number = choice(shirt_numbers)
             shirt_numbers.remove(number)
-            squad["midfielder"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=club_name, shirt_number=number, club_coeff=coeff))
+            squad["midfielder"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=club_name, shirt_number=number))
         for _ in range(6):
             natio_ = Name.generate_nationality(country)
             name_ = Name.generate_name(natio_) 
             pos_ = choice(['CF', 'SS', 'WG'])
             number = choice(shirt_numbers)
             shirt_numbers.remove(number)
-            squad["attacker"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=club_name, shirt_number=number, club_coeff=coeff))
+            squad["attacker"].append(Player(name_, natio_, randint(16,37), pos_,  current_club=club_name, shirt_number=number))
 
 
         return squad 
