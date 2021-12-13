@@ -19,7 +19,7 @@ def define_knock_out_stage(teams, phase):
     for confront in range(len(teams['classified'])):
         first = choice(teams['classified'])
         teams['classified'].remove(first) # remove
-        second = choice(team['classified'])
+        second = choice(teams['classified'])
         teams['classified'].remove(second) # remove
         
         output[f'confrontation {confront}'] = [first, second]
