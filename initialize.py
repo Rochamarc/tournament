@@ -1,6 +1,6 @@
 from classes import Club, Stadium
 from classes_helper import GenerateClass
-from database import DomesticLeague, PlayerData, StadiumData
+from database import ClubData, DomesticLeague, PlayerData, StadiumData
 from ranking import Ranking
 
 import os 
@@ -13,6 +13,7 @@ ranking = Ranking()
 std_data = StadiumData()
 gene = GenerateClass()
 p_data = PlayerData()
+club_data = ClubData()
 
 serie_a = []
 serie_b = []
@@ -59,37 +60,33 @@ with open('files/brasileirao/serie a/2021.txt') as file:
     for i in file.readlines():
         i = i.split(',') 
         name = i[0] 
-        state = i[-1].replace('\n', '') 
+        state = i[1].replace('\n', '')
+        cl_class = i[-1].replace('\n', '') 
         country = 'Brasil'
-        serie_a.append(Club(name, country, state=state, skip_conf=True))
+        serie_a.append(Club(name, country, cl_class, state=state))
 
 
 
 for club in serie_a:
     ''' Generate player and formation '''
-    players = gene.set_players(club.name, club.country, club.coeff) 
-    club.set_formation(players) 
+    players = gene.set_players(club.name, club.country, club.coeff)
+    p_data.insert_players_db(players, verbose=True) 
     
-players = gene.get_players_list(serie_a)    
-p_data.insert_players_db(players, verbose=True) # insert into the database
-
 # Serie B
 with open('files/brasileirao/serie b/2021.txt') as file:
     ''' Creating clubs based on the files on the path above '''
     for i in file.readlines():
         i = i.split(',') 
         name = i[0] 
-        state = i[-1].replace('\n', '') 
+        state = i[1].replace('\n', '') 
+        cl_class = i[-1].replace('\n', '')
         country = 'Brasil'
-        serie_b.append(Club(name, country, state=state, skip_conf=True))
+        serie_b.append(Club(name, country, cl_class, state=state))
 
 for club in serie_b:
     ''' Generate player and formation '''
     players = gene.set_players(club.name, club.country, club.coeff) 
-    club.set_formation(players) 
-
-players = gene.get_players_list(serie_b)
-p_data.insert_players_db(players, verbose=True)
+    p_data.insert_players_db(players, verbose=True)
 
 # Serie C
 with open('files/brasileirao/serie c/2021.txt') as file:
@@ -97,17 +94,15 @@ with open('files/brasileirao/serie c/2021.txt') as file:
     for i in file.readlines():
         i = i.split(',') 
         name = i[0] 
-        state = i[-1].replace('\n', '') 
+        state = i[1].replace('\n', '') 
+        cl_class = i[-1].replace('\n', '')
         country = 'Brasil'
-        serie_c.append(Club(name, country, state=state, skip_conf=True))
+        serie_c.append(Club(name, country, cl_class, state=state))
 
 for club in serie_c:
     ''' Generate player and formation '''
     players = gene.set_players(club.name, club.country, club.coeff) 
-    club.set_formation(players) 
-
-players = gene.get_players_list(serie_c)
-p_data.insert_players_db(players, verbose=True)
+    p_data.insert_players_db(players, verbose=True)
 
 # Creating basic table
 league.domestic_table_basic([ club.name for club in serie_a ], 'serie_a', '2021', verbose=True)
@@ -118,5 +113,11 @@ league.domestic_table_basic([ club.name for club in serie_c ], 'serie_c', '2021'
 tb_serie_a = ranking.domestic_table('serie_a', '2021')
 tb_serie_b = ranking.domestic_table('serie_b', '2021')
 tb_serie_c = ranking.domestic_table('serie_c', '2021')
+
+# Insert clubs on the database
+club_data.insert_clubs_db(serie_a, verbose=True)
+club_data.insert_clubs_db(serie_b, verbose=True)
+club_data.insert_clubs_db(serie_c, verbose=True)
+
 
 
