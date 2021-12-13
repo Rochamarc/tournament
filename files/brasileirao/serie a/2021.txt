@@ -1,20 +1,20 @@
-América Mineiro,Minas Gerais
-Atlético Mineiro,Minas Gerais
-Athletico Paranaense,Paraná
-Ceará,Ceará
-Fortaleza,Ceará 
-Flamengo,Rio de Janeiro
-Fluminense,Rio de Janeiro
-Cuiabá,Mato Grosso
-Grêmio,Rio Grande do Sul
-International,Rio Grande do Sul
-Chapecoense,Santa Catarina
-Juventude,Rio Grande do Sul
-São Paulo,São Paulo
-Corinthians,São Paulo 
-Palmeiras,São Paulo
-Santos,São Paulo 
-Red Bull Bragantino,São Paulo 
-Sport Recife,Pernanbuco
-Bahia,Bahia 
-Atlético Goianiense,Goiás
+América Mineiro,Minas Gerais,C
+Atlético Mineiro,Minas Gerais,A
+Athletico Paranaense,Paraná,B
+Ceará,Ceará,B
+Fortaleza,Ceará,B 
+Flamengo,Rio de Janeiro,A
+Fluminense,Rio de Janeiro,B
+Cuiabá,Mato Grosso,C
+Grêmio,Rio Grande do Sul,B
+International,Rio Grande do Sul,B
+Chapecoense,Santa Catarina,C
+Juventude,Rio Grande do Sul,C
+São Paulo,São Paulo,B
+Corinthians,São Paulo,B 
+Palmeiras,São Paulo,A
+Santos,São Paulo,B
+Red Bull Bragantino,São Paulo,B
+Sport Recife,Pernanbuco,C
+Bahia,Bahia,C
+Atlético Goianiense,Goiás,C

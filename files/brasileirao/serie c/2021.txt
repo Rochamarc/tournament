@@ -1,20 +1,20 @@
-Paysandu,Pará
-Tombense,Minas Gerais
-Botafogo-PB,Paraíba
-Manaus,Amazonas
-Volta Redonda,Rio de Janeiro
-Ferroviário,São Paulo
-Altos,Piauí
-Floresta,Ceará
-Jacuipense,Bahia
-Santa Cruz,Pernanbuco
-Novorizontino,São Paulo
-Ituano,São Paulo
-Ypiranga,Rio Grande do Sul
-Criciúma,Santa Catarina
-Figueirense,São Paulo
-São José,Rio Grande do Sul
-Botafogo SP,São Paulo
-Mirasol,São Paulo
-Paraná,Paraná
-Oeste,São Paulo
+Paysandu,Pará,D
+Tombense,Minas Gerais,D
+Botafogo-PB,Paraíba,D
+Manaus,Amazonas,D
+Volta Redonda,Rio de Janeiro,D
+Ferroviário,São Paulo,D
+Altos,Piauí,D
+Floresta,Ceará,D
+Jacuipense,Bahia,D
+Santa Cruz,Pernanbuco,D
+Novorizontino,São Paulo,D
+Ituano,São Paulo,D
+Ypiranga,Rio Grande do Sul,D
+Criciúma,Santa Catarina,C
+Figueirense,São Paulo,C
+São José,Rio Grande do Sul,D
+Botafogo SP,São Paulo,C
+Mirasol,São Paulo,D
+Paraná,Paraná,D
+Oeste,São Paulo,C

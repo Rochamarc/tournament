@@ -1,20 +1,20 @@
-Vasco da Gama,Rio de Janeiro
-Botafogo,Rio de Janeiro
-Cruzeiro,Minas Gerais
-Operário,Paraná
-Coritiba,Paraná
-Goiás,Goiás
-Guarani,São Paulo
-Avaí,Santa Catarina
-CRB,Alagoas
-CSA,Alagoas
-Náutico,Pernanbuco
-Sampaio Corrêa,Maranhão
-Vila Nova,Goiás
-Ponte Preta,São Paulo
-Brusque,Santa Catarina
-Remo,Pará
-Londrina,Paraná
-Vitória,Bahia
-Confiança,Sergipe
-Brasil de Pelotas,Rio Grande do Sul
+Vasco da Gama,Rio de Janeiro,B
+Botafogo,Rio de Janeiro,B
+Cruzeiro,Minas Gerais,B
+Operário,Paraná,C
+Coritiba,Paraná,B
+Goiás,Goiás,B
+Guarani,São Paulo,C
+Avaí,Santa Catarina,C
+CRB,Alagoas,C
+CSA,Alagoas,C
+Náutico,Pernanbuco,C
+Sampaio Corrêa,Maranhão,C
+Vila Nova,Goiás,C
+Ponte Preta,São Paulo,C
+Brusque,Santa Catarina,C
+Remo,Pará,D
+Londrina,Paraná,D
+Vitória,Bahia,D
+Confiança,Sergipe,C
+Brasil de Pelotas,Rio Grande do Sul,D
