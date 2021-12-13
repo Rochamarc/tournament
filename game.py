@@ -2,13 +2,14 @@ from collections import defaultdict
 from random import choice
 # from sqlite3.dbapi2 import register_adapter 
 from classes import *
-from database import GameData
+from database import GameData, PlayerData
 
 # Registrar os jogos 
 #
 #
 
 game_data = GameData()
+player_data = PlayerData()
 
 class Game:
     def __init__(self, home_club, away_club, competition, m_round, season, head_stadium=None, verbose=True):
@@ -223,10 +224,10 @@ class Game:
             raise NameError('Club not match home_team.name or away_team.name')
 
         positions = {
-            "goalkeeper": [ 'Goalkeeper' ],
-            "defender": [ 'Center Back', 'Right Back', 'Left Back'],
-            "midfielder": [ 'Defender Midfielder', 'Center Midfielder', 'Attacking Midfielder'],
-            "attacker": [ 'Center Forward', 'Second Striker', 'Winger' ]
+            "goalkeeper": [ 'GK' ],
+            "defender": [ 'CB', 'RB', 'LB'],
+            "midfielder": [ 'DM', 'CM', 'AM'],
+            "attacker": [ 'CF', 'SS', 'WG' ]
         }
 
         player = choice([player for player in start_eleven if player.position in positions[player_position]])
@@ -330,9 +331,9 @@ class Game:
         ''' Return a list of players for a position that matches the player_position '''
         
         positions = {
-            "defenders": [ 'Center Back', 'Right Back', 'Left Back'],
-            "midfielders": [ 'Defender Midfielder', 'Center Midfielder', 'Attacking Midfielder'],
-            "attackers": [ 'Center Forward', 'Second Striker', 'Winger' ]
+            "defenders": [ 'CB', 'RB', 'LB'],
+            "midfielders": [ 'DM', 'CM', 'AM'],
+            "attackers": [ 'CF', 'SS', 'WG' ]
         }
 
         for key, item in positions.items():
@@ -409,11 +410,11 @@ class Game:
 
     def check_game_stats(self):
         """ Check for clean sheets, hat tricks and update pontuation """
-        h_defensors = [ player for player in self.home_players if player.position in ['Goalkeeper', 'Center Back', 'Right Back', 'Left Back', 'Defender Midfielder' ]]
-        h_attackers = [ player for player in self.home_players if player.position in ['Center Midfielder', 'Attacking Midfielder', 'Center Forward', 'Second Striker', 'Winger']]
+        h_defensors = [ player for player in self.home_players if player.position in ['GK', 'CB', 'RB', 'LB', 'DM' ]]
+        h_attackers = [ player for player in self.home_players if player.position in ['CM', 'AM', 'CF', 'SS', 'WG']]
         
-        a_defensors = [ player for player in self.away_players if player.position in ['Goalkeeper', 'Center Back', 'Right Back', 'Left Back', 'Defender Midfielder' ]]
-        a_attackers = [ player for player in self.away_players if player.position in ['Center Midfielder', 'Attacking Midfielder', 'Center Forward', 'Second Striker', 'Winger']]
+        a_defensors = [ player for player in self.away_players if player.position in ['GK', 'CB', 'RB', 'LB', 'DM' ]]
+        a_attackers = [ player for player in self.away_players if player.position in ['CM', 'AM', 'CF', 'SS', 'WG']]
 
         if self.home_goal == 0:
             for _def in h_defensors : self.add_points(_def, 0.4)
