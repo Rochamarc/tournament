@@ -8,99 +8,104 @@ from name_nationality import *
 
 class Club:
 
-    def __init__(self,name,country,state=None,save_file=None,skip_conf=False):
+    def __init__(self,name,country,club_class,state=None,save_file=None):
         self.name = name
         self.country = country
         self.short_country = self.country[:3].upper()
-        self.state = state        
-        self.overall = 0 
+        self.state = state
+        self.club_class = club_class
         self.ranking_points = 0
-        if skip_conf:
-            self.coeff = randint(60,86)
-        else:
-            self.coeff = self.set_coeff()
+        self.coeff = self.generate_coeff()
         self.save_file = save_file
         
         # The next attr are refering to handle the squad
-        self.squad = None
         self.formation = None
         self.start_eleven = []
         self.bench = []
-        self.unrelated = []
 
         self.stadium = None 
         
     def __repr__(self):
         return f"Club({self.name})"
 
-
-    def get_formation(self):
-        ''' probably gonna be deleted '''
-        print(f"FORMATION: {self.formation}\n")
-
-        print("STARTING ELEVEN\n")
-        for player in self.start_eleven:
-            print(player.get_info())
-
-        print("BENCH\n")
-        for player in self.bench:
-            print(player.get_info())
-
-        print("UNRELATAED\n")
-        for player in self.unrelated:
-            print(player.get_info())
-
-    def set_overall(self):
+    @property
+    def overall(self):
         ''' Define the club overall on the average of player overall '''
-        players = [ player.overall for player in self.start_eleven ] + [ player.overall for player in self.bench ] + [ player.overall for player in self.unrelated ]
-        self.overall = sum(players) / len(players) 
+        players = sum([ player.overall for player in self.start_eleven ] + [ player.overall for player in self.bench ]) 
+        return ( players / len(players) ) 
 
-    def set_formation(self, squad):
-        self.squad = squad
+    
+    def get_data(self):
+        ''' Return a list with name, country, state, coeff, club_class '''
+        return [self.name, self.country, self.state, self.coeff, self.club_class, self.formation ]
 
-        # sorting squad
-        for key, value in self.squad.items():
-            ''' Sorting squad by overall '''
-            value.sort(key=lambda player: player.overall, reverse=True)
+    def set_formation(self, players_list):
+        ''' Receive a list of players 
 
-        cp_squad = self.squad.copy()
+            id | name | nationality | age | overall | club | position | matches_played | goals | assists | points | avg | save_file
+        '''
 
-        self.formation = choice(['3-5-2', '4-3-3', '4-4-2'])
+        squad = []
 
-        self.start_eleven.append(cp_squad['goal_keeper'][0])
-        del cp_squad['goal_keeper'][0]
+        # reconstitute players
+        for player in players_list:
+            name = player[1]
+            nation = player[2]
+            age = player[3]
+            overall = player[4]
+            club = player[5]
+            posi = player[6]
+            p = Player(name, nation, age, posi, current_club=club)
+            p.overall = overall
+            squad.append(p)
+        
+        squad.sort(key=lambda player : player.overall) # Sorting items by overall not reverse
 
-        self.bench.append(cp_squad['goal_keeper'][1])
-        del cp_squad['goal_keeper'][0]
+        if not self.formation : self.formation = choice(['3-5-2', '4-3-3', '4-4-2']) # set formation if false
+
+        keepers = [ player for player in squad if player.position == 'GK' ]
+        backs = [ player for player in squad if player.position in ['CB','RB','LB'] ]
+        midfielders = [ player for player in squad if player.position in ['DM','CM','AM'] ]
+        attackers = [ player for player in squad if player.position in ['CF','SS','WG'] ]
 
         forma = [ int(i) for i in self.formation.replace('-', ' ').split(' ') ]
             
+        self.start_eleven.append(keepers.pop())
+
         for _ in range(forma[0]):
-            self.start_eleven.append(cp_squad['defender'][0])
-            del cp_squad['defender'][0]
+            self.start_eleven.append(backs.pop())
         for _ in range(forma[1]):
-            self.start_eleven.append(cp_squad['midfielder'][0])
-            del cp_squad['midfielder'][0]
+            self.start_eleven.append(midfielders.pop())
         for _ in range(forma[2]):
-            self.start_eleven.append(cp_squad['attacker'][0])
-            del cp_squad['attacker'][0]
+            self.start_eleven.append(attackers.pop())
         
 
+        self.bench.append(keepers.pop())
         for i in range(2):
-            self.bench.append(cp_squad['defender'][0])
-            self.bench.append(cp_squad['midfielder'][0])
-            self.bench.append(cp_squad['attacker'][0])
+            self.bench.append(backs.pop())
+            self.bench.append(midfielders.pop())
+            self.bench.append(attackers.pop())
 
-            del cp_squad['defender'][0]
-            del cp_squad['midfielder'][0]
-            del cp_squad['attacker'][0]
-
-        for position, players in cp_squad.items():
-            for player in players:
-                self.unrelated.append(player)
-
-        self.squad = {}
         self.set_overall()
+
+    def generate_coeff(self):
+        minimum = 55
+        maximum = 60
+        
+        if self.club_class == 'D':
+            minimum -= 8
+            maximum += 3
+        elif self.club_class == 'C':
+            minimum -= 10
+            maximum += 5
+        elif self.club_class == 'B':
+            minimum += 5
+            maximum += 15
+        elif self.club_class == 'A':
+            minimum += 10
+            maximum += 25
+        
+        return randint(minimum, maximum)
 
     def set_coeff(self):
         conn = sqlite3.connect('database.db')
@@ -140,7 +145,7 @@ class Player:
         self.name = name
         self.nationality = nationality
         self.age = age
-        self.overall = randint(50, club_coeff)
+        self.overall = randint(45, club_coeff)
         self.current_club = current_club
         self.position = position
         self.shirt_number = shirt_number
@@ -151,13 +156,13 @@ class Player:
         self.goals = 0
         self.assists = 0
         self.points = 0  # every match another point is add here, thent is calculated by the average
-        self.avg = 0
-
-    def set_avg(self):
+    
+    @property
+    def avg(self):
         try:
-            self.avg = round((self.points / self.matches_played), 1)
+            return (round((self.points / self.matches_played), 1))
         except:
-            self.avg = 0
+            return 0
 
     # Gera o output pro desenvolvedor
     def __repr__(self):
@@ -185,9 +190,6 @@ class Player:
         ''' 
         return list[name, nationality, age, overall, current_club, position, matches, goals, assists, avg]
         '''
-        
-        # update average
-        self.set_avg()
         
         return [
             self.name, self.nationality, self.age, self.overall, self.current_club,
