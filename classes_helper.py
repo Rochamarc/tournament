@@ -1,13 +1,28 @@
-from classes import *
-from database import ClubData, DomesticLeague
+from classes import Club, Player, Stadium
+from database import ClubData, DomesticLeague, StadiumData
 from name_nationality import NameAndNationality as name_and_nat
-
+from random import randint, choice
 
 Name = name_and_nat()
 domestic = DomesticLeague()
 club_data = ClubData()
+std_data = StadiumData()
 
 class GenerateClass:
+    @staticmethod
+    def reconstruct_stadiums():
+        ''' Return list of stadiums '''
+        stadiums_data = std_data.get_stadiums()
+        
+        data = []
+        
+        for std in stadiums_data:
+            name, location = std[0], std[1]
+            capacity, owner = std[2], std[3] 
+            data.append(Stadium(name, location, capacity=capacity, club_owner=owner))
+
+        return data
+            
     @staticmethod
     def reconstruct_clubs(division, season):
         ''' Return the list of the clubs '''
@@ -200,5 +215,5 @@ class GenerateClass:
             
 
 if __name__ == "__main__":
-    print(GenerateClass().reconstruct_clubs('serie_a', '2021'))
+    print(GenerateClass().reconstruct_stadiums())
 
