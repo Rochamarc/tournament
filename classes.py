@@ -86,7 +86,6 @@ class Club:
             self.bench.append(midfielders.pop())
             self.bench.append(attackers.pop())
 
-        self.set_overall()
 
     def generate_coeff(self):
         minimum = 55
