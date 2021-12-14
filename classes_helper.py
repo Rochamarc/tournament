@@ -1,10 +1,35 @@
 from classes import *
+from database import ClubData, DomesticLeague
 from name_nationality import NameAndNationality as name_and_nat
 
 
 Name = name_and_nat()
+domestic = DomesticLeague()
+club_data = ClubData()
 
 class GenerateClass:
+    @staticmethod
+    def reconstruct_clubs(division, season):
+        ''' Return the list of the clubs '''
+    
+        clubs = domestic.get_domestic_cup_table(division, season)
+        clubs_names = [ club[1] for club in clubs ]
+        
+        cl_data = [ club_data.get_clubs(name) for name in clubs_names ]
+
+        data = []
+
+        for cl in cl_data:
+            cl = cl[0]
+            name, country, state = cl[1], cl[2], cl[3]
+            club_class, club_coeff = cl[5], cl[4]
+
+            club = Club(name, country, club_class, state=state)
+            club.coeff = club_coeff
+            data.append(club)
+        
+        return data
+
     @staticmethod
     def update_player_stats(clubs):
         ''' Update players stats return None '''
@@ -175,5 +200,5 @@ class GenerateClass:
             
 
 if __name__ == "__main__":
-    pass 
+    print(GenerateClass().reconstruct_clubs('serie_a', '2021'))
 
