@@ -94,10 +94,10 @@ class Game:
 
 
         game_info = [
-            self.competition, self.season, hour, self.home_club, self.away_club, score, self.stadium,
+            self.competition, self.season, hour, self.home_club.name, self.away_club.name, score, self.stadium.name,
             self.home_shots, self.home_shots_on_target, self.home_fouls, self.home_tackles, self.home_saves,
             self.home_ball_possesion, self.home_offsides, self.home_free_kicks, self.away_shots, self.away_shots_on_target, 
-            self.away_fouls, self.away_tackles, self.away_saves, self.away_ball_possesion, self.away_offsides, self.away_free_kicks,    
+            self.away_fouls, self.away_tackles, self.away_saves, self.away_ball_possesion, self.away_offsides, self.away_free_kicks    
         ]
         
         game_data.insert_games_db(game_info)
