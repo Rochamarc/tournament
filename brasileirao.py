@@ -1,100 +1,120 @@
-from classes_helper import *
+from classes_helper import GenerateClass
 from classes import *
 from game import Game  
 from ranking import *
-from database import DomesticLeague, insert_players_db
-import os 
+from database import DomesticLeague, PlayerData
 
-os.system('./reset_database.sh') # reseting the database
-
+# Class variables
 gene = GenerateClass() 
 league = DomesticLeague()
 rk = Ranking()
+p_data = PlayerData()
 
-clubs = []
-stadiums = []
-matches = []
+# Global variables
+stadiums = [ gene.reconstruct_stadiums() ]
+season = '2021'
+
+### SERIE A ###
+serie_a_matches = []
 
 competition_name = "Campeonato Brasileiro Série A"
-season = "2021"
+division = 'serie_a'
 
-league.create_domestic_table(season) # Create the domestic table
 
-#
-#
-#
-# Setting and config
-#
-#
-#
+serie_a_clubs = gene.reconstruct_clubs(division, season)
 
-with open('files/brasileirao/serie a/2021.txt') as file:
-    ''' Creating clubs based on the files on the path above '''
-    for i in file.readlines():
-        i = i.split(',') # split the string with two new strings
-        name = i[0] # get thje club name
-        state = i[-1].replace('\n', '') # get the club state
-        country = 'Brasil'
-        clubs.append(Club(name, country, state=state, skip_conf=True))
+schedule = gene.define_schedule(serie_a_clubs, stadiums[0]) # the schedule
 
-club_names = [ club.name for club in clubs ]
-league.domestic_table_basic(club_names,season, verbose=True) #Insert intial domestic cup table to the db 
-
-for club in clubs:
-    players = gene.set_players(club.name, club.country, club.coeff) # dict of players
-    club.set_formation(players) # sort and att the players to the club
-
-with open('files/generic_stadiums/stadiums.txt') as file:
-    for i in file.readlines():
-        i = i.split(',')
-        name = i[0]
-        city = i[1]
-        country = i[-1].replace('\n', '')
-        location = f"{city}, {country}"
-        
-        # creating the stadiums
-        stadiums.append(Stadium(name, location))
-
-#
-#
-#
-# Initializing
-#
-#
-# 
-
-schedule = gene.define_schedule(clubs,stadiums) # the schedule
+for club in serie_a_clubs:
+    club.set_formation(p_data.get_players(club.name))
 
 for rnd, game_info in schedule.items():
+    ''' Defining the schedule '''
     for match in game_info:
-        matches.append(Game(match[0], match[1], competition_name, int(rnd.split(' ')[-1]), head_stadium=match[-1]))
+        print(match[0].start_eleven)
+        serie_a_matches.append(Game(match[0], match[1], competition_name, int(rnd.split(' ')[-1]), season, head_stadium=match[-1]))
 
 
-tb = rk.domestic_table(season) # Get the initial domestic cup table
-print(tb) # show the table
+tb = rk.domestic_table(division, season) # Get the initial domestic cup table
+print(tb) 
 
-for match in matches:
+for match in serie_a_matches:
     ''' execute the matches '''
     r = match.start()
-    update_domestic_table(r['home_team'], season)
-    update_domestic_table(r['away_team'], season)
+    match.save_game_database()
+    league.update_domestic_table(r['home_team'], division, season)
+    league.update_domestic_table(r['away_team'], division, season)
 
-for home_club, home_matches in schedule.items():
-    for away_club in home_matches:
-        r_match = randint(1,38) # define the round match
-        g = Game(home_club, away_club, competition_name, r_match, head_stadium=choice(stadiums)) # Instance class Game
-        result = g.start() # Initiate the match
-        league.update_domestic_table(result['home_team'], season) # home_team table update
-        league.update_domestic_table(result['away_team'], season) # away_team table update
 
-    tb = rk.table(season)
-    print(tb)
+print(league.get_domestic_cup_table(division, season))
+### END SERIE A ###
 
-ctn = input("Type enter to continue: ")
-    
-for club in clubs:
-    print(club.get_data())  
+### SERIE B ###
+serie_b_matches = []
 
-players = gene.get_players_list(clubs) # this get the players list
+competition_name = "Campeonato Brasileiro Série B"
+division = 'serie_b'
 
-insert_players_db(players) # insert into the database
+
+serie_b_clubs = gene.reconstruct_clubs(division, season)
+
+schedule = gene.define_schedule(serie_b_clubs, stadiums[0]) # the schedule
+
+for club in serie_b_clubs:
+    club.set_formation(p_data.get_players(club.name))
+
+for rnd, game_info in schedule.items():
+    ''' Defining the schedule '''
+    for match in game_info:
+        print(match[0].start_eleven)
+        serie_b_matches.append(Game(match[0], match[1], competition_name, int(rnd.split(' ')[-1]), season, head_stadium=match[-1]))
+
+
+tb = rk.domestic_table(division, season) # Get the initial domestic cup table
+print(tb) 
+
+for match in serie_b_matches:
+    ''' execute the matches '''
+    r = match.start()
+    match.save_game_database()
+    league.update_domestic_table(r['home_team'], division, season)
+    league.update_domestic_table(r['away_team'], division, season)
+
+
+print(league.get_domestic_cup_table(division, season))
+### END SERIE B ###
+
+### SERIE C ###
+serie_c_matches = []
+
+competition_name = "Campeonato Brasileiro Série C"
+division = 'serie_c'
+
+
+serie_c_clubs = gene.reconstruct_clubs(division, season)
+
+schedule = gene.define_schedule(serie_c_clubs, stadiums[0]) # the schedule
+
+for club in serie_c_clubs:
+    club.set_formation(p_data.get_players(club.name))
+
+for rnd, game_info in schedule.items():
+    ''' Defining the schedule '''
+    for match in game_info:
+        print(match[0].start_eleven)
+        serie_c_matches.append(Game(match[0], match[1], competition_name, int(rnd.split(' ')[-1]), season, head_stadium=match[-1]))
+
+
+tb = rk.domestic_table(division, season) # Get the initial domestic cup table
+print(tb) 
+
+for match in serie_c_matches:
+    ''' execute the matches '''
+    r = match.start()
+    match.save_game_database()
+    league.update_domestic_table(r['home_team'], division, season)
+    league.update_domestic_table(r['away_team'], division, season)
+
+
+print(league.get_domestic_cup_table(division, season))
+### END SERIE C ###
