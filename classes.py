@@ -92,18 +92,20 @@ class Club:
         maximum = 60
         
         if self.club_class == 'D':
-            minimum -= 8
-            maximum += 3
+            minimum -= 12 # 43
+            maximum -= 5 # 55
         elif self.club_class == 'C':
-            minimum -= 10
-            maximum += 5
+            minimum -= 10 # 45
+            maximum += 0 # 60
         elif self.club_class == 'B':
-            minimum += 5
-            maximum += 15
+            minimum += 5 # 60
+            maximum += 10 # 70
         elif self.club_class == 'A':
-            minimum += 10
-            maximum += 25
-        
+            minimum += 15 # 70
+            maximum += 25 # 85
+        else:
+            raise NameError(self.club_class, " doesnt match!")        
+
         return randint(minimum, maximum)
 
     def set_coeff(self):
