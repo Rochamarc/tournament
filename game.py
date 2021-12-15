@@ -130,7 +130,6 @@ class Game:
 
     def actions(self):
         ''' Simulates a football actions, pass, defense, tackle and goals
-            return a dict { 'home_goal': <class 'int'>, 'away_goal': <class 'int'> , 'home_player_goals': <class 'defaultdict'>, 'away_player_goals': <class 'defaultdict'> } 
         '''
 
         ''' Add one digit to player.match and points '''
@@ -141,12 +140,13 @@ class Game:
         for player in self.away_players:
             self.add_matches(player)
             self.add_points(player, 4.0)
+        
+        time = 0
+        move_info = self.move(self.home_club, self.away_club, 'middle')
 
-        for i in range(90):
-            if i % 2 == 0:
-                self.move(self.home_club, self.away_club)
-            else:
-                self.move(self.away_club, self.home_club)
+        while time < 99:
+            move_info = self.move(move_info['club_possession'], move_info['other_club'], move_info['field_part'], move_info['sender'])
+            time += 1
 
         self.check_game_stats() # add extra points to the players
 
@@ -157,20 +157,25 @@ class Game:
 
         return True 
 
-    def move(self, attack_club, defense_club):
-        # defensives
-        keeper = self.select_player(defense_club, 'goalkeeper')
-        defensor = self.select_player(defense_club, 'defender')
+    def move(self, attack_club, defense_club, field_part, sender=None):
+        '''
+            {
+                'destiny': ''
+                'club_possession': ''
+                'other_club': ''
+                'sender': ''
+                
+            }
+        '''
+
+        move_info = {}
+
         
-        # attackers
-        midfielder = self.select_player(attack_club, 'midfielder')
-        attacker = self.select_player(attack_club, 'attacker')
-        
-        """ Ataque = toca + chuta """
-        """ Defesa = corta + defende """
-        
-        touch = self.decision(midfielder.overall)
-        tackle = self.decision(defensor.overall)
+        attacker = self.select_player(attack_club, 'any') # select any player                
+
+        if sender:
+            attacker = sender # select any player                
+
 
         # Check and execute a Substitution
         if attack_club == self.home_club:
@@ -186,30 +191,123 @@ class Game:
         else:
             raise NameError("Club name doesn't match")
 
-        if tackle:
-            """ clerance """
-            self.add_stats(defense_club, 'tackle')
-            self.add_points(defensor, 0.3)
-        else:
-            if touch:
-                """ touch sucess """
-                self.add_points(midfielder, 0.5) # sucessful pass
-                finish = self.decision(attacker.overall)
-                defense = self.decision(keeper.overall)
-                if defense:
-                    ''' shot on goal and a save '''
-                    self.add_stats(defense_club, 'save')
-                    self.add_stats(attack_club, 'shot on target')
-                    self.defense(keeper)
+        club_possession = None
+        other_club = None
+        attack_move = None
+        sender = None
+        destiny = None
+        attack_move_sucess = None
+        defense_move = None
+        defensor = None
+        defense_move_sucess = None
 
-                else:
-                    ''' Shot not on goal'''
-                    self.add_stats(attack_club, 'shot')
-                    if finish:
-                        ''' shot on goal and a goal'''
-                        self.add_stats(attack_club, 'shot on target')
-                        self.finish(keeper, defensor, midfielder, attacker, attack_club)
+        if field_part == 'back':
+            attack_move = choice(['pass', 'projection'])
+            destiny = choice(['back', 'middle', 'front'])
+            attack_move_sucess = self.decision(attacker.overall)
+
+            defense_move = choice(['interception', 'tackle'])
+            defensor = self.select_player(defense_club, 'attacker')
+            defense_move_sucess = self.decision(defensor.overall)
+
+
+        elif field_part == 'middle':
+            attack_move = choice(['pass', 'projection'])
+            destiny = choice(['back', 'middle', 'front'])
+            attack_move_sucess = self.decision(attacker.overall)
+
+            defense_move = choice(['interception', 'tackle'])
+            defensor = self.select_player(defense_club, 'midfielder')
+            defense_move_sucess = self.decision(defensor.overall)
+
+        elif field_part == 'front':
+            attack_move = choice(['pass', 'finish'])
+            destiny = choice(['back', 'middle', 'front'])
+            attack_move_sucess = self.decision(attacker.overall)
+
+            defense_move = choice(['interception', 'tackle']) 
+            defensor = self.select_player(defense_club, 'defender')
+            defense_move_sucess = self.decision(defensor.overall)
+        else:
+            raise NameError('Field Part doesnt match')
+
+
+        if defense_move_sucess:
+            field_part = field_part
+            ''' Defense Sucess '''
+            club_possession, other_club = defense_club, attack_club
+            if defense_move == 'tackle': # tackle move
+                sender = defensor
+                self.add_stats(defense_club, 'tackle') # Add a tackle to the game stats
+                self.add_points(defensor, 0.3)
+            elif defense_move == 'interception': # interception move
+                sender = defensor                
+                self.add_points(defensor, 0.4)
+            else:
+                raise NameError('Move doesnt match')
             
+            self.add_stats(defense_club, 'ball possession') 
+
+        else:
+            foul = choice([True, False])
+            if foul:
+                club_possession, other_club = attack_club, defense_club
+                field_part = field_part
+                self.add_stats(attack_club, 'foul') # add a foul to game stats
+                self.add_stats(attack_club, 'ball possession') # add a ball possesssion to game stats
+                self.add_stats(attack_club, 'free kicks') # add a free kick to the game stats
+            
+            elif attack_move == 'finish':
+                keeper = self.select_player(defense_club, 'goalkeeper')
+                keeper_sucess = self.decision(keeper.overall)
+
+                if attack_move_sucess:
+                    ''' Defense Failed, if its a finish only the keeper can save them now '''
+                    
+                    if keeper_sucess:
+                        ''' Defense of the keeper '''
+                        club_possession, other_club = defense_club, attack_club
+                        field_part = 'back'
+                        sender = keeper
+                        self.add_stats(defense_club, 'save')
+                        self.add_stats(attack_club, 'shot on target')
+                        self.defense(keeper)
+                        self.add_stats(defense_club, 'ball possession') # add a ball possesssion to game stats
+
+                    else:
+                        ''' GOAL'''
+                        club_possession, other_club = attack_club, defense_club
+                        field_part = 'middle'
+                        self.add_stats(attack_club, 'shot on target')
+                        self.finish(keeper, defensor, self.select_player(attack_club, 'midfielder'), attacker, attack_club)
+                        self.add_stats(attack_club, 'ball possession') # add a ball possesssion to game stats
+                else:
+                    ''' Chute pra fora '''
+                    club_possession, other_club = defense_club, attack_club
+                    field_part = 'back'
+                    sender = keeper
+                    self.add_stats(attack_club, 'shot')
+                    self.add_stats(defense_club, 'ball possession') # add a ball possesssion to game stats
+            else:
+                if attack_move_sucess:
+                    ''' move success ''' 
+                    club_possession, other_club = attack_club, defense_club
+                    field_part = destiny
+                    sender = attacker
+                    self.add_stats(attack_club, 'ball possession') # add a ball possesssion to game stats
+                else:
+                    ''' move failed '''
+                    club_possession, other_club = defense_club, attack_club
+                    field_part = field_part
+                    self.add_stats(defense_club, 'ball possession')
+
+        move_info['field_part'] = field_part
+        move_info['club_possession'] = club_possession
+        move_info['other_club'] = other_club
+        move_info['sender'] = sender
+
+        return move_info
+
     def decision(self, p_overall):
         return randint(1,100) < p_overall 
 
@@ -222,6 +320,9 @@ class Game:
             start_eleven = self.away_players 
         else:
             raise NameError('Club not match home_team.name or away_team.name')
+
+        if player_position == 'any':
+            return choice(start_eleven)
 
         positions = {
             "goalkeeper": [ 'GK' ],
@@ -454,6 +555,8 @@ class Game:
                 self.home_offsides += 1
             elif move == 'free kicks':
                 self.home_free_kicks += 1
+            elif move == 'ball possession':
+                self.home_ball_possesion += 1
             else:
                 raise NameError('Move doesnt match')
 
@@ -473,6 +576,8 @@ class Game:
                 self.away_offsides += 1
             elif move == 'free kicks':
                 self.away_free_kicks += 1
+            elif move == 'ball possession':
+                self.away_ball_possesion += 1
             else:
                 raise NameError('Move doesnt match')
 
