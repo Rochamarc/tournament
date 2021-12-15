@@ -2,7 +2,7 @@ América Mineiro,Minas Gerais,C
 Atlético Mineiro,Minas Gerais,A
 Athletico Paranaense,Paraná,B
 Ceará,Ceará,B
-Fortaleza,Ceará,B 
+Fortaleza,Ceará,B
 Flamengo,Rio de Janeiro,A
 Fluminense,Rio de Janeiro,B
 Cuiabá,Mato Grosso,C
@@ -11,7 +11,7 @@ International,Rio Grande do Sul,B
 Chapecoense,Santa Catarina,C
 Juventude,Rio Grande do Sul,C
 São Paulo,São Paulo,B
-Corinthians,São Paulo,B 
+Corinthians,São Paulo,B
 Palmeiras,São Paulo,A
 Santos,São Paulo,B
 Red Bull Bragantino,São Paulo,B
