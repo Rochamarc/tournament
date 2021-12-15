@@ -15,7 +15,8 @@ class Club:
         self.state = state
         self.club_class = club_class
         self.ranking_points = 0
-        self.coeff = self.generate_coeff()
+        self.min_coeff = 0
+        self.max_coeff = 0
         self.save_file = save_file
         
         # The next attr are refering to handle the squad
@@ -24,6 +25,8 @@ class Club:
         self.bench = []
 
         self.stadium = None 
+
+        self.generate_coeff()
         
     def __repr__(self):
         return f"Club({self.name})"
@@ -105,8 +108,11 @@ class Club:
             maximum += 25 # 85
         else:
             raise NameError(self.club_class, " doesnt match!")        
-
-        return randint(minimum, maximum)
+        
+        # update values
+        self.min_coeff = minimum
+        self.max_coeff = maximum
+        return True 
 
     def set_coeff(self):
         conn = sqlite3.connect('database.db')
@@ -142,11 +148,11 @@ class Club:
 #### Player Base Object #####
 class Player:
 
-    def __init__(self, name, nationality, age, position, current_club=None, shirt_number=None, club_coeff=65, save_file=None):
+    def __init__(self, name, nationality, age, position, min_coeff, max_coeff, current_club=None, shirt_number=None, save_file=None):
         self.name = name
         self.nationality = nationality
         self.age = age
-        self.overall = randint(45, club_coeff)
+        self.overall = randint(min_coeff, max_coeff)
         self.current_club = current_club
         self.position = position
         self.shirt_number = shirt_number
