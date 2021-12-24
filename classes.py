@@ -40,7 +40,7 @@ class Club:
     
     def get_data(self):
         ''' Return a list with name, country, state, coeff, club_class '''
-        return [self.name, self.country, self.state, self.coeff, self.club_class, self.formation ]
+        return [self.name, self.country, self.state, self.max_coeff, self.club_class, self.formation ]
 
     def set_formation(self, players_list):
         ''' Receive a list of players 
@@ -58,7 +58,7 @@ class Club:
             overall = player[4]
             club = player[5]
             posi = player[6]
-            p = Player(name, nation, age, posi, current_club=club)
+            p = Player(name, nation, age, posi, 0, 100, current_club=club)
             p.overall = overall
             squad.append(p)
         
