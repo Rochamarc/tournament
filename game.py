@@ -145,6 +145,8 @@ class Game:
         move_info = self.move(self.home_club, self.away_club, 'middle')
 
         while time < 99:
+            if self.home_goal == 7 or self.away_goal == 7:
+                break
             move_info = self.move(move_info['club_possession'], move_info['other_club'], move_info['field_part'], move_info['sender'])
             time += 1
 
