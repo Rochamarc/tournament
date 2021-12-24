@@ -249,13 +249,32 @@ class Game:
             self.add_stats(defense_club, 'ball possession') 
 
         else:
+            ''' Foul '''
             foul = choice([True, False])
+            
+            field_part = field_part
+
+            club_possession, other_club = attack_club, defense_club
+            self.add_stats(attack_club, 'foul') # add a foul to game stats
+            self.add_stats(attack_club, 'ball possession') # add a ball possesssion to game stats
+            self.add_stats(attack_club, 'free kicks') # add a free kick to the game stats
+                
+
             if foul:
-                club_possession, other_club = attack_club, defense_club
-                field_part = field_part
-                self.add_stats(attack_club, 'foul') # add a foul to game stats
-                self.add_stats(attack_club, 'ball possession') # add a ball possesssion to game stats
-                self.add_stats(attack_club, 'free kicks') # add a free kick to the game stats
+                if field_part == 'front':
+                    ''' Penalty kick '''
+                    keeper = self.select_player(defense_club, 'goalkeeper')
+                    goal = self.penalty(keeper, attacker, attack_club)
+                    self.add_stats(attack_club, 'shot on target')
+                    self.add_stats(attack_club, 'ball possession') # add a ball possesssion to game stats
+
+                    if goal:
+                        field_part == 'middle'
+                        club_possession, other_club = defense_club, attack_club
+                    else:
+                        field_part == 'back'
+                        club_possession, other_club = defense_club, attack_club
+                    
             
             elif attack_move == 'finish':
                 keeper = self.select_player(defense_club, 'goalkeeper')
@@ -276,7 +295,7 @@ class Game:
 
                     else:
                         ''' GOAL'''
-                        club_possession, other_club = attack_club, defense_club
+                        club_possession, other_club = defense_club, attack_club
                         field_part = 'middle'
                         self.add_stats(attack_club, 'shot on target')
                         self.finish(keeper, defensor, self.select_player(attack_club, 'midfielder'), attacker, attack_club)
@@ -334,6 +353,49 @@ class Game:
         player = choice([player for player in start_eleven if player.position in positions[player_position]])
 
         return player 
+
+    def penalty(self, keeper, attacker, club_finish):
+        ''' Represents a penalty kick '''
+
+        shot = self.decision(attacker.overall)
+        defense = self.decision(keeper.overall)
+
+        goal = None
+        defense = None 
+
+        if shot:
+            ''' goal '''
+            goal = True
+
+        elif defense:
+            ''' Defense '''
+            defense = True
+        else:
+            ''' goal '''
+            goal = True
+
+
+        if defense and not goal:
+            # add points to keeper
+            self.add_points(keeper, 1.0)
+            return False
+        else:
+            if club_finish == self.home_club:
+                self.home_goal += 1
+                self.home_player_goals[attacker] += 1 
+            elif club_finish == self.away_club:
+                self.away_goal += 1
+                self.away_player_goals[attacker] += 1
+            else:
+                raise NameError("Club finish doesn't match with home or away club")
+
+            self.add_points(attacker, 1.5)    
+            self.add_goal(attacker)
+
+            # loose points for conced a goal
+            self.sub_points(keeper, 0.9)
+
+            return True        
 
 
     def defense(self, keeper):
