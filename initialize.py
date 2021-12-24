@@ -69,7 +69,7 @@ with open('files/brasileirao/serie a/2021.txt') as file:
 
 for club in serie_a:
     ''' Generate player and formation '''
-    players = gene.set_players(club.name, club.country, club.coeff)
+    players = gene.set_players(club.name, club.country, club.min_coeff, club.max_coeff)
     p_data.insert_players_db(players, verbose=True) 
     
 # Serie B
@@ -85,7 +85,7 @@ with open('files/brasileirao/serie b/2021.txt') as file:
 
 for club in serie_b:
     ''' Generate player and formation '''
-    players = gene.set_players(club.name, club.country, club.coeff) 
+    players = gene.set_players(club.name, club.country, club.min_coeff, club.max_coeff)
     p_data.insert_players_db(players, verbose=True)
 
 # Serie C
@@ -101,7 +101,7 @@ with open('files/brasileirao/serie c/2021.txt') as file:
 
 for club in serie_c:
     ''' Generate player and formation '''
-    players = gene.set_players(club.name, club.country, club.coeff) 
+    players = gene.set_players(club.name, club.country, club.min_coeff, club.max_coeff)
     p_data.insert_players_db(players, verbose=True)
 
 # Creating basic table
