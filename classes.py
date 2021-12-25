@@ -50,8 +50,9 @@ class Club:
 
         squad = []
 
-        # reconstitute players
         for player in players_list:
+            ''' Reinstance the player data to objects '''
+            id = player[0]
             name = player[1]
             nation = player[2]
             age = player[3]
@@ -59,6 +60,7 @@ class Club:
             club = player[5]
             posi = player[6]
             p = Player(name, nation, age, posi, 0, 100, current_club=club)
+            p.id = id
             p.overall = overall
             squad.append(p)
         
@@ -149,6 +151,7 @@ class Club:
 class Player:
 
     def __init__(self, name, nationality, age, position, min_coeff, max_coeff, current_club=None, shirt_number=None, save_file=None):
+        id = None
         self.name = name
         self.nationality = nationality
         self.age = age
@@ -170,6 +173,10 @@ class Player:
             return (round((self.points / self.matches_played), 1))
         except:
             return 0
+    
+    def get_competition_stats(self):
+        ''' return matches_played, goals, assists, points '''
+        return [ self.matches_played, self.goals, self.assists, self.points, self.id ] 
 
     # Gera o output pro desenvolvedor
     def __repr__(self):
