@@ -425,6 +425,25 @@ class PlayerData():
         if verbose : print("Players inserted into the database sucessfully!")
         return True
 
+    @staticmethod
+    def update_player_stats(player_data, verbose=False):
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
+        if verbose : print("Update player stats")
+
+        cursor.execute(f"""
+            UPDATE players 
+            SET matches_played=matches_played+?, 
+                goals=goals+?,
+                assists=assists+?,
+                points=points+?
+            WHERE id = ?
+        """, player_data)
+        
+        conn.commit()
+        conn.close()
+
 class StadiumData():
     @staticmethod
     def insert_stadiums_db(stadiums, verbose=False):
@@ -447,7 +466,7 @@ class StadiumData():
             conn.commit()
             conn.close()
 
-        if verbose : print("Players inserted into the database sucessfully!")
+        if verbose : print("Stadiums inserted into the database sucessfully!")
         return True
 
     @staticmethod
