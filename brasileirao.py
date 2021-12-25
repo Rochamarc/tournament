@@ -49,13 +49,25 @@ for i in range(4):
     for match in serie_a_matches:
         ''' execute the matches '''
         r = match.start()
-        match.save_game_database()
+        
         league.update_domestic_table(r['home_team'], division, season)
         league.update_domestic_table(r['away_team'], division, season)
 
 
-    print(league.get_domestic_cup_table(division, season))
+    tb = rk.domestic_table(division, season) # Get the initial domestic cup table
+    print(tb) 
+
     ### END SERIE A ###
+
+    for match in serie_a_matches:
+        match.save_game_database(verbose=True)
+
+    # UPDATE SERIE A PLAYERS
+    for club in serie_a_clubs:
+        for player in club.start_eleven:
+            p_data.update_player_stats(player.get_competition_stats(), verbose=True)
+        for player in club.bench:
+            p_data.update_player_stats(player.get_competition_stats(), verbose=True)
 
     ### SERIE B ###
     serie_b_matches = []
@@ -84,13 +96,25 @@ for i in range(4):
     for match in serie_b_matches:
         ''' execute the matches '''
         r = match.start()
-        match.save_game_database()
+        
         league.update_domestic_table(r['home_team'], division, season)
         league.update_domestic_table(r['away_team'], division, season)
 
 
-    print(league.get_domestic_cup_table(division, season))
+    tb = rk.domestic_table(division, season) # Get the initial domestic cup table
+    print(tb) 
+    
     ### END SERIE B ###
+
+    for match in serie_b_matches:
+        match.save_game_database(verbose=True)
+
+    # UPDATE SERIE A PLAYERS
+    for club in serie_b_clubs:
+        for player in club.start_eleven:
+            p_data.update_player_stats(player.get_competition_stats(), verbose=True)
+        for player in club.bench:
+            p_data.update_player_stats(player.get_competition_stats(), verbose=True)
 
     ### SERIE C ###
     serie_c_matches = []
@@ -119,12 +143,24 @@ for i in range(4):
     for match in serie_c_matches:
         ''' execute the matches '''
         r = match.start()
-        match.save_game_database()
+        
         league.update_domestic_table(r['home_team'], division, season)
         league.update_domestic_table(r['away_team'], division, season)
 
 
-    print(league.get_domestic_cup_table(division, season))
+    tb = rk.domestic_table(division, season) # Get the initial domestic cup table
+    print(tb) 
+    
     ### END SERIE C ###
+        # UPDATE SERIE A PLAYERS
+
+    for match in serie_c_matches:
+        match.save_game_database(verbose=True)
+
+    for club in serie_a_clubs:
+        for player in club.start_eleven:
+            p_data.update_player_stats(player.get_competition_stats(), verbose=True)
+        for player in club.bench:
+            p_data.update_player_stats(player.get_competition_stats(), verbose=True)
 
     season = str(int(season) + 1) # next season
