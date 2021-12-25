@@ -12,7 +12,7 @@ game_data = GameData()
 player_data = PlayerData()
 
 class Game:
-    def __init__(self, home_club, away_club, competition, m_round, season, head_stadium=None, verbose=True):
+    def __init__(self, home_club, away_club, competition, m_round, season, head_stadium=None, verbose=False):
         self.home_club = home_club 
         self.away_club = away_club
         self.competition = competition 
@@ -27,6 +27,8 @@ class Game:
 
         self.home_subs = 3
         self.away_subs = 3
+
+        self.players_out = [] # list dedicated to players the are subbed
         
         self.home_players = [ player for player in self.home_club.start_eleven ]
         self.home_bench = [ player for player in self.home_club.bench ]
@@ -87,8 +89,11 @@ class Game:
 
         return self.register_winner() 
 
-    def save_game_database(self):
+    def save_game_database(self, verbose=False):
         # variables
+
+        if verbose : print("Inserting game on database")
+
         score = f"{self.scoreboard['home_goal']} x {self.scoreboard['away_goal']}"
         hour = self.scoreboard['hour']
 
@@ -467,6 +472,7 @@ class Game:
 
         player_out = choice(starting) # Select the player that is going to leave
 
+
         options = self.set_options(player_out.position, bench) # Select the possible players based on the position
         
         if not s_check or not options:
@@ -490,6 +496,8 @@ class Game:
             print(f"In: {player_in} {player_in.position}")
             print(f"Out: {player_out} {player_in.position}")
 
+        self.players_out.append(player_out)
+        
         return True
 
     def set_options(self, player_position, bench):
@@ -673,3 +681,14 @@ class Game:
     def add_assist(self, player):
         ''' Add one assist to player '''
         player.assists += 1
+
+    def update_players_match_stats(self):
+        for player in self.home_players:
+            player_stats = player.get_competition_stats()
+            player_data.update_player_stats(player_stats)
+        for player in self.away_players:
+            player_stats = player.get_competition_stats()
+            player_data.update_player_stats(player_stats)
+        for player in self.players_out:
+            player_stats = player.get_competition_stats()
+            player_data.update_player_stats(player_stats)
