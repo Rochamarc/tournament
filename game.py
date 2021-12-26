@@ -1,7 +1,5 @@
 from collections import defaultdict 
-from random import choice
-# from sqlite3.dbapi2 import register_adapter 
-from classes import *
+from random import choice, randint
 from database import GameData, PlayerData
 
 # Registrar os jogos 
@@ -40,23 +38,29 @@ class Game:
         self.away_player_goals = defaultdict(int)
 
         # Stats
-        self.home_shots = 0
-        self.home_shots_on_target = 0
-        self.home_fouls = 0
-        self.home_tackles = 0
-        self.home_saves = 0
-        self.home_ball_possesion = 0
-        self.home_offsides = 0
-        self.home_free_kicks = 0
+        self.stats = {
+            "home_stats": {
+                'shots' : 0,
+                'shots on target' : 0,
+                'fouls' : 0,
+                'tackles' : 0,
+                'saves' : 0,
+                'ball possession' : 0,
+                'offsides' : 0,
+                'free kicks' : 0
+            },
+            "away_stats": {
+                'shots' : 0,
+                'shots on target' : 0,
+                'fouls' : 0,
+                'tackles' : 0,
+                'saves' : 0,
+                'ball possession' : 0,
+                'offsides' : 0,
+                'free kicks' : 0
+            }
+        }
 
-        self.away_shots = 0
-        self.away_shots_on_target = 0
-        self.away_fouls = 0
-        self.away_tackles = 0
-        self.away_saves = 0
-        self.away_ball_possesion = 0
-        self.away_offsides = 0
-        self.away_free_kicks = 0
 
         self.scoreboard = {
             'competition': self.competition,
@@ -96,9 +100,9 @@ class Game:
 
         game_info = [
             self.competition, self.season, hour, self.home_club.name, self.away_club.name, score, self.stadium.name,
-            self.home_shots, self.home_shots_on_target, self.home_fouls, self.home_tackles, self.home_saves,
-            self.home_ball_possesion, self.home_offsides, self.home_free_kicks, self.away_shots, self.away_shots_on_target, 
-            self.away_fouls, self.away_tackles, self.away_saves, self.away_ball_possesion, self.away_offsides, self.away_free_kicks    
+            self.stats['home_stats']['shots'], self.stats['home_stats']['shots on target'], self.stats['home_stats']['fouls'], self.stats['home_stats']['tackles'], self.stats['home_stats']['saves'],
+            self.stats['home_stats']['ball possession'], self.stats['home_stats']['offsides'], self.stats['home_stats']['free kicks'], self.stats['away_stats']['shots'], self.stats['away_stats']['shots on target'], 
+            self.stats['away_stats']['fouls'], self.stats['away_stats']['tackles'], self.stats['away_stats']['saves'], self.stats['away_stats']['ball possession'], self.stats['away_stats']['offsides'], self.stats['away_stats']['free kicks']    
         ]
         
         return game_info
@@ -243,7 +247,7 @@ class Game:
             club_possession, other_club = defense_club, attack_club
             if defense_move == 'tackle': # tackle move
                 sender = defensor
-                self.add_stats(defense_club, 'tackle') # Add a tackle to the game stats
+                self.add_stats(defense_club, 'tackles') # Add a tackle to the game stats
                 self.add_points(defensor, 0.3)
             elif defense_move == 'interception': # interception move
                 sender = defensor                
@@ -260,7 +264,7 @@ class Game:
             field_part = field_part
 
             club_possession, other_club = attack_club, defense_club
-            self.add_stats(attack_club, 'foul') # add a foul to game stats
+            self.add_stats(attack_club, 'fouls') # add a foul to game stats
             self.add_stats(attack_club, 'ball possession') # add a ball possesssion to game stats
             self.add_stats(attack_club, 'free kicks') # add a free kick to the game stats
                 
@@ -270,7 +274,7 @@ class Game:
                     ''' Penalty kick '''
                     keeper = self.select_player(defense_club, 'goalkeeper')
                     goal = self.penalty(keeper, attacker, attack_club)
-                    self.add_stats(attack_club, 'shot on target')
+                    self.add_stats(attack_club, 'shots on target')
                     self.add_stats(attack_club, 'ball possession') # add a ball possesssion to game stats
 
                     if goal:
@@ -293,8 +297,8 @@ class Game:
                         club_possession, other_club = defense_club, attack_club
                         field_part = 'back'
                         sender = keeper
-                        self.add_stats(defense_club, 'save')
-                        self.add_stats(attack_club, 'shot on target')
+                        self.add_stats(defense_club, 'saves')
+                        self.add_stats(attack_club, 'shots on target')
                         self.defense(keeper)
                         self.add_stats(defense_club, 'ball possession') # add a ball possesssion to game stats
 
@@ -302,7 +306,7 @@ class Game:
                         ''' GOAL'''
                         club_possession, other_club = defense_club, attack_club
                         field_part = 'middle'
-                        self.add_stats(attack_club, 'shot on target')
+                        self.add_stats(attack_club, 'shots on target')
                         self.finish(keeper, defensor, self.select_player(attack_club, 'midfielder'), attacker, attack_club)
                         self.add_stats(attack_club, 'ball possession') # add a ball possesssion to game stats
                 else:
@@ -310,7 +314,7 @@ class Game:
                     club_possession, other_club = defense_club, attack_club
                     field_part = 'back'
                     sender = keeper
-                    self.add_stats(attack_club, 'shot')
+                    self.add_stats(attack_club, 'shots')
                     self.add_stats(defense_club, 'ball possession') # add a ball possesssion to game stats
             else:
                 if attack_move_sucess:
@@ -529,14 +533,14 @@ class Game:
             
             ''' Stats '''
             if self.verbose:
-                exit_string += f"{self.home_shots} SHOTS {self.away_shots}\n"
-                exit_string += f"{self.home_shots_on_target} SHOTS ON TARGET {self.away_shots_on_target}\n"
-                exit_string += f"{self.home_fouls} FOULS {self.away_fouls}\n"
-                exit_string += f"{self.home_tackles} TACKLES {self.away_tackles}\n"
-                exit_string += f"{self.home_saves} SAVES {self.away_saves}\n"
-                exit_string += f"{self.home_ball_possesion} BALL POSSESSION {self.away_ball_possesion}\n"
-                exit_string += f"{self.home_offsides} OFFSIDES {self.away_offsides}\n"
-                exit_string += f"{self.home_free_kicks} FREE KICKS {self.away_free_kicks}\n"
+                exit_string += f"{self.stats['home_stats']['shots']} SHOTS {self.stats['away_stats']['shots']}\n"
+                exit_string += f"{self.stats['home_stats']['shots on target']} SHOTS ON TARGET {self.stats['away_stats']['shots on target']}\n"
+                exit_string += f"{self.stats['home_stats']['fouls']} FOULS {self.stats['away_stats']['fouls']}\n"
+                exit_string += f"{self.stats['home_stats']['tackles']} TACKLES {self.stats['away_stats']['tackles']}\n"
+                exit_string += f"{self.stats['home_stats']['saves']} SAVES {self.stats['away_stats']['saves']}\n"
+                exit_string += f"{self.stats['home_stats']['ball possession']} BALL POSSESSION {self.stats['away_stats']['ball possession']}\n"
+                exit_string += f"{self.stats['home_stats']['offsides']} OFFSIDES {self.stats['away_stats']['offsides']}\n"
+                exit_string += f"{self.stats['home_stats']['free kicks']} FREE KICKS {self.stats['away_stats']['free kicks']}\n"
         
         else:
             exit_string += f"{self.scoreboard['home_club'].name.upper()} ({self.scoreboard['home_club'].short_country}) x {self.scoreboard['away_club'].name.upper()} ({self.scoreboard['away_club'].short_country})\n"
@@ -610,51 +614,17 @@ class Game:
 
     def add_stats(self, club, move):
         if club == self.home_club:
-            if move == 'shot':
-                self.home_shots += 1
-            elif move == 'shot on target':
-                self.home_shots += 1
-                self.home_shots_on_target += 1
-            elif move == 'tackle':
-                self.home_tackles += 1
-            elif move == 'save':
-                self.home_saves += 1
-            elif move == 'foul':
-                self.home_fouls += 1
-            elif move == 'offside':
-                self.home_offsides += 1
-            elif move == 'free kicks':
-                self.home_free_kicks += 1
-            elif move == 'ball possession':
-                self.home_ball_possesion += 1
-            else:
-                raise NameError('Move doesnt match')
-
+            self.stats['home_stats'][move] += 1
         elif club == self.away_club:
-            if move == 'shot':
-                self.away_shots += 1
-            elif move == 'shot on target':
-                self.away_shots += 1
-                self.away_shots_on_target += 1
-            elif move == 'tackle':
-                self.away_tackles += 1
-            elif move == 'save':
-                self.away_saves += 1
-            elif move == 'foul':
-                self.away_fouls += 1
-            elif move == 'offside':
-                self.away_offsides += 1
-            elif move == 'free kicks':
-                self.away_free_kicks += 1
-            elif move == 'ball possession':
-                self.away_ball_possesion += 1
-            else:
-                raise NameError('Move doesnt match')
-
+            self.stats['away_stats'][move] += 1
         else: 
             raise NameError('Club name doesnt match')
 
-        
+    def __str__(self):
+        return f"Game({self.home_club} x {self.away_club})"
+    
+    def __repr__(self):
+        return f"Game({self.home_club} x {self.away_club})"
         
     def check_subs(self, n_subs):
         ''' Boolean: returns True if the team still have subs left '''
