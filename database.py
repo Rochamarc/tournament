@@ -352,7 +352,7 @@ class ClubData():
             conn = sqlite3.connect(database)
             cursor = conn.cursor()
 
-            club_data = club.get_data()
+            club_data = club.data
 
             cursor.execute("INSERT INTO clubs (name, country, state, coeff, club_class, formation) values (?,?,?,?,?,?)", club_data)
             
@@ -412,7 +412,7 @@ class PlayerData():
                 conn = sqlite3.connect(database)
                 cursor = conn.cursor()        
 
-                player_data = player.get_data()
+                player_data = player.data
 
                 cursor.execute('''
                     INSERT INTO players (name, nationality, age, overall, current_club, position, matches_played, goals, assists, avg)
@@ -467,7 +467,7 @@ class StadiumData():
             conn = sqlite3.connect(database)
             cursor = conn.cursor()
 
-            std_data = stadium.get_data()
+            std_data = stadium.data
 
             cursor.execute("INSERT INTO stadium (name, location, capacity, club_owner) VALUES (?,?,?,?)", std_data)
 
