@@ -426,23 +426,31 @@ class PlayerData():
         return True
 
     @staticmethod
-    def update_player_stats(player_data, verbose=False):
-        conn = sqlite3.connect(database)
-        cursor = conn.cursor()
+    def update_player_stats(player_list, verbose=False):
+        for player in player_list:
+            print('.', sep=' ', end=' ', flush=True)
+            
+            player_data = player.get_competition_stats()
 
-        if verbose : print("Update player stats")
+            conn = sqlite3.connect(database)
+            cursor = conn.cursor()
 
-        cursor.execute(f"""
-            UPDATE players 
-            SET matches_played=matches_played+?, 
-                goals=goals+?,
-                assists=assists+?,
-                points=points+?
-            WHERE id = ?
-        """, player_data)
-        
-        conn.commit()
-        conn.close()
+            if verbose : print(f"Update {player}")
+
+            cursor.execute(f"""
+                UPDATE players 
+                SET matches_played=matches_played+?, 
+                    goals=goals+?,
+                    assists=assists+?,
+                    points=points+?
+                WHERE id = ?
+            """, player_data)
+
+            conn.commit()
+            conn.close()
+
+        if verbose : print("Player updated sucessfully!")
+        return True
 
 class StadiumData():
     @staticmethod
@@ -485,7 +493,7 @@ class StadiumData():
 
 class GameData():
     @staticmethod
-    def insert_games_db(game_data, verbose=False):
+    def insert_games_db(game_list, verbose=False):
         ''' 
             Insert game data into database 
 
@@ -494,42 +502,47 @@ class GameData():
             home_tackles, home_saves, home_ball_possession, home_offsides, home_freekicks, away_shots, away_shots_on_target,
             away_fouls, away_tackles, away_saves, away_ball_possession, away_offsides, away_freekicks ]
         '''
+        
+        for game in game_list:
+            print('.', sep=' ', end=' ', flush=True)
 
-        if verbose : print("Inserting game into de database")
+            if verbose : print(f"Inserting game {game} on the database")
 
-        conn = sqlite3.connect(database)
-        cursor = conn.cursor()
+            game_data = game.data()
 
-        cursor.execute("""
-        INSERT INTO game (
-            competition,
-            season,
-            hour,
-            home_team,
-            away_team,
-            score,
-            stadium,
-            home_shots,
-            home_shots_on_target,
-            home_fouls,
-            home_tackles,
-            home_saves,
-            home_ball_possession,
-            home_offsides,
-            home_freekicks,
-            away_shots,
-            away_shots_on_target,
-            away_fouls,
-            away_tackles,
-            away_saves,
-            away_ball_possession,
-            away_offsides,
-            away_freekicks
-        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-        """, game_data)
+            conn = sqlite3.connect(database)
+            cursor = conn.cursor()
 
-        conn.commit()
-        conn.close()
+            cursor.execute("""
+            INSERT INTO game (
+                competition,
+                season,
+                hour,
+                home_team,
+                away_team,
+                score,
+                stadium,
+                home_shots,
+                home_shots_on_target,
+                home_fouls,
+                home_tackles,
+                home_saves,
+                home_ball_possession,
+                home_offsides,
+                home_freekicks,
+                away_shots,
+                away_shots_on_target,
+                away_fouls,
+                away_tackles,
+                away_saves,
+                away_ball_possession,
+                away_offsides,
+                away_freekicks
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            """, game_data)
+
+            conn.commit()
+            conn.close()
 
         if verbose : print("Game data inserted sucessfully")
 
