@@ -37,8 +37,8 @@ class Club:
         players = sum([ player.overall for player in self.start_eleven ] + [ player.overall for player in self.bench ]) 
         return ( players / len(players) ) 
 
-    
-    def get_data(self):
+    @property
+    def data(self):
         ''' Return a list with name, country, state, coeff, club_class '''
         return [self.name, self.country, self.state, self.max_coeff, self.club_class, self.formation ]
 
@@ -186,21 +186,8 @@ class Player:
     def __str__(self):
         return f'Player({self.name})'
 
-    def get_short_info(self):
-        return f"{self.name} :: {self.overall} \n{self.position}\n"
-
-    def get_info(self):
-        return f"Name: {self.name}\nOverall: {self.overall}\nPosition: {self.position}\nCurrent Club: {self.current_club}\nAge: {self.age}\nNationality: {self.nationality}\n"
-
-    def get_stats(self):
-        ''' return list[ name, position, matches, goals, assists, average points ] '''
-        return [self.name,  self.current_club, self.position, self.matches_played, self.goals, self.assists, self.avg ]
-
-    def get_personal_stats(self):
-        ''' return list[ name, position, overall, age ] '''
-        return [self.name, self.nationality, self.current_club, self.age, self.position, self.overall]
-
-    def get_data(self):
+    @property
+    def data(self):
         ''' 
         return list[name, nationality, age, overall, current_club, position, matches, goals, assists, avg]
         '''
@@ -228,6 +215,7 @@ class Stadium:
     def get_info(self):
         return f"\nName: {self.name}\nLocation: {self.location}\nCapacity: {self.capacity}\nOwner: {self.club_owner}\n"
 
-    def get_data(self):
+    @property
+    def data(self):
 
         return [ self.name, self.location, self.capacity, self.club_owner ]
