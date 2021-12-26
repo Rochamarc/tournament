@@ -119,8 +119,7 @@ def upload_ranking_db(verbose=False):
             INSERT INTO clubs_ranking (name, country, points) VALUES (?,?,?)
             """, line)
     
-            conn.commit()
-        
+        conn.commit()
         conn.close()
 
         if verbose : print("Ranking da conmebol inserido com sucesso!")
@@ -164,22 +163,25 @@ class DomesticLeague():
         '''
 
         division.replace(' ', '_')
+
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
         
         print("Inserting clubs into domestic cup table")
 
         for club in club_names:
             print('.', sep=' ', end=' ', flush=True)
 
-            conn = sqlite3.connect(database)
-            cursor = conn.cursor()
-
+   
             ls = [club, 0, 0, 0, 0, 0, 0, 0, 0]
 
             if verbose : print(f"Inserting {club} into the database.")
 
             cursor.execute(f"INSERT INTO campeonato_brasileiro_{division}_{season} (club, matches, won, draw, lost, goals_for, goals_away, goal_diff, points) VALUES (?,?,?,?,?,?,?,?,?)", ls)
-            conn.commit()
-            conn.close()
+        
+        conn.commit()
+        conn.close()
 
             
         if verbose : print("Database populada com sucesso!")
@@ -287,11 +289,11 @@ class InternationalCup():
 
         print("Inserting clubs into domestic cup table")
 
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+
         for club in club_names:
             print('.', sep=' ', end=' ', flush=True)
-
-            conn = sqlite3.connect('database.db')
-            cursor = conn.cursor()
 
 
             ls = [club, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -299,10 +301,13 @@ class InternationalCup():
             if verbose : print(f"Inserting {club} into the database.")
 
             cursor.execute(f"INSERT INTO libertadores_{group}_{season} (club, matches, won, draw, lost, goals_for, goals_away, goal_diff, points) VALUES (?,?,?,?,?,?,?,?,?)", ls)
-            conn.commit()
-            conn.close()
+        
+        conn.commit()
+        conn.close()
     
         if verbose : print("Database populada com sucesso!")
+
+        return True
 
     @staticmethod
     def get_group_stage_data(season):
@@ -341,7 +346,9 @@ class ClubData():
         '''
         Insert clubs into the databse
         '''
-
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+        
         print('Inserting clubs into the database')
 
         for club in clubs:
@@ -349,15 +356,14 @@ class ClubData():
 
             if verbose : print(f"Insert club {club} into the database")
 
-            conn = sqlite3.connect(database)
-            cursor = conn.cursor()
+
 
             club_data = club.data
 
             cursor.execute("INSERT INTO clubs (name, country, state, coeff, club_class, formation) values (?,?,?,?,?,?)", club_data)
             
-            conn.commit()
-            conn.close()
+        conn.commit()
+        conn.close()
 
         if verbose : print("Players inserted into the database sucessfully!")
         return True
@@ -400,17 +406,19 @@ class PlayerData():
         Insert players data into the database
         '''
 
-
         print("Inserting players on the database")
-
+        
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()        
+        
         for position, players in players.items():
             for player in players:
                 print('.', sep=' ', end=' ', flush=True)
 
                 if verbose : print(f"Insert player {player} into the database")
 
-                conn = sqlite3.connect(database)
-                cursor = conn.cursor()        
+                
+                
 
                 player_data = player.data
 
@@ -419,21 +427,23 @@ class PlayerData():
                     values (?,?,?,?,?,?,?,?,?,?)
                 ''', player_data)
 
-                conn.commit()
-                conn.close()
+        conn.commit()
+        conn.close()
 
         if verbose : print("Players inserted into the database sucessfully!")
+
         return True
 
     @staticmethod
     def update_player_stats(player_list, verbose=False):
+
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+        
         for player in player_list:
             print('.', sep=' ', end=' ', flush=True)
             
             player_data = player.get_competition_stats()
-
-            conn = sqlite3.connect(database)
-            cursor = conn.cursor()
 
             if verbose : print(f"Update {player}")
 
@@ -446,8 +456,8 @@ class PlayerData():
                 WHERE id = ?
             """, player_data)
 
-            conn.commit()
-            conn.close()
+        conn.commit()
+        conn.close()
 
         if verbose : print("Player updated sucessfully!")
         return True
@@ -458,21 +468,22 @@ class StadiumData():
         ''' Insert stadiums to the database '''
         
         print("Inserting stadiums into the database ")
-
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+        
         for stadium in stadiums:
             print('.', sep=' ', end=' ', flush=True)
 
             if verbose : print(f"Insert stadium {stadium} into the database")
 
-            conn = sqlite3.connect(database)
-            cursor = conn.cursor()
+
 
             std_data = stadium.data
 
             cursor.execute("INSERT INTO stadium (name, location, capacity, club_owner) VALUES (?,?,?,?)", std_data)
 
-            conn.commit()
-            conn.close()
+        conn.commit()
+        conn.close()
 
         if verbose : print("Stadiums inserted into the database sucessfully!")
         return True
@@ -502,16 +513,15 @@ class GameData():
             home_tackles, home_saves, home_ball_possession, home_offsides, home_freekicks, away_shots, away_shots_on_target,
             away_fouls, away_tackles, away_saves, away_ball_possession, away_offsides, away_freekicks ]
         '''
-        
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
         for game in game_list:
             print('.', sep=' ', end=' ', flush=True)
 
             if verbose : print(f"Inserting game {game} on the database")
 
             game_data = game.data()
-
-            conn = sqlite3.connect(database)
-            cursor = conn.cursor()
 
             cursor.execute("""
             INSERT INTO game (
@@ -541,8 +551,8 @@ class GameData():
             ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
             """, game_data)
 
-            conn.commit()
-            conn.close()
+        conn.commit()
+        conn.close()
 
         if verbose : print("Game data inserted sucessfully")
 
