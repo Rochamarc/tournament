@@ -89,11 +89,7 @@ class Game:
 
         return self.register_winner() 
 
-    def save_game_database(self, verbose=False):
-        # variables
-
-        if verbose : print("Inserting game on database")
-
+    def data(self):
         score = f"{self.scoreboard['home_goal']} x {self.scoreboard['away_goal']}"
         hour = self.scoreboard['hour']
 
@@ -105,7 +101,9 @@ class Game:
             self.away_fouls, self.away_tackles, self.away_saves, self.away_ball_possesion, self.away_offsides, self.away_free_kicks    
         ]
         
-        game_data.insert_games_db(game_info)
+        return game_info
+
+        # game_data.insert_games_db(game_info)
 
     def register_winner(self):
         ''' 
