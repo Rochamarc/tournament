@@ -449,10 +449,10 @@ class PlayerData():
 
             cursor.execute(f"""
                 UPDATE players 
-                SET matches_played=matches_played+?, 
-                    goals=goals+?,
-                    assists=assists+?,
-                    points=points+?
+                SET matches_played=?, 
+                    goals=?,
+                    assists=?,
+                    points=?
                 WHERE id = ?
             """, player_data)
 
