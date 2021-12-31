@@ -1,10 +1,5 @@
 from random import choice, randint
-from pprint import pprint
-import pandas as pd
-import os
 import sqlite3
-from name_nationality import *
-
 
 class Club:
 
