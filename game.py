@@ -85,7 +85,12 @@ class Game:
         self.home_goal = self.scoreboard['home_goal']
         self.away_goal = self.scoreboard['away_goal']
 
-
+        self.add_matches(self.home_players)
+        self.add_points(self.home_players, 4.0)
+              
+        self.add_matches(self.away_players)
+        self.add_points(self.away_players, 4.0)
+        
         self.scoreboard['home_goal'] = self.home_goal # add to the dict
         self.scoreboard['away_goal'] = self.away_goal # add to the dict 
 
@@ -140,18 +145,11 @@ class Game:
         '''
 
         ''' Add one digit to player.match and points '''
-        for player in self.home_players:
-            self.add_matches(player)
-            self.add_points(player, 4.0)
-            player.points += 4.0   
-        for player in self.away_players:
-            self.add_matches(player)
-            self.add_points(player, 4.0)
         
         time = 0
         move_info = self.move(self.home_club, self.away_club, 'middle')
 
-        while time < 99:
+        while time < 80:
             if self.home_goal == 7 or self.away_goal == 7:
                 break
             move_info = self.move(move_info['club_possession'], move_info['other_club'], move_info['field_part'], move_info['sender'])
@@ -248,10 +246,10 @@ class Game:
             if defense_move == 'tackle': # tackle move
                 sender = defensor
                 self.add_stats(defense_club, 'tackles') # Add a tackle to the game stats
-                self.add_points(defensor, 0.3)
+                self.add_points([defensor], 0.3)
             elif defense_move == 'interception': # interception move
                 sender = defensor                
-                self.add_points(defensor, 0.4)
+                self.add_points([defensor], 0.4)
             else:
                 raise NameError('Move doesnt match')
             
@@ -259,7 +257,7 @@ class Game:
 
         else:
             ''' Foul '''
-            foul = choice([True, False])
+            foul = self.decision(defensor.overall) # if false == foul
             
             field_part = field_part
 
@@ -269,32 +267,40 @@ class Game:
             self.add_stats(attack_club, 'free kicks') # add a free kick to the game stats
                 
 
-            if foul:
+            '''
+            I change the foul system to get by the defensor overall,
+            the most overall has less chance to conveding a foul
+            '''
+            if not foul:
                 if field_part == 'front':
                     ''' Penalty kick '''
                     keeper = self.select_player(defense_club, 'goalkeeper')
-                    goal = self.penalty(keeper, attacker, attack_club)
+                    shooter = self.select_player(attack_club, 'attacker') # select the shooter
+
+                    goal = self.penalty(keeper, shooter, attack_club)
+                    
                     self.add_stats(attack_club, 'shots on target')
                     self.add_stats(attack_club, 'ball possession') # add a ball possesssion to game stats
 
                     if goal:
                         field_part == 'middle'
-                        club_possession, other_club = defense_club, attack_club
                     else:
                         field_part == 'back'
-                        club_possession, other_club = defense_club, attack_club
+                    
+                    club_possession, other_club = defense_club, attack_club
                     
             
             elif attack_move == 'finish':
-                keeper = self.select_player(defense_club, 'goalkeeper')
-                keeper_sucess = self.decision(keeper.overall)
 
                 if attack_move_sucess:
                     ''' Defense Failed, if its a finish only the keeper can save them now '''
+
+                    keeper = self.select_player(defense_club, 'goalkeeper')
+                    keeper_sucess = self.decision(keeper.overall)
                     
                     if keeper_sucess:
                         ''' Defense of the keeper '''
-                        club_possession, other_club = defense_club, attack_club
+                
                         field_part = 'back'
                         sender = keeper
                         self.add_stats(defense_club, 'saves')
@@ -304,18 +310,21 @@ class Game:
 
                     else:
                         ''' GOAL'''
-                        club_possession, other_club = defense_club, attack_club
+                        
                         field_part = 'middle'
                         self.add_stats(attack_club, 'shots on target')
                         self.finish(keeper, defensor, self.select_player(attack_club, 'midfielder'), attacker, attack_club)
                         self.add_stats(attack_club, 'ball possession') # add a ball possesssion to game stats
                 else:
                     ''' Chute pra fora '''
-                    club_possession, other_club = defense_club, attack_club
+                
                     field_part = 'back'
-                    sender = keeper
+                    sender = self.select_player(defense_club, 'any')
                     self.add_stats(attack_club, 'shots')
                     self.add_stats(defense_club, 'ball possession') # add a ball possesssion to game stats
+                
+                club_possession, other_club = defense_club, attack_club
+
             else:
                 if attack_move_sucess:
                     ''' move success ''' 
@@ -386,7 +395,7 @@ class Game:
 
         if defense and not goal:
             # add points to keeper
-            self.add_points(keeper, 1.0)
+            self.add_points([keeper], 1.0)
             return False
         else:
             if club_finish == self.home_club:
@@ -398,7 +407,7 @@ class Game:
             else:
                 raise NameError("Club finish doesn't match with home or away club")
 
-            self.add_points(attacker, 1.5)    
+            self.add_points([attacker], 1.5)    
             self.add_goal(attacker)
 
             # loose points for conced a goal
@@ -416,7 +425,7 @@ class Game:
         else:
             points = 0.4
     
-        self.add_points(keeper, points)
+        self.add_points([keeper], points)
 
         return True
 
@@ -428,7 +437,7 @@ class Game:
 
         if assist:
             ''' goal with assist '''
-            self.add_points(midfielder, 1.0) # Points for assist
+            self.add_points([midfielder], 1.0) # Points for assist
             self.add_assist(midfielder) # add assist
 
         # register a goal inside this class
@@ -446,7 +455,7 @@ class Game:
         else:
             raise NameError("Club finish doesn't match with home or away club")
 
-        self.add_points(attacker, 1.5)    
+        self.add_points([attacker], 1.5)    
         self.add_goal(attacker)
 
         # loose points for conced a goal
@@ -485,8 +494,8 @@ class Game:
         starting.remove(player_out) # out
         bench.remove(player_in) # out from the bench
         
-        self.add_points(player_in, 1.5) # add some points
-        self.add_matches(player_in) # add matches played
+        self.add_points([player_in], 1.5) # add some points
+        self.add_matches([player_in]) # add matches played
         
         starting.append(player_in) # into the pitch
         
@@ -585,30 +594,24 @@ class Game:
 
     def check_game_stats(self):
         """ Check for clean sheets, hat tricks and update pontuation """
-        h_defensors = [ player for player in self.home_players if player.position in ['GK', 'CB', 'RB', 'LB', 'DM' ]]
-        h_attackers = [ player for player in self.home_players if player.position in ['CM', 'AM', 'CF', 'SS', 'WG']]
-        
+        h_defensors = [ player for player in self.home_players if player.position in ['GK', 'CB', 'RB', 'LB', 'DM' ]]        
         a_defensors = [ player for player in self.away_players if player.position in ['GK', 'CB', 'RB', 'LB', 'DM' ]]
-        a_attackers = [ player for player in self.away_players if player.position in ['CM', 'AM', 'CF', 'SS', 'WG']]
 
         if self.home_goal == 0:
-            for _def in h_defensors : self.add_points(_def, 0.4)
+            ''' Add clean sheat points ''' 
+            for _def in h_defensors : self.add_points([_def], 0.4)
         if self.away_goal == 0:
-            for _def in a_defensors : self.add_points(_def, 0.4)
-        
-        if self.home_goal > self.away_goal:
-            for player in self.home_players : self.add_points(player, 1.0) 
-        elif self.home_goal < self.away_goal:
-            for player in self.away_players : self.add_points(player, 1.0)
+            for _def in a_defensors : self.add_points([_def], 0.4)
         
         if self.home_goal >= 3:
+            ''' Extra points for hat trick '''
             for player, goals in self.home_player_goals.items():
                 if goals >= 3:
-                    self.add_points(player, 5.0)
+                    self.add_points([player], 5.0)
         if self.away_goal >= 3:
             for player, goals in self.away_player_goals.items():
                 if goals >= 3:
-                    self.add_points(player, 5.0)
+                    self.add_points([player], 5.0)
                 
         return True 
 
@@ -630,17 +633,19 @@ class Game:
         ''' Boolean: returns True if the team still have subs left '''
         return n_subs > 0
     
-    def add_points(self, player, points):
+    def add_points(self, players, points):
         ''' Add points to player '''
-        player.points += points 
+        for player in players:
+            player.points += points 
     
     def sub_points(self, player, points):
         ''' Remove points to player '''
         player.points -= points 
 
-    def add_matches(self, player):
+    def add_matches(self, players):
         ''' Add one match to player '''
-        player.matches_played += 1
+        for player in players:
+            player.matches_played += 1
     
     def add_goal(self, player):
         ''' Add one goal to player '''
