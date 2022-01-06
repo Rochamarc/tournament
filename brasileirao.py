@@ -1,21 +1,21 @@
 from classes_helper import GenerateClass
-from classes import *
 from game import Game  
 from ranking import *
-from database import DomesticLeague, PlayerData
+from database import DomesticLeague, GameData, PlayerData
 
 # Class variables
 gene = GenerateClass() 
 league = DomesticLeague()
 rk = Ranking()
 p_data = PlayerData()
+game_db = GameData()
 
 # Global variables
 stadiums = [ gene.reconstruct_stadiums() ]
 season = '2021'
 
 
-for i in range(4):
+for i in range(2):
     
     if season != '2021':
         gene.promotions_and_relegations(season) # initiate a new season
@@ -40,7 +40,7 @@ for i in range(4):
         ''' Defining the schedule '''
         for match in game_info:
             print(match[0].start_eleven)
-            serie_a_matches.append(Game(match[0], match[1], competition_name, int(rnd.split(' ')[-1]), season, head_stadium=match[-1]))
+            serie_a_matches.append(Game(match[0], match[1], competition_name, int(rnd.split(' ')[-1]), season, head_stadium=match[-1], verbose=True))
 
 
     tb = rk.domestic_table(division, season) # Get the initial domestic cup table
@@ -59,15 +59,14 @@ for i in range(4):
 
     ### END SERIE A ###
 
-    for match in serie_a_matches:
-        match.save_game_database(verbose=True)
+    
+    game_db.insert_games_db(serie_a_matches)
 
     # UPDATE SERIE A PLAYERS
     for club in serie_a_clubs:
-        for player in club.start_eleven:
-            p_data.update_player_stats(player.get_competition_stats(), verbose=True)
-        for player in club.bench:
-            p_data.update_player_stats(player.get_competition_stats(), verbose=True)
+        p_data.update_player_stats(club.start_eleven, verbose=True)
+        p_data.update_player_stats(club.bench, verbose=True)
+        
 
     ### SERIE B ###
     serie_b_matches = []
@@ -106,15 +105,12 @@ for i in range(4):
     
     ### END SERIE B ###
 
-    for match in serie_b_matches:
-        match.save_game_database(verbose=True)
+    game_db.insert_games_db(serie_b_matches, verbose=True)
 
     # UPDATE SERIE A PLAYERS
     for club in serie_b_clubs:
-        for player in club.start_eleven:
-            p_data.update_player_stats(player.get_competition_stats(), verbose=True)
-        for player in club.bench:
-            p_data.update_player_stats(player.get_competition_stats(), verbose=True)
+        p_data.update_player_stats(club.start_eleven, verbose=True)
+        p_data.update_player_stats(club.bench, verbose=True)
 
     ### SERIE C ###
     serie_c_matches = []
@@ -154,13 +150,10 @@ for i in range(4):
     ### END SERIE C ###
         # UPDATE SERIE A PLAYERS
 
-    for match in serie_c_matches:
-        match.save_game_database(verbose=True)
+    game_db.insert_games_db(serie_c_matches, verbose=True)
 
     for club in serie_a_clubs:
-        for player in club.start_eleven:
-            p_data.update_player_stats(player.get_competition_stats(), verbose=True)
-        for player in club.bench:
-            p_data.update_player_stats(player.get_competition_stats(), verbose=True)
+        p_data.update_player_stats(club.start_eleven, verbose=True)
+        p_data.update_player_stats(club.bench, verbose=True)
 
     season = str(int(season) + 1) # next season
