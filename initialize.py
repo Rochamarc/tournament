@@ -27,7 +27,7 @@ league.create_domestic_table('serie_b', '2021', verbose=True)
 league.create_domestic_table('serie_c', '2021', verbose=True)
 
 # Setting Generic Stadiums
-with open('files/generic_stadiums/stadiums.txt') as file:
+with open('files/generic_stadiums/stadiums.txt', encoding='utf8') as file:
     for i in file.readlines():
         i = i.split(',')
         name = i[0]
@@ -39,7 +39,7 @@ with open('files/generic_stadiums/stadiums.txt') as file:
         generic_stadiums.append(Stadium(name, location))
 
 # Setting Real Stadiums
-with open('files/clubs_stadiums/stadiums.txt') as file:
+with open('files/clubs_stadiums/stadiums.txt', encoding='utf8') as file:
     for i in file.readlines():
         i = i.split(',')
         name = i[0]
@@ -55,7 +55,7 @@ std_data.insert_stadiums_db(stadiums, verbose=True)
 std_data.insert_stadiums_db(generic_stadiums, verbose=True)
 
 # Serie A
-with open('files/brasileirao/serie a/2021.txt') as file:
+with open('files/brasileirao/serie a/2021.txt', encoding='utf8') as file:
     ''' Creating clubs based on the files on the path above '''
     for i in file.readlines():
         i = i.split(',') 
@@ -73,7 +73,7 @@ for club in serie_a:
     p_data.insert_players_db(players, verbose=True) 
     
 # Serie B
-with open('files/brasileirao/serie b/2021.txt') as file:
+with open('files/brasileirao/serie b/2021.txt', encoding='utf8') as file:
     ''' Creating clubs based on the files on the path above '''
     for i in file.readlines():
         i = i.split(',') 
@@ -89,7 +89,7 @@ for club in serie_b:
     p_data.insert_players_db(players, verbose=True)
 
 # Serie C
-with open('files/brasileirao/serie c/2021.txt') as file:
+with open('files/brasileirao/serie c/2021.txt', encoding='utf8') as file:
     ''' Creating clubs based on the files on the path above '''
     for i in file.readlines():
         i = i.split(',') 

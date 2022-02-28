@@ -70,7 +70,7 @@ class GenerateClass:
             save_file = None
 
         # files/seasons/2021.txt 
-        with open(text_file_path, 'r') as file:
+        with open(text_file_path, 'r', encoding='utf8') as file:
             for line in file.readlines():
                 ''' Manage the data that are gonna be used '''
                 line = line.split(',') 
@@ -133,7 +133,7 @@ class GenerateClass:
     @staticmethod
     def set_stadium():
         stadiums = []
-        with open('files/clubs_stadiums/stadiums.txt') as file:
+        with open('files/clubs_stadiums/stadiums.txt', encoding='utf8') as file:
             for line in file.readlines():
                 ''' Manage the data that are gonna be used '''
                 line = line.split(',')  

@@ -10,7 +10,7 @@ inter = InternationalCup()
 class Ranking:
     @staticmethod
     def define_conmebol_points(clubs):
-        with open('ranking_conmebol.csv') as file:
+        with open('ranking_conmebol.csv', encoding='utf8') as file:
             lines = file.readlines() 
             for club in clubs:
 

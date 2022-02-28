@@ -25,7 +25,7 @@ class NameAndNationality:
     
     @staticmethod
     def access_file(file):
-        with open(f'files/names/{file}') as f:
+        with open(f'files/names/{file}', encoding='utf8') as f:
             return [ line.replace('\n', '') for line in f.readlines() ]
 
 if __name__ == '__main__':
