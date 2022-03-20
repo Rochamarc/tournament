@@ -93,9 +93,9 @@ generate players and games and finally getting this data.
 
 
 Licences:
-* Campeonato brasilieiro serie A
-* Campeonato brasilieiro serie B
-* Campeonato brasilieiro serie C
+* Campeonato brasileiro serie A
+* Campeonato brasileiro serie B
+* Campeonato brasileiro serie C
 * Libertadores da America (2020)
 
 I do not own the rights of any of it. It's just for fun.
@@ -132,20 +132,19 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+Clone, setup and running.
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/Rochamarc/tournament
    ```
-3. Run 
+2. Set
    ```sh
    ./script && ./reset_database
    ```
-4. 
-   ```js
-   
+3. 
+   ```py
+   python3 brasileirao.py
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -182,6 +181,7 @@ See the [open issues](https://github.com/othneildrew/Best-README-Template/issues
 
 
 <!-- CONTRIBUTING -->
+<!--
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -195,8 +195,9 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#top">back to top</a>)</p>
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+-->
 
 
 <!-- LICENSE -->
