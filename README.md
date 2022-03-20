@@ -125,8 +125,8 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
+* pip
+  ```py
   python3 -m pip install matplotlib.py pandas
   ```
 
