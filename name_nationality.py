@@ -3,6 +3,7 @@ from random import choice
 class NameAndNationality:
     @staticmethod
     def generate_nationality(team_nationality):
+        ''' Generates the player nationality '''
         outsider_prob = choice([True, False, False, False, False, False])
 
         south = ['Brasil', 'Argentina', 'Uruguay', 'Ecuador', 'Peru', 'Chile', 'Venezuela', 'Paraguay', 'Bolivia', 'Guiana', 'Panama']
@@ -14,6 +15,7 @@ class NameAndNationality:
 
     @staticmethod 
     def generate_name(nationality):
+        ''' Generates a name based on the player nationality '''
         if nationality == 'Brasil':
             first_name = choice(NameAndNationality().access_file('first_name_br.txt'))
             last_name = choice(NameAndNationality().access_file('last_name_br.txt')) 
@@ -25,6 +27,7 @@ class NameAndNationality:
     
     @staticmethod
     def access_file(file):
+        ''' Open the name files in files/names '''
         with open(f'files/names/{file}', encoding='utf8') as f:
             return [ line.replace('\n', '') for line in f.readlines() ]
 
