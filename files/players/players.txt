@@ -1,0 +1,17 @@
+Matheuzinho,Brasil,22,WG,77
+Juan Cabral,Peru,30,AM,72
+Thiego Nevado,Brasil,33,AM,76
+Duda,Brasil,35,GK,79
+Gustagol,Brasil,24,CF,85
+Carlos Cas,Brasil,28,DM,87
+Fefito Michel,Brasil,30,GK,69
+Arantes,Brasil,25,CM,70
+Alejandro,Argentina,36,SS,80
+Rotero,Argentina,30,CM,81
+P. Vinkero,Peru,32,CF,81
+Nilton Mar,Brasil,33,SS,84
+Felipe Mellon,Brasil,34,CB,83
+Antonio B.,Brasil,22,WG,84
+Jesus M.,Uruguay,26,CF,82
+Frederico,Brasil,35,CF,86
+Gabi Garoto,Brasil,22,RB,82
