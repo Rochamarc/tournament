@@ -40,7 +40,7 @@ for i in range(2):
         ''' Defining the schedule '''
         for match in game_info:
             print(match[0].start_eleven)
-            serie_a_matches.append(Game(match[0], match[1], competition_name, int(rnd.split(' ')[-1]), season, head_stadium=match[-1], verbose=True))
+            serie_a_matches.append(Game(match[0], match[1], competition_name, int(rnd.split(' ')[-1]), season, head_stadium=match[-1]))
 
 
     tb = rk.domestic_table(division, season) # Get the initial domestic cup table

@@ -575,23 +575,6 @@ class Game:
 
             print(player_goal_string) # show the players scoreboard
 
-            if end_game:
-                if self.verbose:
-                    ''' save a file with a string '''
-                    with open(f'files/brasileirao/serie a/2021/{self.home_club.name} x {self.away_club.name}.txt', 'w+') as file:
-
-                        file.write(f"{self.scoreboard['home_club'].name.upper()} ({self.scoreboard['home_club'].short_country}) x {self.scoreboard['away_club'].name.upper()} ({self.scoreboard['away_club'].short_country})\n")
-                        
-                        for line in exit_string:
-                            file.write(line)
-
-                        file.write('\n')
-                        
-                        for line in player_goal_string:
-                            file.write(line)
-
-                return True
-
     def check_game_stats(self):
         """ Check for clean sheets, hat tricks and update pontuation """
         h_defensors = [ player for player in self.home_players if player.position in ['GK', 'CB', 'RB', 'LB', 'DM' ]]        
