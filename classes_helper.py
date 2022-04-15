@@ -1,5 +1,5 @@
 from classes import Club, Player, Stadium
-from database import ClubData, DomesticLeague, StadiumData
+from database import ClubData, DomesticLeague, StadiumData, PlayerData
 from name_nationality import NameAndNationality as name_and_nat
 from random import randint, choice
 
@@ -7,6 +7,7 @@ Name = name_and_nat()
 domestic = DomesticLeague()
 club_data = ClubData()
 std_data = StadiumData()
+p_data = PlayerData()
 
 class GenerateClass:
     @staticmethod
@@ -129,6 +130,34 @@ class GenerateClass:
 
 
         return squad 
+
+    @staticmethod
+    def set_generic_const_player():
+        players = []
+
+        with open('files/players/players.txt', 'r') as file:
+            for line in file.readlines():
+
+                current_club = choice(['Santos', 'Atlético Mineiro', 'Palmeiras', 'Flamengo','Fluminense', 'Santos', 'Grêmio', 'Corinthians', 'Internacional', 'São Paulo'])
+
+                if line != '' : line = line.split(',')
+                line[-1] = line[-1].replace('\n', '')
+
+                # handling with line list
+                name = line[0]
+                nationality = line[1]
+                age = line[2]
+                position = line[3]
+                overall = line[4]
+
+                p = Player(name, nationality, age, position, 0,10)
+                p.overall = overall
+                p.current_club = current_club
+
+                players.append(p)
+
+        p_data.insert_players_db({ "players": players })
+        return True
 
     @staticmethod
     def set_stadium():
