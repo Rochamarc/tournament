@@ -1,5 +1,4 @@
 from random import choice, randint
-import sqlite3
 
 class Club:
 
@@ -111,45 +110,43 @@ class Club:
         self.max_coeff = maximum
         return True 
 
-    def set_coeff(self):
-        conn = sqlite3.connect('database.db')
-        cursor = conn.cursor() 
 
-        cursor.execute("SELECT points FROM clubs_ranking WHERE name=?", (self.name,))
-
-        val = cursor.fetchall()[0][0]
-        
-        v_coeff = 65
-
-        if val >= 800:
-            v_coeff += 1
-        if val >= 900:
-            v_coeff += 1
-        if val >= 1000:
-            v_coeff += 2
-        if val >= 3000:
-            v_coeff += 2
-        if val >= 4000:
-            v_coeff += 2
-        if val >= 5000:
-            v_coeff += 2
-        if val >= 6000:
-            v_coeff += 2
-        else:
-            v_coeff += 1
-
-        return v_coeff      
-
-
-
-#### Player Base Object #####
-class Player:
-
-    def __init__(self, name, nationality, age, position, min_coeff, max_coeff, current_club=None, shirt_number=None, save_file=None):
-        id = None
+#### Player and Coach base obj ####
+class Person:
+    def __init__(self, name, nationality, age):
         self.name = name
         self.nationality = nationality
         self.age = age
+
+#### Coach ####
+class Coach(Person):
+    def __init__(self, name, nationality, age):
+        super().__init__(name, nationality, age)
+        self.formation = None 
+        self.play_mode = None
+        
+    def technical_features(self):
+        ''' Define the coach technical features as his attacking mode and formation '''
+        att = choice(['offensive', 'defensive'])
+        
+        if att == 'offensive':
+            self.formation = choice(['4-3-3', '4-4-2'])
+        else:
+            self.formation = choice(['3-5-2', '3-4-3'])
+        
+        self.play_mode = att
+
+    def __repr__(self):
+        return f"Coach({self.name})"
+
+    def __str__(self):
+        return f"Coach({self.name})"
+
+#### Player #####
+class Player(Person):
+
+    def __init__(self, name, nationality, age, position, min_coeff, max_coeff, current_club=None, shirt_number=None, save_file=None):
+        super().__init__(name, nationality, age)
         self.overall = randint(min_coeff, max_coeff)
         self.current_club = current_club
         self.position = position
