@@ -21,6 +21,9 @@ serie_c = []
 generic_stadiums = []
 stadiums = []
 
+# set generic players
+gene.set_generic_const_player()
+
 # creating tables
 league.create_domestic_table('serie_a', '2021', verbose=True)
 league.create_domestic_table('serie_b', '2021', verbose=True)
