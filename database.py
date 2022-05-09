@@ -27,6 +27,18 @@ def create_db():
     );
     """)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS coach (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        nationality TEXT NOT NULL,
+        age INTEGER NOT NULL,
+        formation TEXT NOT NULL,
+        play_mode TEXT NOT NULL,
+        current_club TEXT
+    );
+    """)
+    
     # create stadium table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS stadium ( 
@@ -382,6 +394,32 @@ class ClubData():
 
         return data
 
+class CoachData():
+    @staticmethod
+    def coach_sacking(coach):
+        '''
+        Remove the club name from coach's current_club table
+        '''
+        pass 
+
+
+    @staticmethod
+    def insert_coachs_db(coaches):   
+        '''
+        Insert coaches into the database
+        list(coachs) [ name, nationality, age, formation, play_mode, current_club ]
+        '''
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
+        for coach in coachs:
+            cursor.execute("INSERT INTO coach (name, nationality, age, formation, play_mode, current_club) VALUES (?,?,?,?,?,?)", coach)
+        
+        conn.commit()
+        conn.close()
+
+        print('Coaches inserted sucessfully')
+
 
 class PlayerData():
     @staticmethod
@@ -416,9 +454,6 @@ class PlayerData():
                 print('.', sep=' ', end=' ', flush=True)
 
                 if verbose : print(f"Insert player {player} into the database")
-
-                
-                
 
                 player_data = player.data
 
