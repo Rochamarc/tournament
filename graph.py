@@ -25,8 +25,8 @@ y = clubs_names
 plt.plot(x,y)
 
 # Naming
-plt.xlabel('Clubs Names')
-plt.ylabel('Overall')
+plt.ylabel('Clubs Names')
+plt.xlabel('Overall')
 
 # Title
 plt.title('Clubs stats')
