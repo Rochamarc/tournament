@@ -404,7 +404,7 @@ class CoachData():
 
 
     @staticmethod
-    def insert_coachs_db(coaches):   
+    def insert_coaches_db(coaches):   
         '''
         Insert coaches into the database
         list(coachs) [ name, nationality, age, formation, play_mode, current_club ]
@@ -412,7 +412,7 @@ class CoachData():
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
-        for coach in coachs:
+        for coach in coaches:
             cursor.execute("INSERT INTO coach (name, nationality, age, formation, play_mode, current_club) VALUES (?,?,?,?,?,?)", coach)
         
         conn.commit()
