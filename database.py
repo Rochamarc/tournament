@@ -420,6 +420,17 @@ class CoachData():
 
         print('Coaches inserted sucessfully')
 
+    @staticmethod
+    def get_all_coaches():
+
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
+        data = cursor.execute("SELECT * FROM coach").fetchall()
+
+        return data
+
+
 
 class PlayerData():
     @staticmethod
