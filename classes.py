@@ -3,6 +3,7 @@ from random import choice, randint
 class Club:
 
     def __init__(self,name,country,club_class,state=None,save_file=None):
+        self.id = None
         self.name = name
         self.country = country
         self.short_country = self.country[:3].upper()
@@ -46,15 +47,15 @@ class Club:
 
         for player in players_list:
             ''' Reinstance the player data to objects '''
-            id = player[0]
-            name = player[1]
-            nation = player[2]
-            age = player[3]
-            overall = player[4]
-            club = player[5]
-            posi = player[6]
+            p_id = player['id']
+            name = player['name']
+            nation = player['nationality']
+            age = player['age']
+            overall = player['overall']
+            club = self.name
+            posi = player['position']
             p = Player(name, nation, age, posi, 0, 100, current_club=club)
-            p.id = id
+            p.id = p_id
             p.overall = overall
             squad.append(p)
         
@@ -114,6 +115,7 @@ class Club:
 #### Player and Coach base obj ####
 class Person:
     def __init__(self, name, nationality, age):
+        self.id = None
         self.name = name
         self.nationality = nationality
         self.age = age
@@ -193,6 +195,7 @@ class Player(Person):
 class Stadium:
 
     def __init__(self, name, location, capacity=None, club_owner=None):
+        self.id = None
         self.name = name 
         self.location = location # City, Country ex: Manchester, UK
         self.club_owner = club_owner 
