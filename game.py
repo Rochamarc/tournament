@@ -64,6 +64,7 @@ class Game:
 
         self.scoreboard = {
             'competition': self.competition,
+            'season': self.season,
             'round': self.round,
             'hour': choice(['19:00', '21:00', '23:00']),
             'location': self.stadium.location,
@@ -113,6 +114,9 @@ class Game:
         return game_info
 
         # game_data.insert_games_db(game_info)
+
+    def game_data(self):
+        return { 'scoreboard': self.scoreboard, 'stats': self.stats }
 
     def register_winner(self):
         ''' 
