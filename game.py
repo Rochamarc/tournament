@@ -116,7 +116,39 @@ class Game:
         # game_data.insert_games_db(game_info)
 
     def game_data(self):
-        return { 'scoreboard': self.scoreboard, 'stats': self.stats }
+        ''' Return the scoredboad info and game stats info '''
+        # this is the api pointer to each club
+        home = f"http://still-wave-44749.herokuapp.com/clubs/{self.home_club.id}/"
+        visitors = f"http://still-wave-44749.herokuapp.com/clubs/{self.away_club.id}/"
+        
+        data = {
+            'competition': self.scoreboard['competition'],
+            'season': self.scoreboard['season'],
+            'hour': self.scoreboard['hour'],
+            'score': f"{self.scoreboard['home_goal']} x {self.scoreboard['away_goal']}",
+            'stadium': self.stadium.name,
+            'home_team': home,
+            'away_team': visitors,
+            'home_shots' : self.stats['home_stats']['shots'],
+            'home_shots_on_target' : self.stats['home_stats']['shots on target'],
+            'home_fouls' : self.stats['home_stats']['fouls'],
+            'home_tackles' : self.stats['home_stats']['tackles'],
+            'home_saves' : self.stats['home_stats']['saves'],
+            'home_ball_possession' : self.stats['home_stats']['ball possession'],
+            'home_offsides' : self.stats['home_stats']['offsides'],
+            'home_freekicks' : self.stats['home_stats']['free kicks'],
+            'away_shots' : self.stats['away_stats']['shots'],
+            'away_shots_on_target' : self.stats['away_stats']['shots on target'],
+            'away_fouls' : self.stats['away_stats']['fouls'],
+            'away_tackles' : self.stats['away_stats']['tackles'],
+            'away_saves' : self.stats['away_stats']['saves'],
+            'away_ball_possession' : self.stats['away_stats']['ball possession'],
+            'away_offsides' : self.stats['away_stats']['offsides'],
+            'away_freekicks' : self.stats['away_stats']['free kicks']
+        }
+
+
+        return data
 
     def register_winner(self):
         ''' 
@@ -605,8 +637,10 @@ class Game:
     def add_stats(self, club, move):
         if club == self.home_club:
             self.stats['home_stats'][move] += 1
+            if self.move == 'shots on targe' : self.stats['home_stats']['shots'] += 1
         elif club == self.away_club:
             self.stats['away_stats'][move] += 1
+            if self.move == 'shots on targe' : self.stats['away_stats']['shots'] += 1
         else: 
             raise NameError('Club name doesnt match')
 
