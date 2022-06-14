@@ -2,6 +2,8 @@ from classes_helper import GenerateClass
 from game import Game  
 from ranking import *
 from database import DomesticLeague, GameData, PlayerData
+from api_handle import get_players, upload_game
+
 
 # Class variables
 gene = GenerateClass() 
@@ -29,12 +31,13 @@ for i in range(2):
     division = 'serie_a'
 
 
-    serie_a_clubs = gene.reconstruct_clubs(division, season)
+    serie_a_clubs = gene.reconstruct_clubs(division, season) # with this line i get my clubs list of objects
 
     schedule = gene.define_schedule(serie_a_clubs, stadiums[0]) # the schedule
 
     for club in serie_a_clubs:
-        club.set_formation(p_data.get_players(club.name))
+        ''' Here we reconstruct the players and formation of the clubs '''
+        club.set_formation(get_players(club.name))
 
     for rnd, game_info in schedule.items():
         ''' Defining the schedule '''
@@ -57,10 +60,16 @@ for i in range(2):
     tb = rk.domestic_table(division, season) # Get the initial domestic cup table
     print(tb) 
 
+    serie_a_game_datas = [ game.game_data() for game in serie_a_matches ]
+
     ### END SERIE A ###
 
     
-    game_db.insert_games_db(serie_a_matches)
+    # game_db.insert_games_db(serie_a_matches)
+    
+    for data in serie_a_game_datas:
+        ''' Upload games stats to the api '''
+        upload_game(data)
 
     # UPDATE SERIE A PLAYERS
     for club in serie_a_clubs:
@@ -80,7 +89,7 @@ for i in range(2):
     schedule = gene.define_schedule(serie_b_clubs, stadiums[0]) # the schedule
 
     for club in serie_b_clubs:
-        club.set_formation(p_data.get_players(club.name))
+        club.set_formation(get_players(club.name))
 
     for rnd, game_info in schedule.items():
         ''' Defining the schedule '''
@@ -103,9 +112,15 @@ for i in range(2):
     tb = rk.domestic_table(division, season) # Get the initial domestic cup table
     print(tb) 
     
+    serie_b_game_datas = [ game.game_data() for game in serie_b_matches ]
+    
     ### END SERIE B ###
 
-    game_db.insert_games_db(serie_b_matches, verbose=True)
+    # game_db.insert_games_db(serie_b_matches, verbose=True)
+
+    for data in serie_b_game_datas:
+        ''' Upload games stats to the api '''
+        upload_game(data)
 
     # UPDATE SERIE A PLAYERS
     for club in serie_b_clubs:
@@ -124,7 +139,7 @@ for i in range(2):
     schedule = gene.define_schedule(serie_c_clubs, stadiums[0]) # the schedule
 
     for club in serie_c_clubs:
-        club.set_formation(p_data.get_players(club.name))
+        club.set_formation(get_players(club.name))
 
     for rnd, game_info in schedule.items():
         ''' Defining the schedule '''
@@ -147,10 +162,17 @@ for i in range(2):
     tb = rk.domestic_table(division, season) # Get the initial domestic cup table
     print(tb) 
     
+    serie_c_game_datas = [ game.game_data() for game in serie_c_matches ]
+    
     ### END SERIE C ###
         # UPDATE SERIE A PLAYERS
 
-    game_db.insert_games_db(serie_c_matches, verbose=True)
+    # game_db.insert_games_db(serie_c_matches, verbose=True)
+
+    for data in serie_c_game_datas:
+        ''' Upload games stats to the api '''
+        upload_game(data)
+
 
     for club in serie_a_clubs:
         p_data.update_player_stats(club.start_eleven, verbose=True)
