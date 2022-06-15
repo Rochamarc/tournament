@@ -1,0 +1,13 @@
+Player:
+    float market_value
+    float salary
+
+Club:
+    float total_budget
+    float salary_budget  # 25% do valor total
+
+
+Market:
+    ''' new class '''
+
+    # here comes the statistics
