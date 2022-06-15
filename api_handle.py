@@ -15,6 +15,17 @@ coaches_link = f"{base_link}coaches/"
 # content info
 headers = { 'Content-Type': 'application/json' }
 
+def upload_trophy(club_name, season, competition):
+    club = get_club(club_name)
+
+    data = {
+        "season": season,
+        "competition": competition,
+        "club_owner": f"{clubs_link}{club['id']}/"
+    }
+
+    requests.post(trophies_link, data=json.dumps(data))
+
 def get_players(club_name):
     ''' Reconstruct the club formation and players '''
 
@@ -86,4 +97,4 @@ def upload_coaches():
     return True
 
 if __name__ == "__main__":
-    print(get_players('Botafogo'))    
+    upload_trophy('Palmeiras', '2021', 'Conmebol Libertadores')
