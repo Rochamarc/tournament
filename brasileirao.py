@@ -14,7 +14,7 @@ game_db = GameData()
 
 # Global variables
 stadiums = [ gene.reconstruct_stadiums() ]
-season = '2021'
+season = input("Type the initial season: ")
 
 
 for i in range(2):
