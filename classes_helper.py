@@ -2,6 +2,7 @@ from classes import Club, Player, Stadium
 from database import ClubData, DomesticLeague, StadiumData, PlayerData
 from name_nationality import NameAndNationality as name_and_nat
 from random import randint, choice
+from api_handle import get_clubs
 
 Name = name_and_nat()
 domestic = DomesticLeague()
@@ -31,17 +32,18 @@ class GenerateClass:
         clubs = domestic.get_domestic_cup_table(division, season)
         clubs_names = [ club[1] for club in clubs ]
         
-        cl_data = [ club_data.get_clubs(name) for name in clubs_names ]
+        club_data = get_clubs(clubs_names)
 
         data = []
 
-        for cl in cl_data:
-            cl = cl[0]
-            name, country, state = cl[1], cl[2], cl[3]
-            club_class, club_coeff = cl[5], cl[4]
+        for club in club_data:
+            
+            c_id, name, country, state = club['id'], club['name'], club['country'], club['state']
+            club_class, club_coeff = choice(['A','B','C']), club['coeff']
 
             club = Club(name, country, club_class, state=state)
             club.coeff = club_coeff
+            club.id = c_id
             data.append(club)
         
         return data
