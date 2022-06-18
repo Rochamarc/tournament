@@ -1,5 +1,6 @@
 import http.client, urllib.parse
-import json 
+import json
+from game import Game 
 from opening import get_json_obj
 
 
@@ -22,7 +23,8 @@ headers = {
 
 class PlayerAPI:
     @staticmethod
-    def get_players():
+    def get_players(club_name):
+        '''
         conn = http.client.HTTPConnection(base_link)
         conn.request("GET", base_args['players'])
 
@@ -30,9 +32,13 @@ class PlayerAPI:
         data = r1.read()
 
         conn.close()
+        '''
 
-        return json.loads(data)
-    
+        data = CLubAPI.get_club_by_name(club_name)
+        
+        # return json.loads(data['players'])
+        return data['players']
+            
     @staticmethod
     def post_players():
         data = get_json_obj('player.json')
@@ -73,6 +79,23 @@ class CLubAPI:
 
         return json.loads(data)
 
+    @staticmethod
+    def get_club_by_name(name):
+        conn = http.client.HTTPConnection(base_link)
+        conn.request("GET", f"{base_args['clubs']}")
+
+        r1 = conn.getresponse()
+        data = r1.read()
+
+        conn.close()
+
+        data = json.loads(data)
+
+        for i in data:
+            if i['name'] == name:
+                return i
+
+                
 class GameAPI:
     @staticmethod
     def get_games():
