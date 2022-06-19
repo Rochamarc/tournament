@@ -99,7 +99,7 @@ class Game:
 
         return self.register_winner() 
 
-    def data(self):
+    def game_data(self):
         score = f"{self.scoreboard['home_goal']} x {self.scoreboard['away_goal']}"
         hour = self.scoreboard['hour']
 
@@ -115,7 +115,8 @@ class Game:
 
         # game_data.insert_games_db(game_info)
 
-    def game_data(self):
+    @property
+    def data(self):
         ''' Return the scoredboad info and game stats info '''
         # this is the api pointer to each club
         home = f"http://still-wave-44749.herokuapp.com/clubs/{self.home_club.id}/"
