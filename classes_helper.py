@@ -88,12 +88,12 @@ class GenerateClass:
         return clubs 
 
     @staticmethod
-    def set_players(club_name, country, min_club_coeff, max_club_coeff):
+    def set_players(club, country, min_club_coeff, max_club_coeff):
         ''' Generate players <class 'Player'> to the club <class 'Club'> 
             return a dict 
         '''
 
-        shirt_numbers = [ x for x in range(1,50) ]
+        
     
         squad = {
             'goal_keeper': [],
@@ -105,33 +105,40 @@ class GenerateClass:
         for _ in range(3):
             natio_ = Name.generate_nationality(country)
             name_ = Name.generate_name(natio_) 
-            number = choice(shirt_numbers)
-            shirt_numbers.remove(number)
-            squad['goal_keeper'].append(Player(name_, natio_, randint(16,37), 'GK', min_club_coeff, max_club_coeff, current_club=club_name, shirt_number=number))
+            
+            
+            squad['goal_keeper'].append(Player(name_, natio_, randint(16,37), 'GK', min_club_coeff, max_club_coeff, current_club=club.name))
         for _ in range(12):
             natio_ = Name.generate_nationality(country)
             name_ = Name.generate_name(natio_) 
             pos_ = choice(['CB', 'LB', 'RB'])
-            number = choice(shirt_numbers)
-            shirt_numbers.remove(number)
-            squad['defender'].append(Player(name_, natio_, randint(16,37), pos_, min_club_coeff, max_club_coeff, current_club=club_name, shirt_number=number))
+            
+            
+            squad['defender'].append(Player(name_, natio_, randint(16,37), pos_, min_club_coeff, max_club_coeff, current_club=club.name))
         for _ in range(12):
             natio_ = Name.generate_nationality(country)
             name_ = Name.generate_name(natio_) 
             pos_ = choice(['DM', 'CM', 'AM'])
-            number = choice(shirt_numbers)
-            shirt_numbers.remove(number)
-            squad["midfielder"].append(Player(name_, natio_, randint(16,37), pos_, min_club_coeff, max_club_coeff, current_club=club_name, shirt_number=number))
+            
+            
+            squad["midfielder"].append(Player(name_, natio_, randint(16,37), pos_, min_club_coeff, max_club_coeff, current_club=club.name))
         for _ in range(6):
             natio_ = Name.generate_nationality(country)
             name_ = Name.generate_name(natio_) 
             pos_ = choice(['CF', 'SS', 'WG'])
-            number = choice(shirt_numbers)
-            shirt_numbers.remove(number)
-            squad["attacker"].append(Player(name_, natio_, randint(16,37), pos_, min_club_coeff, max_club_coeff, current_club=club_name, shirt_number=number))
+            
+            
+            squad["attacker"].append(Player(name_, natio_, randint(16,37), pos_, min_club_coeff, max_club_coeff, current_club=club.name))
 
+        l = []
 
-        return squad 
+        
+        for _, items in squad.items():
+            for player in items:    
+                player.current_club_id = club.id
+                l.append(player)
+
+        return l
 
     @staticmethod
     def set_generic_const_player():
