@@ -1,7 +1,7 @@
-from random import choice, randint
-from api_requests import CLubAPI
+from random import choice, randint, triangular
+from api_requests import ClubAPI
 
-club_api = CLubAPI()
+club_api = ClubAPI()
 
 class Club:
 
@@ -16,11 +16,11 @@ class Club:
         self.min_coeff = 0
         self.max_coeff = 0
         
-        self.total_budget = None
-        self.salary_budget = None 
+        self.total_budget = float("{:.2f}".format(triangular(1_000_000.00, 100_000_000.00)))
+        self.salary_budget = float("{:.2f}".format(triangular(500_000.00, self.total_budget)))
 
         # The next attr are refering to handle the squad
-        self.formation = None
+        self.formation = "None"
         self.start_eleven = []
         self.bench = []
 
@@ -50,7 +50,7 @@ class Club:
             "name": self.name,
             "country": self.country,
             "state": self.state,
-            "coeff": self.coeff,
+            "coeff": (self.min_coeff + self.max_coeff) // 2,
             "formation": self.formation,
             "total_budget": self.total_budget,
             "salary_budget": self.salary_budget
@@ -173,7 +173,7 @@ class Coach(Person):
             "age": self.age,
             "formation": self.formation,
             "play_mode": self.play_mode,
-            "current_club": f"http://still-wave-44749.herokuapp.com/clubs/{club_api.get_club_by_name(self.current_club.name)['id']}/",
+            "current_club": f"http://still-wave-44749.herokuapp.com/clubs/{club_api.get_club_by_name(self.current_club)['id']}/",
             "salary": self.salary
         }
 
@@ -194,15 +194,15 @@ class Player(Person):
         self.points = 0  # every match another point is add here, thent is calculated by the average
 
         # physical
-        self.height = None
-        self.weight = None 
-        self.foot = None 
+        self.height = float("{:.2f}".format(triangular(1.65, 1.95)))
+        self.weight = float("{:.2f}".format(triangular(65.0, 90.0)))
+        self.foot = choice(['Right', 'Left'])
 
         # finances
-        self.market_value = None
-        self.salary = None
+        self.market_value = float("{:.2f}".format(triangular(10_000.0, 80_000_000.00)))
+        self.salary = float("{:.2f}".format(triangular(1_000.00, 500_000.00)))
 
-        self.average = None
+        self.average = 0
 
 
     @property
@@ -231,7 +231,7 @@ class Player(Person):
             "nationality": self.nationality,
             "age": self.age,
             "overall": self.overall,
-            "current_club": f"http://still-wave-44749.herokuapp.com/clubs/{club_api.get_club_by_name(self.current_club.name)['id']}/",
+            "current_club": f"http://still-wave-44749.herokuapp.com/clubs/{self.current_club_id}/",
             "position": self.position,
             "matches": self.matches_played,
             "goals": self.goals,

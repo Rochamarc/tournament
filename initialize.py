@@ -3,6 +3,9 @@ from classes_helper import GenerateClass
 from database import ClubData, DomesticLeague, PlayerData, StadiumData
 from ranking import Ranking
 
+
+from api_requests import ClubAPI, PlayerAPI, TableAPI
+
 import os 
 
 os.system('./reset_database.sh')
@@ -12,8 +15,15 @@ league = DomesticLeague()
 ranking = Ranking()
 std_data = StadiumData()
 gene = GenerateClass()
-p_data = PlayerData()
+# p_data = PlayerData()
 club_data = ClubData()
+
+
+# API
+club_api = ClubAPI()
+player_api = PlayerAPI()
+table_api = TableAPI()
+
 
 serie_a = []
 serie_b = []
@@ -22,9 +32,9 @@ generic_stadiums = []
 stadiums = []
 
 # set generic players
-gene.set_generic_const_player()
+#gene.set_generic_const_player()
 
-# creating tables
+# creating tables on my local database
 league.create_domestic_table('serie_a', '2021', verbose=True)
 league.create_domestic_table('serie_b', '2021', verbose=True)
 league.create_domestic_table('serie_c', '2021', verbose=True)
@@ -68,12 +78,6 @@ with open('files/brasileirao/serie a/2021.txt', encoding='utf8') as file:
         country = 'Brasil'
         serie_a.append(Club(name, country, cl_class, state=state))
 
-
-
-for club in serie_a:
-    ''' Generate player and formation '''
-    players = gene.set_players(club.name, club.country, club.min_coeff, club.max_coeff)
-    p_data.insert_players_db(players, verbose=True) 
     
 # Serie B
 with open('files/brasileirao/serie b/2021.txt', encoding='utf8') as file:
@@ -86,10 +90,7 @@ with open('files/brasileirao/serie b/2021.txt', encoding='utf8') as file:
         country = 'Brasil'
         serie_b.append(Club(name, country, cl_class, state=state))
 
-for club in serie_b:
-    ''' Generate player and formation '''
-    players = gene.set_players(club.name, club.country, club.min_coeff, club.max_coeff)
-    p_data.insert_players_db(players, verbose=True)
+
 
 # Serie C
 with open('files/brasileirao/serie c/2021.txt', encoding='utf8') as file:
@@ -102,25 +103,39 @@ with open('files/brasileirao/serie c/2021.txt', encoding='utf8') as file:
         country = 'Brasil'
         serie_c.append(Club(name, country, cl_class, state=state))
 
-for club in serie_c:
-    ''' Generate player and formation '''
-    players = gene.set_players(club.name, club.country, club.min_coeff, club.max_coeff)
-    p_data.insert_players_db(players, verbose=True)
+
+# Insert clubs on the api
+club_api.post_clubs(serie_a)
+club_api.post_clubs(serie_b)
+club_api.post_clubs(serie_c)
 
 # Creating basic table
 league.domestic_table_basic([ club.name for club in serie_a ], 'serie_a', '2021', verbose=True)
 league.domestic_table_basic([ club.name for club in serie_b ], 'serie_b', '2021', verbose=True)
 league.domestic_table_basic([ club.name for club in serie_c ], 'serie_c', '2021', verbose=True)
 
+table_api.post_tables(serie_a, 'Campeonato Brasileiro Serie A', '2021')
+table_api.post_tables(serie_b, 'Campeonato Brasileiro Serie B', '2021')
+table_api.post_tables(serie_c, 'Campeonato Brasileiro Serie C', '2021')
+
 # Getting domestic table
 tb_serie_a = ranking.domestic_table('serie_a', '2021')
 tb_serie_b = ranking.domestic_table('serie_b', '2021')
 tb_serie_c = ranking.domestic_table('serie_c', '2021')
 
-# Insert clubs on the database
-club_data.insert_clubs_db(serie_a, verbose=True)
-club_data.insert_clubs_db(serie_b, verbose=True)
-club_data.insert_clubs_db(serie_c, verbose=True)
 
+for club in serie_a:
+    ''' Generate player and formation '''
+    players = gene.set_players(club, club.country, club.min_coeff, club.max_coeff)
+    
+    player_api.post_players(players) 
 
+for club in serie_b:
+    ''' Generate player and formation '''
+    players = gene.set_players(club, club.country, club.min_coeff, club.max_coeff)
+    player_api.post_players(players)
 
+for club in serie_c:
+    ''' Generate player and formation '''
+    players = gene.set_players(club, club.country, club.min_coeff, club.max_coeff)
+    player_api.post_players(players)
