@@ -1,5 +1,5 @@
 from classes_helper import *
-from group_stage_draw import *
+from group_stage import *
 from ranking import Ranking
 from database import InternationalCup
 
