@@ -24,20 +24,15 @@ headers = {
 class PlayerAPI:
     @staticmethod
     def get_players(club_name):
-        '''
         conn = http.client.HTTPConnection(base_link)
         conn.request("GET", base_args['players'])
 
         r1 = conn.getresponse()
-        data = r1.read()
+        data = json.loads(r1.read())
 
         conn.close()
-        '''
-
-        data = ClubAPI.get_club_by_name(club_name)
         
-        # return json.loads(data['players'])
-        return data['players']
+        return [ player for player in data if player['current_club']['name'] == club_name ]
             
     @staticmethod
     def post_players(players):
