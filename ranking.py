@@ -1,5 +1,3 @@
-import csv 
-import sqlite3
 import pandas as pd
 
 from database import DomesticLeague, InternationalCup
