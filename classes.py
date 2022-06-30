@@ -1,8 +1,11 @@
-from random import choice, randint
+from random import choice, randint, triangular
+from api_requests import ClubAPI
+
+club_api = ClubAPI()
 
 class Club:
 
-    def __init__(self,name,country,club_class,state=None,save_file=None):
+    def __init__(self,name,country,club_class,state=None):
         self.id = None
         self.name = name
         self.country = country
@@ -12,10 +15,12 @@ class Club:
         self.ranking_points = 0
         self.min_coeff = 0
         self.max_coeff = 0
-        self.save_file = save_file
         
+        self.total_budget = float("{:.2f}".format(triangular(1_000_000.00, 100_000_000.00)))
+        self.salary_budget = float("{:.2f}".format(triangular(500_000.00, self.total_budget)))
+
         # The next attr are refering to handle the squad
-        self.formation = None
+        self.formation = "None"
         self.start_eleven = []
         self.bench = []
 
@@ -32,15 +37,29 @@ class Club:
         players = sum([ player.overall for player in self.start_eleven ] + [ player.overall for player in self.bench ]) 
         return ( players / len(players) ) 
 
-    @property
-    def data(self):
+    @property 
+    def old_data(self):
         ''' Return a list with name, country, state, coeff, club_class '''
         return [self.name, self.country, self.state, self.max_coeff, self.club_class, self.formation ]
+
+
+    @property   
+    def data(self):
+        ''' Return a list with name, country, state, coeff, club_class '''
+        return {
+            "name": self.name,
+            "country": self.country,
+            "state": self.state,
+            "coeff": (self.min_coeff + self.max_coeff) // 2,
+            "formation": self.formation,
+            "total_budget": self.total_budget,
+            "salary_budget": self.salary_budget
+        }
 
     def set_formation(self, players_list):
         ''' Receive a list of players 
 
-            id | name | nationality | age | overall | club | position | matches_played | goals | assists | points | avg | save_file
+            id | name | nationality | age | overall | club | position | matches_played | goals | assists | points | avg | 
         '''
 
         squad = []
@@ -127,6 +146,8 @@ class Coach(Person):
         self.formation = None 
         self.play_mode = None
         
+        self.salary = None
+        
     def technical_features(self):
         ''' Define the coach technical features as his attacking mode and formation '''
         att = choice(['offensive', 'defensive'])
@@ -144,23 +165,46 @@ class Coach(Person):
     def __str__(self):
         return f"Coach({self.name})"
 
+    @property
+    def data(self):
+        return {
+            "name": self.name,
+            "nationality": self.nationality,
+            "age": self.age,
+            "formation": self.formation,
+            "play_mode": self.play_mode,
+            "current_club": f"http://still-wave-44749.herokuapp.com/clubs/{club_api.get_club_by_name(self.current_club)['id']}/",
+            "salary": self.salary
+        }
+
 #### Player #####
 class Player(Person):
 
-    def __init__(self, name, nationality, age, position, min_coeff, max_coeff, current_club=None, shirt_number=None, save_file=None):
+    def __init__(self, name, nationality, age, position, min_coeff, max_coeff, current_club=None):
         super().__init__(name, nationality, age)
         self.overall = randint(min_coeff, max_coeff)
         self.current_club = current_club
+        self.current_club_id = None
         self.position = position
-        self.shirt_number = shirt_number
-        self.save_file = save_file
 
         #stats de competição
         self.matches_played = 0
         self.goals = 0
         self.assists = 0
         self.points = 0  # every match another point is add here, thent is calculated by the average
-    
+
+        # physical
+        self.height = float("{:.2f}".format(triangular(1.65, 1.95)))
+        self.weight = float("{:.2f}".format(triangular(65.0, 90.0)))
+        self.foot = choice(['Right', 'Left'])
+
+        # finances
+        self.market_value = float("{:.2f}".format(triangular(10_000.0, 80_000_000.00)))
+        self.salary = float("{:.2f}".format(triangular(1_000.00, 500_000.00)))
+
+        self.average = 0
+
+
     @property
     def avg(self):
         try:
@@ -182,6 +226,27 @@ class Player(Person):
 
     @property
     def data(self):
+        return {
+            "name": self.name,
+            "nationality": self.nationality,
+            "age": self.age,
+            "overall": self.overall,
+            "current_club": f"http://still-wave-44749.herokuapp.com/clubs/{self.current_club_id}/",
+            "position": self.position,
+            "matches": self.matches_played,
+            "goals": self.goals,
+            "assists": self.assists,
+            "market_value": self.market_value,
+            "salary": self.salary,
+            "height": self.height,
+            "weight": self.weight,
+            "foot": self.foot,
+            "average": self.average
+
+        }
+
+    @property
+    def old_data(self):
         ''' 
         return list[name, nationality, age, overall, current_club, position, matches, goals, assists, avg]
         '''
@@ -214,3 +279,7 @@ class Stadium:
     def data(self):
 
         return [ self.name, self.location, self.capacity, self.club_owner ]
+
+
+if __name__ == "__main__":
+    pass

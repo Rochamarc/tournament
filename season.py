@@ -2,14 +2,18 @@ from classes_helper import GenerateClass
 from game import Game
 from ranking import Ranking
 
-from api_requests import PlayerAPI, GameAPI
+from api_requests import PlayerAPI, GameAPI, TableAPI
 from database import PlayerData, DomesticLeague
 
 game_api = GameAPI()
+player_api = PlayerAPI()
+table_api = TableAPI()
+
+
 gene = GenerateClass()
 league = DomesticLeague()
-player_api = PlayerAPI()
 p_data = PlayerData()
+
 rk = Ranking()
 
 stadiums = [ gene.reconstruct_stadiums() ]
@@ -46,8 +50,8 @@ class Season:
             ''' execute the matches '''
             r = match.start()
 
-            league.update_domestic_table(r['home_team'], self.division, self.season)
-            league.update_domestic_table(r['away_team'], self.division, self.season)
+            table_api.update_table(r['home_team'], self.division, self.season)
+            table_api.update_table(r['away_team'], self.division, self.season)
 
 
         tb = rk.domestic_table(self.division, self.season) # Get the initial domestic cup table
