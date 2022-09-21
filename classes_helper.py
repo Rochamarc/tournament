@@ -31,14 +31,14 @@ class GenerateClass:
         clubs = domestic.get_domestic_cup_table(division, season)
         clubs_names = [ club[1] for club in clubs ]
         
-        club_data = get_clubs(clubs_names)
+        c_data = club_data.get_clubs(clubs_names)
 
         data = []
 
-        for club in club_data:
-            
-            c_id, name, country, state = club['id'], club['name'], club['country'], club['state']
-            club_class, club_coeff = choice(['A','B','C']), club['coeff']
+        for club in c_data:
+            club = club[0]
+            c_id, name, country, state = club[0], club[1], club[2], club[3]
+            club_class, club_coeff = club[5], club[4]
 
             club = Club(name, country, club_class, state=state)
             club.coeff = club_coeff
