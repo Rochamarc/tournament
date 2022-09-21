@@ -23,6 +23,11 @@ def create_db():
         assists INTEGER,
         points REAL,
         avg REAL,
+        market_value INTEGER, 
+        salary REAL, 
+        height REAL, 
+        weight REAL, 
+        foot VARCHAR(10),
         save_file VARCHAR(30)
     );
     """)
@@ -97,7 +102,9 @@ def create_db():
         state TEXT NOT NULL,
         coeff INTEGER NOT NULL,
         club_class VARCHAR(1) NOT NULL,
-        formation TEXT
+        formation TEXT,
+        total_budget REAL,
+        salary_budget REAL
     );
     """)
 
@@ -368,11 +375,9 @@ class ClubData():
 
             if verbose : print(f"Insert club {club} into the database")
 
+            club_data = club.data(api=False) # get the club info
 
-
-            club_data = club.data
-
-            cursor.execute("INSERT INTO clubs (name, country, state, coeff, club_class, formation) values (?,?,?,?,?,?)", club_data)
+            cursor.execute("INSERT INTO clubs (name, country, state, coeff, club_class, formation, total_budget, salary_budget) values (?,?,?,?,?,?,?,?)", club_data)
             
         conn.commit()
         conn.close()
@@ -460,18 +465,18 @@ class PlayerData():
         conn = sqlite3.connect(database)
         cursor = conn.cursor()        
         
-        for position, players in players.items():
-            for player in players:
-                print('.', sep=' ', end=' ', flush=True)
-
-                if verbose : print(f"Insert player {player} into the database")
-
-                player_data = player.data
-
-                cursor.execute('''
-                    INSERT INTO players (name, nationality, age, overall, current_club, position, matches_played, goals, assists, avg)
-                    values (?,?,?,?,?,?,?,?,?,?)
-                ''', player_data)
+        for player in players:
+            
+            print('.', sep=' ', end=' ', flush=True)
+            
+            if verbose : print(f"Insert player {player} into the database")
+            
+            player_data = player.data(api=False)
+            
+            cursor.execute('''
+                INSERT INTO players (name, nationality, age, overall, current_club, position, matches_played, goals, assists, avg, market_value, salary, height, weight, foot)
+                values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            ''', player_data)
 
         conn.commit()
         conn.close()
