@@ -2,7 +2,6 @@ from classes import Club, Player, Stadium
 from database import ClubData, DomesticLeague, StadiumData, PlayerData
 from name_nationality import NameAndNationality as name_and_nat
 from random import randint, choice
-from api_handle import get_clubs
 
 Name = name_and_nat()
 domestic = DomesticLeague()
