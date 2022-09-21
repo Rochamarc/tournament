@@ -18,7 +18,7 @@ class Player(Person):
         self.points = 0  # every match another point is add here, thent is calculated by the average
 
         # physical
-        self.height = float("{:.2f}".format(triangular(1.65, 1.95)))
+        self.height = self.set_height() 
         self.weight = float("{:.2f}".format(triangular(65.0, 90.0)))
         self.foot = choice(['Right', 'Left'])
 
@@ -36,6 +36,18 @@ class Player(Person):
         except:
             return 0
     
+    def set_height(self):
+        if self.position == 'GK':
+            return float("{:.2f}".format(triangular(1.79, 1.98)))
+        elif self.position == 'CB':
+            return float("{:.2f}".format(triangular(1.75, 1.88)))
+        elif self.position in ['LB', 'RB']:
+            return float("{:.2f}".format(triangular(1.65, 1.80)))
+        elif self.position == 'CF':
+            return float("{:.2f}".format(triangular(1.75, 1.90)))
+        else:
+            return float("{:.2f}".format(triangular(1.65, 1.89)))
+
     def get_competition_stats(self):
         ''' return matches_played, goals, assists, points '''
         return [ self.matches_played, self.goals, self.assists, self.points, self.id ] 
