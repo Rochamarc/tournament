@@ -1,14 +1,20 @@
 from classes_helper import GenerateClass
 from season import Season
 
+import os
 
 # Class variables
 gene = GenerateClass() 
 
 
+# Reset database
+reset = input("Type y for reset database: ")
+if reset == 'y':
+    os.system('python init_db.py')
+
 # Global variables
 season = input("Type the initial season: ")
-
+api_bool = False
 
 for i in range(2):
     
@@ -21,7 +27,7 @@ for i in range(2):
     division = 'serie_a'
 
     serie_a = Season(competition_name, season, division)
-    serie_a.run()
+    serie_a.run(api=api_bool)
 
     ### SERIE B ###
 
@@ -29,7 +35,7 @@ for i in range(2):
     division = 'serie_b'
 
     serie_b = Season(competition_name, season, division)
-    serie_b.run()
+    serie_b.run(api=api_bool)
 
     ### END SERIE B ###
 
@@ -40,7 +46,7 @@ for i in range(2):
     division = 'serie_c'
 
     serie_c = Season(competition_name, season, division)
-    serie_c.run()
+    serie_c.run(api=api_bool)
     
     ### END SERIE C ###
     
