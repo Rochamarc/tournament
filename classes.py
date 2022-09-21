@@ -40,11 +40,9 @@ class Club:
     @property 
     def old_data(self):
         ''' Return a list with name, country, state, coeff, club_class '''
-        return [self.name, self.country, self.state, self.max_coeff, self.club_class, self.formation ]
-
-
-    @property   
-    def data(self):
+        return [self.name, self.country, self.state, (self.min_coeff + self.max_coeff) // 2, self.club_class, self.formation, self.total_budget, self.salary_budget ]
+  
+    def data(self, api=True):
         ''' Return a list with name, country, state, coeff, club_class '''
         return {
             "name": self.name,
@@ -54,7 +52,7 @@ class Club:
             "formation": self.formation,
             "total_budget": self.total_budget,
             "salary_budget": self.salary_budget
-        }
+        } if api  else [ self.name, self.country, self.state, (self.min_coeff + self.max_coeff) // 2, self.club_class, self.formation, self.total_budget, self.salary_budget ]
 
     def set_formation(self, players_list):
         ''' Receive a list of players 
@@ -224,8 +222,7 @@ class Player(Person):
     def __str__(self):
         return f'Player({self.name})'
 
-    @property
-    def data(self):
+    def data(self, api=True):
         return {
             "name": self.name,
             "nationality": self.nationality,
@@ -242,20 +239,11 @@ class Player(Person):
             "weight": self.weight,
             "foot": self.foot,
             "average": self.average
-
-        }
-
-    @property
-    def old_data(self):
-        ''' 
-        return list[name, nationality, age, overall, current_club, position, matches, goals, assists, avg]
-        '''
-        
-        return [
+        } if api else [
             self.name, self.nationality, self.age, self.overall, self.current_club,
-            self.position, self.matches_played, self.goals, self.assists, self.avg
+            self.position, self.matches_played, self.goals, self.assists, self.avg, 
+            self.market_value, self.salary, self.height, self.weight, self.foot
         ]
-
 
 class Stadium:
 
