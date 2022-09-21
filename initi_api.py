@@ -1,4 +1,5 @@
-from classes import Club, Stadium
+from classes.club import Club
+from classes.stadium import Stadium
 from classes_helper import GenerateClass
 from database import ClubData, DomesticLeague, PlayerData, StadiumData
 from ranking import Ranking

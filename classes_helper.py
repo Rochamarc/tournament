@@ -1,4 +1,7 @@
-from classes import Club, Player, Stadium
+from classes.club import Club 
+from classes.player import Player 
+from classes.stadium import Stadium
+
 from database import ClubData, DomesticLeague, StadiumData, PlayerData
 from name_nationality import NameAndNationality as name_and_nat
 from random import randint, choice
