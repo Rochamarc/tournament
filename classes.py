@@ -64,13 +64,13 @@ class Club:
 
         for player in players_list:
             ''' Reinstance the player data to objects '''
-            p_id = player['id']
-            name = player['name']
-            nation = player['nationality']
-            age = player['age']
-            overall = player['overall']
-            club = self.name
-            posi = player['position']
+            p_id = player[0]
+            name = player[1]
+            nation = player[2]
+            age = player[3]
+            overall = player[4]
+            club = player[5]
+            posi = player[6]
             p = Player(name, nation, age, posi, 0, 100, current_club=club)
             p.id = p_id
             p.overall = overall
@@ -78,7 +78,7 @@ class Club:
         
         squad.sort(key=lambda player : player.overall) # Sorting items by overall not reverse
 
-        if not self.formation : self.formation = choice(['3-5-2', '4-3-3', '4-4-2']) # set formation if false
+        self.formation : self.formation = choice(['3-5-2', '4-3-3', '4-4-2']) # set formation if false
 
         keepers = [ player for player in squad if player.position == 'GK' ]
         backs = [ player for player in squad if player.position in ['CB','RB','LB'] ]
