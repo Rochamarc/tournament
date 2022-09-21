@@ -1,4 +1,6 @@
-from random import triangular
+from classes.player import Player
+
+from random import choice, triangular
 
 class Club:
 
@@ -102,26 +104,20 @@ class Club:
 
 
     def generate_coeff(self):
-        minimum = 55
-        maximum = 60
-        
         if self.club_class == 'D':
-            minimum -= 12 # 43
-            maximum -= 5 # 55
+            self.min_coeff = 50
+            self.max_coeff = 60
         elif self.club_class == 'C':
-            minimum -= 10 # 45
-            maximum += 0 # 60
+            self.min_coeff = 60
+            self.max_coeff = 70
         elif self.club_class == 'B':
-            minimum += 5 # 60
-            maximum += 10 # 70
+            self.min_coeff = 70
+            self.max_coeff = 75
         elif self.club_class == 'A':
-            minimum += 15 # 70
-            maximum += 25 # 85
+            self.min_coeff = 75
+            self.max_coeff = 90
         else:
             raise NameError(self.club_class, " doesnt match!")        
         
-        # update values
-        self.min_coeff = minimum
-        self.max_coeff = maximum
         return True 
 
