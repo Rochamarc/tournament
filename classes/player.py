@@ -1,0 +1,72 @@
+from classes.person import Person 
+
+from random import choice, randint, triangular
+
+class Player(Person):
+
+    def __init__(self, name, nationality, age, position, min_coeff, max_coeff, current_club=None):
+        super().__init__(name, nationality, age)
+        self.overall = randint(min_coeff, max_coeff)
+        self.current_club = current_club
+        self.current_club_id = None
+        self.position = position
+
+        #stats de competição
+        self.matches_played = 0
+        self.goals = 0
+        self.assists = 0
+        self.points = 0  # every match another point is add here, thent is calculated by the average
+
+        # physical
+        self.height = float("{:.2f}".format(triangular(1.65, 1.95)))
+        self.weight = float("{:.2f}".format(triangular(65.0, 90.0)))
+        self.foot = choice(['Right', 'Left'])
+
+        # finances
+        self.market_value = float("{:.2f}".format(triangular(10_000.0, 80_000_000.00)))
+        self.salary = float("{:.2f}".format(triangular(1_000.00, 500_000.00)))
+
+        self.average = 0
+
+
+    @property
+    def avg(self):
+        try:
+            return (round((self.points / self.matches_played), 1))
+        except:
+            return 0
+    
+    def get_competition_stats(self):
+        ''' return matches_played, goals, assists, points '''
+        return [ self.matches_played, self.goals, self.assists, self.points, self.id ] 
+
+    # Gera o output pro desenvolvedor
+    def __repr__(self):
+        return f'Player({self.name})'
+
+    # Gera o output para o usuario final
+    def __str__(self):
+        return f'Player({self.name})'
+
+    def data(self, api=True):
+        return {
+            "name": self.name,
+            "nationality": self.nationality,
+            "age": self.age,
+            "overall": self.overall,
+            "current_club": f"http://still-wave-44749.herokuapp.com/clubs/{self.current_club_id}/",
+            "position": self.position,
+            "matches": self.matches_played,
+            "goals": self.goals,
+            "assists": self.assists,
+            "market_value": self.market_value,
+            "salary": self.salary,
+            "height": self.height,
+            "weight": self.weight,
+            "foot": self.foot,
+            "average": self.average
+        } if api else [
+            self.name, self.nationality, self.age, self.overall, self.current_club,
+            self.position, self.matches_played, self.goals, self.assists, self.avg, 
+            self.market_value, self.salary, self.height, self.weight, self.foot
+        ]
