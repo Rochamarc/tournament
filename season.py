@@ -3,7 +3,7 @@ from game import Game
 from ranking import Ranking
 
 from api_requests import PlayerAPI, GameAPI, TableAPI
-from database import PlayerData, DomesticLeague
+from database import GameData, PlayerData, DomesticLeague
 
 game_api = GameAPI()
 player_api = PlayerAPI()
@@ -13,6 +13,7 @@ table_api = TableAPI()
 gene = GenerateClass()
 league = DomesticLeague()
 p_data = PlayerData()
+game_data = GameData()
 
 rk = Ranking()
 
@@ -24,7 +25,7 @@ class Season:
         self.season = season
         self.division = division
 
-    def run(self):
+    def run(self, api=True):
         ''' Run a season '''
         ### SERIE A ###
         matches = []
@@ -34,7 +35,12 @@ class Season:
         schedule = gene.define_schedule(clubs, stadiums[0]) # the schedule
 
         ''' Here we reconstruct the players and formation of the clubs '''
-        for club in clubs : club.set_formation(player_api.get_players(club.name))
+         
+        for club in clubs:
+            if api:
+                club.set_formation(player_api.get_players(club.name))
+            else:    
+                club.set_formation(p_data.get_players(club.name))
 
         for rnd, game_info in schedule.items():
             ''' Defining the schedule '''
@@ -50,9 +56,12 @@ class Season:
             ''' execute the matches '''
             r = match.start()
 
-            table_api.update_table(r['home_team'], self.division, self.season)
-            table_api.update_table(r['away_team'], self.division, self.season)
-
+            if api:
+                table_api.update_table(r['home_team'], self.division, self.season)
+                table_api.update_table(r['away_team'], self.division, self.season)
+            else:
+                league.update_domestic_table(r['home_team'], self.division, self.season)
+                league.update_domestic_table(r['away_team'], self.division, self.season)
 
         tb = rk.domestic_table(self.division, self.season) # Get the initial domestic cup table
         print(tb) 
@@ -60,13 +69,16 @@ class Season:
         # END SEASON
 
         ''' Upload games stats to the api '''
-        game_api.post_games(matches)
+        if api:
+            game_api.post_games(matches)
+        else:
+            game_data.insert_games_db(matches)
 
-        '''
+        
         # UPDATE PLAYERS
         for club in clubs:
             p_data.update_player_stats(club.start_eleven, verbose=True)
             p_data.update_player_stats(club.bench, verbose=True)
-        '''
+        
             
         return None
