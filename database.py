@@ -99,7 +99,7 @@ def create_db():
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         country TEXT NOT NULL,
-        state TEXT NOT NULL,
+        state TEXT,
         coeff INTEGER NOT NULL,
         club_class VARCHAR(1) NOT NULL,
         formation TEXT,
