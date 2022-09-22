@@ -1,7 +1,7 @@
-from random import randint 
-from time import sleep 
+from random import randint  
 from ranking import *
 from game import Game 
+from database import PlayerData
 
 """
 Competicao:
@@ -17,9 +17,12 @@ Pealtis: (em caso de penaltis)
 # 
 #
 
+player_data = PlayerData()
+
 class KnockOutGame(Game):
-    def __init__(self, home_club, away_club, competition, m_round, phase, head_stadium):
-        super().__init__(home_club, away_club, competition, m_round, head_stadium)
+    def __init__(self, home_club, away_club, competition, m_round, season, phase, head_stadium, verbose):
+        super().__init__(home_club, away_club, competition, m_round, season, head_stadium=head_stadium, verbose=verbose)
+    
         self.phase = phase 
         self.extra_time = False 
         self.qualified_goal = False
@@ -42,27 +45,29 @@ class KnockOutGame(Game):
 
     def first_leg(self):
         self.start()
+        return self.second_leg()
     
     def second_leg(self):
         self.update_attr()
 
         # self.stadium = self.home_club.stadium
 
-        r = self.start()
+        self.start()
 
         self.total_home += self.home_goal 
         self.total_away += self.away_goal
 
-        self.h_player_goals.clear()
-        self.a_player_goals.clear()
+        self.home_player_goals.clear()
+        self.away_player_goals.clear()
 
-        self.check_qualified_goal() # check and if True calculates if has a qualified goal
+        # self.check_qualified_goal() # check and if True calculates if has a qualified goal
         # self.check_extra_time() # check and simulates a extra time if True
         self.check_penalties() # check for penalties
         self.penalty_shots()
 
         self.scoreboard['total_home'] = self.total_home
         self.scoreboard['total_away'] = self.total_away 
+        
 
         return self.scoreboard
 
@@ -81,7 +86,7 @@ class KnockOutGame(Game):
                     self.qualified_goal = True 
                     self.scoreboard['loser'] = self.home_club 
                     self.scoreboard['winner'] = self.away_club 
-                    self.scoreboard['q_score'] = f"{self.home_goal} - \u0332{self.away_goals}"
+                    self.scoreboard['q_score'] = f"{self.home_goal} - \u0332{self.away_goal}"
 
 
     def check_winner(self):
