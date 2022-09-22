@@ -103,8 +103,8 @@ def create_db():
         coeff INTEGER NOT NULL,
         club_class VARCHAR(1) NOT NULL,
         formation TEXT,
-        total_budget REAL,
-        salary_budget REAL
+        total_budget INTEGER,
+        salary_budget INTEGER
     );
     """)
 
