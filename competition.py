@@ -1,7 +1,7 @@
 from classes_helper import GenerateClass
 from game import Game
 from ranking import Ranking
-
+from table import Table
 from api_requests import PlayerAPI, GameAPI, TableAPI
 from database import GameData, PlayerData, DomesticLeague
 
@@ -17,9 +17,11 @@ game_data = GameData()
 
 rk = Ranking()
 
+table = Table()
+
 stadiums = [ gene.reconstruct_stadiums() ]
 
-class Season:
+class Competition:
     def __init__(self, competition, season, division):
         self.competition = competition
         self.season = season
@@ -27,12 +29,11 @@ class Season:
 
     def run(self, api=True):
         ''' Run a season '''
-        ### SERIE A ###
         matches = []
 
         clubs = gene.reconstruct_clubs(self.division, self.season) # with this line i get my clubs list of objects
 
-        schedule = gene.define_schedule(clubs, stadiums[0]) # the schedule
+        schedule = table.define_schedule(clubs, stadiums[0]) # the schedule
 
         ''' Here we reconstruct the players and formation of the clubs '''
          

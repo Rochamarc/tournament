@@ -6,7 +6,7 @@ class NameAndNationality:
         ''' Generates the player nationality '''
         outsider_prob = choice([True, False, False, False, False, False])
 
-        south = ['Brasil', 'Argentina', 'Uruguay', 'Ecuador', 'Peru', 'Chile', 'Venezuela', 'Paraguay', 'Bolivia', 'Guiana', 'Panama']
+        south = ['BRA', 'ARG', 'URU', 'EQU', 'PER', 'CHI', 'VEN', 'PAR', 'BOL', 'GUI', 'PAN']
 
         if outsider_prob:
             # gringo
@@ -16,7 +16,7 @@ class NameAndNationality:
     @staticmethod 
     def generate_name(nationality):
         ''' Generates a name based on the player nationality '''
-        if nationality == 'Brasil':
+        if nationality == 'BRA':
             first_name = choice(NameAndNationality().access_file('first_name_br.txt'))
             last_name = choice(NameAndNationality().access_file('last_name_br.txt')) 
         else:

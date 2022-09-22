@@ -1,0 +1,20 @@
+Boca Juniors,ARG,B
+River Plate,ARG,B
+Club Atlético Tucumán,ARG,B
+Club de Gimnasia y Esgrima La Plate,ARG,C
+Racing Club,ARG,C
+Independiente,ARG,B
+San Lorenzo,ARG,C
+Talleres,ARG,C
+Huracán,ARG,D
+Vélez Sarsfield,ARG,C
+Estudiantes de La Plata,ARG,C
+Rosario Central,ARG,D
+Lanús,ARG,D
+Argentinos Juniors,ARG,D
+Newells Old Boys,ARG,D
+Banfield,ARG,D
+Defensa y Justicia,ARG,C
+Córdoba,ARG,D
+Godoy Cruz,ARG,D
+Colón,ARG,D

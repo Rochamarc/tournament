@@ -1,0 +1,10 @@
+Bolivar,BOL,C
+The Strongest,BOL,C
+Oriente Petrolero,BOL,D
+Always Ready,BOL,D
+Blooming,BOL,D
+Real Tomayapo,BOL,D
+Nacional Potosí,Bol,D
+Jorge Wilstermann,BOL,D
+Royal Pari,BOL,D
+Independiente Petrolero,BOL,D

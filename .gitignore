@@ -136,3 +136,7 @@ files/saves/
 files/brasileirao/serie a/2021/
 
 json/__pycache__/
+
+classes/__pycache__/
+
+database.db-journal

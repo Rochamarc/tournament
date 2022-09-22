@@ -1,0 +1,10 @@
+Colo-Colo,CHI,C
+Universidad Católica,CHI,B
+Universidad de Chile,CHI,B
+Ñublense,CHI,D
+Curico Unido,CHI,D
+Palestino,CHI,D
+Antofagasta,CHI,D
+Huachipato,CHI,D
+Everton de Viña del Mar,CHI,D
+Uníon Española,CHI,C

@@ -1,4 +1,5 @@
-from classes import Club, Stadium
+from classes.club import Club
+from classes.stadium import Stadium
 from classes_helper import GenerateClass
 from database import ClubData, DomesticLeague, PlayerData, StadiumData
 from ranking import Ranking
@@ -75,7 +76,7 @@ with open('files/brasileirao/serie a/2021.txt', encoding='utf8') as file:
         name = i[0] 
         state = i[1].replace('\n', '')
         cl_class = i[-1].replace('\n', '') 
-        country = 'Brasil'
+        country = 'BRA'
         serie_a.append(Club(name, country, cl_class, state=state))
 
     
@@ -87,7 +88,7 @@ with open('files/brasileirao/serie b/2021.txt', encoding='utf8') as file:
         name = i[0] 
         state = i[1].replace('\n', '') 
         cl_class = i[-1].replace('\n', '')
-        country = 'Brasil'
+        country = 'BRA'
         serie_b.append(Club(name, country, cl_class, state=state))
 
 
@@ -100,7 +101,7 @@ with open('files/brasileirao/serie c/2021.txt', encoding='utf8') as file:
         name = i[0] 
         state = i[1].replace('\n', '') 
         cl_class = i[-1].replace('\n', '')
-        country = 'Brasil'
+        country = 'BRA'
         serie_c.append(Club(name, country, cl_class, state=state))
 
 

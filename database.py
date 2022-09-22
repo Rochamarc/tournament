@@ -99,12 +99,12 @@ def create_db():
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         country TEXT NOT NULL,
-        state TEXT NOT NULL,
+        state TEXT,
         coeff INTEGER NOT NULL,
         club_class VARCHAR(1) NOT NULL,
         formation TEXT,
-        total_budget REAL,
-        salary_budget REAL
+        total_budget INTEGER,
+        salary_budget INTEGER
     );
     """)
 
@@ -401,6 +401,17 @@ class ClubData():
         conn.close()
 
         return data
+
+    @staticmethod
+    def get_clubs_by_country(country):
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+    
+        val = cursor.execute("SELECT * FROM clubs WHERE country=?", (country, )).fetchall()
+        data = val.copy()
+
+        conn.close()
+        return data 
 
 class CoachData():
     @staticmethod
