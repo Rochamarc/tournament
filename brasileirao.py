@@ -1,11 +1,12 @@
 from classes_helper import GenerateClass
 from competition import Competition
+from table import Table
 
 import os
 
 # Class variables
 gene = GenerateClass() 
-
+table = Table()
 
 # Reset database
 reset = input("Type y for reset database: ")
@@ -19,7 +20,7 @@ api_bool = False
 for i in range(2):
     
     if season != '2021':
-        gene.promotions_and_relegations(season) # initiate a new season
+        table.promotions_and_relegations(season) # initiate a new season
 
     ### SERIE A ###
 
