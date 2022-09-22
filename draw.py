@@ -7,11 +7,19 @@ generate = GenerateClass()
 
 class Draw:
     @staticmethod 
-    def national_draw():
+    def basic_draw(clubs):
+        random.shuffle(clubs)
+
+        return [ [ clubs.pop(), clubs.pop() ] for _ in range(len(clubs) // 2) ]
+        
+    @staticmethod 
+    def national_draw(n_clubs=None):
         bra = generate.reconstruct_international_clubs('BRA')
         
         random.shuffle(bra)
         
+        if n_clubs: bra = bra[:n_clubs]
+
         return [ [ bra.pop(), bra.pop() ] for _ in range(len(bra)//2) ]
 
     @staticmethod
