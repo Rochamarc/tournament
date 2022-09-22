@@ -122,6 +122,10 @@ class KnockOutGame(Game):
             if not self.qualified_goal:
                 if self.round == 2:
                     self.penalty = True 
+        else:
+            if self.round == 2:
+                self.check_winner()
+
 
     def update_attr(self):
         ''' Update the attr and scoreboard dict '''
