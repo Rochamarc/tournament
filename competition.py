@@ -19,7 +19,7 @@ rk = Ranking()
 
 stadiums = [ gene.reconstruct_stadiums() ]
 
-class Season:
+class Competition:
     def __init__(self, competition, season, division):
         self.competition = competition
         self.season = season
@@ -27,7 +27,6 @@ class Season:
 
     def run(self, api=True):
         ''' Run a season '''
-        ### SERIE A ###
         matches = []
 
         clubs = gene.reconstruct_clubs(self.division, self.season) # with this line i get my clubs list of objects

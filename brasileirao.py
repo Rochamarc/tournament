@@ -1,5 +1,5 @@
 from classes_helper import GenerateClass
-from season import Season
+from competition import Competition
 
 import os
 
@@ -26,7 +26,7 @@ for i in range(2):
     competition_name = "Campeonato Brasileiro Série A"
     division = 'serie_a'
 
-    serie_a = Season(competition_name, season, division)
+    serie_a = Competition(competition_name, season, division)
     serie_a.run(api=api_bool)
 
     ### SERIE B ###
@@ -34,7 +34,7 @@ for i in range(2):
     competition_name = "Campeonato Brasileiro Série B"
     division = 'serie_b'
 
-    serie_b = Season(competition_name, season, division)
+    serie_b = Competition(competition_name, season, division)
     serie_b.run(api=api_bool)
 
     ### END SERIE B ###
@@ -45,7 +45,7 @@ for i in range(2):
     competition_name = "Campeonato Brasileiro Série C"
     division = 'serie_c'
 
-    serie_c = Season(competition_name, season, division)
+    serie_c = Competition(competition_name, season, division)
     serie_c.run(api=api_bool)
     
     ### END SERIE C ###
