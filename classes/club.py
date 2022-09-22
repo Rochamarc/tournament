@@ -1,6 +1,6 @@
 from classes.player import Player
 
-from random import choice, triangular
+from random import choice, randint, triangular
 
 class Club:
 
@@ -15,8 +15,10 @@ class Club:
         self.min_coeff = 0
         self.max_coeff = 0
         
-        self.total_budget = float("{:.2f}".format(triangular(1_000_000.00, 100_000_000.00)))
-        self.salary_budget = float("{:.2f}".format(triangular(500_000.00, self.total_budget)))
+        self.coeff = 0
+
+        self.total_budget = self.generate_budget()
+        self.salary_budget = randint(self.total_budget//2, self.total_budget)
 
         # The next attr are refering to handle the squad
         self.formation = "None"
@@ -26,7 +28,7 @@ class Club:
         self.stadium = None 
 
         self.generate_coeff()
-        
+
     def __repr__(self):
         return f"Club({self.name})"
 
@@ -35,11 +37,6 @@ class Club:
         ''' Define the club overall on the average of player overall '''
         players = sum([ player.overall for player in self.start_eleven ] + [ player.overall for player in self.bench ]) 
         return ( players / len(players) ) 
-
-    @property 
-    def old_data(self):
-        ''' Return a list with name, country, state, coeff, club_class '''
-        return [self.name, self.country, self.state, (self.min_coeff + self.max_coeff) // 2, self.club_class, self.formation, self.total_budget, self.salary_budget ]
   
     def data(self, api=True):
         ''' Return a list with name, country, state, coeff, club_class '''
@@ -47,11 +44,11 @@ class Club:
             "name": self.name,
             "country": self.country,
             "state": self.state,
-            "coeff": (self.min_coeff + self.max_coeff) // 2,
+            "coeff": self.coeff,
             "formation": self.formation,
             "total_budget": self.total_budget,
             "salary_budget": self.salary_budget
-        } if api  else [ self.name, self.country, self.state, (self.min_coeff + self.max_coeff) // 2, self.club_class, self.formation, self.total_budget, self.salary_budget ]
+        } if api else [ self.name, self.country, self.state, self.coeff, self.club_class, self.formation, self.total_budget, self.salary_budget ]
 
     def set_formation(self, players_list):
         ''' Receive a list of players 
@@ -102,6 +99,15 @@ class Club:
             self.bench.append(midfielders.pop())
             self.bench.append(attackers.pop())
 
+    def generate_budget(self):
+        if self.club_class == "A":
+            return randint(50_000_000, 100_000_000)
+        elif self.club_class == "B":
+            return randint(1_000_000, 40_000_000)
+        elif self.club_class == "C":
+            return randint(500_000, 900_000)
+        elif self.club_class == "D":
+            return randint(100_000, 450_000)
 
     def generate_coeff(self):
         if self.club_class == 'D':
@@ -119,5 +125,6 @@ class Club:
         else:
             raise NameError(self.club_class, " doesnt match!")        
         
+        self.coeff = randint(self.min_coeff, self.max_coeff)
         return True 
 
