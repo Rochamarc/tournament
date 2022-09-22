@@ -51,6 +51,24 @@ class GenerateClass:
         return data
 
     @staticmethod
+    def reconstruct_international_clubs(country):
+        ''' Return the list of the clubs '''
+        clubs = club_data.get_clubs_by_country(country)
+
+        data = []
+
+        for club in clubs:
+            c_id, name, country, state = club[0], club[1], club[2], club[3]
+            club_class, club_coeff = club[5], club[4]
+
+            club = Club(name, country, club_class, state=state)
+            club.coeff = club_coeff
+            club.id = c_id
+            data.append(club)
+
+        return data 
+
+    @staticmethod
     def update_player_stats(clubs):
         ''' Update players stats return None '''
 
