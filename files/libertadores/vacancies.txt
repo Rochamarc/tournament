@@ -1,0 +1,10 @@
+6 	 Argentina 	
+4 	 Bolívia 	
+7 	 Brasil 	
+4 	 Chile
+4 	 Colômbia
+4 	 Equador
+4 	 Paraguai
+4 	 Peru
+4 	 Uruguai
+4 	 Venezuela

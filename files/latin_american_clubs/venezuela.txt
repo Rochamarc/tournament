@@ -1,0 +1,7 @@
+Deportivo Táchira,VEN,C
+Zamora,VEN,C
+Monagas,VEN,C
+Carabobo,VEN,D
+Metropolitanos,VEN,D
+Portuguesa,VEN,D
+Aragua,VEN,D

@@ -1,0 +1,10 @@
+Alianza Lima,PER,C
+Universitario,PER,C
+Sporting Cristal,PER,C
+Melgar,PER,D
+Cienciano,PER,D
+Club Atlético Grau,PER,D
+Binacional,PER,D
+Carlos Stein,PER,D
+Sport Boys,PER,D
+Ayacucho,PER,D

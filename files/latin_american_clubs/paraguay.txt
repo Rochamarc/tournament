@@ -1,0 +1,10 @@
+Olimpia,PAR,B
+Cerro Porteño,PAR,C
+Club Libertad,PAR,C
+Guaraní,PAR,C
+Guaireña,PAR,D
+Sol de América,PAR,D
+General Caballero,PAR,D
+Tacuary,PAR,D
+Resistencia,PAR,D
+Club Nacional,PAR,D

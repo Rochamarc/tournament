@@ -1,0 +1,10 @@
+LDU Quito,EQU,C
+Barcelona Sporting Club,EQU,C
+Emelec,EQU,D
+Independiente del Valle,EQU,D
+Aucas,EQU,D
+Universitario,EQU,D
+Cuenca,EQU,D
+Maracá,EQU,D
+Universidad Católica,EQU,D
+Delfin,EQU,D

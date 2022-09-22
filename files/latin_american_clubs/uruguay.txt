@@ -1,0 +1,13 @@
+Nacional,URU,C
+Peñarol,URU,B
+Líverpool,URU,C
+Boston River,URU,D
+Defensor Sporting Club,URU,D
+Danubio,URU,D
+Cerro Largo,URU,D
+Montevideo City,URU,D
+River Plate,URU,D
+Montevideo Wanderes,URU,D
+Rentistas,URU,D
+Centro Atlético Fenix,URU,D
+Albion,URU,D
