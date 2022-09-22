@@ -402,6 +402,17 @@ class ClubData():
 
         return data
 
+    @staticmethod
+    def get_clubs_by_country(country):
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+    
+        val = cursor.execute("SELECT * FROM clubs WHERE country=?", (country, )).fetchall()
+        data = val.copy()
+
+        conn.close()
+        return data 
+
 class CoachData():
     @staticmethod
     def coach_sacking(coach):
