@@ -309,8 +309,6 @@ class Game:
             the most overall has less chance to conveding a foul
             '''
             if not foul:
-                pass
-                """
                 if field_part == 'front':
                     ''' Penalty kick '''
                     keeper = self.select_player(defense_club, 'goalkeeper')
@@ -327,7 +325,7 @@ class Game:
                         field_part == 'back'
                     
                     club_possession, other_club = defense_club, attack_club
-                    """
+                    
             
             elif attack_move == 'finish':
 

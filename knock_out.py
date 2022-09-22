@@ -26,7 +26,7 @@ class KnockOutGame(Game):
         self.phase = phase 
         self.extra_time = False 
         self.qualified_goal = False
-        self.penalty = False
+        self.penalties_confirmation = False
         
         self.total_home = 0
         self.total_away = 0
@@ -121,7 +121,7 @@ class KnockOutGame(Game):
         if self.total_home == self.total_away:
             if not self.qualified_goal:
                 if self.round == 2:
-                    self.penalty = True 
+                    self.penalties_confirmation = True 
         else:
             if self.round == 2:
                 self.check_winner()
@@ -148,7 +148,7 @@ class KnockOutGame(Game):
         return True 
 
     def penalty_shots(self):
-        if self.penalty: 
+        if self.penalties_confirmation: 
             for i in range(10):
                 if i % 2 == 0:
                     # penalty away
