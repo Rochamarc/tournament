@@ -66,7 +66,7 @@ class Ranking:
         ''' 
         Return a panda series with the group stage tables
         '''
-        value = inter.get_group_stage_data('2021')
+        value = inter.get_group_stage_data(season)
         dfs = []
 
         for group, data in value.items():
