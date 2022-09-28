@@ -1,12 +1,14 @@
 from classes_helper import GenerateClass
 from competition import Competition
 from table import Table
+from ranking import Ranking
 
 import os
 
 # Class variables
 gene = GenerateClass() 
 table = Table()
+ranking = Ranking()
 
 # Reset database
 reset = input("Type y for reset database: ")
@@ -30,6 +32,8 @@ for i in range(2):
     serie_a = Competition(competition_name, season, division)
     serie_a.run(api=api_bool)
 
+    print(ranking.get_domestic_champion(division, season))
+    
     ### SERIE B ###
 
     competition_name = "Campeonato Brasileiro Série B"
@@ -38,6 +42,8 @@ for i in range(2):
     serie_b = Competition(competition_name, season, division)
     serie_b.run(api=api_bool)
 
+    print(ranking.get_domestic_champion(division, season))
+    
     ### END SERIE B ###
 
 
@@ -49,6 +55,8 @@ for i in range(2):
     serie_c = Competition(competition_name, season, division)
     serie_c.run(api=api_bool)
     
+    print(ranking.get_domestic_champion(division, season))
+
     ### END SERIE C ###
     
     season = str(int(season) + 1) # next season
