@@ -62,6 +62,15 @@ class Ranking:
         return df
 
     @staticmethod
+    def get_domestic_champion(division, season):
+        ''' Return the champions '''
+        value = league.get_domestic_cup_table(division, season)
+        
+        df = pd.DataFrame(value, index=None, columns=['id','Club','Matches','Won','Draw','Lost','GF','GA','GD','Points'])
+        
+        return df[0]
+
+    @staticmethod
     def international_group_table(season):
         ''' 
         Return a panda series with the group stage tables
