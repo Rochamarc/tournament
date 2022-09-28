@@ -108,6 +108,15 @@ def create_db():
     );
     """)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS champion (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        competition TEXT NOT NULL,
+        club TEXT NOT NULL,
+        season TEXT NOT NULL
+    );
+    """)
+
     print("Tabelas criadas com sucesso!")
 
     conn.close()
@@ -143,6 +152,18 @@ def upload_ranking_db(verbose=False):
 
         if verbose : print("Ranking da conmebol inserido com sucesso!")
 
+class CompetitionData():
+    @staticmethod 
+    def insert_champion_db(competition, club, season):
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
+        cursor.execute("INSERT INTO champion (competition, club, season) VALUES (?,?,?)", [competition, club, season])        
+
+        conn.commit()
+        conn.close()
+
+        return True 
 
 class DomesticLeague():
 
