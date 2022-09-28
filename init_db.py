@@ -120,18 +120,18 @@ for club in serie_a:
     players = gene.set_players(club, club.country, club.min_coeff, club.max_coeff)
     
     p_data.insert_players_db(players)
-    # player_api.post_players(players) 
+     
 
 for club in serie_b:
     ''' Generate player and formation '''
     players = gene.set_players(club, club.country, club.min_coeff, club.max_coeff)
     
     p_data.insert_players_db(players)
-    # player_api.post_players(players)
+    
 
 for club in serie_c:
     ''' Generate player and formation '''
     players = gene.set_players(club, club.country, club.min_coeff, club.max_coeff)
     
     p_data.insert_players_db(players)
-    # player_api.post_players(players)
+    
