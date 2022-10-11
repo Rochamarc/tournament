@@ -21,7 +21,7 @@ table = Table()
 
 stadiums = [ gene.reconstruct_stadiums() ]
 
-class Competition:
+class League:
     def __init__(self, competition, season, division):
         self.competition = competition
         self.season = season
