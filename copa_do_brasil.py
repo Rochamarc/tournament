@@ -73,5 +73,18 @@ c.show()
 winners = c.run() 
 
 print(winners)
-competition.insert_champion_db('Copa do Brasil', winners[0].name, '2021',)
+
+
+def run_cup(_round, competition, season, winners=None):
+    if _round == 'Round of 32': 
+        matches = draw.national_draw(32)
+    else:
+        matches = draw.basic_draw(winners)
+
+    c = Cup(competition, season, _round, matches)
+
+    return c.run()
+
+
+competition.insert_champion_db('Copa do Brasil', winners[0].name, '2021')
 
