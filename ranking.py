@@ -69,7 +69,7 @@ class Ranking:
         df = pd.DataFrame(value, index=None, columns=['id','Club','Matches','Won','Draw','Lost','GF','GA','GD','Points'])
         
         # return df.iloc[0]
-        return df.iloc[:1]
+        return df.iloc[:1]["Club"]
 
     @staticmethod
     def international_group_table(season):
