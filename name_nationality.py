@@ -19,11 +19,13 @@ class NameAndNationality:
         if nationality == 'BRA':
             first_name = choice(NameAndNationality().access_file('first_name_br.txt'))
             last_name = choice(NameAndNationality().access_file('last_name_br.txt')) 
+            names = [first_name, last_name]
         else:
             first_name = choice(NameAndNationality().access_file('first_name_g.txt'))
             last_name = choice(NameAndNationality().access_file('last_name_g.txt'))
+            names = [first_name, last_name]
 
-        return f'{first_name} {last_name}'
+        return ' '.join(names)
     
     @staticmethod
     def access_file(file):
