@@ -1,13 +1,29 @@
 Player:
-    float market_value
-    float salary
+    float market_value 
+    float salary (per season)
 
 Club:
     float total_budget
-    float salary_budget  # 25% do valor total
-
+    float salary_budget  # 25% do valor total (isso é o que esta disponivel)
+    float gasto (isso será descontado todo fim de temporada o que vai gerar o balanço final)
 
 Market:
     ''' new class '''
 
     # here comes the statistics
+
+IA:
+    - Analizar o mercado dos times e contratar/vender jogadores
+    - Puxar jogadores da base 
+    - Aumentar e diminuir overall 
+    - Aumentar a idade
+    - Aposentar jogadores
+
+Competições:
+    - Pagar premiações
+    - Pagar por transmissões
+
+Logs:
+    - Desenvolvimento dos jogadores (isso vai ser salvo em txt numa pasta e nao na base de dados)
+    - Entrada e saida de jogadores e valores pagos e recebidos
+    - Receita como um todo
