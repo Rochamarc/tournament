@@ -548,6 +548,19 @@ class PlayerData():
         if verbose : print("Player updated sucessfully!")
         return True
 
+    @staticmethod 
+    def update_players_age(player_list, verbose=False):
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
+        for player in player_list:
+            if verbose: print(f"Update: {player}")
+
+            cursor.execute("UPDATE players SET age = age + ? WHERE id = ?", [1, player.id])
+
+        conn.commit()
+        conn.close()
+
 class StadiumData():
     @staticmethod
     def insert_stadiums_db(stadiums, verbose=False):

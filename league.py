@@ -71,8 +71,8 @@ class League:
         
         # UPDATE PLAYERS
         for club in clubs:
-            p_data.update_player_stats(club.start_eleven, verbose=True)
-            p_data.update_player_stats(club.bench, verbose=True)
-        
+            p_data.update_player_stats(club.start_eleven, verbose=True) # Update stats
+            p_data.update_player_stats(club.bench, verbose=True) # Update Stats
+            p_data.update_players_age(club.start_eleven + club.bench, verbose=True) # Update Age
             
         return None
