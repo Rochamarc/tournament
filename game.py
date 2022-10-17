@@ -1,3 +1,4 @@
+import numpy as np
 from collections import defaultdict 
 from random import choice, randint
 from database import GameData, PlayerData
@@ -28,11 +29,11 @@ class Game:
 
         self.players_out = [] # list dedicated to players the are subbed
         
-        self.home_players = [ player for player in self.home_club.start_eleven ]
-        self.home_bench = [ player for player in self.home_club.bench ]
+        self.home_players = np.array([ player for player in self.home_club.start_eleven ])
+        self.home_bench = np.array([ player for player in self.home_club.bench ])
         
-        self.away_players = [ player for player in self.away_club.start_eleven ]
-        self.away_bench = [ player for player in self.away_club.bench ]
+        self.away_players = np.array([ player for player in self.away_club.start_eleven ])
+        self.away_bench = np.array([ player for player in self.away_club.bench ])
         
         self.home_player_goals = defaultdict(int)
         self.away_player_goals = defaultdict(int)
@@ -91,7 +92,7 @@ class Game:
               
         self.add_matches(self.away_players)
         self.add_points(self.away_players, 4.0)
-        
+
         self.scoreboard['home_goal'] = self.home_goal # add to the dict
         self.scoreboard['away_goal'] = self.away_goal # add to the dict 
 
@@ -507,12 +508,10 @@ class Game:
             s_check = self.check_subs(self.home_subs)
             starting = self.home_players
             bench = self.home_bench
-            n_subs = self.home_subs
         elif club == self.away_club:
             s_check = self.check_subs(self.away_subs)
             starting = self.away_players
             bench = self.away_bench
-            n_subs = self.away_subs
         else:
             raise NameError('Club not match home_team.name or away_team.name')
 
@@ -526,13 +525,13 @@ class Game:
 
         player_in = choice(options) # select the player
         
-        starting.remove(player_out) # out
-        bench.remove(player_in) # out from the bench
+        starting = np.delete(starting, np.where(starting==player_out)) # out of the field
+        bench = np.delete(bench, np.where(bench==player_in)) # out of the bench
         
         self.add_points([player_in], 1.5) # add some points
         self.add_matches([player_in]) # add matches played
         
-        starting.append(player_in) # into the pitch
+        starting = np.append(starting, player_in) # into the pitch
         
         if club == self.home_club : self.home_subs -= 1
         if club == self.away_club : self.away_subs -= 1
@@ -566,11 +565,11 @@ class Game:
         exit_string = ""
         player_goal_string = ""
 
-        exit_string += f"\nCompetition: {self.scoreboard['competition']}\n"
-        exit_string += f"Round: {self.scoreboard['round']}\n" 
-        exit_string += f"Location: {self.scoreboard['location']}\n"
-        exit_string += f"Hour: {self.scoreboard['hour']}\n"
-        exit_string += f"Conditions: {self.scoreboard['conditions']}\n"
+        exit_string += f"\nCompetition:\t {self.scoreboard['competition']}\n"
+        exit_string += f"Round:\t\t {self.scoreboard['round']}\n" 
+        exit_string += f"Location:\t {self.scoreboard['location']}\n"
+        exit_string += f"Hour:\t\t {self.scoreboard['hour']}\n"
+        exit_string += f"Conditions:\t {self.scoreboard['conditions']}\n"
         if end_game:
             print("="*80)
             exit_string += f"{self.scoreboard['home_club'].name.upper()} ({self.scoreboard['home_club'].short_country}) {self.scoreboard['home_goal']} x {self.scoreboard['away_goal']} {self.scoreboard['away_club'].name.upper()} ({self.scoreboard['away_club'].short_country})\n"
