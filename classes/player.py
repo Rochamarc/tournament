@@ -23,8 +23,8 @@ class Player(Person):
         self.foot = choice(['Right', 'Left'])
 
         # finances
-        self.market_value = float("{:.2f}".format(triangular(10_000.0, 80_000_000.00)))
-        self.salary = float("{:.2f}".format(triangular(1_000.00, 500_000.00)))
+        self.market_value = randint(10_000, 80_000_000)
+        self.salary = randint(1_000, 500_000)
 
         self.average = 0
 
@@ -82,3 +82,9 @@ class Player(Person):
             self.position, self.matches_played, self.goals, self.assists, self.avg, 
             self.market_value, self.salary, self.height, self.weight, self.foot
         ]
+
+    def increase_overall(self):
+        self.overall += 1
+
+    def decrease_overall(self):
+        self.overall -= 1
