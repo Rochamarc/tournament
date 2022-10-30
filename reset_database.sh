@@ -3,4 +3,7 @@
     
 echo "Reseting database"
 rm -r database.db 
+echo "Recreating Base Database"
 python3 database.py
+echo "Recretating International Database"
+python3 setting_international_clubs.py 

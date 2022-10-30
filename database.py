@@ -108,6 +108,15 @@ def create_db():
     );
     """)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS champion (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        competition TEXT NOT NULL,
+        club TEXT NOT NULL,
+        season TEXT NOT NULL
+    );
+    """)
+
     print("Tabelas criadas com sucesso!")
 
     conn.close()
@@ -143,6 +152,18 @@ def upload_ranking_db(verbose=False):
 
         if verbose : print("Ranking da conmebol inserido com sucesso!")
 
+class CompetitionData():
+    @staticmethod 
+    def insert_champion_db(competition, club, season):
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
+        cursor.execute("INSERT INTO champion (competition, club, season) VALUES (?,?,?)", [competition, club, season])        
+
+        conn.commit()
+        conn.close()
+
+        return True 
 
 class DomesticLeague():
 
@@ -514,10 +535,10 @@ class PlayerData():
 
             cursor.execute(f"""
                 UPDATE players 
-                SET matches_played=?, 
-                    goals=?,
-                    assists=?,
-                    points=?
+                SET matches_played = matches_played + ?, 
+                    goals = goals + ?,
+                    assists = assists + ?,
+                    points = points + ?
                 WHERE id = ?
             """, player_data)
 
@@ -526,6 +547,19 @@ class PlayerData():
 
         if verbose : print("Player updated sucessfully!")
         return True
+
+    @staticmethod 
+    def update_players_age(player_list, verbose=False):
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
+        for player in player_list:
+            if verbose: print(f"Update: {player}")
+
+            cursor.execute("UPDATE players SET age = age + ? WHERE id = ?", [1, player.id])
+
+        conn.commit()
+        conn.close()
 
 class StadiumData():
     @staticmethod
@@ -568,6 +602,56 @@ class StadiumData():
         return data 
 
 class GameData():
+    @staticmethod
+    def insert_game_db(game, verbose=False):
+        ''' Insert one game into the database '''
+        
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
+        if verbose : print(f"Inserting game {game} on the database")
+        
+        try:
+            game_data = game.game_data()
+        except:
+            game_data = game 
+        
+        cursor.execute("""
+            INSERT INTO game (
+                competition,
+                season,
+                hour,
+                home_team,
+                away_team,
+                score,
+                stadium,
+                home_shots,
+                home_shots_on_target,
+                home_fouls,
+                home_tackles,
+                home_saves,
+                home_ball_possession,
+                home_offsides,
+                home_freekicks,
+                away_shots,
+                away_shots_on_target,
+                away_fouls,
+                away_tackles,
+                away_saves,
+                away_ball_possession,
+                away_offsides,
+                away_freekicks
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            """, game_data)
+
+        conn.commit()
+        conn.close()
+
+        if verbose : print("Game data inserted sucessfully")
+
+        return True
+    
+
     @staticmethod
     def insert_games_db(game_list, verbose=False):
         ''' 

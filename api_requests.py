@@ -1,7 +1,6 @@
 import http.client, urllib.parse
 import json
 from game import Game 
-from opening import get_json_obj
 
 
 base_link = "still-wave-44749.herokuapp.com"

@@ -22,7 +22,7 @@ class Cup:
         for match in self.matches:
             match[0].set_formation(player_data.get_players(match[0].name))
             match[1].set_formation(player_data.get_players(match[1].name))
-            m_1 = KnockOutGame(match[0], match[1], 'Copa do Brasil', 1, '2021', 'First Phase', head_stadium=choice(self.stadiums), verbose=False).first_leg()
+            m_1 = KnockOutGame(match[0], match[1], 'Copa do Brasil', 1, self.season, 'First Phase', head_stadium=choice(self.stadiums), verbose=False).first_leg()
             results.append(m_1)
         
         return [ i['winner'] for i in results ]

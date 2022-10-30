@@ -37,6 +37,16 @@ class Table:
         return rounds 
 
     @staticmethod 
+    def get_international_classified(season, competition):
+        previous_season = str(int(season) - 1) # get the previous season
+
+        previous_serie_a = domestic.get_domestic_cup_table('serie_a', previous_season)
+
+        if competition == 'libertadores':
+            return { 'group_stage': previous_serie_a[:4], 'pre_libertadores': previous_serie_a[4:6] }
+        return { 'sudamericana': previous_serie_a[7:12] }
+
+    @staticmethod 
     def promotions_and_relegations(season, verbose=False):
         ''' Promove and relegates all the divisions of the domestic league
             return a dict with the promoted and relegated clubs

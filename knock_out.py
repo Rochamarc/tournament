@@ -1,7 +1,7 @@
 from random import randint  
 from ranking import *
 from game import Game 
-from database import PlayerData
+from database import GameData, PlayerData
 
 """
 Competicao:
@@ -18,6 +18,7 @@ Pealtis: (em caso de penaltis)
 #
 
 player_data = PlayerData()
+game_data = GameData()
 
 class KnockOutGame(Game):
     def __init__(self, home_club, away_club, competition, m_round, season, phase, head_stadium, verbose):
@@ -26,7 +27,7 @@ class KnockOutGame(Game):
         self.phase = phase 
         self.extra_time = False 
         self.qualified_goal = False
-        self.penalty = False
+        self.penalties_confirmation = False
         
         self.total_home = 0
         self.total_away = 0
@@ -45,6 +46,7 @@ class KnockOutGame(Game):
 
     def first_leg(self):
         self.start()
+        game_data.insert_game_db(self.game_data()) # save on database this is gonna make my code slower but thats ok
         return self.second_leg()
     
     def second_leg(self):
@@ -68,6 +70,7 @@ class KnockOutGame(Game):
         self.scoreboard['total_home'] = self.total_home
         self.scoreboard['total_away'] = self.total_away 
         
+        game_data.insert_game_db(self.game_data()) # save on database this is gonna make my code slower but thats ok
 
         return self.scoreboard
 
@@ -121,7 +124,7 @@ class KnockOutGame(Game):
         if self.total_home == self.total_away:
             if not self.qualified_goal:
                 if self.round == 2:
-                    self.penalty = True 
+                    self.penalties_confirmation = True 
         else:
             if self.round == 2:
                 self.check_winner()
@@ -148,7 +151,7 @@ class KnockOutGame(Game):
         return True 
 
     def penalty_shots(self):
-        if self.penalty: 
+        if self.penalties_confirmation: 
             for i in range(10):
                 if i % 2 == 0:
                     # penalty away

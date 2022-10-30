@@ -21,7 +21,7 @@ table = Table()
 
 stadiums = [ gene.reconstruct_stadiums() ]
 
-class Competition:
+class League:
     def __init__(self, competition, season, division):
         self.competition = competition
         self.season = season
@@ -29,8 +29,6 @@ class Competition:
 
     def run(self, api=True):
         ''' Run a season '''
-        matches = []
-
         clubs = gene.reconstruct_clubs(self.division, self.season) # with this line i get my clubs list of objects
 
         schedule = table.define_schedule(clubs, stadiums[0]) # the schedule
@@ -43,13 +41,8 @@ class Competition:
             else:    
                 club.set_formation(p_data.get_players(club.name))
 
-        for rnd, game_info in schedule.items():
-            ''' Defining the schedule '''
-            for match in game_info:
-                print(match[0].start_eleven)
-                matches.append(Game(match[0], match[1], self.competition, int(rnd.split(' ')[-1]), self.season, head_stadium=match[-1]))
-
-
+        matches = ( Game(match[0], match[1], self.competition, int(rnd.split(' ')[-1]), self.season, head_stadium=match[-1]) for rnd, game_info in schedule.items() for match in game_info ) # generator
+        
         tb = rk.domestic_table(self.division, self.season) # Get the initial domestic cup table
         print(tb) 
 
@@ -78,8 +71,8 @@ class Competition:
         
         # UPDATE PLAYERS
         for club in clubs:
-            p_data.update_player_stats(club.start_eleven, verbose=True)
-            p_data.update_player_stats(club.bench, verbose=True)
-        
+            p_data.update_player_stats(club.start_eleven, verbose=True) # Update stats
+            p_data.update_player_stats(club.bench, verbose=True) # Update Stats
+            p_data.update_players_age(club.start_eleven + club.bench, verbose=True) # Update Age
             
         return None
