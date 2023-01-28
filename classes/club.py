@@ -6,10 +6,10 @@ class Club:
 
     def __init__(self,name,country,club_class,state=None):
         self.id = None
-        self.name = name
-        self.country = country
-        self.short_country = self.country[:3].upper()
-        self.state = state
+        self.__name = name
+        self.__country = country
+        self.__short_country = self.country[:3].upper()
+        self.__state = state
         self.club_class = club_class
         self.ranking_points = 0
         self.min_coeff = 0
@@ -31,6 +31,22 @@ class Club:
 
     def __repr__(self):
         return f"Club({self.name})"
+    
+    @property
+    def name(self):
+        return self.__name
+
+    @property
+    def country(self):
+        return self.__country
+
+    @property
+    def short_country(self):
+        return self.__short_country
+
+    @property
+    def state(self):
+        return self.__state
 
     @property
     def overall(self):
