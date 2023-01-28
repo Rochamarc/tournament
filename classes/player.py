@@ -6,7 +6,7 @@ class Player(Person):
 
     def __init__(self, name, nationality, age, position, min_coeff, max_coeff, current_club=None):
         super().__init__(name, nationality, age)
-        self.overall = randint(min_coeff, max_coeff)
+        self.__overall = randint(min_coeff, max_coeff)
         self.current_club = current_club
         self.current_club_id = None
         self.position = position
@@ -28,6 +28,10 @@ class Player(Person):
 
         self.average = 0
 
+    
+    @property
+    def overall(self):
+        return self.__overall
 
     @property
     def avg(self):
@@ -84,7 +88,7 @@ class Player(Person):
         ]
 
     def increase_overall(self):
-        self.overall += 1
+        self.__overall += 1
 
     def decrease_overall(self):
-        self.overall -= 1
+        self.__overall -= 1
