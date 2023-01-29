@@ -18,7 +18,7 @@ clubs = {
     'ven': []
 }
 
-with open('files/latin_american_clubs/argentina.txt', encoding='UTF-8') as file:
+with open('files/latin_american_clubs/argentina.csv', encoding='UTF-8') as file:
     for i in file.readlines():
         i = i.split(',')
         name = i[0]
@@ -26,7 +26,7 @@ with open('files/latin_american_clubs/argentina.txt', encoding='UTF-8') as file:
         cl_class = i[-1].replace('\n', '')
         clubs['arg'].append(Club(name, country,cl_class))
 
-with open('files/latin_american_clubs/bolivia.txt', encoding='UTF-8') as file:
+with open('files/latin_american_clubs/bolivia.csv', encoding='UTF-8') as file:
     for i in file.readlines():
         i = i.split(',')
         name = i[0]
@@ -34,7 +34,7 @@ with open('files/latin_american_clubs/bolivia.txt', encoding='UTF-8') as file:
         cl_class = i[-1].replace('\n', '')
         clubs['bol'].append(Club(name, country,cl_class))
         
-with open('files/latin_american_clubs/chile.txt', encoding='UTF-8') as file:
+with open('files/latin_american_clubs/chile.csv', encoding='UTF-8') as file:
     for i in file.readlines():
         i = i.split(',')
         name = i[0]
@@ -42,7 +42,7 @@ with open('files/latin_american_clubs/chile.txt', encoding='UTF-8') as file:
         cl_class = i[-1].replace('\n', '')
         clubs['chi'].append(Club(name, country,cl_class))
 
-with open('files/latin_american_clubs/colombia.txt', encoding='UTF-8') as file:
+with open('files/latin_american_clubs/colombia.csv', encoding='UTF-8') as file:
     for i in file.readlines():
         i = i.split(',')
         name = i[0]
@@ -50,7 +50,7 @@ with open('files/latin_american_clubs/colombia.txt', encoding='UTF-8') as file:
         cl_class = i[-1].replace('\n', '')
         clubs['col'].append(Club(name, country,cl_class))
 
-with open('files/latin_american_clubs/ecuador.txt', encoding='UTF-8') as file:
+with open('files/latin_american_clubs/ecuador.csv', encoding='UTF-8') as file:
     for i in file.readlines():
         i = i.split(',')
         name = i[0]
@@ -58,7 +58,7 @@ with open('files/latin_american_clubs/ecuador.txt', encoding='UTF-8') as file:
         cl_class = i[-1].replace('\n', '')
         clubs['equ'].append(Club(name, country,cl_class))
 
-with open('files/latin_american_clubs/paraguay.txt', encoding='UTF-8') as file:
+with open('files/latin_american_clubs/paraguay.csv', encoding='UTF-8') as file:
     for i in file.readlines():
         i = i.split(',')
         name = i[0]
@@ -66,7 +66,7 @@ with open('files/latin_american_clubs/paraguay.txt', encoding='UTF-8') as file:
         cl_class = i[-1].replace('\n', '')
         clubs['par'].append(Club(name, country,cl_class))
 
-with open('files/latin_american_clubs/peru.txt', encoding='UTF-8') as file:
+with open('files/latin_american_clubs/peru.csv', encoding='UTF-8') as file:
     for i in file.readlines():
         i = i.split(',')
         name = i[0]
@@ -74,7 +74,7 @@ with open('files/latin_american_clubs/peru.txt', encoding='UTF-8') as file:
         cl_class = i[-1].replace('\n', '')
         clubs['per'].append(Club(name, country,cl_class))
 
-with open('files/latin_american_clubs/uruguay.txt', encoding='UTF-8') as file:
+with open('files/latin_american_clubs/uruguay.csv', encoding='UTF-8') as file:
     for i in file.readlines():
         i = i.split(',')
         name = i[0]
@@ -82,7 +82,7 @@ with open('files/latin_american_clubs/uruguay.txt', encoding='UTF-8') as file:
         cl_class = i[-1].replace('\n', '')
         clubs['uru'].append(Club(name, country,cl_class))
 
-with open('files/latin_american_clubs/venezuela.txt', encoding='UTF-8') as file:
+with open('files/latin_american_clubs/venezuela.csv', encoding='UTF-8') as file:
     for i in file.readlines():
         i = i.split(',')
         name = i[0]
