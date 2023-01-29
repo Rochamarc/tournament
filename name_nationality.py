@@ -17,12 +17,12 @@ class NameAndNationality:
     def generate_name(nationality):
         ''' Generates a name based on the player nationality '''
         if nationality == 'BRA':
-            first_name = choice(NameAndNationality().access_file('first_name_br.txt'))
-            last_name = choice(NameAndNationality().access_file('last_name_br.txt')) 
+            first_name = choice(NameAndNationality().access_file('first_name_br.csv'))
+            last_name = choice(NameAndNationality().access_file('last_name_br.csv')) 
             names = [first_name, last_name]
         else:
-            first_name = choice(NameAndNationality().access_file('first_name_g.txt'))
-            last_name = choice(NameAndNationality().access_file('last_name_g.txt'))
+            first_name = choice(NameAndNationality().access_file('first_name_g.csv'))
+            last_name = choice(NameAndNationality().access_file('last_name_g.csv'))
             names = [first_name, last_name]
 
         return ' '.join(names)
