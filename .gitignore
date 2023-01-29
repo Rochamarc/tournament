@@ -130,6 +130,7 @@ dmypy.json
 
 # Database
 database.db
+custom.db
 config_db
 
 # Statistics
