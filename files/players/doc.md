@@ -1,1 +1,0 @@
-# Name, nationality, age, position, coeff
