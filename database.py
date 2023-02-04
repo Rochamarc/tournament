@@ -1,7 +1,13 @@
 import sqlite3
 
+import sys
 
-database = 'database.db'
+args = sys.argv
+
+if len(args) > 1:
+    database = f'{args[-1]}.db'
+else:
+    database = 'database.db'
 
 def create_db():
     ''' Create database tables '''
