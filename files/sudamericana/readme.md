@@ -1,10 +1,14 @@
-6 	 Argentina
-4 	 Bolívia
-6 	 Brasil
-4 	 Chile
-4 	 Colômbia
-4 	 Equador
-4 	 Paraguai
-4 	 Peru
-4 	 Uruguai 	
-4 	 Venezuela
+# Vacancies by country
+
+<ul>
+    <li>6 <strong>Argentina</strong></li>
+    <li>4 <strong>Bolívia</strong></li>
+    <li>6 <strong>Brasil</strong></li>
+    <li>4 <strong>Chile</strong></li>
+    <li>4 <strong>Colômbia</strong></li>
+    <li>4 <strong>Equador</strong></li>
+    <li>4 <strong>Paraguai</strong></li>
+    <li>4 <strong>Peru</strong></li>
+    <li>4 <strong>Uruguai</strong></li> 	
+    <li>4 <strong>Venezuela</strong></li>
+</ul>
