@@ -32,6 +32,9 @@ class Player(Person):
     @property
     def overall(self):
         return self.__overall
+ 
+    def insert_overall(self, external_overall):
+        self.__overall = external_overall
 
     @property
     def avg(self):
