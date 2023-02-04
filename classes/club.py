@@ -85,7 +85,7 @@ class Club:
             posi = player[6]
             p = Player(name, nation, age, posi, 0, 100, current_club=club)
             p.id = p_id
-            p.overall = overall
+            p.insert_overall(overall)
             squad.append(p)
         
         squad.sort(key=lambda player : player.overall) # Sorting items by overall not reverse
