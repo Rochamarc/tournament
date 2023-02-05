@@ -1,15 +1,14 @@
-from random import choice
+from random import randint, choice
 
 class NameAndNationality:
     @staticmethod
     def generate_nationality(team_nationality):
         ''' Generates the player nationality '''
-        outsider_prob = choice([True, False, False, False, False, False])
+        outsider_prob = randint(1,6)
 
         south = ['BRA', 'ARG', 'URU', 'EQU', 'PER', 'CHI', 'VEN', 'PAR', 'BOL', 'GUI', 'PAN']
 
-        if outsider_prob:
-            # gringo
+        if outsider_prob == 1:
             return choice(south)
         return team_nationality
 
