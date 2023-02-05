@@ -54,17 +54,9 @@ class Club:
         players = sum([ player.overall for player in self.start_eleven ] + [ player.overall for player in self.bench ]) 
         return ( players / len(players) ) 
   
-    def data(self, api=True):
+    def data(self):
         ''' Return a list with name, country, state, coeff, club_class '''
-        return {
-            "name": self.name,
-            "country": self.country,
-            "state": self.state,
-            "coeff": self.coeff,
-            "formation": self.formation,
-            "total_budget": self.total_budget,
-            "salary_budget": self.salary_budget
-        } if api else [ self.name, self.country, self.state, self.coeff, self.club_class, self.formation, self.total_budget, self.salary_budget ]
+        return [ self.name, self.country, self.state, self.coeff, self.club_class, self.formation, self.total_budget, self.salary_budget ]
 
     def set_formation(self, players_list):
         ''' Receive a list of players 

@@ -67,24 +67,8 @@ class Player(Person):
     def __str__(self):
         return f'Player({self.name})'
 
-    def data(self, api=True):
-        return {
-            "name": self.name,
-            "nationality": self.nationality,
-            "age": self.age,
-            "overall": self.overall,
-            "current_club": f"http://still-wave-44749.herokuapp.com/clubs/{self.current_club_id}/",
-            "position": self.position,
-            "matches": self.matches_played,
-            "goals": self.goals,
-            "assists": self.assists,
-            "market_value": self.market_value,
-            "salary": self.salary,
-            "height": self.height,
-            "weight": self.weight,
-            "foot": self.foot,
-            "average": self.average
-        } if api else [
+    def data(self):
+        return [
             self.name, self.nationality, self.age, self.overall, self.current_club,
             self.position, self.matches_played, self.goals, self.assists, self.avg, 
             self.market_value, self.salary, self.height, self.weight, self.foot
