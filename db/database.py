@@ -5,9 +5,9 @@ import sys
 args = sys.argv
 
 if len(args) > 1:
-    database = f'{args[-1]}.db'
+    database = f'db/{args[-1]}.db'
 else:
-    database = 'database.db'
+    database = 'db/database.db'
 
 def create_db():
     ''' Create database tables '''

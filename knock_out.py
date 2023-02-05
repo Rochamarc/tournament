@@ -1,7 +1,7 @@
 from random import randint  
 from ranking import *
 from game import Game 
-from database import GameData, PlayerData
+from db.database import GameData, PlayerData
 
 """
 Competicao:

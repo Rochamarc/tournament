@@ -1,7 +1,7 @@
 from classes.club import Club
 from classes.stadium import Stadium
 from classes_helper import GenerateClass
-from database import ClubData, DomesticLeague, PlayerData, StadiumData
+from db.database import ClubData, DomesticLeague, PlayerData, StadiumData
 from ranking import Ranking
 
 import os 
@@ -10,9 +10,9 @@ import sys
 args = sys.argv
 
 if len(args) > 1:
-    os.system(f'./reset_database.sh {args[-1]}')
+    os.system(f'./db/reset_database.sh {args[-1]}')
 else:
-    os.system('./reset_database.sh')
+    os.system('./db/reset_database.sh')
 
 # Domestic cup
 league = DomesticLeague()

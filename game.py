@@ -1,7 +1,7 @@
 import numpy as np
 from collections import defaultdict 
 from random import choice, randint
-from database import GameData, PlayerData
+from db.database import GameData, PlayerData
 
 # Registrar os jogos 
 #

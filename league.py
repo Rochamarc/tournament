@@ -3,7 +3,7 @@ from game import Game
 from ranking import Ranking
 from table import Table
 from api_requests import PlayerAPI, GameAPI, TableAPI
-from database import GameData, PlayerData, DomesticLeague
+from db.database import GameData, PlayerData, DomesticLeague
 
 game_api = GameAPI()
 player_api = PlayerAPI()

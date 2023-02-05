@@ -1,6 +1,6 @@
 from random import randint, choice
 
-from database import DomesticLeague
+from db.database import DomesticLeague
 
 domestic = DomesticLeague()
 
