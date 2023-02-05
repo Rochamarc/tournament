@@ -134,7 +134,7 @@ def upload_ranking_db(verbose=False):
     
     print("Inserindo ranking da conmebol na base de dados!")
     
-    with open('ranking_conmebol.csv', encoding='utf8') as file:
+    with open('files/conmebol/ranking_conmebol.csv', encoding='utf8') as file:
         lines = file.readlines() 
     
         conn = sqlite3.connect(database)
