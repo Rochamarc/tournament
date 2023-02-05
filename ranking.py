@@ -1,6 +1,6 @@
 import pandas as pd
 
-from database import DomesticLeague, InternationalCup
+from db.database import DomesticLeague, InternationalCup
 
 league = DomesticLeague()
 inter = InternationalCup()

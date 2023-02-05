@@ -129,8 +129,9 @@ dmypy.json
 .pyre/
 
 # Database
-database.db
-custom.db
+db/__pycache__/
+db/database.db
+db/custom.db
 config_db
 
 # Statistics

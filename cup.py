@@ -1,4 +1,4 @@
-from database import PlayerData
+from db.database import PlayerData
 from classes_helper import GenerateClass
 from knock_out import KnockOutGame
 from random import choice 
