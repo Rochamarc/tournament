@@ -7,6 +7,4 @@ club_class = "D"
 
 club = Club(name, country, club_class, state=state)
 
-print(club)
 
-# Now create the database and insert your club into the division selected
