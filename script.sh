@@ -2,7 +2,6 @@
 
 echo "Criando diretorios necessarios!"
 mkdir files
-mkdir files/saves
 mkdir files/names
 echo "Criando e configurando base de dados!"
 python3 database.py

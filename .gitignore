@@ -135,7 +135,6 @@ db/custom.db
 config_db
 
 # Statistics
-files/saves/
 files/brasileirao/serie a/2021/
 
 json/__pycache__/
