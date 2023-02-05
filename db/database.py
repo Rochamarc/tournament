@@ -402,7 +402,7 @@ class ClubData():
 
             if verbose : print(f"Insert club {club} into the database")
 
-            club_data = club.data(api=False) # get the club info
+            club_data = club.data() # get the club info
 
             cursor.execute("INSERT INTO clubs (name, country, state, coeff, club_class, formation, total_budget, salary_budget) values (?,?,?,?,?,?,?,?)", club_data)
             
@@ -512,7 +512,7 @@ class PlayerData():
             
             if verbose : print(f"Insert player {player} into the database")
             
-            player_data = player.data(api=False)
+            player_data = player.data()
             
             cursor.execute('''
                 INSERT INTO players (name, nationality, age, overall, current_club, position, matches_played, goals, assists, avg, market_value, salary, height, weight, foot)

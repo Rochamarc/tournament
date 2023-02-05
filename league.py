@@ -23,7 +23,7 @@ class League:
         self.season = season
         self.division = division
 
-    def run(self, api=True):
+    def run(self):
         ''' Run a season '''
         clubs = gene.reconstruct_clubs(self.division, self.season) # with this line i get my clubs list of objects
 
@@ -50,8 +50,7 @@ class League:
         print(tb) 
 
         # END SEASON
-
-        ''' Upload games stats to the api '''    
+ 
         game_data.insert_games_db(matches)
 
         
