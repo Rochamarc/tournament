@@ -1,8 +1,0 @@
-main.py - 
-    Nao estao salvando o numero correto de partidas jogadas
-    
-season.py -
-    Nao esta salvando os campeoes
-
-database.py - 
-    Nao esta salvando os stats dos players corretamente
