@@ -10,7 +10,7 @@ class Ranking:
     def define_conmebol_points(clubs):
         ''' Define the commebol ranking based on the csv file '''
         
-        with open('ranking_conmebol.csv', encoding='utf8') as file:
+        with open('files/conmebol/ranking_conmebol.csv', encoding='utf8') as file:
             lines = file.readlines() 
             for club in clubs:
 
