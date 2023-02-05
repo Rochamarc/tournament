@@ -19,7 +19,6 @@ if reset == 'y':
 
 # Global variables
 season = input("Type the initial season: ")
-api_bool = False
 
 n_seasons = int(input("Type the number of seasons you wanna run: "))
 
@@ -34,7 +33,7 @@ for i in range(n_seasons):
     division = 'serie_a'
 
     serie_a = League(competition_name, season, division)
-    serie_a.run(api=api_bool)
+    serie_a.run()
 
     competition.insert_champion_db(competition_name, ranking.get_domestic_champion(division, season)[0], season)
     
@@ -44,7 +43,7 @@ for i in range(n_seasons):
     division = 'serie_b'
 
     serie_b = League(competition_name, season, division)
-    serie_b.run(api=api_bool)
+    serie_b.run()
 
     competition.insert_champion_db(competition_name, ranking.get_domestic_champion(division, season)[0], season)
     
@@ -57,7 +56,7 @@ for i in range(n_seasons):
     division = 'serie_c'
 
     serie_c = League(competition_name, season, division)
-    serie_c.run(api=api_bool)
+    serie_c.run()
     
     competition.insert_champion_db(competition_name, ranking.get_domestic_champion(division, season)[0], season)
 
