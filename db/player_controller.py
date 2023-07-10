@@ -2,7 +2,7 @@ import sqlite3
 
 from db.open_query import QueryHelper
 
-database = 'database.db'
+database = 'db/database.db'
 
 qh = QueryHelper()
 
