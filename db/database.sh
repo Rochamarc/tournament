@@ -1,1 +1,0 @@
-gcc config_db.c -o config_db -lsqlite3
