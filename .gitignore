@@ -142,3 +142,5 @@ json/__pycache__/
 classes/__pycache__/
 
 database.db-journal
+
+db/__pycache__/
