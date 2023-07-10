@@ -108,47 +108,68 @@ class GenerateClass:
         return clubs 
 
     @staticmethod
-    def set_players(club, country, min_club_coeff, max_club_coeff):
-        ''' Generate players <class 'Player'> to the club <class 'Club'> 
-            return a dict 
-        '''
-
-        
-    
-        squad = {
-            'goal_keeper': [],
-            'defender': [],
-            'midfielder': [],
-            'attacker': []
-        }
-
-        for _ in range(3):
+    def set_keepers(club: Club, country: str, min_club_coeff: int, max_club_coeff: int, length=3) -> list:                
+        ''' Return a list of keepers '''
+        l = []
+        for _ in range(length):
             natio_ = Name.generate_nationality(country)
             name_ = Name.generate_name(natio_) 
             
-            
-            squad['goal_keeper'].append(Player(name_, natio_, randint(16,37), 'GK', min_club_coeff, max_club_coeff, current_club=club.name))
-        for _ in range(12):
+            l.append(Player(name_, natio_, randint(16,37), 'GK', min_club_coeff, max_club_coeff, current_club=club.name))
+        return l
+    
+    @staticmethod
+    def set_defenders(club: Club, country: str, min_club_coeff: int, max_club_coeff: int, length=12) -> list:
+        ''' Return a list of 12 defenders, CB, LB and RB '''
+        l = []
+
+        for _ in range(length):
             natio_ = Name.generate_nationality(country)
             name_ = Name.generate_name(natio_) 
             pos_ = choice(['CB', 'LB', 'RB'])
             
-            
-            squad['defender'].append(Player(name_, natio_, randint(16,37), pos_, min_club_coeff, max_club_coeff, current_club=club.name))
-        for _ in range(12):
+            l.append(Player(name_, natio_, randint(16,37), pos_, min_club_coeff, max_club_coeff, current_club=club.name))
+        return l
+
+    
+    @staticmethod
+    def set_midfielders(club: Club, country: str, min_club_coeff: int, max_club_coeff: int, length=12) -> list:
+        ''' Return a list of 12 midfielders, DM, CM and AM '''
+        l = []
+
+        for _ in range(length):
             natio_ = Name.generate_nationality(country)
             name_ = Name.generate_name(natio_) 
             pos_ = choice(['DM', 'CM', 'AM'])
             
-            
-            squad["midfielder"].append(Player(name_, natio_, randint(16,37), pos_, min_club_coeff, max_club_coeff, current_club=club.name))
-        for _ in range(6):
+            l.append(Player(name_, natio_, randint(16,37), pos_, min_club_coeff, max_club_coeff, current_club=club.name))
+        return l
+
+    @staticmethod
+    def set_forwards(club: Club, country: str, min_club_coeff: int, max_club_coeff: int, length=6) -> list:
+        ''' Return a list of 6 forwards, CF, SS and WG '''
+        l = []
+
+        for _ in range(length):
             natio_ = Name.generate_nationality(country)
             name_ = Name.generate_name(natio_) 
             pos_ = choice(['CF', 'SS', 'WG'])
             
-            
-            squad["attacker"].append(Player(name_, natio_, randint(16,37), pos_, min_club_coeff, max_club_coeff, current_club=club.name))
+            l.append(Player(name_, natio_, randint(16,37), pos_, min_club_coeff, max_club_coeff, current_club=club.name))
+        return l
+
+    @staticmethod
+    def set_players(club, country, min_club_coeff, max_club_coeff):
+        ''' Generate players <class 'Player'> to the club <class 'Club'> 
+            return a dict 
+        '''
+    
+        squad = {
+            'goal_keeper': GenerateClass().set_keepers(club, country, min_club_coeff, max_club_coeff),
+            'defender': GenerateClass().set_defenders(club, country, min_club_coeff, max_club_coeff),
+            'midfielder': GenerateClass().set_midfielders(club, country, min_club_coeff, max_club_coeff),
+            'attacker': GenerateClass().set_forwards(club, country, min_club_coeff, max_club_coeff)
+        }
 
         l = []
 
