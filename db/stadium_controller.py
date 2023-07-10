@@ -1,3 +1,7 @@
+import sqlite3 
+
+database = 'database.db'
+
 class StadiumData():
     @staticmethod
     def insert_stadiums_db(stadiums, verbose=False):
