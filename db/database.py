@@ -189,20 +189,7 @@ class InternationalCup():
 
         if verbose : print(f"Criando tabela da copa doméstica {season} {group}")
 
-        cursor.execute(f"""
-        CREATE TABLE IF NOT EXISTS libertadores_{group}_{season} (
-            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-            club TEXT NOT NULL,
-            matches INTEGER NOT NULL,
-            won INTEGER NOT NULL,
-            draw INTEGER NOT NULL,
-            lost INTEGER NOT NULL,
-            goals_for INTEGER NOT NULL,
-            goals_away INTEGER NOT NULL,
-            goal_diff INTEGER NOT NULL,
-            points INTEGER NOT NULL
-        );
-        """)
+        cursor.execute(qh.open_create_query('libertadores').format(group, season))
 
         conn.close() # close database
 
