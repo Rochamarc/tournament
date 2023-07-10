@@ -1,8 +1,12 @@
 import sqlite3
 
+from db.open_query import QueryHelper
+
 import sys
 
 args = sys.argv
+
+qh = QueryHelper()
 
 if len(args) > 1:
     database = f'db/{args[-1]}.db'
@@ -14,114 +18,13 @@ def create_db():
     conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
-    # create player table
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS players (
-        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        nationality TEXT NOT NULL,
-        age INTEGER NOT NULL,
-        overall INTEGER NOT NULL,
-        current_club TEXT,
-        position VARCHAR(30) NOT NULL,
-        matches_played INTEGER,
-        goals INTEGER,
-        assists INTEGER,
-        points REAL,
-        avg REAL,
-        market_value INTEGER, 
-        salary REAL, 
-        height REAL, 
-        weight REAL, 
-        foot VARCHAR(10),
-        save_file VARCHAR(30)
-    );
-    """)
-
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS coach (
-        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        nationality TEXT NOT NULL,
-        age INTEGER NOT NULL,
-        formation TEXT NOT NULL,
-        play_mode TEXT NOT NULL,
-        current_club TEXT
-    );
-    """)
-    
-    # create stadium table
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS stadium ( 
-        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
-        name TEXT NOT NULL, 
-        location TEXT NOT NULL, 
-        capacity INTEGER NOT NULL, 
-        club_owner TEXT  
-    ); 
-    """)
-
-    # create conmebom ranking table
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS clubs_ranking (
-        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        country TEXT NOT NULL,
-        points REAL NOT NULL
-    );
-    """)
-
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS game (
-        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        competition TEXT NOT NULL,
-        season TEXT NOT NULL,
-        hour TEXT NOT NULL,
-        home_team TEXT NOT NULL,
-        away_team TEXT NOT NULL,
-        score TEXT NOT NULL,
-        stadium TEXT NOT NULL,
-        home_shots INTEGER NOT NULL,
-        home_shots_on_target INTEGER NOT NULL,
-        home_fouls INTEGER NOT NULL, 
-        home_tackles INTEGER NOT NULL,
-        home_saves INTEGER NOT NULL,
-        home_ball_possession INTEGER NOT NULL,
-        home_offsides INTEGER NOT NULL,
-        home_freekicks INTEGER NOT NULL,
-        away_shots INTEGER NOT NULL,
-        away_shots_on_target INTEGER NOT NULL,
-        away_fouls INTEGER NOT NULL,
-        away_tackles INTEGER NOT NULL,
-        away_saves INTEGER NOT NULL,
-        away_ball_possession INTEGER NOT NULL,
-        away_offsides INTEGER NOT NULL,
-        away_freekicks INTEGER NOT NULL
-    );
-    """)
-
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS clubs (
-        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        country TEXT NOT NULL,
-        state TEXT,
-        coeff INTEGER NOT NULL,
-        club_class VARCHAR(1) NOT NULL,
-        formation TEXT,
-        total_budget INTEGER,
-        salary_budget INTEGER
-    );
-    """)
-
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS champion (
-        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        competition TEXT NOT NULL,
-        club TEXT NOT NULL,
-        season TEXT NOT NULL
-    );
-    """)
+    cursor.execute(qh.open_query('players'))
+    cursor.execute(qh.open_query('coaches')) 
+    cursor.execute(qh.open_query('stadiums'))
+    cursor.execute(qh.open_query('clubs_ranking'))
+    cursor.execute(qh.open_query('games'))
+    cursor.execute(qh.open_query('clubs'))
+    cursor.execute(qh.open_query('champions'))
 
     print("Tabelas criadas com sucesso!")
 
