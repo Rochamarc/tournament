@@ -18,13 +18,13 @@ def create_db():
     conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
-    cursor.execute(qh.open_query('players'))
-    cursor.execute(qh.open_query('coaches')) 
-    cursor.execute(qh.open_query('stadiums'))
-    cursor.execute(qh.open_query('clubs_ranking'))
-    cursor.execute(qh.open_query('games'))
-    cursor.execute(qh.open_query('clubs'))
-    cursor.execute(qh.open_query('champions'))
+    cursor.execute(qh.open_create_query('players'))
+    cursor.execute(qh.open_create_query('coaches')) 
+    cursor.execute(qh.open_create_query('stadiums'))
+    cursor.execute(qh.open_create_query('clubs_ranking'))
+    cursor.execute(qh.open_create_query('games'))
+    cursor.execute(qh.open_create_query('clubs'))
+    cursor.execute(qh.open_create_query('champions'))
 
     print("Tabelas criadas com sucesso!")
 
