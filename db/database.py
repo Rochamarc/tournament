@@ -85,20 +85,7 @@ class DomesticLeague():
 
         if verbose : print(f"Criando tabela da copa doméstica {division} {season}")
 
-        cursor.execute(f"""
-        CREATE TABLE IF NOT EXISTS campeonato_brasileiro_{division}_{season} (
-            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-            club TEXT NOT NULL,
-            matches INTEGER NOT NULL,
-            won INTEGER NOT NULL,
-            draw INTEGER NOT NULL,
-            lost INTEGER NOT NULL,
-            goals_for INTEGER NOT NULL,
-            goals_away INTEGER NOT NULL,
-            goal_diff INTEGER NOT NULL,
-            points INTEGER NOT NULL
-        );
-        """)
+        cursor.execute(qh.open_create_query('brasileirao').format(division, season))
 
 
         conn.close() # close database
