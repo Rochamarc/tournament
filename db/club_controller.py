@@ -1,6 +1,6 @@
 import sqlite3 
 
-from open_query import QueryHelper
+from db.open_query import QueryHelper
 
 database = 'database.db'
 
