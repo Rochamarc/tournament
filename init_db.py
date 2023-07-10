@@ -1,7 +1,12 @@
 from classes.club import Club
 from classes.stadium import Stadium
 from classes_helper import GenerateClass
-from db.database import ClubData, DomesticLeague, PlayerData, StadiumData
+
+from db.club_controller import ClubData
+from db.domestic_league_controller import DomesticLeague 
+from db.player_controller import PlayerData
+from db.stadium_controller import StadiumData
+
 from ranking import Ranking
 
 import os 

@@ -3,7 +3,7 @@ from time import sleep
 from pprint import pprint 
 from classes_helper import GenerateClass
 import pandas as pd
-from db.database import InternationalCup 
+from db.international_cup_controller import InternationalCup 
 from game import Game 
 
 g = GenerateClass()

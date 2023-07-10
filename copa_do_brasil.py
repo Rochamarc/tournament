@@ -1,5 +1,5 @@
 from cup import Cup
-from db.database import CompetitionData
+from db.competition_controller import CompetitionData
 from draw import Draw
 
 # Exemple of 32 clubs, i'll move on to 64 after this is working correctly

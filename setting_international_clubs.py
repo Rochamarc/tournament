@@ -1,6 +1,7 @@
 from classes.club import Club
 from classes_helper import GenerateClass
-from db.database import ClubData, PlayerData
+from db.club_controller import ClubData
+from db.player_controller import PlayerData
 
 club_data = ClubData()
 player_data = PlayerData()

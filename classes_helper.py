@@ -2,7 +2,12 @@ from classes.club import Club
 from classes.player import Player 
 from classes.stadium import Stadium
 
-from db.database import ClubData, DomesticLeague, StadiumData, PlayerData
+from db.club_controller import ClubData
+from db.domestic_league_controller import DomesticLeague
+from db.stadium_controller import StadiumData
+from db.player_controller import PlayerData
+
+
 from name_nationality import NameAndNationality as name_and_nat
 from random import randint, choice
 

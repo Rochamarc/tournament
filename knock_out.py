@@ -1,8 +1,8 @@
 from random import randint  
 from ranking import *
 from game import Game 
-from db.database import GameData, PlayerData
-
+from db.game_controller import GameData
+from db.player_controller import PlayerData
 """
 Competicao:
 Rodada:

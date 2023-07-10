@@ -1,5 +1,5 @@
 from classes_helper import GenerateClass
-from db.database import CompetitionData
+from db.competition_controller import CompetitionData
 from league import League
 from table import Table
 from ranking import Ranking

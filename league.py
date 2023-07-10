@@ -3,7 +3,9 @@ from game import Game
 from ranking import Ranking
 from table import Table
 
-from db.database import GameData, PlayerData, DomesticLeague
+from db.game_controller import GameData
+from db.player_controller import PlayerData 
+from db.domestic_league_controller import DomesticLeague
 
 
 gene = GenerateClass()
