@@ -2,7 +2,7 @@ import sqlite3
 
 from db.open_query import QueryHelper
 
-database = 'database.db'
+database = 'db/database.db'
 
 qh = QueryHelper()
 
@@ -52,7 +52,7 @@ class InternationalCup():
 
         print("Inserting clubs into domestic cup table")
 
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
         for club in club_names:
@@ -79,7 +79,7 @@ class InternationalCup():
         return dict { 'A' : [data], ... }
         '''
 
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
         groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']

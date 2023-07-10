@@ -1,6 +1,6 @@
 import sqlite3 
 
-database = 'database.db'
+database = 'db/database.db'
 
 class StadiumData():
     @staticmethod
