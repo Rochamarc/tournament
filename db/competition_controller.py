@@ -1,6 +1,10 @@
 import sqlite3 
 
+from db.open_query import QueryHelper
+
 database = 'db/database.db'
+
+qh = QueryHelper()
 
 class CompetitionData():
     @staticmethod 
@@ -8,7 +12,7 @@ class CompetitionData():
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO champion (competition, club, season) VALUES (?,?,?)", [competition, club, season])        
+        cursor.execute(qh.open_insertion_query('competition'), [competition, club, season])        
 
         conn.commit()
         conn.close()

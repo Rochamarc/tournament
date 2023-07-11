@@ -52,9 +52,7 @@ def upload_ranking_db(verbose=False):
             del line[-1]
             line.append(val)
     
-            cursor.execute("""
-            INSERT INTO clubs_ranking (name, country, points) VALUES (?,?,?)
-            """, line)
+            cursor.execute(qh.open_insertion_query('clubs_ranking'), line)
     
         conn.commit()
         conn.close()

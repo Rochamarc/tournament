@@ -21,33 +21,7 @@ class GameData():
         except:
             game_data = game 
         
-        cursor.execute("""
-            INSERT INTO game (
-                competition,
-                season,
-                hour,
-                home_team,
-                away_team,
-                score,
-                stadium,
-                home_shots,
-                home_shots_on_target,
-                home_fouls,
-                home_tackles,
-                home_saves,
-                home_ball_possession,
-                home_offsides,
-                home_freekicks,
-                away_shots,
-                away_shots_on_target,
-                away_fouls,
-                away_tackles,
-                away_saves,
-                away_ball_possession,
-                away_offsides,
-                away_freekicks
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-            """, game_data)
+        cursor.execute(qh.open_insertion_query('games'), game_data)
 
         conn.commit()
         conn.close()
@@ -77,33 +51,7 @@ class GameData():
 
             game_data = game.game_data()
 
-            cursor.execute("""
-            INSERT INTO game (
-                competition,
-                season,
-                hour,
-                home_team,
-                away_team,
-                score,
-                stadium,
-                home_shots,
-                home_shots_on_target,
-                home_fouls,
-                home_tackles,
-                home_saves,
-                home_ball_possession,
-                home_offsides,
-                home_freekicks,
-                away_shots,
-                away_shots_on_target,
-                away_fouls,
-                away_tackles,
-                away_saves,
-                away_ball_possession,
-                away_offsides,
-                away_freekicks
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-            """, game_data)
+            cursor.execute(qh.open_insertion_query('games'), game_data)
 
         conn.commit()
         conn.close()

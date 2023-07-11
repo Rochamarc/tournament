@@ -1,6 +1,10 @@
 import sqlite3 
 
+from db.open_query import QueryHelper
+
 database = 'db/database.db'
+
+qh = QueryHelper()
 
 class StadiumData():
     @staticmethod
@@ -20,7 +24,7 @@ class StadiumData():
 
             std_data = stadium.data
 
-            cursor.execute("INSERT INTO stadium (name, location, capacity, club_owner) VALUES (?,?,?,?)", std_data)
+            cursor.execute(qh.open_insertion_query('stadiums'), std_data)
 
         conn.commit()
         conn.close()

@@ -45,7 +45,7 @@ class DomesticLeague():
 
             if verbose : print(f"Inserting {club} into the database.")
 
-            cursor.execute(f"INSERT INTO campeonato_brasileiro_{division}_{season} (club, matches, won, draw, lost, goals_for, goals_away, goal_diff, points) VALUES (?,?,?,?,?,?,?,?,?)", ls)
+            cursor.execute(qh.open_insertion_query('brasileirao').format(division, season), ls)
         
         conn.commit()
         conn.close()

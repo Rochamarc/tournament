@@ -16,6 +16,21 @@ class QueryHelper:
 
         return s
 
+    @staticmethod
+    def open_insertion_query(query: str) -> str: 
+        ''' Prepare and return the string for the query '''
+        s = None
+        
+        original_dir = os.getcwd() 
+        os.chdir(r'{}/db/query/insert/'.format(os.getcwd())) 
+        
+        with open('insert_{}'.format(query), 'r') as f:
+            s = f.readlines()[0].replace('\n', '')
+
+        os.chdir(original_dir) 
+
+        return s
+    
     @staticmethod 
     def create_query() -> None:
         ''' Creeate a query (migration) to the database '''
