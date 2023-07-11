@@ -1,9 +1,14 @@
+import os 
+
 class QueryHelper:
     @staticmethod
     def open_create_query(query: str) -> str:
         ''' Prepare and return the string for the query '''
         s = None
-        with open(f'query/create/create_{query}', 'r') as f:
+        
+        os.chdir(r'{}/db/query/create/'.format(os.getcwd())) # change directory
+        
+        with open('create_{}'.format(query), 'r') as f:
             s = f.readlines()[0].replace('\n', '')
 
         return s
