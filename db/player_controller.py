@@ -42,10 +42,7 @@ class PlayerData():
             
             player_data = player.data()
             
-            cursor.execute('''
-                INSERT INTO players (name, nationality, age, overall, current_club, position, matches_played, goals, assists, avg, market_value, salary, height, weight, foot)
-                values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-            ''', player_data)
+            cursor.execute(qh.open_insertion_query('players'), player_data)
 
         conn.commit()
         conn.close()

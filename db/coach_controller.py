@@ -1,6 +1,10 @@
 import sqlite3 
 
+from db.open_query import QueryHelper
+
 database = 'db/database.db'
+
+qh = QueryHelper()
 
 class CoachData():
     @staticmethod
@@ -21,7 +25,7 @@ class CoachData():
         cursor = conn.cursor()
 
         for coach in coaches:
-            cursor.execute("INSERT INTO coach (name, nationality, age, formation, play_mode, current_club) VALUES (?,?,?,?,?,?)", coach)
+            cursor.execute(qh.open_insertion_query('coaches') , coach)
         
         conn.commit()
         conn.close()
