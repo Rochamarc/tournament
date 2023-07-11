@@ -12,7 +12,7 @@ class CompetitionData():
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
-        cursor.execute(qh.open_insertion_query('competition'), [competition, club, season])        
+        cursor.execute(qh.open_insert_query('competition'), [competition, club, season])        
 
         conn.commit()
         conn.close()

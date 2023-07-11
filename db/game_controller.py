@@ -21,7 +21,7 @@ class GameData():
         except:
             game_data = game 
         
-        cursor.execute(qh.open_insertion_query('games'), game_data)
+        cursor.execute(qh.open_insert_query('games'), game_data)
 
         conn.commit()
         conn.close()
@@ -51,7 +51,7 @@ class GameData():
 
             game_data = game.game_data()
 
-            cursor.execute(qh.open_insertion_query('games'), game_data)
+            cursor.execute(qh.open_insert_query('games'), game_data)
 
         conn.commit()
         conn.close()

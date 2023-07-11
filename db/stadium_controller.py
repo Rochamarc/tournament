@@ -24,7 +24,7 @@ class StadiumData():
 
             std_data = stadium.data
 
-            cursor.execute(qh.open_insertion_query('stadiums'), std_data)
+            cursor.execute(qh.open_insert_query('stadiums'), std_data)
 
         conn.commit()
         conn.close()

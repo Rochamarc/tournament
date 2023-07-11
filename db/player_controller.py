@@ -42,7 +42,7 @@ class PlayerData():
             
             player_data = player.data()
             
-            cursor.execute(qh.open_insertion_query('players'), player_data)
+            cursor.execute(qh.open_insert_query('players'), player_data)
 
         conn.commit()
         conn.close()

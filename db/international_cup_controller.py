@@ -63,7 +63,7 @@ class InternationalCup():
 
             if verbose : print(f"Inserting {club} into the database.")
 
-            cursor.execute(qh.open_insertion_query('libertadores').format(group, season), ls)
+            cursor.execute(qh.open_insert_query('libertadores').format(group, season), ls)
         
         conn.commit()
         conn.close()
