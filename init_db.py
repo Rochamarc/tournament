@@ -10,14 +10,9 @@ from db.stadium_controller import StadiumData
 from ranking import Ranking
 
 import os 
-import sys
 
-args = sys.argv
 
-if len(args) > 1:
-    os.system(f'./reset_database.sh {args[-1]}')
-else:
-    os.system('./reset_database.sh')
+os.system('./db/reset_database.sh')
 
 # Domestic cup
 league = DomesticLeague()
