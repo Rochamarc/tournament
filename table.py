@@ -46,25 +46,63 @@ class Table:
             return { 'group_stage': previous_serie_a[:4], 'pre_libertadores': previous_serie_a[4:6] }
         return { 'sudamericana': previous_serie_a[7:12] }
 
+
+    @staticmethod
+    def get_previous_domestics(previous_season: str) -> dict:
+        ''' Get a dict of lists with the previous season '''
+        return { 
+            'serie_a': domestic.get_domestic_cup_table('serie_a', previous_season),
+            'serie_b': domestic.get_domestic_cup_table('serie_b', previous_season),
+            'serie_c': domestic.get_domestic_cup_table('serie_c', previous_season)
+        }
+
+    @staticmethod
+    def create_next_tables(season: str) -> None:
+        ''' Create next season series A, B and C '''
+
+        domestic.create_domestic_table('serie_a', season) 
+        domestic.create_domestic_table('serie_b', season) 
+        domestic.create_domestic_table('serie_c', season) 
+
+        return None 
+    
+    @staticmethod
+    def create_basic_table(current: list, season: str, verbose:bool=False) -> None:
+        ''' Create next basic table of series A, B and C '''
+
+        domestic.domestic_table_basic(current['serie_a'], 'serie_a', season, verbose=verbose)
+        domestic.domestic_table_basic(current['serie_b'], 'serie_b', season, verbose=verbose)
+        domestic.domestic_table_basic(current['serie_c'], 'serie_c', season, verbose=verbose)
+
+        return None 
+    
+
     @staticmethod 
-    def promotions_and_relegations(season, verbose=False):
+    def get_current(previous_domestics: dict) -> list:
+        ''' Get the previous domestic dict to return the current clubs '''
+
+        # first 16 teams from serie_a, 5 to 16 from serie b, 5 to 20 from serie c 
+        d = { 
+            'serie_a': [ previous_domestics['serie_a'][i][1] for i in range(16) ], 
+            'serie_b': [ previous_domestics['serie_b'][i][1] for i in range(4,16) ], 
+            'serie_c': [ previous_domestics['serie_c'][i][1] for i in range(4,20) ] 
+        }
+        return d 
+
+
+    @staticmethod 
+    def promotions_and_relegations(season: str, verbose=False) -> dict:
         ''' Promove and relegates all the divisions of the domestic league
             return a dict with the promoted and relegated clubs
         '''
         previous_season = str(int(season) - 1) # get the previous season
 
-        previous_serie_a = domestic.get_domestic_cup_table('serie_a', previous_season)
-        previous_serie_b = domestic.get_domestic_cup_table('serie_b', previous_season)
-        previous_serie_c = domestic.get_domestic_cup_table('serie_c', previous_season)
+        previous_domestics = Table().get_previous_domestics(previous_season)
 
-        domestic.create_domestic_table('serie_a', season) # create next season table
-        domestic.create_domestic_table('serie_b', season) # create next season table
-        domestic.create_domestic_table('serie_c', season) # create next season table
+        Table().create_next_tables(season)
 
-        current_serie_a = [ previous_serie_a[i][1] for i in range(16) ] # first 16 teams from serie_a
-        current_serie_b = [ previous_serie_b[i][1] for i in range(4,16) ] # 5 to 16 from serie b
-        current_serie_c = [ previous_serie_c[i][1] for i in range(4,20) ] # 5 to 20 from serie c
-        
+        current = Table().get_current(previous_domestics)
+
         promotions = {
             'serie_a': [],
             'serie_b': []
@@ -76,26 +114,24 @@ class Table:
 
         for i in range(4):
             ''' promotions '''
-            current_serie_a.append(previous_serie_b[i][1]) # get the first four clubs from serie b ||  b -> a
-            current_serie_b.append(previous_serie_c[i][1]) # get the first four clubs from serie c ||  c -> b
+            current['serie_a'].append(previous_domestics['serie_b'][i][1]) # get the first four clubs from serie b ||  b -> a
+            current['serie_b'].append(previous_domestics['serie_c'][i][1]) # get the first four clubs from serie c ||  c -> b
 
             ''' relegations'''
-            relegated_b = previous_serie_a.pop()
-            relegated_c = previous_serie_b.pop() 
+            relegated_b = previous_domestics['serie_a'].pop()
+            relegated_c = previous_domestics['serie_b'].pop() 
 
-            current_serie_b.append(relegated_b[1]) # get the last four from serie b || a -> b
-            current_serie_c.append(relegated_c[1]) # get the last four from serie c || b -> c
+            current['serie_b'].append(relegated_b[1]) # get the last four from serie b || a -> b
+            current['serie_c'].append(relegated_c[1]) # get the last four from serie c || b -> c
 
             if verbose:
-                promotions['serie_a'].append(previous_serie_b[i])
-                promotions['serie_b'].append(previous_serie_c[i])
+                promotions['serie_a'].append(previous_domestics['serie_b'][i])
+                promotions['serie_b'].append(previous_domestics['serie_c'][i])
 
                 relegations['serie_b'].append(relegated_b)
                 relegations['serie_c'].append(relegated_c)
 
+        Table().create_basic_table(current, season, verbose=verbose)
         
-        domestic.domestic_table_basic(current_serie_a, 'serie_a', season, verbose=verbose)
-        domestic.domestic_table_basic(current_serie_b, 'serie_b', season, verbose=verbose)
-        domestic.domestic_table_basic(current_serie_c, 'serie_c', season, verbose=verbose)
 
         return { 'promotions': promotions, 'relegations': relegations }
