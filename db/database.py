@@ -52,7 +52,7 @@ def upload_ranking_db(verbose=False):
             del line[-1]
             line.append(val)
     
-            cursor.execute(qh.open_insertion_query('clubs_ranking'), line)
+            cursor.execute(qh.open_insert_query('clubs_ranking'), line)
     
         conn.commit()
         conn.close()

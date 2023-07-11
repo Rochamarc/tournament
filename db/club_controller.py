@@ -25,7 +25,7 @@ class ClubData():
 
             club_data = club.data() # get the club info
 
-            cursor.execute(qh.open_insertion_query('clubs'), club_data)
+            cursor.execute(qh.open_insert_query('clubs'), club_data)
             
         conn.commit()
         conn.close()

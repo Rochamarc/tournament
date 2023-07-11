@@ -25,7 +25,7 @@ class CoachData():
         cursor = conn.cursor()
 
         for coach in coaches:
-            cursor.execute(qh.open_insertion_query('coaches') , coach)
+            cursor.execute(qh.open_insert_query('coaches') , coach)
         
         conn.commit()
         conn.close()
