@@ -7,9 +7,8 @@
 *** Thanks again! Now go create something AMAZING! :D
 -->
 
-
-
 <!-- PROJECT SHIELDS -->
+
 <!--
 *** I'm using markdown "reference style" links for readability.
 *** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
@@ -19,16 +18,17 @@
 -->
 
 <!-- PROJECT LOGO -->
+
 <br />
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Tournament Soccer</h3>
+<h3 align="center">Tournament Soccer</h3>
 
-  <p align="center">
-    Game to simulates the brazillian divions on football and the libertadores cup with generic players!
+<p align="center">
+    Game to simulates the brazillian divisions on football and the libertadores cup with generic players!
     <br />
     <!--
     <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
@@ -43,9 +43,8 @@
   -->
 </div>
 
-
-
 <!-- TABLE OF CONTENTS -->
+
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -71,20 +70,19 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 <!--
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 -->
 
-This project was create to get fake data and statistcs about my favorite sport. And then i created this to 
+This project was create to get fake data and statistcs about my favorite sport. And then i created this to
 generate players and games and finally getting this data.
 
-
 Licences:
+
 * Campeonato brasileiro serie A
 * Campeonato brasileiro serie B
 * Campeonato brasileiro serie C
@@ -94,8 +92,6 @@ I do not own the rights of any of it. It's just for fun.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 ### Built With
 
 * [Python](https://python.org/)
@@ -103,12 +99,10 @@ I do not own the rights of any of it. It's just for fun.
 * [Sqlite](https://www.sqlite.org/)
 * [Matplotlib](https://matplotlib.org/)
 
-
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 This is an example of how you may give instructions on setting up your project locally.
@@ -117,9 +111,11 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
+
 * pip
+
   ```py
-  python3 -m pip install matplotlib.py pandas
+  python3 -m pip install -r requirements.txt
   ```
 
 ### Installation
@@ -134,25 +130,25 @@ Clone, setup and running.
    ```sh
    ./script && ./reset_database
    ```
-3. 
-   ```py
-   python3 brasileirao.py
+3. ```py
+   python3 season.py
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- OTHER MD FILES -->
-## Other Docs 
 
-  * [Classes](./docs/classes.md)
-  * [Classes_Helper](./docs/classes_helper.md)
-  * [Database](./docs/database.md)
-  * [Game](./docs/game.md)
-  * [Name](./docs/name_nationality.md)
-  * [Ranking](./docs/ranking.md)
+## Other Docs
 
+* [Classes](./docs/classes.md)
+* [Classes_Helper](./docs/classes_helper.md)
+* [Database](./docs/database.md)
+* [Game](./docs/game.md)
+* [Name](./docs/name_nationality.md)
+* [Ranking](./docs/ranking.md)
 
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
@@ -161,9 +157,8 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 <!-- ROADMAP -->
+
 <!--
 ## Roadmap
 
@@ -180,8 +175,8 @@ See the [open issues](https://github.com/othneildrew/Best-README-Template/issues
 <p align="right">(<a href="#top">back to top</a>)</p>
 -->
 
-
 <!-- CONTRIBUTING -->
+
 <!--
 ## Contributing
 
@@ -200,17 +195,16 @@ Don't forget to give the project a star! Thanks again!
 <p align="right">(<a href="#top">back to top</a>)</p>
 -->
 
-
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 <!-- CONTACT -->
+
 ## Contact
 
 Marcos Rocha - [@Nuke_TheCross](https://twitter.com/Nuke_TheCross) - rochadcmarcos@gmail.com
@@ -219,10 +213,10 @@ Project Link: [https://github.com/Rochamarc/tournament](https://github.com/Rocha
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
+
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
