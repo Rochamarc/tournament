@@ -42,7 +42,7 @@ class QueryHelper:
         ''' Prepare and return the string of the query '''
         s = None 
 
-        with open('update/update+{}'.format(query), 'r') as f:
+        with open('update/update_{}'.format(query), 'r') as f:
             s = f.readlines()[0].replace('\n', '')
         
         return s 
