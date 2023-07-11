@@ -9,6 +9,7 @@ qh = QueryHelper()
 class DomesticLeague():
     @staticmethod
     def create_domestic_table(division, season, verbose=False):
+        ''' Create domestic table '''
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
@@ -57,23 +58,13 @@ class DomesticLeague():
 
     @staticmethod
     def update_domestic_table(club_stats, division, season):
+        ''' Update values from domestic table '''
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
         division.replace(' ', '_')
 
-        cursor.execute(f"""
-            UPDATE campeonato_brasileiro_{division}_{season} 
-            SET matches=matches+1, 
-                won=won + ?,
-                draw=draw + ?,
-                lost=lost + ?,
-                goals_for=goals_for + ?,
-                goals_away=goals_away + ?,
-                goal_diff=goal_diff + ?,
-                points=points + ?
-            WHERE club = ?
-        """, club_stats)
+        cursor.execute(qh.open_update_query('brasileirao').format(division, season), club_stats)
         
         conn.commit()
         conn.close()

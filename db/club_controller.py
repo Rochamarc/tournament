@@ -34,7 +34,7 @@ class ClubData():
         return True
 
     @staticmethod
-    def get_clubs(clubs, verbose=False):
+    def get_clubs(clubs, verbose=False) -> list:
         ''' Get clubs info from database '''
 
         conn = sqlite3.connect(database)
@@ -51,7 +51,7 @@ class ClubData():
         return data
 
     @staticmethod
-    def get_clubs_by_country(country):
+    def get_clubs_by_country(country) -> list:
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
     

@@ -10,7 +10,7 @@ class InternationalCup():
 
     @staticmethod
     def create_international_cup(season, group, verbose=False):
-        ''' Create international cup table '''
+        ''' Create libertadores table '''
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
@@ -21,34 +21,24 @@ class InternationalCup():
         conn.close() # close database
 
         if verbose : print("Tabela criada com sucesso")
+        return True
 
     @staticmethod
     def update_international_table(club_stats, group, season):
-        ''' Insert into the international cup table '''
+        ''' Update values from libertadores table '''
+
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
-        cursor.execute(f"""
-            UPDATE libertadores_{group}_{season} 
-            SET matches=matches+1, 
-                won=won + ?,
-                draw=draw + ?,
-                lost=lost + ?,
-                goals_for=goals_for + ?,
-                goals_away=goals_away + ?,
-                goal_diff=goal_diff + ?,
-                points=points + ?
-            WHERE club = ?
-        """, club_stats)
+        cursor.execute(qh.open_update_query('libertadores').format(group, season), club_stats)
 
         conn.commit()
         conn.close()
-
+        return True 
+    
     @staticmethod
     def international_group_table_basic(club_names,season, group, verbose=False):
-        '''
-        Basic international cup data
-        '''
+        ''' Insert data into libertadores table '''
 
         print("Inserting clubs into domestic cup table")
 
@@ -73,7 +63,7 @@ class InternationalCup():
         return True
 
     @staticmethod
-    def get_group_stage_data(season):
+    def get_group_stage_data(season) -> dict:
         ''' 
         Get international cup group stage 
         return dict { 'A' : [data], ... }
