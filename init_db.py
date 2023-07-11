@@ -15,9 +15,9 @@ import sys
 args = sys.argv
 
 if len(args) > 1:
-    os.system(f'./db/reset_database.sh {args[-1]}')
+    os.system(f'./reset_database.sh {args[-1]}')
 else:
-    os.system('./db/reset_database.sh')
+    os.system('./reset_database.sh')
 
 # Domestic cup
 league = DomesticLeague()
