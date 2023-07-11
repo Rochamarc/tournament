@@ -31,9 +31,10 @@ class CoachData():
         conn.close()
 
         print('Coaches inserted sucessfully')
-
+        return True 
+    
     @staticmethod
-    def get_all_coaches():
+    def get_all_coaches() -> list:
 
         conn = sqlite3.connect(database)
         cursor = conn.cursor()

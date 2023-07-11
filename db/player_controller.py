@@ -8,7 +8,7 @@ qh = QueryHelper()
 
 class PlayerData():
     @staticmethod
-    def get_players(club_name, verbose=False):
+    def get_players(club_name, verbose=False) -> list:
         ''' 
         Get the players info from database
         '''
@@ -53,7 +53,7 @@ class PlayerData():
 
     @staticmethod
     def update_player_stats(player_list, verbose=False):
-
+        ''' Update players database '''
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
         
@@ -64,14 +64,7 @@ class PlayerData():
 
             if verbose : print(f"Update {player}")
 
-            cursor.execute(f"""
-                UPDATE players 
-                SET matches_played = matches_played + ?, 
-                    goals = goals + ?,
-                    assists = assists + ?,
-                    points = points + ?
-                WHERE id = ?
-            """, player_data)
+            cursor.execute(qh.open_update_query('players'), player_data)
 
         conn.commit()
         conn.close()
@@ -81,13 +74,16 @@ class PlayerData():
 
     @staticmethod 
     def update_players_age(player_list, verbose=False):
+        ''' Update players age '''
+
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
         for player in player_list:
             if verbose: print(f"Update: {player}")
 
-            cursor.execute("UPDATE players SET age = age + ? WHERE id = ?", [1, player.id])
+            cursor.execute(qh.open_update_query('players_age'), [1, player.id])
 
         conn.commit()
         conn.close()
+        return True
