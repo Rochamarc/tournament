@@ -1,6 +1,6 @@
 import sqlite3
 
-from db.open_query import QueryHelper
+from open_query import QueryHelper
 
 import sys
 
@@ -64,3 +64,4 @@ def upload_ranking_db(verbose=False):
 if __name__ == '__main__':
     create_db()
     upload_ranking_db()
+ 
