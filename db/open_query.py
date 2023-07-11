@@ -36,6 +36,17 @@ class QueryHelper:
 
         return s
     
+    @staticmethod
+    @change_directory
+    def open_update_query(query: str) -> str:
+        ''' Prepare and return the string of the query '''
+        s = None 
+
+        with open('update/update+{}'.format(query), 'r') as f:
+            s = f.readlines()[0].replace('\n', '')
+        
+        return s 
+
     @staticmethod 
     def create_query() -> None:
         ''' Creeate a query (migration) to the database '''
