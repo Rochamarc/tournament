@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>knock_out API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>knock_out</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from random import randint  
+from ranking import *
+from game import Game 
+from db.game_controller import GameData
+from db.player_controller import PlayerData
+&#34;&#34;&#34;
+Competicao:
+Rodada:
+Jogo: 
+Ida: (em caso de jogo 2)
+Placar: 
+Gol Qualificado: (em caso de gol qualificado)
+Pealtis: (em caso de penaltis)
+&#34;&#34;&#34;
+
+# extra_time() missing
+# 
+#
+
+player_data = PlayerData()
+game_data = GameData()
+
+class KnockOutGame(Game):
+    def __init__(self, home_club, away_club, competition, m_round, season, phase, head_stadium, verbose):
+        super().__init__(home_club, away_club, competition, m_round, season, head_stadium=head_stadium, verbose=verbose)
+    
+        self.phase = phase 
+        self.extra_time = False 
+        self.qualified_goal = False
+        self.penalties_confirmation = False
+        
+        self.total_home = 0
+        self.total_away = 0
+        
+        self.f_home_goal = 0
+        self.f_away_goal = 0
+
+        self.p_home = 0
+        self.p_away = 0
+        
+        self.winner = None 
+        self.loser = None 
+
+        self.q_score = &#34;&#34; # ?????
+        self.scoreboard[&#39;phase&#39;] = self.phase 
+
+    def first_leg(self):
+        self.start()
+        game_data.insert_game_db(self.game_data()) # save on database this is gonna make my code slower but thats ok
+        return self.second_leg()
+    
+    def second_leg(self):
+        self.update_attr()
+
+        # self.stadium = self.home_club.stadium
+
+        self.start()
+
+        self.total_home += self.home_goal 
+        self.total_away += self.away_goal
+
+        self.home_player_goals.clear()
+        self.away_player_goals.clear()
+
+        # self.check_qualified_goal() # check and if True calculates if has a qualified goal
+        # self.check_extra_time() # check and simulates a extra time if True
+        self.check_penalties() # check for penalties
+        self.penalty_shots()
+
+        self.scoreboard[&#39;total_home&#39;] = self.total_home
+        self.scoreboard[&#39;total_away&#39;] = self.total_away 
+        
+        game_data.insert_game_db(self.game_data()) # save on database this is gonna make my code slower but thats ok
+
+        return self.scoreboard
+
+    def check_qualified_goal(self):        
+        # QUALIFIED GOAL
+        # from round_16 to semi_finals
+        if self.round == 2:
+            if self.total_home == self.total_away:
+                &#34;&#34;&#34; Verify for qualified goal &#34;&#34;&#34;
+                if self.f_home_goal &gt; self.away_goal:
+                    self.qualified_goal = True 
+                    self.scoreboard[&#39;winner&#39;] = self.home_club
+                    self.scoreboard[&#39;loser&#39;] = self.away_club
+                    self.scoreboard[&#39;q_score&#39;] = f&#34;\u0332{self.f_home_goal} - {self.f_away_goal}&#34;
+                elif self.away_goal &gt; self.f_home_goal:
+                    self.qualified_goal = True 
+                    self.scoreboard[&#39;loser&#39;] = self.home_club 
+                    self.scoreboard[&#39;winner&#39;] = self.away_club 
+                    self.scoreboard[&#39;q_score&#39;] = f&#34;{self.home_goal} - \u0332{self.away_goal}&#34;
+
+
+    def check_winner(self):
+        &#39;&#39;&#39; Check for the winner club &#39;&#39;&#39;
+
+        if self.total_home &gt; self.total_away:
+            self.winner = self.home_club
+            self.loser = self.away_club
+        else:
+            self.winner = self.away_club
+            self.loser = self.home_club 
+        
+        self.scoreboard[&#39;total_home&#39;] = self.total_home 
+        self.scoreboard[&#39;total_away&#39;] = self.total_away
+        self.scoreboard[&#39;winner&#39;] = self.winner 
+        self.scoreboard[&#39;loser&#39;] = self.loser
+
+        return True 
+         
+    def check_extra_time(self):
+        # EXTRA TIME
+        # only in the final match 
+        if self.phase == &#39;Final&#39; and not self.qualified_goal:
+            
+            print(&#39;Prorrogacao&#39;)
+            # e_goals = self.actions()
+            # self.e_home_goals += e_goals[&#39;home_goal&#39;]
+            # self.e_away_goals += e_goals[&#39;away_goal&#39;]
+    
+    def check_penalties(self):
+        # Verifica se a partida vai pros penaltis
+        if self.total_home == self.total_away:
+            if not self.qualified_goal:
+                if self.round == 2:
+                    self.penalties_confirmation = True 
+        else:
+            if self.round == 2:
+                self.check_winner()
+
+
+    def update_attr(self):
+        &#39;&#39;&#39; Update the attr and scoreboard dict &#39;&#39;&#39;
+
+        # update class attr
+        self.home_club, self.away_club = self.away_club, self.home_club # update home/away clubs
+        self.total_home, self.total_away = self.away_goal, self.home_goal # in the second leg the total of goals from the pervious game are switched
+        self.f_home_goal, f_away_goal = self.away_goal, self.home_goal # the same rule aply here
+        self.home_goal, self.away_goal = 0, 0
+        self.home_subs += 3
+        self.away_subs += 3
+        self.round = 2
+        
+        # update from the scoreboard dict
+        self.scoreboard[&#39;home_club&#39;], self.scoreboard[&#39;away_club&#39;] = self.home_club, self.away_club 
+        self.scoreboard[&#39;round&#39;] = self.round 
+        self.scoreboard[&#39;home_player_goals&#39;].clear()
+        self.scoreboard[&#39;away_player_goals&#39;].clear()
+
+        return True 
+
+    def penalty_shots(self):
+        if self.penalties_confirmation: 
+            for i in range(10):
+                if i % 2 == 0:
+                    # penalty away
+                    shot = randint(1,6)
+                    defense = randint(1,5)
+                    if shot != defense:
+                        if shot != 6: 
+                            self.p_home += 1
+                else:
+                    # penalty away
+                    shot = randint(1,6)
+                    defense = randint(1,5)
+                    if shot != defense:
+                        if shot != 6:
+                            self.p_away += 1
+
+            # Sudden death
+            if self.p_home == self.p_away:
+                while self.p_home == self.p_away:
+
+                    shot_1 = randint(1,6)
+                    defense_1 = randint(1,5)
+
+                    if shot_1 != defense_1:
+                        if shot_1 != 6:
+                            self.p_home += 1
+
+                    shot_2 = randint(1,6)
+                    defense_2 = randint(1,5)
+
+                    if shot_2 != defense_2:
+                        if shot_2 != 6:
+                            self.p_away += 1
+            
+            if self.p_home &gt; self.p_away:
+                self.winner = self.home_club
+                self.loser = self.away_club 
+            else:
+                self.winner = self.away_club
+                self.loser = self.home_club 
+
+            self.scoreboard[&#39;p_home&#39;] = self.p_home
+            self.scoreboard[&#39;p_away&#39;] = self.p_away 
+            self.scoreboard[&#39;winner&#39;] = self.winner 
+            self.scoreboard[&#39;loser&#39;] = self.loser 
+
+            return True </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="knock_out.KnockOutGame"><code class="flex name class">
+<span>class <span class="ident">KnockOutGame</span></span>
+<span>(</span><span>home_club, away_club, competition, m_round, season, phase, head_stadium, verbose)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class KnockOutGame(Game):
+    def __init__(self, home_club, away_club, competition, m_round, season, phase, head_stadium, verbose):
+        super().__init__(home_club, away_club, competition, m_round, season, head_stadium=head_stadium, verbose=verbose)
+    
+        self.phase = phase 
+        self.extra_time = False 
+        self.qualified_goal = False
+        self.penalties_confirmation = False
+        
+        self.total_home = 0
+        self.total_away = 0
+        
+        self.f_home_goal = 0
+        self.f_away_goal = 0
+
+        self.p_home = 0
+        self.p_away = 0
+        
+        self.winner = None 
+        self.loser = None 
+
+        self.q_score = &#34;&#34; # ?????
+        self.scoreboard[&#39;phase&#39;] = self.phase 
+
+    def first_leg(self):
+        self.start()
+        game_data.insert_game_db(self.game_data()) # save on database this is gonna make my code slower but thats ok
+        return self.second_leg()
+    
+    def second_leg(self):
+        self.update_attr()
+
+        # self.stadium = self.home_club.stadium
+
+        self.start()
+
+        self.total_home += self.home_goal 
+        self.total_away += self.away_goal
+
+        self.home_player_goals.clear()
+        self.away_player_goals.clear()
+
+        # self.check_qualified_goal() # check and if True calculates if has a qualified goal
+        # self.check_extra_time() # check and simulates a extra time if True
+        self.check_penalties() # check for penalties
+        self.penalty_shots()
+
+        self.scoreboard[&#39;total_home&#39;] = self.total_home
+        self.scoreboard[&#39;total_away&#39;] = self.total_away 
+        
+        game_data.insert_game_db(self.game_data()) # save on database this is gonna make my code slower but thats ok
+
+        return self.scoreboard
+
+    def check_qualified_goal(self):        
+        # QUALIFIED GOAL
+        # from round_16 to semi_finals
+        if self.round == 2:
+            if self.total_home == self.total_away:
+                &#34;&#34;&#34; Verify for qualified goal &#34;&#34;&#34;
+                if self.f_home_goal &gt; self.away_goal:
+                    self.qualified_goal = True 
+                    self.scoreboard[&#39;winner&#39;] = self.home_club
+                    self.scoreboard[&#39;loser&#39;] = self.away_club
+                    self.scoreboard[&#39;q_score&#39;] = f&#34;\u0332{self.f_home_goal} - {self.f_away_goal}&#34;
+                elif self.away_goal &gt; self.f_home_goal:
+                    self.qualified_goal = True 
+                    self.scoreboard[&#39;loser&#39;] = self.home_club 
+                    self.scoreboard[&#39;winner&#39;] = self.away_club 
+                    self.scoreboard[&#39;q_score&#39;] = f&#34;{self.home_goal} - \u0332{self.away_goal}&#34;
+
+
+    def check_winner(self):
+        &#39;&#39;&#39; Check for the winner club &#39;&#39;&#39;
+
+        if self.total_home &gt; self.total_away:
+            self.winner = self.home_club
+            self.loser = self.away_club
+        else:
+            self.winner = self.away_club
+            self.loser = self.home_club 
+        
+        self.scoreboard[&#39;total_home&#39;] = self.total_home 
+        self.scoreboard[&#39;total_away&#39;] = self.total_away
+        self.scoreboard[&#39;winner&#39;] = self.winner 
+        self.scoreboard[&#39;loser&#39;] = self.loser
+
+        return True 
+         
+    def check_extra_time(self):
+        # EXTRA TIME
+        # only in the final match 
+        if self.phase == &#39;Final&#39; and not self.qualified_goal:
+            
+            print(&#39;Prorrogacao&#39;)
+            # e_goals = self.actions()
+            # self.e_home_goals += e_goals[&#39;home_goal&#39;]
+            # self.e_away_goals += e_goals[&#39;away_goal&#39;]
+    
+    def check_penalties(self):
+        # Verifica se a partida vai pros penaltis
+        if self.total_home == self.total_away:
+            if not self.qualified_goal:
+                if self.round == 2:
+                    self.penalties_confirmation = True 
+        else:
+            if self.round == 2:
+                self.check_winner()
+
+
+    def update_attr(self):
+        &#39;&#39;&#39; Update the attr and scoreboard dict &#39;&#39;&#39;
+
+        # update class attr
+        self.home_club, self.away_club = self.away_club, self.home_club # update home/away clubs
+        self.total_home, self.total_away = self.away_goal, self.home_goal # in the second leg the total of goals from the pervious game are switched
+        self.f_home_goal, f_away_goal = self.away_goal, self.home_goal # the same rule aply here
+        self.home_goal, self.away_goal = 0, 0
+        self.home_subs += 3
+        self.away_subs += 3
+        self.round = 2
+        
+        # update from the scoreboard dict
+        self.scoreboard[&#39;home_club&#39;], self.scoreboard[&#39;away_club&#39;] = self.home_club, self.away_club 
+        self.scoreboard[&#39;round&#39;] = self.round 
+        self.scoreboard[&#39;home_player_goals&#39;].clear()
+        self.scoreboard[&#39;away_player_goals&#39;].clear()
+
+        return True 
+
+    def penalty_shots(self):
+        if self.penalties_confirmation: 
+            for i in range(10):
+                if i % 2 == 0:
+                    # penalty away
+                    shot = randint(1,6)
+                    defense = randint(1,5)
+                    if shot != defense:
+                        if shot != 6: 
+                            self.p_home += 1
+                else:
+                    # penalty away
+                    shot = randint(1,6)
+                    defense = randint(1,5)
+                    if shot != defense:
+                        if shot != 6:
+                            self.p_away += 1
+
+            # Sudden death
+            if self.p_home == self.p_away:
+                while self.p_home == self.p_away:
+
+                    shot_1 = randint(1,6)
+                    defense_1 = randint(1,5)
+
+                    if shot_1 != defense_1:
+                        if shot_1 != 6:
+                            self.p_home += 1
+
+                    shot_2 = randint(1,6)
+                    defense_2 = randint(1,5)
+
+                    if shot_2 != defense_2:
+                        if shot_2 != 6:
+                            self.p_away += 1
+            
+            if self.p_home &gt; self.p_away:
+                self.winner = self.home_club
+                self.loser = self.away_club 
+            else:
+                self.winner = self.away_club
+                self.loser = self.home_club 
+
+            self.scoreboard[&#39;p_home&#39;] = self.p_home
+            self.scoreboard[&#39;p_away&#39;] = self.p_away 
+            self.scoreboard[&#39;winner&#39;] = self.winner 
+            self.scoreboard[&#39;loser&#39;] = self.loser 
+
+            return True </code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="game.Game" href="game.html#game.Game">Game</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="knock_out.KnockOutGame.check_extra_time"><code class="name flex">
+<span>def <span class="ident">check_extra_time</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def check_extra_time(self):
+    # EXTRA TIME
+    # only in the final match 
+    if self.phase == &#39;Final&#39; and not self.qualified_goal:
+        
+        print(&#39;Prorrogacao&#39;)
+        # e_goals = self.actions()
+        # self.e_home_goals += e_goals[&#39;home_goal&#39;]
+        # self.e_away_goals += e_goals[&#39;away_goal&#39;]</code></pre>
+</details>
+</dd>
+<dt id="knock_out.KnockOutGame.check_penalties"><code class="name flex">
+<span>def <span class="ident">check_penalties</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def check_penalties(self):
+    # Verifica se a partida vai pros penaltis
+    if self.total_home == self.total_away:
+        if not self.qualified_goal:
+            if self.round == 2:
+                self.penalties_confirmation = True 
+    else:
+        if self.round == 2:
+            self.check_winner()</code></pre>
+</details>
+</dd>
+<dt id="knock_out.KnockOutGame.check_qualified_goal"><code class="name flex">
+<span>def <span class="ident">check_qualified_goal</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def check_qualified_goal(self):        
+    # QUALIFIED GOAL
+    # from round_16 to semi_finals
+    if self.round == 2:
+        if self.total_home == self.total_away:
+            &#34;&#34;&#34; Verify for qualified goal &#34;&#34;&#34;
+            if self.f_home_goal &gt; self.away_goal:
+                self.qualified_goal = True 
+                self.scoreboard[&#39;winner&#39;] = self.home_club
+                self.scoreboard[&#39;loser&#39;] = self.away_club
+                self.scoreboard[&#39;q_score&#39;] = f&#34;\u0332{self.f_home_goal} - {self.f_away_goal}&#34;
+            elif self.away_goal &gt; self.f_home_goal:
+                self.qualified_goal = True 
+                self.scoreboard[&#39;loser&#39;] = self.home_club 
+                self.scoreboard[&#39;winner&#39;] = self.away_club 
+                self.scoreboard[&#39;q_score&#39;] = f&#34;{self.home_goal} - \u0332{self.away_goal}&#34;</code></pre>
+</details>
+</dd>
+<dt id="knock_out.KnockOutGame.check_winner"><code class="name flex">
+<span>def <span class="ident">check_winner</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check for the winner club</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def check_winner(self):
+    &#39;&#39;&#39; Check for the winner club &#39;&#39;&#39;
+
+    if self.total_home &gt; self.total_away:
+        self.winner = self.home_club
+        self.loser = self.away_club
+    else:
+        self.winner = self.away_club
+        self.loser = self.home_club 
+    
+    self.scoreboard[&#39;total_home&#39;] = self.total_home 
+    self.scoreboard[&#39;total_away&#39;] = self.total_away
+    self.scoreboard[&#39;winner&#39;] = self.winner 
+    self.scoreboard[&#39;loser&#39;] = self.loser
+
+    return True </code></pre>
+</details>
+</dd>
+<dt id="knock_out.KnockOutGame.first_leg"><code class="name flex">
+<span>def <span class="ident">first_leg</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def first_leg(self):
+    self.start()
+    game_data.insert_game_db(self.game_data()) # save on database this is gonna make my code slower but thats ok
+    return self.second_leg()</code></pre>
+</details>
+</dd>
+<dt id="knock_out.KnockOutGame.penalty_shots"><code class="name flex">
+<span>def <span class="ident">penalty_shots</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def penalty_shots(self):
+    if self.penalties_confirmation: 
+        for i in range(10):
+            if i % 2 == 0:
+                # penalty away
+                shot = randint(1,6)
+                defense = randint(1,5)
+                if shot != defense:
+                    if shot != 6: 
+                        self.p_home += 1
+            else:
+                # penalty away
+                shot = randint(1,6)
+                defense = randint(1,5)
+                if shot != defense:
+                    if shot != 6:
+                        self.p_away += 1
+
+        # Sudden death
+        if self.p_home == self.p_away:
+            while self.p_home == self.p_away:
+
+                shot_1 = randint(1,6)
+                defense_1 = randint(1,5)
+
+                if shot_1 != defense_1:
+                    if shot_1 != 6:
+                        self.p_home += 1
+
+                shot_2 = randint(1,6)
+                defense_2 = randint(1,5)
+
+                if shot_2 != defense_2:
+                    if shot_2 != 6:
+                        self.p_away += 1
+        
+        if self.p_home &gt; self.p_away:
+            self.winner = self.home_club
+            self.loser = self.away_club 
+        else:
+            self.winner = self.away_club
+            self.loser = self.home_club 
+
+        self.scoreboard[&#39;p_home&#39;] = self.p_home
+        self.scoreboard[&#39;p_away&#39;] = self.p_away 
+        self.scoreboard[&#39;winner&#39;] = self.winner 
+        self.scoreboard[&#39;loser&#39;] = self.loser 
+
+        return True </code></pre>
+</details>
+</dd>
+<dt id="knock_out.KnockOutGame.second_leg"><code class="name flex">
+<span>def <span class="ident">second_leg</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def second_leg(self):
+    self.update_attr()
+
+    # self.stadium = self.home_club.stadium
+
+    self.start()
+
+    self.total_home += self.home_goal 
+    self.total_away += self.away_goal
+
+    self.home_player_goals.clear()
+    self.away_player_goals.clear()
+
+    # self.check_qualified_goal() # check and if True calculates if has a qualified goal
+    # self.check_extra_time() # check and simulates a extra time if True
+    self.check_penalties() # check for penalties
+    self.penalty_shots()
+
+    self.scoreboard[&#39;total_home&#39;] = self.total_home
+    self.scoreboard[&#39;total_away&#39;] = self.total_away 
+    
+    game_data.insert_game_db(self.game_data()) # save on database this is gonna make my code slower but thats ok
+
+    return self.scoreboard</code></pre>
+</details>
+</dd>
+<dt id="knock_out.KnockOutGame.update_attr"><code class="name flex">
+<span>def <span class="ident">update_attr</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update the attr and scoreboard dict</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_attr(self):
+    &#39;&#39;&#39; Update the attr and scoreboard dict &#39;&#39;&#39;
+
+    # update class attr
+    self.home_club, self.away_club = self.away_club, self.home_club # update home/away clubs
+    self.total_home, self.total_away = self.away_goal, self.home_goal # in the second leg the total of goals from the pervious game are switched
+    self.f_home_goal, f_away_goal = self.away_goal, self.home_goal # the same rule aply here
+    self.home_goal, self.away_goal = 0, 0
+    self.home_subs += 3
+    self.away_subs += 3
+    self.round = 2
+    
+    # update from the scoreboard dict
+    self.scoreboard[&#39;home_club&#39;], self.scoreboard[&#39;away_club&#39;] = self.home_club, self.away_club 
+    self.scoreboard[&#39;round&#39;] = self.round 
+    self.scoreboard[&#39;home_player_goals&#39;].clear()
+    self.scoreboard[&#39;away_player_goals&#39;].clear()
+
+    return True </code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="game.Game" href="game.html#game.Game">Game</a></b></code>:
+<ul class="hlist">
+<li><code><a title="game.Game.actions" href="game.html#game.Game.actions">actions</a></code></li>
+<li><code><a title="game.Game.add_assist" href="game.html#game.Game.add_assist">add_assist</a></code></li>
+<li><code><a title="game.Game.add_goal" href="game.html#game.Game.add_goal">add_goal</a></code></li>
+<li><code><a title="game.Game.add_matches" href="game.html#game.Game.add_matches">add_matches</a></code></li>
+<li><code><a title="game.Game.add_points" href="game.html#game.Game.add_points">add_points</a></code></li>
+<li><code><a title="game.Game.check_game_stats" href="game.html#game.Game.check_game_stats">check_game_stats</a></code></li>
+<li><code><a title="game.Game.check_subs" href="game.html#game.Game.check_subs">check_subs</a></code></li>
+<li><code><a title="game.Game.defense" href="game.html#game.Game.defense">defense</a></code></li>
+<li><code><a title="game.Game.finish" href="game.html#game.Game.finish">finish</a></code></li>
+<li><code><a title="game.Game.move" href="game.html#game.Game.move">move</a></code></li>
+<li><code><a title="game.Game.penalty" href="game.html#game.Game.penalty">penalty</a></code></li>
+<li><code><a title="game.Game.register_winner" href="game.html#game.Game.register_winner">register_winner</a></code></li>
+<li><code><a title="game.Game.select_player" href="game.html#game.Game.select_player">select_player</a></code></li>
+<li><code><a title="game.Game.set_options" href="game.html#game.Game.set_options">set_options</a></code></li>
+<li><code><a title="game.Game.start" href="game.html#game.Game.start">start</a></code></li>
+<li><code><a title="game.Game.sub_points" href="game.html#game.Game.sub_points">sub_points</a></code></li>
+<li><code><a title="game.Game.subs" href="game.html#game.Game.subs">subs</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="knock_out.KnockOutGame" href="#knock_out.KnockOutGame">KnockOutGame</a></code></h4>
+<ul class="">
+<li><code><a title="knock_out.KnockOutGame.check_extra_time" href="#knock_out.KnockOutGame.check_extra_time">check_extra_time</a></code></li>
+<li><code><a title="knock_out.KnockOutGame.check_penalties" href="#knock_out.KnockOutGame.check_penalties">check_penalties</a></code></li>
+<li><code><a title="knock_out.KnockOutGame.check_qualified_goal" href="#knock_out.KnockOutGame.check_qualified_goal">check_qualified_goal</a></code></li>
+<li><code><a title="knock_out.KnockOutGame.check_winner" href="#knock_out.KnockOutGame.check_winner">check_winner</a></code></li>
+<li><code><a title="knock_out.KnockOutGame.first_leg" href="#knock_out.KnockOutGame.first_leg">first_leg</a></code></li>
+<li><code><a title="knock_out.KnockOutGame.penalty_shots" href="#knock_out.KnockOutGame.penalty_shots">penalty_shots</a></code></li>
+<li><code><a title="knock_out.KnockOutGame.second_leg" href="#knock_out.KnockOutGame.second_leg">second_leg</a></code></li>
+<li><code><a title="knock_out.KnockOutGame.update_attr" href="#knock_out.KnockOutGame.update_attr">update_attr</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
