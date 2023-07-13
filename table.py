@@ -6,19 +6,9 @@ domestic = DomesticLeague()
 
 class Table:
     @staticmethod
-    def define_schedule(clubs,stadiums):
-        '''
-        Return a dict of lists with all the rounds filled with
-        [ home_club, away_club, stadium ]
-        '''
-
-        # Not properly working yet
-        # need to add max of 10 matches per round
-        # and tha same club doesnt play two or more times per round
-        # and the stadium cant have two or more matcher per round
-        # now the method doesnt have any limitation
-        # and the method will return a dict of Game() lists not list of listss
-
+    def define_schedule(clubs: list, stadiums: list) -> dict:
+        ''' Return { 'round': [ home, away, stadium ] } '''
+        
         schedule = {}
 
         rounds = {}
@@ -37,7 +27,8 @@ class Table:
         return rounds 
 
     @staticmethod 
-    def get_international_classified(season, competition):
+    def get_international_classified(season: str, competition: str) -> dict:
+        ''' Return { 'international_cup': [ classified_clubs ] } '''
         previous_season = str(int(season) - 1) # get the previous season
 
         previous_serie_a = domestic.get_domestic_cup_table('serie_a', previous_season)
@@ -133,5 +124,4 @@ class Table:
 
         cls.create_basic_table(current, season, verbose=verbose)
         
-
         return { 'promotions': promotions, 'relegations': relegations }
