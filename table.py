@@ -90,18 +90,18 @@ class Table:
         return d 
 
 
-    @staticmethod 
-    def promotions_and_relegations(season: str, verbose=False) -> dict:
+    @classmethod
+    def promotions_and_relegations(cls, season: str, verbose=False) -> dict:
         ''' Promove and relegates all the divisions of the domestic league
             return a dict with the promoted and relegated clubs
         '''
         previous_season = str(int(season) - 1) # get the previous season
 
-        previous_domestics = Table().get_previous_domestics(previous_season)
+        previous_domestics = cls.get_previous_domestics(previous_season)
 
-        Table().create_next_tables(season)
+        cls.create_next_tables(season)
 
-        current = Table().get_current(previous_domestics)
+        current = cls.get_current(previous_domestics)
 
         promotions = {
             'serie_a': [],
@@ -131,7 +131,7 @@ class Table:
                 relegations['serie_b'].append(relegated_b)
                 relegations['serie_c'].append(relegated_c)
 
-        Table().create_basic_table(current, season, verbose=verbose)
+        cls.create_basic_table(current, season, verbose=verbose)
         
 
         return { 'promotions': promotions, 'relegations': relegations }
