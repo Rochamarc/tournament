@@ -32,7 +32,7 @@ class League:
 
         ''' Here we reconstruct the players and formation of the clubs '''
          
-        for club in clubs : club.set_formation(p_data.get_players(club.name))
+        for club in clubs : club.set_formation(p_data.get_players(club.name)) # setting formation
 
         matches = ( Game(match[0], match[1], self.competition, int(rnd.split(' ')[-1]), self.season, head_stadium=match[-1]) for rnd, game_info in schedule.items() for match in game_info ) # generator
         
