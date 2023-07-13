@@ -9,7 +9,7 @@ from db.domestic_league_controller import DomesticLeague
 
 
 gene = GenerateClass()
-league = DomesticLeague()
+league_data = DomesticLeague()
 p_data = PlayerData()
 game_data = GameData()
 
@@ -25,16 +25,14 @@ class League:
         self.season = season
         self.division = division
 
-    def run(self):
+    def run(self) -> None:
         ''' Run a season '''
         clubs = gene.reconstruct_clubs(self.division, self.season) # with this line i get my clubs list of objects
-
         schedule = table.define_schedule(clubs, stadiums[0]) # the schedule
 
         ''' Here we reconstruct the players and formation of the clubs '''
          
-        for club in clubs:
-            club.set_formation(p_data.get_players(club.name))
+        for club in clubs : club.set_formation(p_data.get_players(club.name))
 
         matches = ( Game(match[0], match[1], self.competition, int(rnd.split(' ')[-1]), self.season, head_stadium=match[-1]) for rnd, game_info in schedule.items() for match in game_info ) # generator
         
@@ -45,8 +43,8 @@ class League:
             ''' execute the matches '''
             r = match.start()
 
-            league.update_domestic_table(r['home_team'], self.division, self.season)
-            league.update_domestic_table(r['away_team'], self.division, self.season)
+            league_data.update_domestic_table(r['home_team'], self.division, self.season)
+            league_data.update_domestic_table(r['away_team'], self.division, self.season)
 
         tb = rk.domestic_table(self.division, self.season) # Get the initial domestic cup table
         print(tb) 
@@ -54,7 +52,6 @@ class League:
         # END SEASON
  
         game_data.insert_games_db(matches)
-
         
         # UPDATE PLAYERS
         for club in clubs:
