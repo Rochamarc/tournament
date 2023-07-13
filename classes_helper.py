@@ -31,19 +31,13 @@ class GenerateClass:
             data.append(Stadium(name, location, capacity=capacity, club_owner=owner))
 
         return data
-            
-    @staticmethod
-    def reconstruct_clubs(division, season):
-        ''' Return the list of the clubs '''
     
-        clubs = domestic.get_domestic_cup_table(division, season)
-        clubs_names = [ club[1] for club in clubs ]
+    @staticmethod 
+    def loop_for_clubs(club_data) -> list:
+        ''' Loop through the club_data and return a list '''
+        d = []
         
-        c_data = club_data.get_clubs(clubs_names)
-
-        data = []
-
-        for club in c_data:
+        for club in club_data:
             club = club[0]
             c_id, name, country, state = club[0], club[1], club[2], club[3]
             club_class, club_coeff = club[5], club[4]
@@ -51,25 +45,29 @@ class GenerateClass:
             club = Club(name, country, club_class, state=state)
             club.coeff = club_coeff
             club.id = c_id
-            data.append(club)
+            d.append(club)
+    
+        return d 
+            
+    @classmethod
+    def reconstruct_clubs(cls, division, season):
+        ''' Return the list of the clubs '''
+    
+        clubs = domestic.get_domestic_cup_table(division, season)
+        clubs_names = [ club[1] for club in clubs ]
+        
+        c_data = club_data.get_clubs(clubs_names) # getting clubs by name
+
+        data = cls.loop_for_clubs(c_data)
         
         return data
 
-    @staticmethod
-    def reconstruct_international_clubs(country):
+    @classmethod
+    def reconstruct_international_clubs(cls, country):
         ''' Return the list of the clubs '''
-        clubs = club_data.get_clubs_by_country(country)
+        c_data = club_data.get_clubs_by_country(country) # getting clubs by country
 
-        data = []
-
-        for club in clubs:
-            c_id, name, country, state = club[0], club[1], club[2], club[3]
-            club_class, club_coeff = club[5], club[4]
-
-            club = Club(name, country, club_class, state=state)
-            club.coeff = club_coeff
-            club.id = c_id
-            data.append(club)
+        data = cls.loop_for_clubs(c_data)
 
         return data 
 
