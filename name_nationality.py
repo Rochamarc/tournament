@@ -12,18 +12,14 @@ class NameAndNationality:
             return choice(south)
         return team_nationality
 
-    @staticmethod 
-    def generate_name(nationality):
+    @classmethod 
+    def generate_name(cls, nationality):
         ''' Generates a name based on the player nationality '''
-        if nationality == 'BRA':
-            first_name = choice(NameAndNationality().access_file('first_name_br.csv'))
-            last_name = choice(NameAndNationality().access_file('last_name_br.csv')) 
-            names = [first_name, last_name]
-        else:
-            first_name = choice(NameAndNationality().access_file('first_name_g.csv'))
-            last_name = choice(NameAndNationality().access_file('last_name_g.csv'))
-            names = [first_name, last_name]
-
+        
+        first_name = choice(cls.access_file('first_name_br.csv')) if nationality == 'BRA' else choice(cls.access_file('first_name_g.csv'))
+        last_name = choice(cls.access_file('last_name_br.csv')) if nationality == 'BRA' else choice(cls.access_file('last_name_g.csv'))
+        names = [first_name, last_name]
+        
         return ' '.join(names)
     
     @staticmethod
