@@ -19,7 +19,7 @@ p_data = PlayerData()
 
 class GenerateClass:
     @staticmethod
-    def reconstruct_stadiums():
+    def reconstruct_stadiums() -> list:
         ''' Return list of stadiums '''
         stadiums_data = std_data.get_stadiums()
         
@@ -33,7 +33,7 @@ class GenerateClass:
         return data
     
     @staticmethod 
-    def loop_for_clubs(club_data) -> list:
+    def loop_for_clubs(club_data: list) -> list:
         ''' Loop through the club_data and return a list '''
         d = []
         
@@ -49,7 +49,7 @@ class GenerateClass:
         return d 
             
     @classmethod
-    def reconstruct_clubs(cls, division, season):
+    def reconstruct_clubs(cls, division: str, season: str) -> list:
         ''' Return the list of the clubs '''
     
         clubs = domestic.get_domestic_cup_table(division, season)
@@ -62,7 +62,7 @@ class GenerateClass:
         return data
 
     @classmethod
-    def reconstruct_international_clubs(cls, country):
+    def reconstruct_international_clubs(cls, country: str) -> list:
         ''' Return the list of the clubs '''
         c_data = club_data.get_clubs_by_country(country) # getting clubs by country
 
@@ -71,7 +71,7 @@ class GenerateClass:
         return data 
 
     @staticmethod
-    def update_player_stats(clubs):
+    def update_player_stats(clubs: list) -> None:
         ''' Update players stats return None '''
 
         for club in clubs:
@@ -81,18 +81,9 @@ class GenerateClass:
         return None 
 
     @staticmethod 
-    def set_clubs(text_file_path):
-        ''' Generate a list of clubs <class 'Club'> 
-            return a list(clubs)
-        '''
-
+    def set_clubs(text_file_path: str) -> list:
+        ''' Return a list of Clubs '''
         clubs = []
-
-        # Creating a save file
-        save_file = None # = input("Digite um valor de ate 30 caracteres pra criar um save file: ")
-
-        if not save_file:
-            save_file = None
 
         # files/seasons/2021.txt 
         with open(text_file_path, 'r', encoding='utf8') as file:
@@ -161,10 +152,8 @@ class GenerateClass:
         return l
 
     @staticmethod
-    def set_players(club, country, min_club_coeff, max_club_coeff):
-        ''' Generate players <class 'Player'> to the club <class 'Club'> 
-            return a dict 
-        '''
+    def set_players(club: Club, country:str, min_club_coeff:int, max_club_coeff:int) -> list:
+        ''' Return a list of players designated to the club '''
     
         squad = {
             'goal_keeper': GenerateClass().set_keepers(club, country, min_club_coeff, max_club_coeff),
@@ -184,35 +173,7 @@ class GenerateClass:
         return l
 
     @staticmethod
-    def set_generic_const_player():
-        players = []
-
-        with open('files/players/players.txt', 'r') as file:
-            for line in file.readlines():
-
-                current_club = choice(['Santos', 'Atlético Mineiro', 'Palmeiras', 'Flamengo','Fluminense', 'Santos', 'Grêmio', 'Corinthians', 'Internacional', 'São Paulo'])
-
-                if line != '' : line = line.split(',')
-                line[-1] = line[-1].replace('\n', '')
-
-                # handling with line list
-                name = line[0]
-                nationality = line[1]
-                age = line[2]
-                position = line[3]
-                overall = line[4]
-
-                p = Player(name, nationality, age, position, 0,10)
-                p.overall = overall
-                p.current_club = current_club
-
-                players.append(p)
-
-        p_data.insert_players_db({ "players": players })
-        return True
-
-    @staticmethod
-    def set_stadium():
+    def set_stadium() -> list:
         stadiums = []
         with open('files/clubs_stadiums/stadiums.txt', encoding='utf8') as file:
             for line in file.readlines():
@@ -227,13 +188,13 @@ class GenerateClass:
         return stadiums
 
     @staticmethod
-    def set_generic_stadium(club_country):
+    def set_generic_stadium(club_country: str) -> Stadium:
         ''' Set a generic stadium '''
         s_name = f'{Name.generate_name(club_country)} stadium'
         return Stadium(s_name, club_country)
 
     @staticmethod
-    def define_clubs_stadium(clubs, stadiums):
+    def define_clubs_stadium(clubs: list, stadiums: list) -> None:
         ''' 
         Defines a stadium to a club if the have a stadium 
         Defines a generic stadium to a club if he dosent have one
@@ -250,10 +211,9 @@ class GenerateClass:
                     club.stadium = GenerateClass().set_generic_stadium(club.country)
 
     @staticmethod
-    def get_players_list(clubs):
-        '''
-        Return a list with all players data enrolled on the championship
-        '''
+    def get_players_list(clubs: list) -> list:
+        ''' Return a list with all players '''
+        
         players = []
 
         for club in clubs:                                

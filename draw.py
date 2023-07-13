@@ -7,13 +7,15 @@ generate = GenerateClass()
 
 class Draw:
     @staticmethod 
-    def basic_draw(clubs):
+    def basic_draw(clubs: list) -> list:
+        ''' Return a draw with a given list of clubs '''
         random.shuffle(clubs)
 
         return [ [ clubs.pop(), clubs.pop() ] for _ in range(len(clubs) // 2) ]
         
     @staticmethod 
-    def national_draw(n_clubs=None):
+    def national_draw(n_clubs:int=None) -> list:
+        ''' Get a national clubs draw '''
         bra = generate.reconstruct_international_clubs('BRA')
         
         random.shuffle(bra)
@@ -23,7 +25,9 @@ class Draw:
         return [ [ bra.pop(), bra.pop() ] for _ in range(len(bra)//2) ]
 
     @staticmethod
-    def international_draw():
+    def international_draw() -> dict:
+        ''' Return sudamericana and libertadores draw '''
+        
         arg = generate.reconstruct_international_clubs('ARG')
         bol = generate.reconstruct_international_clubs('BOL')
         chi = generate.reconstruct_international_clubs('CHI')
