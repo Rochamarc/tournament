@@ -8,7 +8,7 @@ inter = InternationalCup()
 
 class Ranking:
     @staticmethod
-    def define_conmebol_points(clubs) -> None:
+    def define_conmebol_points(clubs: list) -> None:
         ''' Define the commebol ranking based on the csv file '''
         
         with open('files/conmebol/ranking_conmebol.csv', encoding='utf8') as file:
@@ -26,7 +26,7 @@ class Ranking:
                         club.ranking_points += val    
 
     @staticmethod
-    def individual_leaderboard(all_clubs, category, season, save_file=None) -> pd.Series:
+    def individual_leaderboard(all_clubs: list, category: str, season:str) -> pd.Series:
         """ Return a dataframe contains name, current_club, position, matches_played, goals, assists, average """
         
         series_data = []
@@ -46,12 +46,10 @@ class Ranking:
         df = pd.DataFrame(series_data, index=None, columns=['Name', 'Club','Position','MP','Goal','Assist','Avg'])
         sorted_data_frame = df.sort_values(by=stats, axis=0, ascending=False)
 
-        if save_file:
-            sorted_data_frame.to_csv(f"./files/{save_file}/{category}_{season}.csv")
         return sorted_data_frame[:10]
 
     @staticmethod 
-    def domestic_table(division, season) -> pd.DataFrame:
+    def domestic_table(division: str, season: str) -> pd.DataFrame:
         ''' 
         Return a panda series with the tables below
         Position    Club    Matches    Won  Draw    Lost   Goals For    Goals Away    Goals Diff    Points
@@ -63,7 +61,7 @@ class Ranking:
         return df
 
     @staticmethod
-    def get_domestic_champion(division, season) -> pd.Series:
+    def get_domestic_champion(division: str, season: str) -> pd.Series:
         ''' Return the domestic champion '''
         value = league.get_domestic_cup_table(division, season)
         
@@ -72,7 +70,7 @@ class Ranking:
         return df.iloc[:1]["Club"]
 
     @staticmethod
-    def international_group_table(season) -> list:
+    def international_group_table(season: str) -> list:
         ''' 
         Return a panda series with the group stage tables
         '''
@@ -90,7 +88,7 @@ class Ranking:
         return dfs
     
     @staticmethod
-    def player_info(players) -> pd.DataFrame:
+    def player_info(players: list) -> pd.DataFrame:
         '''
         Return a squad dataframe from the players inside the club
         '''
