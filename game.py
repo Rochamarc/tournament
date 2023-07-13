@@ -1,7 +1,6 @@
 import numpy as np
 from collections import defaultdict 
 from random import choice, randint
-#from db.database import GameData, PlayerData
 
 from db.game_controller import GameData
 from db.player_controller import PlayerData
