@@ -38,6 +38,7 @@ class GenerateClass:
         d = []
         
         for club in club_data:
+            club = club[0]
             c_id, name, country, state = club[0], club[1], club[2], club[3]
             club_class, club_coeff = club[5], club[4]
 
