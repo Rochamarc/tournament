@@ -1,10 +1,14 @@
 from classes_helper import GenerateClass
 from db.competition_controller import CompetitionData
 from league import League
-from table import Table
+from outside_functions import open_file
 from ranking import Ranking
+from table import Table
 
 import os
+import sys 
+
+flags = sys.argv
 
 # Class variables
 gene = GenerateClass() 
@@ -12,15 +16,17 @@ table = Table()
 ranking = Ranking()
 competition = CompetitionData()
 
-# Reset database
-reset = input("Type y for reset database: ")
-if reset == 'y':
-    os.system('python init_db.py')
+if '-r' in flags : os.system('python init_db.py')
 
-# Global variables
-season = input("Type the initial season: ")
+if '-h' in flags : open_file('help')
 
-n_seasons = int(input("Type the number of seasons you wanna run: "))
+if '-d' in flags:
+    season = '2021'
+    n_seasons = 1
+else:
+    # Global variables
+    season = input("Type the initial season: ")
+    n_seasons = int(input("Type the number of seasons you wanna run: "))
 
 for i in range(n_seasons):
     
