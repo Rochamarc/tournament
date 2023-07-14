@@ -5,3 +5,10 @@ def open_file(text_file_name: str) -> None:
             if line != '\n': print(line.replace('\n',''))
     
     return None
+
+def filter_line(line:str) -> str:
+    ''' Threat a line removing useless chars '''
+    
+    line = line.split(',') 
+    line[-1] = line[-1].replace('\n', '')
+    return line 
