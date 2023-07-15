@@ -1,4 +1,3 @@
-from helper import Helper
 from db.competition_controller import CompetitionData
 from league import League
 from outside_functions import open_file
@@ -10,8 +9,7 @@ import sys
 
 flags = sys.argv
 
-# Class variables
-helper = Helper() 
+# Class variables 
 table = Table()
 ranking = Ranking()
 competition = CompetitionData()
