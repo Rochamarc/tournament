@@ -96,7 +96,7 @@ I do not own the rights of any of it. It's just for fun.
 
 * [Python](https://python.org/)
 * [Pandas](https://pandas.pydata.org/)
-* [Sqlite](https://www.sqlite.org/)
+* [Sqlite3](https://www.sqlite.org/)
 * [Matplotlib](https://matplotlib.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -126,12 +126,8 @@ Clone, setup and running.
    ```sh
    git clone https://github.com/Rochamarc/tournament
    ```
-2. Set
-   ```sh
-   ./script && ./reset_database
-   ```
-3. ```py
-   python3 season.py
+2. ```py
+   python season.py -d -r 
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -141,7 +137,7 @@ Clone, setup and running.
 ## Other Docs
 
 * [Classes](./docs/classes.md)
-* [Classes_Helper](./docs/classes_helper.md)
+* [Helper](./docs/helper.md)
 * [Database](./docs/database.md)
 * [Game](./docs/game.md)
 * [Name](./docs/name_nationality.md)
