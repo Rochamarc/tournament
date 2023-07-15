@@ -9,6 +9,7 @@ from db.player_controller import PlayerData
 
 
 from name_nationality import NameAndNationality as name_and_nat
+from outside_functions import filter_line
 from random import randint, choice
 
 Name = name_and_nat()
@@ -81,25 +82,35 @@ class GenerateClass:
 
         return None 
 
-    @staticmethod 
-    def set_clubs(text_file_path: str) -> list:
-        ''' Return a list of Clubs '''
+    @classmethod
+    def reconstruct_club_by_line(cls, line:str) -> Club:
+        ''' Return a list of clubs, created by a line of data '''
+        name = line[0]
+        country = line[-1]
+        
+        club = Club(name, country) 
+        sq = cls.set_players(club.name, club.country, club.coeff)  
+        club.set_formation(sq) 
+        
+        return club 
+    
+    @classmethod
+    def get_clubs_by_file(cls, text_file_path: str) -> list:
+        ''' Get clubs by file and return a list of clubs '''
         clubs = []
-
-        # files/seasons/2021.txt 
+         
         with open(text_file_path, 'r', encoding='utf8') as file:
             for line in file.readlines():
-                ''' Manage the data that are gonna be used '''
-                line = line.split(',') 
-                line[-1] = line[-1].replace('\n', '')
-                name = line[0]
-                country = line[-1]
-                c = Club(name, country) # Instace the club object
-                sq = GenerateClass.set_players(c.name, c.country, c.coeff) # Instance the players object 
-                c.set_formation(sq) # set the formation 
-                clubs.append(c)
-        
+                line = filter_line(line) # filter my line
+                
+                clubs.append(cls.reconstruct_club_by_line(line)) 
+    
         return clubs 
+    
+    @classmethod
+    def set_clubs(cls, text_file_path: str) -> list:
+        ''' Return a list of Clubs '''    
+        return cls.get_clubs_by_file(text_file_path)
 
     @staticmethod
     def set_keepers(club: Club, country: str, min_club_coeff: int, max_club_coeff: int, length=3) -> list:                
@@ -152,15 +163,15 @@ class GenerateClass:
             l.append(Player(name_, natio_, randint(16,37), pos_, min_club_coeff, max_club_coeff, current_club=club.name))
         return l
 
-    @staticmethod
-    def set_players(club: Club, country:str, min_club_coeff:int, max_club_coeff:int) -> list:
+    @classmethod
+    def set_players(cls, club: Club, country:str, min_club_coeff:int, max_club_coeff:int) -> list:
         ''' Return a list of players designated to the club '''
     
         squad = {
-            'goal_keeper': GenerateClass().set_keepers(club, country, min_club_coeff, max_club_coeff),
-            'defender': GenerateClass().set_defenders(club, country, min_club_coeff, max_club_coeff),
-            'midfielder': GenerateClass().set_midfielders(club, country, min_club_coeff, max_club_coeff),
-            'attacker': GenerateClass().set_forwards(club, country, min_club_coeff, max_club_coeff)
+            'goal_keeper': cls.set_keepers(club, country, min_club_coeff, max_club_coeff),
+            'defender': cls.set_defenders(club, country, min_club_coeff, max_club_coeff),
+            'midfielder': cls.set_midfielders(club, country, min_club_coeff, max_club_coeff),
+            'attacker': cls.set_forwards(club, country, min_club_coeff, max_club_coeff)
         }
 
         l = []
@@ -178,9 +189,8 @@ class GenerateClass:
         stadiums = []
         with open('files/clubs_stadiums/stadiums.txt', encoding='utf8') as file:
             for line in file.readlines():
-                ''' Manage the data that are gonna be used '''
-                line = line.split(',')  
-                line[-1] = line[-1].replace('\n', '')
+                line = filter_line(line)
+                
                 name = line[0]
                 capacity = int(line[1])
                 location = f'{line[2]} {line[3]}'
