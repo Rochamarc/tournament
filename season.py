@@ -1,4 +1,4 @@
-from classes_helper import GenerateClass
+from helper import Helper
 from db.competition_controller import CompetitionData
 from league import League
 from outside_functions import open_file
@@ -11,7 +11,7 @@ import sys
 flags = sys.argv
 
 # Class variables
-gene = GenerateClass() 
+helper = Helper() 
 table = Table()
 ranking = Ranking()
 competition = CompetitionData()

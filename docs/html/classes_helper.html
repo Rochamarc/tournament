@@ -45,7 +45,7 @@ club_data = ClubData()
 std_data = StadiumData()
 p_data = PlayerData()
 
-class GenerateClass:
+class Helper:
     @staticmethod
     def reconstruct_stadiums() -&gt; list:
         &#39;&#39;&#39; Return list of stadiums &#39;&#39;&#39;
@@ -122,7 +122,7 @@ class GenerateClass:
                 name = line[0]
                 country = line[-1]
                 c = Club(name, country) # Instace the club object
-                sq = GenerateClass.set_players(c.name, c.country, c.coeff) # Instance the players object 
+                sq = Helper.set_players(c.name, c.country, c.coeff) # Instance the players object 
                 c.set_formation(sq) # set the formation 
                 clubs.append(c)
         
@@ -184,10 +184,10 @@ class GenerateClass:
         &#39;&#39;&#39; Return a list of players designated to the club &#39;&#39;&#39;
     
         squad = {
-            &#39;goal_keeper&#39;: GenerateClass().set_keepers(club, country, min_club_coeff, max_club_coeff),
-            &#39;defender&#39;: GenerateClass().set_defenders(club, country, min_club_coeff, max_club_coeff),
-            &#39;midfielder&#39;: GenerateClass().set_midfielders(club, country, min_club_coeff, max_club_coeff),
-            &#39;attacker&#39;: GenerateClass().set_forwards(club, country, min_club_coeff, max_club_coeff)
+            &#39;goal_keeper&#39;: Helper().set_keepers(club, country, min_club_coeff, max_club_coeff),
+            &#39;defender&#39;: Helper().set_defenders(club, country, min_club_coeff, max_club_coeff),
+            &#39;midfielder&#39;: Helper().set_midfielders(club, country, min_club_coeff, max_club_coeff),
+            &#39;attacker&#39;: Helper().set_forwards(club, country, min_club_coeff, max_club_coeff)
         }
 
         l = []
@@ -236,7 +236,7 @@ class GenerateClass:
                     break
                 else:
                     &#39;&#39;&#39; Generate a generic stadium &#39;&#39;&#39;
-                    club.stadium = GenerateClass().set_generic_stadium(club.country)
+                    club.stadium = Helper().set_generic_stadium(club.country)
 
     @staticmethod
     def get_players_list(clubs: list) -&gt; list:
@@ -266,8 +266,8 @@ if __name__ == &#34;__main__&#34;:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="classes_helper.GenerateClass"><code class="flex name class">
-<span>class <span class="ident">GenerateClass</span></span>
+<dt id="classes_helper.Helper"><code class="flex name class">
+<span>class <span class="ident">Helper</span></span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -275,7 +275,7 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class GenerateClass:
+<pre><code class="python">class Helper:
     @staticmethod
     def reconstruct_stadiums() -&gt; list:
         &#39;&#39;&#39; Return list of stadiums &#39;&#39;&#39;
@@ -352,7 +352,7 @@ if __name__ == &#34;__main__&#34;:
                 name = line[0]
                 country = line[-1]
                 c = Club(name, country) # Instace the club object
-                sq = GenerateClass.set_players(c.name, c.country, c.coeff) # Instance the players object 
+                sq = Helper.set_players(c.name, c.country, c.coeff) # Instance the players object 
                 c.set_formation(sq) # set the formation 
                 clubs.append(c)
         
@@ -414,10 +414,10 @@ if __name__ == &#34;__main__&#34;:
         &#39;&#39;&#39; Return a list of players designated to the club &#39;&#39;&#39;
     
         squad = {
-            &#39;goal_keeper&#39;: GenerateClass().set_keepers(club, country, min_club_coeff, max_club_coeff),
-            &#39;defender&#39;: GenerateClass().set_defenders(club, country, min_club_coeff, max_club_coeff),
-            &#39;midfielder&#39;: GenerateClass().set_midfielders(club, country, min_club_coeff, max_club_coeff),
-            &#39;attacker&#39;: GenerateClass().set_forwards(club, country, min_club_coeff, max_club_coeff)
+            &#39;goal_keeper&#39;: Helper().set_keepers(club, country, min_club_coeff, max_club_coeff),
+            &#39;defender&#39;: Helper().set_defenders(club, country, min_club_coeff, max_club_coeff),
+            &#39;midfielder&#39;: Helper().set_midfielders(club, country, min_club_coeff, max_club_coeff),
+            &#39;attacker&#39;: Helper().set_forwards(club, country, min_club_coeff, max_club_coeff)
         }
 
         l = []
@@ -466,7 +466,7 @@ if __name__ == &#34;__main__&#34;:
                     break
                 else:
                     &#39;&#39;&#39; Generate a generic stadium &#39;&#39;&#39;
-                    club.stadium = GenerateClass().set_generic_stadium(club.country)
+                    club.stadium = Helper().set_generic_stadium(club.country)
 
     @staticmethod
     def get_players_list(clubs: list) -&gt; list:
@@ -483,7 +483,7 @@ if __name__ == &#34;__main__&#34;:
 </details>
 <h3>Static methods</h3>
 <dl>
-<dt id="classes_helper.GenerateClass.define_clubs_stadium"><code class="name flex">
+<dt id="classes_helper.Helper.define_clubs_stadium"><code class="name flex">
 <span>def <span class="ident">define_clubs_stadium</span></span>(<span>clubs: list, stadiums: list) ‑> None</span>
 </code></dt>
 <dd>
@@ -508,10 +508,10 @@ def define_clubs_stadium(clubs: list, stadiums: list) -&gt; None:
                 break
             else:
                 &#39;&#39;&#39; Generate a generic stadium &#39;&#39;&#39;
-                club.stadium = GenerateClass().set_generic_stadium(club.country)</code></pre>
+                club.stadium = Helper().set_generic_stadium(club.country)</code></pre>
 </details>
 </dd>
-<dt id="classes_helper.GenerateClass.get_players_list"><code class="name flex">
+<dt id="classes_helper.Helper.get_players_list"><code class="name flex">
 <span>def <span class="ident">get_players_list</span></span>(<span>clubs: list) ‑> list</span>
 </code></dt>
 <dd>
@@ -534,7 +534,7 @@ def get_players_list(clubs: list) -&gt; list:
     return players</code></pre>
 </details>
 </dd>
-<dt id="classes_helper.GenerateClass.loop_for_clubs"><code class="name flex">
+<dt id="classes_helper.Helper.loop_for_clubs"><code class="name flex">
 <span>def <span class="ident">loop_for_clubs</span></span>(<span>club_data: list) ‑> list</span>
 </code></dt>
 <dd>
@@ -560,7 +560,7 @@ def loop_for_clubs(club_data: list) -&gt; list:
     return d </code></pre>
 </details>
 </dd>
-<dt id="classes_helper.GenerateClass.reconstruct_clubs"><code class="name flex">
+<dt id="classes_helper.Helper.reconstruct_clubs"><code class="name flex">
 <span>def <span class="ident">reconstruct_clubs</span></span>(<span>division: str, season: str) ‑> list</span>
 </code></dt>
 <dd>
@@ -583,7 +583,7 @@ def reconstruct_clubs(cls, division: str, season: str) -&gt; list:
     return data</code></pre>
 </details>
 </dd>
-<dt id="classes_helper.GenerateClass.reconstruct_international_clubs"><code class="name flex">
+<dt id="classes_helper.Helper.reconstruct_international_clubs"><code class="name flex">
 <span>def <span class="ident">reconstruct_international_clubs</span></span>(<span>country: str) ‑> list</span>
 </code></dt>
 <dd>
@@ -602,7 +602,7 @@ def reconstruct_international_clubs(cls, country: str) -&gt; list:
     return data </code></pre>
 </details>
 </dd>
-<dt id="classes_helper.GenerateClass.reconstruct_stadiums"><code class="name flex">
+<dt id="classes_helper.Helper.reconstruct_stadiums"><code class="name flex">
 <span>def <span class="ident">reconstruct_stadiums</span></span>(<span>) ‑> list</span>
 </code></dt>
 <dd>
@@ -626,7 +626,7 @@ def reconstruct_stadiums() -&gt; list:
     return data</code></pre>
 </details>
 </dd>
-<dt id="classes_helper.GenerateClass.set_clubs"><code class="name flex">
+<dt id="classes_helper.Helper.set_clubs"><code class="name flex">
 <span>def <span class="ident">set_clubs</span></span>(<span>text_file_path: str) ‑> list</span>
 </code></dt>
 <dd>
@@ -649,14 +649,14 @@ def set_clubs(text_file_path: str) -&gt; list:
             name = line[0]
             country = line[-1]
             c = Club(name, country) # Instace the club object
-            sq = GenerateClass.set_players(c.name, c.country, c.coeff) # Instance the players object 
+            sq = Helper.set_players(c.name, c.country, c.coeff) # Instance the players object 
             c.set_formation(sq) # set the formation 
             clubs.append(c)
     
     return clubs </code></pre>
 </details>
 </dd>
-<dt id="classes_helper.GenerateClass.set_defenders"><code class="name flex">
+<dt id="classes_helper.Helper.set_defenders"><code class="name flex">
 <span>def <span class="ident">set_defenders</span></span>(<span>club: classes.club.Club, country: str, min_club_coeff: int, max_club_coeff: int, length=12) ‑> list</span>
 </code></dt>
 <dd>
@@ -679,7 +679,7 @@ def set_defenders(club: Club, country: str, min_club_coeff: int, max_club_coeff:
     return l</code></pre>
 </details>
 </dd>
-<dt id="classes_helper.GenerateClass.set_forwards"><code class="name flex">
+<dt id="classes_helper.Helper.set_forwards"><code class="name flex">
 <span>def <span class="ident">set_forwards</span></span>(<span>club: classes.club.Club, country: str, min_club_coeff: int, max_club_coeff: int, length=6) ‑> list</span>
 </code></dt>
 <dd>
@@ -702,7 +702,7 @@ def set_forwards(club: Club, country: str, min_club_coeff: int, max_club_coeff: 
     return l</code></pre>
 </details>
 </dd>
-<dt id="classes_helper.GenerateClass.set_generic_stadium"><code class="name flex">
+<dt id="classes_helper.Helper.set_generic_stadium"><code class="name flex">
 <span>def <span class="ident">set_generic_stadium</span></span>(<span>club_country: str) ‑> classes.stadium.Stadium</span>
 </code></dt>
 <dd>
@@ -718,7 +718,7 @@ def set_generic_stadium(club_country: str) -&gt; Stadium:
     return Stadium(s_name, club_country)</code></pre>
 </details>
 </dd>
-<dt id="classes_helper.GenerateClass.set_keepers"><code class="name flex">
+<dt id="classes_helper.Helper.set_keepers"><code class="name flex">
 <span>def <span class="ident">set_keepers</span></span>(<span>club: classes.club.Club, country: str, min_club_coeff: int, max_club_coeff: int, length=3) ‑> list</span>
 </code></dt>
 <dd>
@@ -739,7 +739,7 @@ def set_keepers(club: Club, country: str, min_club_coeff: int, max_club_coeff: i
     return l</code></pre>
 </details>
 </dd>
-<dt id="classes_helper.GenerateClass.set_midfielders"><code class="name flex">
+<dt id="classes_helper.Helper.set_midfielders"><code class="name flex">
 <span>def <span class="ident">set_midfielders</span></span>(<span>club: classes.club.Club, country: str, min_club_coeff: int, max_club_coeff: int, length=12) ‑> list</span>
 </code></dt>
 <dd>
@@ -762,7 +762,7 @@ def set_midfielders(club: Club, country: str, min_club_coeff: int, max_club_coef
     return l</code></pre>
 </details>
 </dd>
-<dt id="classes_helper.GenerateClass.set_players"><code class="name flex">
+<dt id="classes_helper.Helper.set_players"><code class="name flex">
 <span>def <span class="ident">set_players</span></span>(<span>club: classes.club.Club, country: str, min_club_coeff: int, max_club_coeff: int) ‑> list</span>
 </code></dt>
 <dd>
@@ -776,10 +776,10 @@ def set_players(club: Club, country:str, min_club_coeff:int, max_club_coeff:int)
     &#39;&#39;&#39; Return a list of players designated to the club &#39;&#39;&#39;
 
     squad = {
-        &#39;goal_keeper&#39;: GenerateClass().set_keepers(club, country, min_club_coeff, max_club_coeff),
-        &#39;defender&#39;: GenerateClass().set_defenders(club, country, min_club_coeff, max_club_coeff),
-        &#39;midfielder&#39;: GenerateClass().set_midfielders(club, country, min_club_coeff, max_club_coeff),
-        &#39;attacker&#39;: GenerateClass().set_forwards(club, country, min_club_coeff, max_club_coeff)
+        &#39;goal_keeper&#39;: Helper().set_keepers(club, country, min_club_coeff, max_club_coeff),
+        &#39;defender&#39;: Helper().set_defenders(club, country, min_club_coeff, max_club_coeff),
+        &#39;midfielder&#39;: Helper().set_midfielders(club, country, min_club_coeff, max_club_coeff),
+        &#39;attacker&#39;: Helper().set_forwards(club, country, min_club_coeff, max_club_coeff)
     }
 
     l = []
@@ -793,7 +793,7 @@ def set_players(club: Club, country:str, min_club_coeff:int, max_club_coeff:int)
     return l</code></pre>
 </details>
 </dd>
-<dt id="classes_helper.GenerateClass.set_stadium"><code class="name flex">
+<dt id="classes_helper.Helper.set_stadium"><code class="name flex">
 <span>def <span class="ident">set_stadium</span></span>(<span>) ‑> list</span>
 </code></dt>
 <dd>
@@ -818,7 +818,7 @@ def set_stadium() -&gt; list:
     return stadiums</code></pre>
 </details>
 </dd>
-<dt id="classes_helper.GenerateClass.update_player_stats"><code class="name flex">
+<dt id="classes_helper.Helper.update_player_stats"><code class="name flex">
 <span>def <span class="ident">update_player_stats</span></span>(<span>clubs: list) ‑> None</span>
 </code></dt>
 <dd>
@@ -852,23 +852,23 @@ def update_player_stats(clubs: list) -&gt; None:
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="classes_helper.GenerateClass" href="#classes_helper.GenerateClass">GenerateClass</a></code></h4>
+<h4><code><a title="classes_helper.Helper" href="#classes_helper.Helper">Helper</a></code></h4>
 <ul class="">
-<li><code><a title="classes_helper.GenerateClass.define_clubs_stadium" href="#classes_helper.GenerateClass.define_clubs_stadium">define_clubs_stadium</a></code></li>
-<li><code><a title="classes_helper.GenerateClass.get_players_list" href="#classes_helper.GenerateClass.get_players_list">get_players_list</a></code></li>
-<li><code><a title="classes_helper.GenerateClass.loop_for_clubs" href="#classes_helper.GenerateClass.loop_for_clubs">loop_for_clubs</a></code></li>
-<li><code><a title="classes_helper.GenerateClass.reconstruct_clubs" href="#classes_helper.GenerateClass.reconstruct_clubs">reconstruct_clubs</a></code></li>
-<li><code><a title="classes_helper.GenerateClass.reconstruct_international_clubs" href="#classes_helper.GenerateClass.reconstruct_international_clubs">reconstruct_international_clubs</a></code></li>
-<li><code><a title="classes_helper.GenerateClass.reconstruct_stadiums" href="#classes_helper.GenerateClass.reconstruct_stadiums">reconstruct_stadiums</a></code></li>
-<li><code><a title="classes_helper.GenerateClass.set_clubs" href="#classes_helper.GenerateClass.set_clubs">set_clubs</a></code></li>
-<li><code><a title="classes_helper.GenerateClass.set_defenders" href="#classes_helper.GenerateClass.set_defenders">set_defenders</a></code></li>
-<li><code><a title="classes_helper.GenerateClass.set_forwards" href="#classes_helper.GenerateClass.set_forwards">set_forwards</a></code></li>
-<li><code><a title="classes_helper.GenerateClass.set_generic_stadium" href="#classes_helper.GenerateClass.set_generic_stadium">set_generic_stadium</a></code></li>
-<li><code><a title="classes_helper.GenerateClass.set_keepers" href="#classes_helper.GenerateClass.set_keepers">set_keepers</a></code></li>
-<li><code><a title="classes_helper.GenerateClass.set_midfielders" href="#classes_helper.GenerateClass.set_midfielders">set_midfielders</a></code></li>
-<li><code><a title="classes_helper.GenerateClass.set_players" href="#classes_helper.GenerateClass.set_players">set_players</a></code></li>
-<li><code><a title="classes_helper.GenerateClass.set_stadium" href="#classes_helper.GenerateClass.set_stadium">set_stadium</a></code></li>
-<li><code><a title="classes_helper.GenerateClass.update_player_stats" href="#classes_helper.GenerateClass.update_player_stats">update_player_stats</a></code></li>
+<li><code><a title="classes_helper.Helper.define_clubs_stadium" href="#classes_helper.Helper.define_clubs_stadium">define_clubs_stadium</a></code></li>
+<li><code><a title="classes_helper.Helper.get_players_list" href="#classes_helper.Helper.get_players_list">get_players_list</a></code></li>
+<li><code><a title="classes_helper.Helper.loop_for_clubs" href="#classes_helper.Helper.loop_for_clubs">loop_for_clubs</a></code></li>
+<li><code><a title="classes_helper.Helper.reconstruct_clubs" href="#classes_helper.Helper.reconstruct_clubs">reconstruct_clubs</a></code></li>
+<li><code><a title="classes_helper.Helper.reconstruct_international_clubs" href="#classes_helper.Helper.reconstruct_international_clubs">reconstruct_international_clubs</a></code></li>
+<li><code><a title="classes_helper.Helper.reconstruct_stadiums" href="#classes_helper.Helper.reconstruct_stadiums">reconstruct_stadiums</a></code></li>
+<li><code><a title="classes_helper.Helper.set_clubs" href="#classes_helper.Helper.set_clubs">set_clubs</a></code></li>
+<li><code><a title="classes_helper.Helper.set_defenders" href="#classes_helper.Helper.set_defenders">set_defenders</a></code></li>
+<li><code><a title="classes_helper.Helper.set_forwards" href="#classes_helper.Helper.set_forwards">set_forwards</a></code></li>
+<li><code><a title="classes_helper.Helper.set_generic_stadium" href="#classes_helper.Helper.set_generic_stadium">set_generic_stadium</a></code></li>
+<li><code><a title="classes_helper.Helper.set_keepers" href="#classes_helper.Helper.set_keepers">set_keepers</a></code></li>
+<li><code><a title="classes_helper.Helper.set_midfielders" href="#classes_helper.Helper.set_midfielders">set_midfielders</a></code></li>
+<li><code><a title="classes_helper.Helper.set_players" href="#classes_helper.Helper.set_players">set_players</a></code></li>
+<li><code><a title="classes_helper.Helper.set_stadium" href="#classes_helper.Helper.set_stadium">set_stadium</a></code></li>
+<li><code><a title="classes_helper.Helper.update_player_stats" href="#classes_helper.Helper.update_player_stats">update_player_stats</a></code></li>
 </ul>
 </li>
 </ul>

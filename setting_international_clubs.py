@@ -1,11 +1,11 @@
 from classes.club import Club
-from classes_helper import GenerateClass
+from helper import Helper
 from db.club_controller import ClubData
 from db.player_controller import PlayerData
 
 club_data = ClubData()
 player_data = PlayerData()
-generate = GenerateClass()
+helper = Helper()
 
 clubs = {
     'arg': [],
@@ -96,6 +96,6 @@ for country, teams in clubs.items():
     club_data.insert_clubs_db(teams)
 
     for team in teams:
-        players = generate.set_players(team, team.country, team.min_coeff, team.max_coeff)
+        players = helper.set_players(team, team.country, team.min_coeff, team.max_coeff)
 
         player_data.insert_players_db(players)

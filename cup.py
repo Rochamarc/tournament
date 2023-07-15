@@ -1,10 +1,10 @@
 from db.player_controller import PlayerData
-from classes_helper import GenerateClass
+from helper import Helper
 from knock_out import KnockOutGame
 from random import choice 
 
 player_data = PlayerData()
-generate = GenerateClass()
+helper = Helper()
 
 class Cup:
     def __init__(self, competition_name, season, phase, matches):
@@ -14,7 +14,7 @@ class Cup:
 
         self.matches = matches
 
-        self.stadiums = generate.reconstruct_stadiums() 
+        self.stadiums = helper.reconstruct_stadiums() 
     
     def run(self):
         results = []

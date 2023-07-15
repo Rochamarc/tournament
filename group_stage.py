@@ -1,12 +1,12 @@
 from random import choice 
 from time import sleep
 from pprint import pprint 
-from classes_helper import GenerateClass
+from helper import Helper
 import pandas as pd
 from db.international_cup_controller import InternationalCup 
 from game import Game 
 
-g = GenerateClass()
+helper = Helper()
 inter = InternationalCup()
 
 class GroupStage:
@@ -200,7 +200,7 @@ class GroupStage:
             if club.name == s_name:
                 second = club 
 
-        g.update_player_stats(group_list) # update players average
+        helper.update_player_stats(group_list) # update players average
 
         return { 'group': group, 'first place': first, 'second place': second }
     
