@@ -6,6 +6,7 @@ class Person:
         self.__age = age
 
     def increase_age(self):
+        ''' Increase the age of a player with one year'''
         self.__age += 1
 
     @property

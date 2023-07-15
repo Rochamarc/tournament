@@ -1,3 +1,4 @@
 * Inserir um modo de rodar mais rapido e silenciosamente as divisões que não as suas.
 * Mostrar informações detalhadas sobre os seus proprios jogadores.
-
+* valorização/desvalorização dos jogadores 
+* compra e venda

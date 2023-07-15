@@ -4,7 +4,7 @@ from random import choice, randint, triangular
 
 class Club:
 
-    def __init__(self,name,country,club_class,state=None):
+    def __init__(self,name: str,country: str,club_class: str,state=None):
         self.id = None
         self.__name = name
         self.__country = country
@@ -49,16 +49,16 @@ class Club:
         return self.__state
 
     @property
-    def overall(self):
+    def overall(self) -> float:
         ''' Define the club overall on the average of player overall '''
         players = sum([ player.overall for player in self.start_eleven ] + [ player.overall for player in self.bench ]) 
         return ( players / len(players) ) 
   
-    def data(self):
+    def data(self) -> list:
         ''' Return a list with name, country, state, coeff, club_class '''
         return [ self.name, self.country, self.state, self.coeff, self.club_class, self.formation, self.total_budget, self.salary_budget ]
 
-    def set_formation(self, players_list):
+    def set_formation(self, players_list: list) -> None:
         ''' Receive a list of players 
 
             id | name | nationality | age | overall | club | position | matches_played | goals | assists | points | avg | 
