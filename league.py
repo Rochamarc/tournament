@@ -1,4 +1,4 @@
-from classes_helper import GenerateClass
+from helper import Helper
 from game import Game
 from ranking import Ranking
 from table import Table
@@ -8,7 +8,7 @@ from db.player_controller import PlayerData
 from db.domestic_league_controller import DomesticLeague
 
 
-gene = GenerateClass()
+helper = Helper()
 league_data = DomesticLeague()
 p_data = PlayerData()
 game_data = GameData()
@@ -17,7 +17,7 @@ rk = Ranking()
 
 table = Table()
 
-stadiums = [ gene.reconstruct_stadiums() ]
+stadiums = [ helper.reconstruct_stadiums() ]
 
 class League:
     def __init__(self, competition, season, division):
@@ -27,7 +27,7 @@ class League:
 
     def run(self) -> None:
         ''' Run a season '''
-        clubs = gene.reconstruct_clubs(self.division, self.season) # with this line i get my clubs list of objects
+        clubs = helper.reconstruct_clubs(self.division, self.season) # with this line i get my clubs list of objects
         schedule = table.define_schedule(clubs, stadiums[0]) # the schedule
 
         ''' Here we reconstruct the players and formation of the clubs '''

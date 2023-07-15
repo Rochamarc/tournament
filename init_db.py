@@ -1,6 +1,6 @@
 from classes.club import Club
 from classes.stadium import Stadium
-from classes_helper import GenerateClass
+from helper import Helper
 
 from db.club_controller import ClubData
 from db.domestic_league_controller import DomesticLeague 
@@ -18,7 +18,7 @@ os.system('./db/reset_database.sh')
 league = DomesticLeague()
 ranking = Ranking()
 std_data = StadiumData()
-gene = GenerateClass()
+helper = Helper()
 p_data = PlayerData()
 club_data = ClubData()
 
@@ -123,21 +123,21 @@ tb_serie_c = ranking.domestic_table('serie_c', '2021')
 
 for club in serie_a:
     ''' Generate player and formation '''
-    players = gene.set_players(club, club.country, club.min_coeff, club.max_coeff)
+    players = helper.set_players(club, club.country, club.min_coeff, club.max_coeff)
     
     p_data.insert_players_db(players)
      
 
 for club in serie_b:
     ''' Generate player and formation '''
-    players = gene.set_players(club, club.country, club.min_coeff, club.max_coeff)
+    players = helper.set_players(club, club.country, club.min_coeff, club.max_coeff)
     
     p_data.insert_players_db(players)
     
 
 for club in serie_c:
     ''' Generate player and formation '''
-    players = gene.set_players(club, club.country, club.min_coeff, club.max_coeff)
+    players = helper.set_players(club, club.country, club.min_coeff, club.max_coeff)
     
     p_data.insert_players_db(players)
     

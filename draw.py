@@ -1,9 +1,9 @@
 from pprint import pprint 
 import random
 
-from classes_helper import GenerateClass
+from helper import Helper
 
-generate = GenerateClass()
+helper = Helper()
 
 class Draw:
     @staticmethod 
@@ -16,7 +16,7 @@ class Draw:
     @staticmethod 
     def national_draw(n_clubs:int=None) -> list:
         ''' Get a national clubs draw '''
-        bra = generate.reconstruct_international_clubs('BRA')
+        bra = helper.reconstruct_international_clubs('BRA')
         
         random.shuffle(bra)
         
@@ -28,15 +28,15 @@ class Draw:
     def international_draw() -> dict:
         ''' Return sudamericana and libertadores draw '''
         
-        arg = generate.reconstruct_international_clubs('ARG')
-        bol = generate.reconstruct_international_clubs('BOL')
-        chi = generate.reconstruct_international_clubs('CHI')
-        col = generate.reconstruct_international_clubs('COL')
-        equ = generate.reconstruct_international_clubs('EQU')
-        par = generate.reconstruct_international_clubs('PAR')
-        per = generate.reconstruct_international_clubs('PER')
-        uru = generate.reconstruct_international_clubs('URU')
-        ven = generate.reconstruct_international_clubs('VEN')
+        arg = helper.reconstruct_international_clubs('ARG')
+        bol = helper.reconstruct_international_clubs('BOL')
+        chi = helper.reconstruct_international_clubs('CHI')
+        col = helper.reconstruct_international_clubs('COL')
+        equ = helper.reconstruct_international_clubs('EQU')
+        par = helper.reconstruct_international_clubs('PAR')
+        per = helper.reconstruct_international_clubs('PER')
+        uru = helper.reconstruct_international_clubs('URU')
+        ven = helper.reconstruct_international_clubs('VEN')
 
         random.shuffle(arg)
         random.shuffle(bol)

@@ -18,7 +18,7 @@ club_data = ClubData()
 std_data = StadiumData()
 p_data = PlayerData()
 
-class GenerateClass:
+class Helper:
     @staticmethod
     def reconstruct_stadiums() -> list:
         ''' Return list of stadiums '''
@@ -219,7 +219,7 @@ class GenerateClass:
                     break
                 else:
                     ''' Generate a generic stadium '''
-                    club.stadium = GenerateClass().set_generic_stadium(club.country)
+                    club.stadium = Helper().set_generic_stadium(club.country)
 
     @staticmethod
     def get_players_list(clubs: list) -> list:
