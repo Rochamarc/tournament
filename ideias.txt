@@ -3,3 +3,4 @@
 * Valorização/desvalorização dos jogadpres
 * Compra e venda de jogadores
 * Sistema de modo de compra e de venda de jogadores baseado em perfis de clubes
+

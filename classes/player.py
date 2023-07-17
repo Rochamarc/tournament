@@ -4,7 +4,7 @@ from random import choice, randint, triangular
 
 class Player(Person):
 
-    def __init__(self, name, nationality, age, position, min_coeff, max_coeff, current_club=None):
+    def __init__(self, name: str, nationality: str, age: int, position: str, min_coeff: int, max_coeff: int, current_club=None):
         super().__init__(name, nationality, age)
         self.__overall = randint(min_coeff, max_coeff)
         self.current_club = current_club
@@ -30,20 +30,20 @@ class Player(Person):
 
     
     @property
-    def overall(self):
+    def overall(self) -> int:
         return self.__overall
  
-    def insert_overall(self, external_overall):
+    def insert_overall(self, external_overall: int) -> None:
         self.__overall = external_overall
 
     @property
-    def avg(self):
+    def avg(self) -> float:
         try:
             return (round((self.points / self.matches_played), 1))
         except:
-            return 0
+            return 0.0
     
-    def set_height(self):
+    def set_height(self) -> float: 
         if self.position == 'GK':
             return float("{:.2f}".format(triangular(1.79, 1.98)))
         elif self.position == 'CB':
@@ -55,19 +55,18 @@ class Player(Person):
         else:
             return float("{:.2f}".format(triangular(1.65, 1.89)))
 
-    def get_competition_stats(self):
+    def get_competition_stats(self) -> list:
         ''' return matches_played, goals, assists, points '''
         return [ self.matches_played, self.goals, self.assists, self.points, self.id ] 
 
-    # Gera o output pro desenvolvedor
     def __repr__(self):
         return f'Player({self.name})'
 
-    # Gera o output para o usuario final
     def __str__(self):
         return f'Player({self.name})'
 
-    def data(self):
+    def data(self) -> list:
+        ''' Return all player data '''
         return [
             self.name, self.nationality, self.age, self.overall, self.current_club,
             self.position, self.matches_played, self.goals, self.assists, self.avg, 
@@ -75,7 +74,9 @@ class Player(Person):
         ]
 
     def increase_overall(self):
+        ''' Increase overall by one '''
         self.__overall += 1
 
     def decrease_overall(self):
+        ''' Decrease overall by one '''
         self.__overall -= 1
