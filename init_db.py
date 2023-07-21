@@ -7,10 +7,11 @@ from db.domestic_league_controller import DomesticLeague
 from db.player_controller import PlayerData
 from db.stadium_controller import StadiumData
 
+from outside_functions import filter_line_for_club, filter_line_for_stadium
+
 from ranking import Ranking
 
 import os 
-
 
 os.system('./db/reset_database.sh')
 
@@ -23,7 +24,6 @@ p_data = PlayerData()
 club_data = ClubData()
 
 
-
 serie_a = []
 serie_b = []
 serie_c = []
@@ -34,86 +34,59 @@ stadiums = []
 # gene.set_generic_const_player() ta dando erro, depois eu resolvo
 
 # creating tables on my local database
-league.create_domestic_table('serie_a', '2021', verbose=True)
-league.create_domestic_table('serie_b', '2021', verbose=True)
-league.create_domestic_table('serie_c', '2021', verbose=True)
+league.create_domestic_table('serie_a', '2021')
+league.create_domestic_table('serie_b', '2021')
+league.create_domestic_table('serie_c', '2021')
 
 # Setting Generic Stadiums
 with open('files/generic_stadiums/stadiums.csv', encoding='utf8') as file:
-    for i in file.readlines():
-        i = i.split(',')
-        name = i[0]
-        city = i[1]
-        country = i[-1].replace('\n', '')
-        location = f"{city}, {country}"
-        
-        # creating the stadiums
-        generic_stadiums.append(Stadium(name, location))
+    for line in file.readlines():
+        data = filter_line_for_stadium(line, )
+        generic_stadiums.append(Stadium(data['name'], data['location'])) 
 
 # Setting Real Stadiums
 with open('files/clubs_stadiums/stadiums.csv', encoding='utf8') as file:
     for i in file.readlines():
-        i = i.split(',')
-        name = i[0]
-        capacity = i[1]
-        city = i[2]
-        country = i[3]
-        location = f'{city}, {country}'
-        club_owner = i[-1].replace('\n', '')
-        stadiums.append(Stadium(name, location, capacity=capacity, club_owner=club_owner))
+        data = filter_line_for_stadium(line, has_club_owner=True)
+        stadiums.append(Stadium(data['name'], data['location'], capacity=data['capacity'], club_owner=data['club_owner']))
 
 # Insert stadium data into database
-std_data.insert_stadiums_db(stadiums, verbose=True)
-std_data.insert_stadiums_db(generic_stadiums, verbose=True)
+std_data.insert_stadiums_db(stadiums)
+std_data.insert_stadiums_db(generic_stadiums)
 
 # Serie A
 with open('files/brasileirao/serie a/2021.csv', encoding='utf8') as file:
     ''' Creating clubs based on the files on the path above '''
-    for i in file.readlines():
-        i = i.split(',') 
-        name = i[0] 
-        state = i[1].replace('\n', '')
-        cl_class = i[-1].replace('\n', '') 
+    for line in file.readlines():
+        data = filter_line_for_club(line) 
         country = 'BRA'
-        serie_a.append(Club(name, country, cl_class, state=state))
-
+        serie_a.append(Club(data['name'], country, data['club_class'], state=data['state']))
     
 # Serie B
 with open('files/brasileirao/serie b/2021.csv', encoding='utf8') as file:
     ''' Creating clubs based on the files on the path above '''
-    for i in file.readlines():
-        i = i.split(',') 
-        name = i[0] 
-        state = i[1].replace('\n', '') 
-        cl_class = i[-1].replace('\n', '')
+    for line in file.readlines():
+        data = filter_line_for_club(line) 
         country = 'BRA'
-        serie_b.append(Club(name, country, cl_class, state=state))
-
-
+        serie_b.append(Club(data['name'], country, data['club_class'], state=data['state']))
 
 # Serie C
 with open('files/brasileirao/serie c/2021.csv', encoding='utf8') as file:
     ''' Creating clubs based on the files on the path above '''
     for i in file.readlines():
-        i = i.split(',') 
-        name = i[0] 
-        state = i[1].replace('\n', '') 
-        cl_class = i[-1].replace('\n', '')
+        data = filter_line_for_club(line) 
         country = 'BRA'
-        serie_c.append(Club(name, country, cl_class, state=state))
-
+        serie_c.append(Club(data['name'], country, data['club_class'], state=data['state']))
 
 # Insert clubs on the database
 club_data.insert_clubs_db(serie_a)
 club_data.insert_clubs_db(serie_b)
 club_data.insert_clubs_db(serie_c)
 
-
-
 # Creating basic table
-league.domestic_table_basic([ club.name for club in serie_a ], 'serie_a', '2021', verbose=True)
-league.domestic_table_basic([ club.name for club in serie_b ], 'serie_b', '2021', verbose=True)
-league.domestic_table_basic([ club.name for club in serie_c ], 'serie_c', '2021', verbose=True)
+league.domestic_table_basic([ club.name for club in serie_a ], 'serie_a', '2021')
+league.domestic_table_basic([ club.name for club in serie_b ], 'serie_b', '2021')
+league.domestic_table_basic([ club.name for club in serie_c ], 'serie_c', '2021')
 
 # Getting domestic table
 tb_serie_a = ranking.domestic_table('serie_a', '2021')
@@ -124,20 +97,17 @@ tb_serie_c = ranking.domestic_table('serie_c', '2021')
 for club in serie_a:
     ''' Generate player and formation '''
     players = helper.set_players(club, club.country, club.min_coeff, club.max_coeff)
-    
     p_data.insert_players_db(players)
      
 
 for club in serie_b:
     ''' Generate player and formation '''
     players = helper.set_players(club, club.country, club.min_coeff, club.max_coeff)
-    
     p_data.insert_players_db(players)
     
 
 for club in serie_c:
     ''' Generate player and formation '''
-    players = helper.set_players(club, club.country, club.min_coeff, club.max_coeff)
-    
+    players = helper.set_players(club, club.country, club.min_coeff, club.max_coeff)    
     p_data.insert_players_db(players)
     
