@@ -136,7 +136,7 @@ class KnockOutGame(Game):
         # update class attr
         self.home_club, self.away_club = self.away_club, self.home_club # update home/away clubs
         self.total_home, self.total_away = self.away_goal, self.home_goal # in the second leg the total of goals from the pervious game are switched
-        self.f_home_goal, f_away_goal = self.away_goal, self.home_goal # the same rule aply here
+        self.f_home_goal, self.f_away_goal = self.away_goal, self.home_goal # the same rule aply here
         self.home_goal, self.away_goal = 0, 0
         self.home_subs += 3
         self.away_subs += 3
