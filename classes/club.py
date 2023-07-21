@@ -1,6 +1,6 @@
 from classes.player import Player
 
-from random import choice, randint, triangular
+from random import choice, randint
 
 class Club:
 
