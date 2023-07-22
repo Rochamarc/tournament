@@ -79,7 +79,7 @@ with open('files/brasileirao/serie b/2021.csv', encoding='utf8') as file:
 # Serie C
 with open('files/brasileirao/serie c/2021.csv', encoding='utf8') as file:
     ''' Creating clubs based on the files on the path above '''
-    for i in file.readlines():
+    for line in file.readlines():
         data = filter_line_for_club(line) 
         country = 'BRA'
         serie_c.append(Club(data['name'], country, data['club_class'], state=data['state']))
