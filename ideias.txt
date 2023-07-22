@@ -4,3 +4,8 @@
 * Compra e venda de jogadores
 * Sistema de modo de compra e de venda de jogadores baseado em perfis de clubes
 
+* Organizar melhor os dados dois jogadores, eles agora passam a ser o maior foco devido aos dados gerados por eles.
+    - Aposentadoria para jogadores acima dos 35
+    - Contrato 
+    - Venda 
+    - Compra
