@@ -48,7 +48,7 @@ with open('files/generic_stadiums/stadiums.csv', encoding='utf8') as file:
 
 # Setting Real Stadiums
 with open('files/clubs_stadiums/stadiums.csv', encoding='utf8') as file:
-    for i in file.readlines():
+    for line in file.readlines():
         data = filter_line_for_stadium(line, has_club_owner=True)
         stadiums.append(Stadium(data['name'], data['location'], capacity=data['capacity'], club_owner=data['club_owner']))
 
