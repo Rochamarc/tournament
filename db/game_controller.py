@@ -45,7 +45,7 @@ class GameData():
         cursor = conn.cursor()
 
         for game in game_list:
-            print('.', sep=' ', end=' ', flush=True)
+            # print('.', sep=' ', end=' ', flush=True)
 
             if verbose : print(f"Inserting game {game} on the database")
 

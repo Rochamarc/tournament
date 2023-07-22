@@ -11,16 +11,15 @@ class StadiumData():
     def insert_stadiums_db(stadiums, verbose=False):
         ''' Insert stadiums to the database '''
         
-        print("Inserting stadiums into the database ")
+        if verbose: print("Inserting stadiums into the database ")
+        
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
         
         for stadium in stadiums:
-            print('.', sep=' ', end=' ', flush=True)
+            # print('.', sep=' ', end=' ', flush=True)
 
             if verbose : print(f"Insert stadium {stadium} into the database")
-
-
 
             std_data = stadium.data
 

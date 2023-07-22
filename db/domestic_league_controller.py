@@ -36,10 +36,10 @@ class DomesticLeague():
         cursor = conn.cursor()
 
         
-        print("Inserting clubs into domestic cup table")
+        if verbose : print("Inserting clubs into domestic cup table")
 
         for club in club_names:
-            print('.', sep=' ', end=' ', flush=True)
+            # print('.', sep=' ', end=' ', flush=True)
 
    
             ls = [club, 0, 0, 0, 0, 0, 0, 0, 0]

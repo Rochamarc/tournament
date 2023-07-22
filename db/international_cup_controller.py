@@ -40,13 +40,13 @@ class InternationalCup():
     def international_group_table_basic(club_names,season, group, verbose=False):
         ''' Insert data into libertadores table '''
 
-        print("Inserting clubs into domestic cup table")
+        if verbose : print("Inserting clubs into domestic cup table")
 
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
         for club in club_names:
-            print('.', sep=' ', end=' ', flush=True)
+            # print('.', sep=' ', end=' ', flush=True)
 
 
             ls = [club, 0, 0, 0, 0, 0, 0, 0, 0]
