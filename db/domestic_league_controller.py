@@ -8,24 +8,21 @@ qh = QueryHelper()
 
 class DomesticLeague():
     @staticmethod
-    def create_domestic_table(division, season, verbose=False):
+    def create_domestic_table(division: str, season: str) -> None:
         ''' Create domestic table '''
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
         division.replace(' ', '_')
-
-        if verbose : print(f"Criando tabela da copa doméstica {division} {season}")
-
+        
         cursor.execute(qh.open_create_query('brasileirao').format(division, season))
-
 
         conn.close() # close database
 
-        if verbose : print("Tabela criada com sucesso")
+        return None
     
     @staticmethod
-    def domestic_table_basic(club_names, division, season, verbose=False):
+    def domestic_table_basic(club_names: list, division: str, season: str) -> None:
         '''
         Insert club domestic cup data into the database
         '''
@@ -35,29 +32,18 @@ class DomesticLeague():
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
-        
-        if verbose : print("Inserting clubs into domestic cup table")
-
-        for club in club_names:
-            # print('.', sep=' ', end=' ', flush=True)
-
-   
+        for club in club_names:   
             ls = [club, 0, 0, 0, 0, 0, 0, 0, 0]
-
-            if verbose : print(f"Inserting {club} into the database.")
 
             cursor.execute(qh.open_insert_query('brasileirao').format(division, season), ls)
         
         conn.commit()
         conn.close()
 
-            
-        if verbose : print("Database populada com sucesso!")
-
-        return True 
+        return None
 
     @staticmethod
-    def update_domestic_table(club_stats, division, season):
+    def update_domestic_table(club_stats: list, division: str, season: str) -> None:
         ''' Update values from domestic table '''
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
@@ -68,9 +54,11 @@ class DomesticLeague():
         
         conn.commit()
         conn.close()
+        
+        return None
 
     @staticmethod
-    def get_domestic_cup_table(division, season):
+    def get_domestic_cup_table(division: str, season:str) -> list:
         ''' Get the domestic cup table data '''
         conn = sqlite3.connect(database)
         cursor = conn.cursor()

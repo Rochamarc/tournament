@@ -8,13 +8,11 @@ qh = QueryHelper()
 
 class GameData():
     @staticmethod
-    def insert_game_db(game, verbose=False):
+    def insert_game_db(game) -> None:
         ''' Insert one game into the database '''
         
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
-
-        if verbose : print(f"Inserting game {game} on the database")
         
         try:
             game_data = game.game_data()
@@ -25,14 +23,11 @@ class GameData():
 
         conn.commit()
         conn.close()
-
-        if verbose : print("Game data inserted sucessfully")
-
-        return True
-    
+        
+        return None    
 
     @staticmethod
-    def insert_games_db(game_list, verbose=False):
+    def insert_games_db(game_list: list) -> None:
         ''' 
             Insert game data into database 
 
@@ -45,10 +40,6 @@ class GameData():
         cursor = conn.cursor()
 
         for game in game_list:
-            # print('.', sep=' ', end=' ', flush=True)
-
-            if verbose : print(f"Inserting game {game} on the database")
-
             game_data = game.game_data()
 
             cursor.execute(qh.open_insert_query('games'), game_data)
@@ -56,7 +47,4 @@ class GameData():
         conn.commit()
         conn.close()
 
-        if verbose : print("Game data inserted sucessfully")
-
-        return True
-    
+        return None    

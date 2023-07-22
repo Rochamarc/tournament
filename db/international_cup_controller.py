@@ -9,22 +9,18 @@ qh = QueryHelper()
 class InternationalCup():
 
     @staticmethod
-    def create_international_cup(season, group, verbose=False):
+    def create_international_cup(season: str, group: str) -> None:
         ''' Create libertadores table '''
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
-        if verbose : print(f"Criando tabela da copa doméstica {season} {group}")
-
         cursor.execute(qh.open_create_query('libertadores').format(group, season))
-
         conn.close() # close database
-
-        if verbose : print("Tabela criada com sucesso")
-        return True
+        
+        return None
 
     @staticmethod
-    def update_international_table(club_stats, group, season):
+    def update_international_table(club_stats: list, group: str, season: str) -> None:
         ''' Update values from libertadores table '''
 
         conn = sqlite3.connect(database)
@@ -34,36 +30,27 @@ class InternationalCup():
 
         conn.commit()
         conn.close()
-        return True 
+        return None 
     
     @staticmethod
-    def international_group_table_basic(club_names,season, group, verbose=False):
+    def international_group_table_basic(club_names: list,season: str, group: str) -> None:
         ''' Insert data into libertadores table '''
-
-        if verbose : print("Inserting clubs into domestic cup table")
 
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
         for club in club_names:
-            # print('.', sep=' ', end=' ', flush=True)
-
-
             ls = [club, 0, 0, 0, 0, 0, 0, 0, 0]
-
-            if verbose : print(f"Inserting {club} into the database.")
 
             cursor.execute(qh.open_insert_query('libertadores').format(group, season), ls)
         
         conn.commit()
         conn.close()
-    
-        if verbose : print("Database populada com sucesso!")
 
-        return True
+        return None
 
     @staticmethod
-    def get_group_stage_data(season) -> dict:
+    def get_group_stage_data(season: str) -> dict:
         ''' 
         Get international cup group stage 
         return dict { 'A' : [data], ... }
