@@ -43,7 +43,6 @@ league.create_domestic_table('serie_c', '2021')
 # Setting Generic Stadiums
 with open('files/generic_stadiums/stadiums.csv', encoding='utf8') as file:
     for line in file.readlines():
-        print(line)
         data = filter_line_for_stadium(line)
         generic_stadiums.append(Stadium(data['name'], data['location'])) 
 
