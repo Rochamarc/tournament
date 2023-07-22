@@ -8,19 +8,13 @@ qh = QueryHelper()
 
 class StadiumData():
     @staticmethod
-    def insert_stadiums_db(stadiums, verbose=False):
+    def insert_stadiums_db(stadiums: list) -> None:
         ''' Insert stadiums to the database '''
-        
-        if verbose: print("Inserting stadiums into the database ")
         
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
         
         for stadium in stadiums:
-            # print('.', sep=' ', end=' ', flush=True)
-
-            if verbose : print(f"Insert stadium {stadium} into the database")
-
             std_data = stadium.data
 
             cursor.execute(qh.open_insert_query('stadiums'), std_data)
@@ -28,11 +22,10 @@ class StadiumData():
         conn.commit()
         conn.close()
 
-        if verbose : print("Stadiums inserted into the database sucessfully!")
-        return True
+        return None
 
     @staticmethod
-    def get_stadiums():
+    def get_stadiums() -> list:
         ''' Get stadiums data '''
 
         conn = sqlite3.connect(database)

@@ -8,7 +8,7 @@ qh = QueryHelper()
 
 class CompetitionData():
     @staticmethod 
-    def insert_champion_db(competition, club, season):
+    def insert_champion_db(competition: str, club: str, season: str) -> None:
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
@@ -17,4 +17,4 @@ class CompetitionData():
         conn.commit()
         conn.close()
 
-        return True 
+        return None 
