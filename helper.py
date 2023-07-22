@@ -52,7 +52,7 @@ class Helper:
             
     @classmethod
     def reconstruct_clubs(cls, division: str, season: str) -> list:
-        ''' Return the list of the clubs '''
+        ''' Return the list of Club reconstructed classes '''
     
         clubs = domestic.get_domestic_cup_table(division, season)
         clubs_names = [ club[1] for club in clubs ]
@@ -65,7 +65,7 @@ class Helper:
 
     @classmethod
     def reconstruct_international_clubs(cls, country: str) -> list:
-        ''' Return the list of the clubs '''
+        ''' Return the list of Club reconstructed classes  '''
         c_data = club_data.get_clubs_by_country(country) # getting clubs by country
 
         data = cls.loop_for_clubs(c_data)

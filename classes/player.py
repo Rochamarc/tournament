@@ -4,12 +4,14 @@ from random import choice, randint, triangular
 
 class Player(Person):
 
-    def __init__(self, name: str, nationality: str, age: int, position: str, min_coeff: int, max_coeff: int, current_club=None):
+    def __init__(self, name: str, nationality: str, age: int, position: str, min_coeff: int, max_coeff: int, retirement: str= 'False', current_club=None):
         super().__init__(name, nationality, age)
         self.__overall = randint(min_coeff, max_coeff)
         self.current_club = current_club
         self.current_club_id = None
         self.position = position
+    
+        self.retirement = retirement
 
         #stats de competição
         self.matches_played = 0

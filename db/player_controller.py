@@ -82,3 +82,44 @@ class PlayerData():
         conn.commit()
         conn.close()
         return True
+
+    @staticmethod
+    def update_players_retirement(player_list: list) -> bool:
+        
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
+        for player in player_list:
+            cursor.execute(qh.open_update_query('players_retirement'), [player.retirement, player.id])
+
+        conn.commit()
+        conn.close()
+        pass 
+    
+    @staticmethod
+    def get_all_players() -> list:
+        ''' Get all players from database '''
+        
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+
+        val = cursor.execute("SELECT * FROM players").fetchall()
+
+        data = val.copy()
+        conn.close()
+
+        return data 
+
+    @staticmethod
+    def remove_retired_playeres() -> None:
+        ''' Remove players from database that are retiring '''
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+        
+        # remove players from database
+        cursor.execute(qh.open_delete_query('retire_players'))
+        
+        conn.commit()
+        conn.close()
+        return None 
+                

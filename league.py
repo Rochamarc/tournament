@@ -10,6 +10,10 @@ from db.domestic_league_controller import DomesticLeague
 
 from alive_progress import alive_bar
 
+from purchase_and_sale_management import PlayerManagement
+
+player_management = PlayerManagement()
+
 helper = Helper()
 league_data = DomesticLeague()
 p_data = PlayerData()
@@ -32,6 +36,8 @@ class League:
         clubs = helper.reconstruct_clubs(self.division, self.season) # with this line i get my clubs list of objects
         schedule = table.define_schedule(clubs, stadiums[0]) # the schedule
 
+        clubs_list = [ club.name for club in clubs ]
+        
         ''' Here we reconstruct the players and formation of the clubs '''
          
         for club in clubs : club.set_formation(p_data.get_players(club.name)) # setting formation
@@ -65,5 +71,8 @@ class League:
                 p_data.update_player_stats(club.bench) # Update Stats
                 p_data.update_players_age(club.start_eleven + club.bench) # Update Age
                 bar()
-
+        
+        # update retirement
+        player_management.retirement_decision(clubs)
+        
         return None

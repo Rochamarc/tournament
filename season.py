@@ -1,4 +1,5 @@
 from db.competition_controller import CompetitionData
+from db.player_controller import PlayerData
 from league import League
 from outside_functions import open_file
 from ranking import Ranking
@@ -13,6 +14,7 @@ flags = sys.argv
 table = Table()
 ranking = Ranking()
 competition = CompetitionData()
+player_data = PlayerData()
 
 if '-r' in flags : os.system('python init_db.py')
 
@@ -66,6 +68,10 @@ for i in range(n_seasons):
     
     competition.insert_champion_db(competition_name, ranking.get_domestic_champion(division, season)[0], season)
 
-    ### END SERIE C ###
+    # retiring players
+    print("Removing Retiring Players")
+    player_data.remove_retired_playeres()
     
+    ### END SERIE C ###
+
     season = str(int(season) + 1) # next season
