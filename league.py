@@ -7,6 +7,7 @@ from db.game_controller import GameData
 from db.player_controller import PlayerData 
 from db.domestic_league_controller import DomesticLeague
 
+from data_functions import prepare_player_to_player_season
 
 from alive_progress import alive_bar
 
@@ -65,11 +66,19 @@ class League:
         print("Update Players")
         
         with alive_bar(len(clubs)) as bar:
-
             for club in clubs:
-                p_data.update_player_stats(club.start_eleven) # Update stats
-                p_data.update_player_stats(club.bench) # Update Stats
-                p_data.update_players_age(club.start_eleven + club.bench) # Update Age
+                ''' Get all players a club and preparing data to throw in the database '''
+                data = []
+                
+                data += prepare_player_to_player_season(club.start_eleven, self.season)
+                data += prepare_player_to_player_season(club.bench, self.season) 
+                
+                p_data.insert_player_season(data)
+                
+                #p_data.update_player_stats(club.start_eleven) # Update stats
+                #p_data.update_player_stats(club.bench) # Update Stats
+                #p_data.update_players_age(club.start_eleven + club.bench) # Update Age
+                
                 bar()
         
         # here we decide the players that are gonna retire, but this players are still saved on database

@@ -27,6 +27,7 @@ def create_db():
         cursor.execute(qh.open_create_query('clubs'))
         cursor.execute(qh.open_create_query('champions'))
         cursor.execute(qh.open_create_query('retirees'))
+        cursor.execute(qh.open_create_query('players_season'))
         bar()
 
     conn.close()

@@ -75,6 +75,14 @@ class Player(Person):
             self.market_value, self.salary, self.height, self.weight, self.foot
         ]
 
+    def data_season(self) -> list:
+        ''' Return a list oriented to players season '''
+        return [
+            self.name, self.nationality, self.age, self.overall, self.current_club,
+            self.position, self.matches_played, self.goals, self.assists, self.points,
+            self.avg, self.market_value, self.salary
+        ]
+        
     def increase_overall(self):
         ''' Increase overall by one '''
         self.__overall += 1
