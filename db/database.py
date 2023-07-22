@@ -18,8 +18,6 @@ def create_db():
     conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
-    print("Creating Database")
-
     with alive_bar(1) as bar:
         cursor.execute(qh.open_create_query('players'))
         cursor.execute(qh.open_create_query('coaches')) 
@@ -29,17 +27,12 @@ def create_db():
         cursor.execute(qh.open_create_query('clubs'))
         cursor.execute(qh.open_create_query('champions'))
         bar()
-        
-    # print("Tabelas criadas com sucesso!")
 
     conn.close()
 
 
-def upload_ranking_db(verbose=False):
+def upload_ranking_db():
     ''' Upload conmebol ranking '''    
-    
-    
-    if verbose: print("Inserindo ranking da conmebol na base de dados!")
     
     with open('files/conmebol/ranking_conmebol.csv', encoding='utf8') as file:
         lines = file.readlines() 
@@ -48,7 +41,6 @@ def upload_ranking_db(verbose=False):
         cursor = conn.cursor()
     
         for line in lines:
-            # print('.', sep=' ', end=' ', flush=True)
             line = line.split(',')
             val = line[-1] 
             val.replace('\n', '')
@@ -61,7 +53,6 @@ def upload_ranking_db(verbose=False):
         conn.commit()
         conn.close()
 
-        if verbose : print("Ranking da conmebol inserido com sucesso!")
 
 if __name__ == '__main__':
     create_db()
