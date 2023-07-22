@@ -19,7 +19,15 @@ def filter_line_for_club(line: str) -> dict:
     name = line[0] 
     state = line[1].replace('\n', '') 
     club_class = line[-1].replace('\n', '')
-    return { 'name': name, 'state': state, 'club_class': club_class}
+    return { 'name': name, 'state': state, 'club_class': club_class }
+
+def filter_line_for_international_club(line:str) -> dict:
+    ''' Receive a line from a club file and convert the line into data file '''
+    line = line.split(',')
+    name = line[0]
+    country = line[1]
+    club_class = line[-1].replace('\n', '')
+    return { 'name': name, 'country': country, 'club_class': club_class }
 
 def filter_line_for_stadium(line:str, has_club_owner=False) -> dict:
     ''' Receive a line from a stadium file and convert the line into data file '''
