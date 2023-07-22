@@ -13,6 +13,8 @@ from ranking import Ranking
 
 import os 
 
+from alive_progress import alive_bar
+
 os.system('./db/reset_database.sh')
 
 # Domestic cup
@@ -41,7 +43,8 @@ league.create_domestic_table('serie_c', '2021')
 # Setting Generic Stadiums
 with open('files/generic_stadiums/stadiums.csv', encoding='utf8') as file:
     for line in file.readlines():
-        data = filter_line_for_stadium(line, )
+        print(line)
+        data = filter_line_for_stadium(line)
         generic_stadiums.append(Stadium(data['name'], data['location'])) 
 
 # Setting Real Stadiums
@@ -51,9 +54,13 @@ with open('files/clubs_stadiums/stadiums.csv', encoding='utf8') as file:
         stadiums.append(Stadium(data['name'], data['location'], capacity=data['capacity'], club_owner=data['club_owner']))
 
 # Insert stadium data into database
-std_data.insert_stadiums_db(stadiums)
-std_data.insert_stadiums_db(generic_stadiums)
-
+print("Insert Stadium in database")
+with alive_bar(2) as bar:
+    std_data.insert_stadiums_db(stadiums)
+    bar()
+    std_data.insert_stadiums_db(generic_stadiums)
+    bar()
+    
 # Serie A
 with open('files/brasileirao/serie a/2021.csv', encoding='utf8') as file:
     ''' Creating clubs based on the files on the path above '''
@@ -79,9 +86,14 @@ with open('files/brasileirao/serie c/2021.csv', encoding='utf8') as file:
         serie_c.append(Club(data['name'], country, data['club_class'], state=data['state']))
 
 # Insert clubs on the database
-club_data.insert_clubs_db(serie_a)
-club_data.insert_clubs_db(serie_b)
-club_data.insert_clubs_db(serie_c)
+print("Inserting clubs on database")
+with alive_bar(3) as bar:
+    club_data.insert_clubs_db(serie_a)
+    bar()
+    club_data.insert_clubs_db(serie_b)
+    bar()
+    club_data.insert_clubs_db(serie_c)
+    bar()
 
 # Creating basic table
 league.domestic_table_basic([ club.name for club in serie_a ], 'serie_a', '2021')
@@ -94,20 +106,22 @@ tb_serie_b = ranking.domestic_table('serie_b', '2021')
 tb_serie_c = ranking.domestic_table('serie_c', '2021')
 
 
-for club in serie_a:
-    ''' Generate player and formation '''
-    players = helper.set_players(club, club.country, club.min_coeff, club.max_coeff)
-    p_data.insert_players_db(players)
-     
+print("Insert Players in database")
+with alive_bar(60) as bar:
+    for club in serie_a:
+        ''' Generate player and formation '''
+        players = helper.set_players(club, club.country, club.min_coeff, club.max_coeff)
+        p_data.insert_players_db(players)
+        bar()        
 
-for club in serie_b:
-    ''' Generate player and formation '''
-    players = helper.set_players(club, club.country, club.min_coeff, club.max_coeff)
-    p_data.insert_players_db(players)
-    
+    for club in serie_b:
+        ''' Generate player and formation '''
+        players = helper.set_players(club, club.country, club.min_coeff, club.max_coeff)
+        p_data.insert_players_db(players)
+        bar()
 
-for club in serie_c:
-    ''' Generate player and formation '''
-    players = helper.set_players(club, club.country, club.min_coeff, club.max_coeff)    
-    p_data.insert_players_db(players)
-    
+    for club in serie_c:
+        ''' Generate player and formation '''
+        players = helper.set_players(club, club.country, club.min_coeff, club.max_coeff)    
+        p_data.insert_players_db(players)
+        bar()
