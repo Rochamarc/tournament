@@ -5,6 +5,9 @@ from db.player_controller import PlayerData
 
 from outside_functions import filter_line_for_international_club
 
+from alive_progress import alive_bar
+
+
 club_data = ClubData()
 player_data = PlayerData()
 helper = Helper()
@@ -26,53 +29,58 @@ clubs = {
 with open('files/latin_american_clubs/argentina.csv', encoding='UTF-8') as file:
     for line in file.readlines():
         club = filter_line_for_international_club(line)
-        clubs['arg'].append(Club(club['name'], club['country'], club['cl_class']))
+        clubs['arg'].append(Club(club['name'], club['country'], club['club_class']))
 
 with open('files/latin_american_clubs/bolivia.csv', encoding='UTF-8') as file:
     for line in file.readlines():
         club = filter_line_for_international_club(line)
-        clubs['bol'].append(Club(club['name'], club['country'], club['cl_class']))
+        clubs['bol'].append(Club(club['name'], club['country'], club['club_class']))
         
 with open('files/latin_american_clubs/chile.csv', encoding='UTF-8') as file:
     for line in file.readlines():
         club = filter_line_for_international_club(line)
-        clubs['chi'].append(Club(club['name'], club['country'], club['cl_class']))
+        clubs['chi'].append(Club(club['name'], club['country'], club['club_class']))
 
 with open('files/latin_american_clubs/colombia.csv', encoding='UTF-8') as file:
     for line in file.readlines():
         club = filter_line_for_international_club(line)
-        clubs['col'].append(Club(club['name'], club['country'], club['cl_class']))
+        clubs['col'].append(Club(club['name'], club['country'], club['club_class']))
     
 with open('files/latin_american_clubs/ecuador.csv', encoding='UTF-8') as file:
     for line in file.readlines():
         club = filter_line_for_international_club(line)
-        clubs['equ'].append(Club(club['name'], club['country'], club['cl_class']))
+        clubs['equ'].append(Club(club['name'], club['country'], club['club_class']))
     
 with open('files/latin_american_clubs/paraguay.csv', encoding='UTF-8') as file:
     for line in file.readlines():
         club = filter_line_for_international_club(line)
-        clubs['par'].append(Club(club['name'], club['country'], club['cl_class']))
+        clubs['par'].append(Club(club['name'], club['country'], club['club_class']))
 
 with open('files/latin_american_clubs/peru.csv', encoding='UTF-8') as file:
     for line in file.readlines():
         club = filter_line_for_international_club(line)
-        clubs['per'].append(Club(club['name'], club['country'], club['cl_class']))
+        clubs['per'].append(Club(club['name'], club['country'], club['club_class']))
         
 with open('files/latin_american_clubs/uruguay.csv', encoding='UTF-8') as file:
     for line in file.readlines():
         club = filter_line_for_international_club(line)
-        clubs['uru'].append(Club(club['name'], club['country'], club['cl_class']))
+        clubs['uru'].append(Club(club['name'], club['country'], club['club_class']))
 
 with open('files/latin_american_clubs/venezuela.csv', encoding='UTF-8') as file:
     for i in file.readlines():
         club = filter_line_for_international_club(line)
-        clubs['ven'].append(Club(club['name'], club['country'], club['cl_class']))
+        clubs['ven'].append(Club(club['name'], club['country'], club['club_class']))
         
+print('Saving international clubs and players!')
+
 # Saving clubs on database
 for country, teams in clubs.items():
-    club_data.insert_clubs_db(teams) # he we save the international clubs
+    with alive_bar(len(teams)) as bar:
+        
+        club_data.insert_clubs_db(teams) # he we save the international clubs
 
-    for team in teams:
-        # he we save the playes
-        players = helper.set_players(team, team.country, team.min_coeff, team.max_coeff)
-        player_data.insert_players_db(players)
+        for team in teams:
+            # he we save the playes
+            players = helper.set_players(team, team.country, team.min_coeff, team.max_coeff)
+            player_data.insert_players_db(players)
+            bar()
