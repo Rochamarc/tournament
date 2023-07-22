@@ -18,6 +18,8 @@ if '-r' in flags : os.system('python init_db.py')
 
 if '-h' in flags : open_file('help')
 
+if '-i' in flags : os.system('python setting_international_clubs.py')
+
 if '-d' in flags:
     season = '2021'
     n_seasons = 1
