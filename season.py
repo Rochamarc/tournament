@@ -68,7 +68,9 @@ for i in range(n_seasons):
     serie_c.run()
     
     competition.insert_champion_db(competition_name, ranking.get_domestic_champion(division, season)[0], season)
-
+    
+    ### END SERIE C ###
+    
     # retiring players
     print("Get and Save retirees")
     retirees = player_data. get_retiring_players() # get
@@ -78,6 +80,6 @@ for i in range(n_seasons):
     print("Removing Retiring Players")
     player_data.remove_retired_playeres()
     
-    ### END SERIE C ###
+
 
     season = str(int(season) + 1) # next season
