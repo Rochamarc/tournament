@@ -8,6 +8,8 @@ from db.player_controller import PlayerData
 from db.domestic_league_controller import DomesticLeague
 
 
+from alive_progress import alive_bar
+
 helper = Helper()
 league_data = DomesticLeague()
 p_data = PlayerData()
@@ -54,9 +56,14 @@ class League:
         game_data.insert_games_db(matches)
         
         # UPDATE PLAYERS
-        for club in clubs:
-            p_data.update_player_stats(club.start_eleven, verbose=True) # Update stats
-            p_data.update_player_stats(club.bench, verbose=True) # Update Stats
-            p_data.update_players_age(club.start_eleven + club.bench, verbose=True) # Update Age
-            
+        print("Update Players")
+        
+        with alive_bar(len(clubs)) as bar:
+
+            for club in clubs:
+                p_data.update_player_stats(club.start_eleven) # Update stats
+                p_data.update_player_stats(club.bench) # Update Stats
+                p_data.update_players_age(club.start_eleven + club.bench) # Update Age
+                bar()
+
         return None
