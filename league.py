@@ -72,7 +72,8 @@ class League:
                 p_data.update_players_age(club.start_eleven + club.bench) # Update Age
                 bar()
         
-        # update retirement
+        # here we decide the players that are gonna retire, but this players are still saved on database
+        # your deletion is gonna happen in the end of the loop in season.py
         player_management.retirement_decision(clubs)
         
         return None
