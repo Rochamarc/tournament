@@ -31,7 +31,7 @@ class StadiumData():
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
 
-        val = cursor.execute("SELECT name, location, capacity, club_owner FROM stadium").fetchall()
+        val = cursor.execute("SELECT * FROM stadium").fetchall()
 
         data = val.copy()
         conn.close()
