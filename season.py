@@ -4,6 +4,7 @@ from league import League
 from outside_functions import open_file
 from ranking import Ranking
 from table import Table
+from data_functions import prepare_player_to_retiring
 
 import os
 import sys 
@@ -69,6 +70,11 @@ for i in range(n_seasons):
     competition.insert_champion_db(competition_name, ranking.get_domestic_champion(division, season)[0], season)
 
     # retiring players
+    print("Get and Save retirees")
+    retirees = player_data. get_retiring_players() # get
+    retirees = prepare_player_to_retiring(retirees) # prepare
+    player_data.insert_retired_db(retirees) # Save in database
+        
     print("Removing Retiring Players")
     player_data.remove_retired_playeres()
     

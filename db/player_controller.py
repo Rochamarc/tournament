@@ -21,7 +21,20 @@ class PlayerData():
         conn.close() # close database 
 
         return data
+    
+    @staticmethod
+    def get_retiring_players() -> list:
+        ''' Get all players from database that has True in retirement row '''
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()
+        
+        val = cursor.execute(qh.open_select_query('players_retiring')).fetchall()
 
+        data = val.copy()
+        conn.close() 
+
+        return data
+    
     @staticmethod
     def insert_players_db(players) -> None:
         '''
@@ -39,7 +52,21 @@ class PlayerData():
         conn.close()
 
         return None
+        
+    @staticmethod
+    def insert_retired_db(retirees: list) -> None:
+        ''' Insert retirees into the database before delete them from players table '''
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()        
 
+        for retiree in retirees:        
+            cursor.execute(qh.open_insert_query('retirees'), retiree)
+        
+        conn.commit()
+        conn.close()
+        
+        return None        
+        
     @staticmethod
     def update_player_stats(player_list) -> None:
         ''' Update players database '''

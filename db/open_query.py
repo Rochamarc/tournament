@@ -13,6 +13,16 @@ def change_directory(func):
     return wrapper
 
 class QueryHelper:
+    @staticmethod
+    @change_directory
+    def open_select_query(query: str) -> str:
+        ''' Prepare and return the string for the select query '''
+        s = None 
+        
+        with open('select/select_{}'.format(query), 'r') as f:
+            s = f.readlines()[0].replace('\n','')
+            
+        return s 
     
     @staticmethod
     @change_directory
