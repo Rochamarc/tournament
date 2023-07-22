@@ -54,13 +54,13 @@ class Draw:
         # and the 7th to 14th position from the brasileirao to the other positions
 
         # draw
-        for i in range(6):
+        for _ in range(6):
             # liber
             libertadores.append(arg.pop())
             # suda
             sudamericana.append(arg.pop())
 
-        for i in range(4):
+        for _ in range(4):
             # liber
             libertadores.append(bol.pop())
             libertadores.append(chi.pop())
