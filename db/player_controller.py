@@ -1,5 +1,4 @@
 import sqlite3 
-
 from db.open_query import QueryHelper
 
 database = 'db/database.db'
@@ -8,7 +7,7 @@ qh = QueryHelper()
 
 class PlayerData():
     @staticmethod
-    def get_players(club_name, verbose=False) -> list:
+    def get_players(club_name) -> list:
         ''' 
         Get the players info from database
         '''
@@ -24,26 +23,22 @@ class PlayerData():
         return data
 
     @staticmethod
-    def insert_players_db(players, verbose=False):
+    def insert_players_db(players, verbose=False) -> bool:
         '''
         Insert players data into the database
         '''
 
-        print("Inserting players on the database")
+        if verbose: print("Inserting players on the database")
         
         conn = sqlite3.connect(database)
         cursor = conn.cursor()        
-        
-        for player in players:
-            
-            print('.', sep=' ', end=' ', flush=True)
-            
-            if verbose : print(f"Insert player {player} into the database")
-            
-            player_data = player.data()
-            
-            cursor.execute(qh.open_insert_query('players'), player_data)
 
+        
+        for player in players:        
+            if verbose : print(f"Insert player {player} into the database")
+            player_data = player.data()
+            cursor.execute(qh.open_insert_query('players'), player_data)
+        
         conn.commit()
         conn.close()
 
@@ -58,7 +53,7 @@ class PlayerData():
         cursor = conn.cursor()
         
         for player in player_list:
-            print('.', sep=' ', end=' ', flush=True)
+            # print('.', sep=' ', end=' ', flush=True)
             
             player_data = player.get_competition_stats()
 

@@ -16,25 +16,24 @@ class ClubData():
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
         
-        print('Inserting clubs into the database')
+        if verbose: print('Inserting clubs into the database')
+        
+        if verbose : print(f"Insert club {club} into the database")
 
+         
         for club in clubs:
-            print('.', sep=' ', end=' ', flush=True)
-
-            if verbose : print(f"Insert club {club} into the database")
-
-            club_data = club.data() # get the club info
-
+            club_data = club.data() 
             cursor.execute(qh.open_insert_query('clubs'), club_data)
-            
+        
+
         conn.commit()
         conn.close()
 
-        if verbose : print("Players inserted into the database sucessfully!")
+        if verbose : print("Clubs inserted into the database sucessfully!")
         return True
 
     @staticmethod
-    def get_clubs(clubs, verbose=False) -> list:
+    def get_clubs(clubs) -> list:
         ''' Get clubs info from database '''
 
         conn = sqlite3.connect(database)
