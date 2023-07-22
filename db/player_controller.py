@@ -68,6 +68,21 @@ class PlayerData():
         return None        
         
     @staticmethod
+    def insert_player_season(players: list) -> None:
+        ''' Insert player data into the player_season table '''
+    
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()        
+
+        for player in players[0]:        
+            cursor.execute(qh.open_insert_query('player_season'), player)
+        
+        conn.commit()
+        conn.close()
+        
+        return None
+        
+    @staticmethod
     def update_player_stats(player_list) -> None:
         ''' Update players database '''
         conn = sqlite3.connect(database)
