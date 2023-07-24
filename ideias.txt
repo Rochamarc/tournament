@@ -4,13 +4,23 @@
 * Compra e venda de jogadores
 * Sistema de modo de compra e de venda de jogadores baseado em perfis de clubes
 
-* Organizar melhor os dados dois jogadores, eles agora passam a ser o maior foco devido aos dados gerados por eles.
+# Completos *
+# Organizar melhor os dados dois jogadores, eles agora passam a ser o maior foco devido aos dados gerados por eles.
     - Aposentadoria para jogadores acima dos 35 - Completo
         * Criar um arquivo de log e/ou uma nova tabela de jogadores aposentados - Completo
+# Database
+    - Criar uma tabela para salvar a conquista de jogores aposentados - Completo
+    - Criar uma tabela que salve a conquista dos jogadores por temporada - Completo
+# * Completos
+
+
+# Incompletos - Sistema
     - Contrato 
     - Venda 
     - Compra
 
 # Database
-    - Criar uma tabela para salvar a conquista de jogores aposentados - Completo
-    - Criar uma tabela que salve a conquista dos jogadores por temporada - Completo
+    - Refatorar completamente a base de dados. Refazer a base de dados baseado no modelo em database_studies/novo_diagrama
+ 
+# Sistema
+    - Integrar o sistema para funcionar baseado no novo schema de banco de dados
