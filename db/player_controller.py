@@ -74,7 +74,7 @@ class PlayerData():
         conn = sqlite3.connect(database)
         cursor = conn.cursor()        
 
-        for player in players[0]:        
+        for player in players:        
             cursor.execute(qh.open_insert_query('player_season'), player)
         
         conn.commit()
