@@ -1,0 +1,1 @@
+INSERT INTO stadium (name, location, capacity, club_owner) VALUES (%s,%s,%s,%s);

@@ -1,0 +1,1 @@
+INSERT INTO retired (name, nationality, age, overall, last_club, position, matches_played, goals, assists, points, avg, last_market_value, last_salary, height, weight, foot) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);

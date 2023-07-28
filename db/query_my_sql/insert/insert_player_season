@@ -1,0 +1,1 @@
+INSERT INTO player_season ( name, nationality, age, overall, current_club, position , matches_played, goals, assists, points, avg, market_value, salary, season) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
