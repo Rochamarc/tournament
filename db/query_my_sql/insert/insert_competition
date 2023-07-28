@@ -1,0 +1,1 @@
+INSERT INTO champion (competition, club, season) VALUES (%s,%s,%s)
