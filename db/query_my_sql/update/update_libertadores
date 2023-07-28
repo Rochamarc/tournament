@@ -1,0 +1,1 @@
+UPDATE libertadores_{}_{} SET matches=matches+1, won=won + %s, draw=draw + %s, lost=lost + %s, goals_for=goals_for + %s, goals_away=goals_away + %s, goal_diff=goal_diff + %s, points=points + %s WHERE club = %s
