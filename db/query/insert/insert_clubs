@@ -1,1 +1,1 @@
-INSERT INTO clubs (name, country, state, coeff, club_class, formation, total_budget, salary_budget) values (%s,%s,%s,%s,%s,%s,%s,%s);
+INSERT INTO clubs (name, country, state, coeff, club_class, formation, total_budget, salary_budget) VALUES (%s,%s,%s,%s,%s,%s,%s,%s);
