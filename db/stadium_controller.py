@@ -1,17 +1,17 @@
-import sqlite3 
+import mysql.connector
 
 from db.open_query import QueryHelper
-
-database = 'db/database.db'
+from db.database import export_database_config
 
 qh = QueryHelper()
 
 class StadiumData():
     @staticmethod
     def insert_stadiums_db(stadiums: list) -> None:
-        ''' Insert stadiums to the database '''
+        ''' Insert stadiums to the database ''' 
+        print('KKKKKKKKKKKKKKKKKKKKKKKK')
         
-        conn = sqlite3.connect(database)
+        conn = mysql.connector.connect(**export_database_config())
         cursor = conn.cursor()
         
         for stadium in stadiums:
@@ -28,12 +28,13 @@ class StadiumData():
     def get_stadiums() -> list:
         ''' Get stadiums data '''
 
-        conn = sqlite3.connect(database)
+        conn = mysql.connector.connect(**export_database_config())
         cursor = conn.cursor()
 
-        val = cursor.execute("SELECT * FROM stadium").fetchall()
+        val = cursor.execute("SELECT * FROM stadium")
+        re = val.fetchall()
 
-        data = val.copy()
+        #data = val.copy()
         conn.close()
 
-        return data 
+        return re
