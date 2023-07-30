@@ -1,1 +1,1 @@
-INSERT INTO coach (name, nationality, age, formation, play_mode, current_club) VALUES (?,?,?,?,?,?)
+INSERT INTO coach (name, nationality, age, formation, play_mode, current_club) VALUES (%s,%s,%s,%s,%s,%s);

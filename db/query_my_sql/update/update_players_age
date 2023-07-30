@@ -1,1 +1,0 @@
-UPDATE players SET age = age + %s WHERE id = %s

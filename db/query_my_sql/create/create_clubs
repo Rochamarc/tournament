@@ -1,1 +1,0 @@
-CREATE TABLE clubs ( id INT NOT NULL AUTO_INCREMENT , name VARCHAR(100) NOT NULL, country VARCHAR(100) NOT NULL, state VARCHAR(100), coeff INT NOT NULL, club_class CHAR(1) NOT NULL, formation VARCHAR(10), total_budget INT, salary_budget INT, PRIMARY KEY(id) );

@@ -1,1 +1,0 @@
-UPDATE players SET matches_played = matches_played + %s, goals = goals + %s,assists = assists + %s,points = points + %s WHERE id = %s
