@@ -65,9 +65,9 @@ class DomesticLeague():
         conn = mysql.connector.connect(**export_database_config())
         cursor = conn.cursor()
 
-        val = cursor.execute(f"SELECT * FROM campeonato_brasileiro_{division}_{season}").fetchall()
+        cursor.execute(f"SELECT * FROM campeonato_brasileiro_{division}_{season}")
         
-        data = val.copy() # create a copy of the fetch data
+        data = cursor.fetchall() # create a copy of the fetch data
         conn.close()
         
         return data

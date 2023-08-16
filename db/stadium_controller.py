@@ -9,7 +9,6 @@ class StadiumData():
     @staticmethod
     def insert_stadiums_db(stadiums: list) -> None:
         ''' Insert stadiums to the database ''' 
-        print('KKKKKKKKKKKKKKKKKKKKKKKK')
         
         conn = mysql.connector.connect(**export_database_config())
         cursor = conn.cursor()
@@ -31,8 +30,8 @@ class StadiumData():
         conn = mysql.connector.connect(**export_database_config())
         cursor = conn.cursor()
 
-        val = cursor.execute("SELECT * FROM stadium")
-        re = val.fetchall()
+        cursor.execute("SELECT * FROM stadium")
+        re = cursor.fetchall()
 
         #data = val.copy()
         conn.close()
