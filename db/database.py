@@ -28,7 +28,7 @@ def create_db() -> None:
     
     
     # execute a query
-    # cursor.execute(open_create_query('brasileirao').format('serie_a', '2021')) # exemplo
+    cursor.execute(qh.open_create_query('brasileirao').format('serie_a', '2021')) # exemplo
     cursor.execute(qh.open_create_query('champions'))
     cursor.execute(qh.open_create_query('clubs'))
     cursor.execute(qh.open_create_query('clubs_ranking'))
