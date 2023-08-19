@@ -1,6 +1,7 @@
-import sqlite3 
+import mysql.connector
 
 from db.open_query import QueryHelper
+from db.database import export_database_config
 
 database = 'db/database.db'
 
@@ -10,7 +11,8 @@ class DomesticLeague():
     @staticmethod
     def create_domestic_table(division: str, season: str) -> None:
         ''' Create domestic table '''
-        conn = sqlite3.connect(database)
+        # conn = mysql.connector.connect(**export_database_config())*export_database_config())
+        conn = mysql.connector.connect(**export_database_config())
         cursor = conn.cursor()
 
         division.replace(' ', '_')
@@ -29,7 +31,7 @@ class DomesticLeague():
 
         division.replace(' ', '_')
 
-        conn = sqlite3.connect(database)
+        conn = mysql.connector.connect(**export_database_config())
         cursor = conn.cursor()
 
         for club in club_names:   
@@ -45,7 +47,7 @@ class DomesticLeague():
     @staticmethod
     def update_domestic_table(club_stats: list, division: str, season: str) -> None:
         ''' Update values from domestic table '''
-        conn = sqlite3.connect(database)
+        conn = mysql.connector.connect(**export_database_config())
         cursor = conn.cursor()
 
         division.replace(' ', '_')
@@ -60,18 +62,12 @@ class DomesticLeague():
     @staticmethod
     def get_domestic_cup_table(division: str, season:str) -> list:
         ''' Get the domestic cup table data '''
-        conn = sqlite3.connect(database)
+        conn = mysql.connector.connect(**export_database_config())
         cursor = conn.cursor()
 
-        val = cursor.execute(f"""
-            SELECT * FROM campeonato_brasileiro_{division}_{season} 
-            ORDER BY 
-                points DESC, 
-                goals_for DESC, 
-                goal_diff DESC
-            """).fetchall()
+        cursor.execute(f"SELECT * FROM campeonato_brasileiro_{division}_{season}")
         
-        data = val.copy() # create a copy of the fetch data
+        data = cursor.fetchall() # create a copy of the fetch data
         conn.close()
         
         return data

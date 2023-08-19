@@ -24,3 +24,16 @@
  
 # Sistema
     - Integrar o sistema para funcionar baseado no novo schema de banco de dados
+<<<<<<< HEAD
+=======
+
+### Mudar a modelagem do banco de dados de acordo com o novo diagrama.
+### mudar o sistema para se adequar ao novo schema utilizando FK
+### migrar completamente para o mysql
+
+### criar um sistema de dados muito maior que receba dados de todas as principais ligas mundiais.
+# premier league, laliga, ligue 1, serie a, bundesliga e liga argentina. Todas com somente a primeira divisão. inicialmente.
+    * Isso ira criar uma base de dados imensa, que recebera uma enorme quantidade de dados, e escalara vantajosamente a base de dados.
+    * Adicionar novas opções de nomes e de nacionalidades e melhorar o esquema de seleção de nacionalidade e nome.
+    
+>>>>>>> refs/remotes/origin/main

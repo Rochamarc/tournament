@@ -1,1 +1,1 @@
-UPDATE players SET retirement = ? WHERE id = ?
+UPDATE players SET retirement = %s WHERE id = %s

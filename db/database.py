@@ -1,62 +1,45 @@
-import sqlite3
-from alive_progress import alive_bar
-from open_query import QueryHelper
+import mysql.connector
 
-import sys
-
-args = sys.argv
+from db.open_query import QueryHelper 
 
 qh = QueryHelper()
 
-if len(args) > 1:
-    database = f'db/{args[-1]}.db'
-else:
-    database = 'db/database.db'
+config = {
+    'user': 'tournament_user', 
+    'host': 'localhost', 
+    'password': 'tournament_pass',
+    'database': 'tournament_db'
+}
 
-def create_db():
-    ''' Create database tables '''
-    conn = sqlite3.connect(database)
+def export_database_config() -> dict:
+    ''' Return a dict with database configuration '''
+    return config
+
+def export_conn() -> mysql.connector:
+    ''' Return a mysql connector '''
+    conn = mysql.connector.connect(**config)
+
+    return conn
+
+def create_db() -> None:
+    ''' Connect to a database and execute creation queries '''
+    conn = mysql.connector.connect(**config)
     cursor = conn.cursor()
-
-    with alive_bar(1) as bar:
-        cursor.execute(qh.open_create_query('players'))
-        cursor.execute(qh.open_create_query('coaches')) 
-        cursor.execute(qh.open_create_query('stadiums'))
-        cursor.execute(qh.open_create_query('clubs_ranking'))
-        cursor.execute(qh.open_create_query('games'))
-        cursor.execute(qh.open_create_query('clubs'))
-        cursor.execute(qh.open_create_query('champions'))
-        cursor.execute(qh.open_create_query('retirees'))
-        cursor.execute(qh.open_create_query('players_season'))
-        bar()
-
+    
+    
+    # execute a query
+    cursor.execute(qh.open_create_query('brasileirao').format('serie_a', '2021')) # exemplo
+    cursor.execute(qh.open_create_query('champions'))
+    cursor.execute(qh.open_create_query('clubs'))
+    cursor.execute(qh.open_create_query('clubs_ranking'))
+    cursor.execute(qh.open_create_query('coaches'))
+    # cursor.executqh.e(open_create_query('libertadores')) 
+    cursor.execute(qh.open_create_query('players'))
+    cursor.execute(qh.open_create_query('players_season'))
+    cursor.execute(qh.open_create_query('retirees'))
+    cursor.execute(qh.open_create_query('stadiums'))
+    # conn.commit()
     conn.close()
 
-
-def upload_ranking_db():
-    ''' Upload conmebol ranking '''    
-    
-    with open('files/conmebol/ranking_conmebol.csv', encoding='utf8') as file:
-        lines = file.readlines() 
-    
-        conn = sqlite3.connect(database)
-        cursor = conn.cursor()
-    
-        for line in lines:
-            line = line.split(',')
-            val = line[-1] 
-            val.replace('\n', '')
-            val = float(val)
-            del line[-1]
-            line.append(val)
-    
-            cursor.execute(qh.open_insert_query('clubs_ranking'), line)
-    
-        conn.commit()
-        conn.close()
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     create_db()
-    upload_ranking_db()
- 

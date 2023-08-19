@@ -1,6 +1,8 @@
 import sqlite3 
+import mysql.connector
 
 from db.open_query import QueryHelper
+from db.database import export_database_config
 
 database = 'db/database.db'
 
@@ -13,7 +15,7 @@ class ClubData():
         '''
         Insert clubs into the database
         '''
-        conn = sqlite3.connect(database)
+        conn = mysql.connector.connect(**export_database_config())
         cursor = conn.cursor()
          
         for club in clubs:

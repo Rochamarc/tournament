@@ -144,3 +144,5 @@ classes/__pycache__/
 database.db-journal
 
 db/__pycache__/
+
+/testing_queries_insertion_DELETE

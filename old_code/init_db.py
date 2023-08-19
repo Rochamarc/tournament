@@ -2,6 +2,7 @@ from classes.club import Club
 from classes.stadium import Stadium
 from helper import Helper
 
+from db.database import create_db
 from db.club_controller import ClubData
 from db.domestic_league_controller import DomesticLeague 
 from db.player_controller import PlayerData
@@ -11,11 +12,15 @@ from outside_functions import filter_line_for_club, filter_line_for_stadium
 
 from ranking import Ranking
 
-import os 
+# import os 
 
 from alive_progress import alive_bar
 
-os.system('./db/reset_database.sh')
+# os.system('./db/reset_database.sh')
+
+# initialize database
+create_db()
+
 
 # Domestic cup
 league = DomesticLeague()
