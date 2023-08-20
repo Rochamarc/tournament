@@ -2,11 +2,9 @@ from classes.person import Person
 
 class Player(Person):
 
-    def __init__(self, name: str, nationality: str, age: int, position: str, overall: int, height: float, weight: float, foot: str, retirement: str= 'False', current_club=None):
+    def __init__(self, id: int, name: str, nationality: str, age: int, position: str, height: float, weight: float, foot: str, retirement: str= 'False'):
         super().__init__(name, nationality, age)
-        self.overall = overall
-        self.current_club = current_club
-        self.current_club_id = None
+        self.id = id
         self.position = position
     
         self.retirement = retirement
