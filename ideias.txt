@@ -24,8 +24,6 @@
  
 # Sistema
     - Integrar o sistema para funcionar baseado no novo schema de banco de dados
-<<<<<<< HEAD
-=======
 
 ### Mudar a modelagem do banco de dados de acordo com o novo diagrama.
 ### mudar o sistema para se adequar ao novo schema utilizando FK
@@ -36,4 +34,4 @@
     * Isso ira criar uma base de dados imensa, que recebera uma enorme quantidade de dados, e escalara vantajosamente a base de dados.
     * Adicionar novas opções de nomes e de nacionalidades e melhorar o esquema de seleção de nacionalidade e nome.
     
->>>>>>> refs/remotes/origin/main
+
