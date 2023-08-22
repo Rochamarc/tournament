@@ -1,5 +1,3 @@
-SELECT clubs.id, clubs.name, clubs.country, clubs.class, confederations.name 
+SELECT clubs.id, clubs.name, clubs.country, clubs.class, clubs.total_budget, clubs.salary_budget 
 FROM clubs 
-INNER JOIN confederations 
-    ON confederations.id = clubs.id_confederation 
 WHERE clubs.country = %s;
