@@ -1,23 +1,5 @@
 import mysql.connector
 
-select_players = """
-SELECT players.id, players.name, players.nationality, players.birth_year, players.position, 
-players.height, players.weight, players.foot, players_overall.overall
-FROM players
-INNER JOIN players_overall
-	ON players.id = players_overall.id_player;
-"""
-select_players_by_contract = """
-SELECT players.id, players.name, players.nationality, players.birth_year, players.position, 
-players.height, players.weight, players.foot, players_overall.overall, clubs.name
-FROM players, clubs
-INNER JOIN players_overall 
-INNER JOIN players_contract
-	ON players.id = players_overall.id_player 
- 	AND players.id = players_contract.id_player 
-	AND clubs.id = players_contract.id_club;
-"""
-
 
 database_config = {
     'user': 'tournament_user',
@@ -27,28 +9,50 @@ database_config = {
 }
 
 
+def get_query(file_name: str) -> str:
+	''' Return a string query by a file in sql '''
+	try:
+		with open('{}.sql'.format(file_name), 'r') as file:
+			return ''.join(file.readlines())
+	except: 
+		raise FileNotFoundError("File name doesn't exists")
+
+
 class PlayersController():	
 	@staticmethod
-	def get_players_with_contract():
-		''' Return all players with contract data'''
+	def get_by_contract():
+		''' Return all players with contract '''
 		conn = mysql.connector.connect(**database_config)
 		cursor = conn.cursor()
 
-		cursor.execute(select_players)
+		cursor.execute(get_query('select_players_by_contract'))
 		players = cursor.fetchall()
 
 		return players
 
 	@staticmethod
-	def get_all_players():
-		''' Return all players data'''
+	def get_all():
+		''' Return all players data'''  
 		conn = mysql.connector.connect(**database_config)
 		cursor = conn.cursor()
 
-		cursor.execute(select_players)
+		cursor.execute(get_query('select_players'))
 		players = cursor.fetchall()
 
 		return players	
 
+	@staticmethod
+	def get_by_club(club: str) -> list:
+		''' Return players by club '''
+
+		conn = mysql.connector.connect(**database_config)
+		cursor = conn.cursor()
+
+		cursor.execute(get_query('select_players_by_club'), [club])
+		players = cursor.fetchall()
+
+		return players
+
+
 if __name__ == "__main__":
-    print(PlayersController.get_players_with_contract())
+    print(PlayersController().get_by_club('Fluminense'))
