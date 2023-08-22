@@ -1,33 +1,18 @@
 import mysql.connector
+from base_controller import BaseController
 
-database_config = {
-    'user': 'tournament_user',
-    'password': 'tournament_pass',
-    'host': 'localhost',
-    'database': 'football'
-}
-
-
-class ClubsController:
-    @staticmethod
-    def select_clubs_by_country(country: str) -> list[set]:
+class ClubsController(BaseController):
+    @classmethod
+    def select_clubs_by_country(cls, country: str) -> list[set]:
         ''' Returns a list of clubs on the database by clubs.country clause '''
         
-        conn = mysql.connector.connect(**database_config)
+        conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        select_clubs_query = """
-        SELECT clubs.id, clubs.name, clubs.country, clubs.class, confederations.name 
-        FROM clubs 
-        INNER JOIN confederations 
-            ON confederations.id = clubs.id_confederation 
-        WHERE clubs.country = '{}';"""
-
-        cursor.execute(select_clubs_query.format(country))
+        cursor.execute(cls.get_query('select_clubs_by_country'), [country])
         clubs = cursor.fetchall()
 
         conn.close()
-
         return clubs 
     
 if __name__ == "__main__":

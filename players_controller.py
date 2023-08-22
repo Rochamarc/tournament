@@ -1,56 +1,42 @@
 import mysql.connector
+from base_controller import BaseController
 
-
-database_config = {
-    'user': 'tournament_user',
-    'host': 'localhost',
-    'password': 'tournament_pass',
-    'database': 'football'
-}
-
-
-def get_query(file_name: str) -> str:
-	''' Return a string query by a file in sql '''
-	try:
-		with open('{}.sql'.format(file_name), 'r') as file:
-			return ''.join(file.readlines())
-	except: 
-		raise FileNotFoundError("File name doesn't exists")
-
-
-class PlayersController():	
-	@staticmethod
-	def get_by_contract():
+class PlayersController(BaseController):	
+	@classmethod
+	def get_by_contract(cls):
 		''' Return all players with contract '''
-		conn = mysql.connector.connect(**database_config)
+		conn = mysql.connector.connect(**cls.database_config)
 		cursor = conn.cursor()
 
-		cursor.execute(get_query('select_players_by_contract'))
+		cursor.execute(cls.get_query('select_players_by_contract'))
 		players = cursor.fetchall()
 
+		conn.close()
 		return players
 
-	@staticmethod
-	def get_all():
+	@classmethod
+	def get_all(cls):
 		''' Return all players data'''  
-		conn = mysql.connector.connect(**database_config)
+		conn = mysql.connector.connect(**cls.database_config)
 		cursor = conn.cursor()
 
-		cursor.execute(get_query('select_players'))
+		cursor.execute(cls.get_query('select_players'))
 		players = cursor.fetchall()
 
+		conn.close()
 		return players	
 
-	@staticmethod
-	def get_by_club(club: str) -> list:
+	@classmethod
+	def get_by_club(cls, club: str) -> list:
 		''' Return players by club '''
 
-		conn = mysql.connector.connect(**database_config)
+		conn = mysql.connector.connect(**cls.database_config)
 		cursor = conn.cursor()
 
-		cursor.execute(get_query('select_players_by_club'), [club])
+		cursor.execute(cls.get_query('select_players_by_club'), [club])
 		players = cursor.fetchall()
 
+		conn.close()
 		return players
 
 
