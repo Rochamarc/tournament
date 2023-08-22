@@ -3,7 +3,7 @@ from classes.club import Club
 
 class ClassConstructor:
 	@staticmethod
-	def reconstruct_players(players_data: list) -> list[Player]:	
+	def players(players_data: list) -> list[Player]:	
 		players = []
 
 		for pd in players_data:
@@ -12,7 +12,7 @@ class ClassConstructor:
 		return players
 
 	@staticmethod
-	def reconstruct_clubs(clubs_data: list) -> list[Club]:
+	def clubs(clubs_data: list) -> list[Club]:
 		clubs = []
 		for cd in clubs_data:
 			clubs.append(Club(cd[0], cd[1], cd[2], cd[3], cd[4], cd[5]))
