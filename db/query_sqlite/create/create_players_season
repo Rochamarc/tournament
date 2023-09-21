@@ -1,1 +1,0 @@
-CREATE TABLE IF NOT EXISTS player_season ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, nationality TEXT NOT NULL, age INTEGER NOT NULL, overall INTEGER NOT NULL, current_club TEXT, position VARCHAR(30) NOT NULL, matches_played INTEGER, goals INTEGER, assists INTEGER, points REAL, avg REAL, market_value INTEGER,  salary REAL, season VARCHAR(4) )

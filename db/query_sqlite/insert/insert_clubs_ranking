@@ -1,1 +1,0 @@
-INSERT INTO clubs_ranking (name, country, points) VALUES (?,?,?)

@@ -1,1 +1,0 @@
-UPDATE campeonato_brasileiro_{}_{} SET matches=matches+1, won=won + ?,draw=draw + ?,lost=lost + ?,goals_for=goals_for + ?,goals_away=goals_away + ?,goal_diff=goal_diff + ?,points=points + ? WHERE club = ?
