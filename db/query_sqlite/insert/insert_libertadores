@@ -1,1 +1,0 @@
-INSERT INTO libertadores_{}_{} (club, matches, won, draw, lost, goals_for, goals_away, goal_diff, points) VALUES (?,?,?,?,?,?,?,?,?)

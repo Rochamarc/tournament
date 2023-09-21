@@ -1,1 +1,0 @@
-CREATE TABLE libertadores_{}_{} ( id INT NOT NULL AUTO_INCREMENT, club VARCHAR(100) NOT NULL, matches INT NOT NULL, won INT NOT NULL, draw INT NOT NULL, lost INT NOT NULL, goals_for INT NOT NULL, goals_away INT NOT NULL, goal_diff INT NOT NULL, points INT NOT NULL, PRIMARY KEY(id) );

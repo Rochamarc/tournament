@@ -1,1 +1,0 @@
-INSERT INTO player (name, nationality, age, overall, current_club, position, matches_played, goals, assists, avg, market_value, salary, height, weight, foot) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
