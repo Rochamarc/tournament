@@ -1,18 +1,9 @@
 class Person:
-    def __init__(self, name: str, nationality: str, age: int):
-        self.id = None
+    def __init__(self, name: str, nationality: str, birth: int):
         self.__name = name
         self.nationality = nationality
-        self.__age = age
-
-    def increase_age(self):
-        ''' Increase the age of a player with one year'''
-        self.__age += 1
+        self.__birth = birth
 
     @property
     def name(self):
         return self.__name
-
-    @property
-    def age(self):
-        return self.__age
