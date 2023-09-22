@@ -140,3 +140,17 @@ CREATE TABLE champions(
     FOREIGN KEY(competition_id)
         REFERENCES competitions(id)
 );
+
+/* NAMING */
+
+CREATE TABLE first_names(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    value VARCHAR(100) NOT NULL,
+    language VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE last_names(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    value VARCHAR(100) NOT NULL,
+    language VARCHAR(100) NOT NULL
+);
