@@ -5,11 +5,6 @@ class Club:
         self.country = country
         self.short_country = self.country[:3].upper()
 
-        self.club_class = club_class
-
-        self.total_budget = total_budget
-        self.salary_budget = salary_budget
-
         self.cast = []
         self.start_eleven = []
         self.bench = []
