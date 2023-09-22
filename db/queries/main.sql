@@ -93,6 +93,15 @@ CREATE TABLE market_value(
         REFERENCES players(id)
 );
 
+CREATE TABLE overall(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    season CHAR(4) NOT NULL,
+    overall INT NOT NULL,
+    player_id INT,
+    FOREIGN KEY(player_id)
+        REFERENCES players(id)
+);
+
 /* CHAMPIONSHIPS 
 Divison -> Competition -> Championships[table that stores all year competition] -> Champions
 
