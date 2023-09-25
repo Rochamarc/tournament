@@ -1,8 +1,8 @@
 from classes.person import Person 
 
 class Player(Person):
-    def __init__(self, id: int, name: str, nationality: str, age: int, position: str, height: float, weight: float, foot: str, overall: int):
-        super().__init__(name, nationality, age)
+    def __init__(self, id: int, name: str, nationality: str, birth: int, position: str, height: float, weight: float, foot: str, overall: int):
+        super().__init__(name, nationality, birth)
         self.id = id
         self.position = position
 
