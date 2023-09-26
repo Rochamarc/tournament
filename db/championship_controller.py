@@ -19,7 +19,7 @@ class ChampionshipsController(BaseController):
         ''' Update championships table in database
             season: the season of the table to be updated
             club_id: club that will have the table updated
-            update_data: [ matches, won, draw, lost, goals_for, goals_away, goall_diff ] 
+            update_data: [ matches, won, draw, lost, goals_for, goals_away, goall_diff, points ] 
                 list of values to be updated in the list
         '''
         conn = mysql.connector.connect(**cls.database_config)
