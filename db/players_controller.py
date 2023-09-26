@@ -17,5 +17,20 @@ class PlayersController(BaseController):
 
         return players
 
+    @classmethod
+    def select_players_with_contract(cls, season: str) -> list[set]:
+        ''' Select players by player_contracts and season clause 
+            season -> overall on overall
+        '''
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(cls.get_select_query('select_players_by_contracts'), [season])
+        players = cursor.fetchall()
+
+        return players
+
+
 if __name__ == "__main__":
-    print(PlayersController().select_players_by_club('Coritiba'))
+    print(PlayersController().select_players_by_club('2022'))
