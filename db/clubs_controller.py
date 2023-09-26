@@ -1,10 +1,10 @@
 import mysql.connector
-from base_controller import BaseController
+from db.base_controller import BaseController
 
 class ClubsController(BaseController):
     @classmethod
     def select_serie_a_clubs(cls) -> list[set]:
-        ''' Returns a list of players based on divison 
+        ''' Returns a list of clubs based on divison 
 
             warning: this will receive an argument season that have 
             a clause inside the query
@@ -20,7 +20,7 @@ class ClubsController(BaseController):
 
     @classmethod
     def select_serie_b_clubs(cls) -> list[set]:
-        ''' Returns a list of players based on divison 
+        ''' Returns a list of clubs based on divison 
 
             warning: this will receive an argument season that have 
             a clause inside the query
@@ -37,7 +37,7 @@ class ClubsController(BaseController):
 
     @classmethod
     def select_serie_c_clubs(cls) -> list[set]:
-        ''' Returns a list of players based on divison 
+        ''' Returns a list of clubs based on divison 
 
             warning: this will receive an argument season that have 
             a clause inside the query
