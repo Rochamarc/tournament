@@ -4,7 +4,7 @@
 
 * Generating a new club
     ```py
-    Club('name':str,'country':str,'club_class':str, state=None)
+    Club('id': int, 'name':str, 'country':str)
     ```
 
 #### Player
