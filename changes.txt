@@ -1,23 +1,24 @@
 Player:
-    float market_value 
-    float salary (per season)
+    caracteristicas fisicas
+    id do clube 
 
 Club:
-    float total_budget
-    float salary_budget  # 25% do valor total (isso é o que esta disponivel)
-    float gasto (isso será descontado todo fim de temporada o que vai gerar o balanço final)
+    caracteristicas basicas de um clube
+    def finances():
+        vai puxar o balanço financeiro da equipe de acordo com o seu id 
 
+    
 Market:
     ''' new class '''
 
     # here comes the statistics
 
 IA:
-    - Analizar o mercado dos times e contratar/vender jogadores
-    - Puxar jogadores da base 
-    - Aumentar e diminuir overall 
-    - Aumentar a idade
-    - Aposentar jogadores
+    - Analizar o mercado dos times e contratar/vender jogadores ´Isso inicialmente será feito manualmente pelo notebook para estudo de analise de dados´
+    - Puxar jogadores da base ´Não tenho planos nesse escopo que envolvam esse tipo de abordagem´
+    - Aumentar e diminuir overall ´Provavelmente tambem será feito manualmente´
+    - Aumentar a idade ´Esquece - Agora o que é salvo é o nascimento logo a idade já é automaticamente calculada de acordo com a season´
+    - Aposentar jogadores ´Já existe porém o modo como a sua carreira ficará salva ainda será definida´
 
 Competições:
     - Pagar premiações
