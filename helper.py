@@ -27,5 +27,4 @@ class ClassConstructor:
 			for player in players:
 				if player.club_id == club.id: 
 					club.add_to_squad(player)
-					players.remove(player)
 		return clubs 
