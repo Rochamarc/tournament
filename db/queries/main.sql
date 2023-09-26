@@ -131,6 +131,7 @@ CREATE TABLE championships(
     goals_for INT DEFAULT 0,
     goals_away INT DEFAULT 0,
     goall_diff INT DEFAULT 0,
+    points INT DEFAULT 0,
     club_id INT,
     FOREIGN KEY (club_id) 
         REFERENCES clubs(id),
