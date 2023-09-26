@@ -13,4 +13,4 @@ class Club:
         return f"Club({self.name})"
     
     def add_to_squad(self, *values: list):
-        self.cast += values
+        self.squad += values
