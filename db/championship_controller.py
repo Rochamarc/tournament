@@ -13,6 +13,18 @@ class ChampionshipsController(BaseController):
 
         conn.close()
         return values
+    
+    @classmethod
+    def select_championship_table_by_division(cls, season: int, division_name: str) -> list[set]:
+        ''' Select championship club table by club '''
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(cls.get_select_query('select_championship_by_divison'), [season, division_name])
+        values = cursor.fetchall()
+
+        conn.close()
+        return values
 
     @classmethod
     def update_championship_table(cls, season: str, club_id: int, update_data: list) -> None:
