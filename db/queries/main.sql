@@ -163,3 +163,32 @@ CREATE TABLE last_names(
     value VARCHAR(100) NOT NULL,
     language VARCHAR(100) NOT NULL
 );
+
+/* GAMES TABLES 
+
+hour -> 00:00 -> char(5)
+
+*/
+
+CREATE TABLE home_game_stats (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    goals
+    shots
+    shots_on_target
+    fouls
+    tackles
+    saves
+    ball_possession
+    offsides
+    freekicks
+    penalties
+);
+
+
+
+CREATE TABLE games (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    season CHAR(4) NOT NULL,
+    hour CHAR(5)
+
+);
