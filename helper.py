@@ -18,3 +18,14 @@ class ClassConstructor:
 			clubs.append(Club(cd[0], cd[1], cd[2]))
 
 		return clubs 
+
+	@staticmethod
+	def add_players_to_clubs(clubs: list, players: list) -> list[clubs]:
+		''' Add players to squad and return the list of clubs '''
+
+		for club in clubs:
+			for player in players:
+				if player.club_id == club.id: 
+					club.add_to_squad(player)
+					players.remove(player)
+		return clubs 
