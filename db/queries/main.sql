@@ -103,7 +103,7 @@ CREATE TABLE overall(
 );
 
 /* CHAMPIONSHIPS 
-Divison -> Competition -> Championships[table that stores all year competition] -> Champions
+division -> Competition -> Championships[table that stores all year competition] -> Champions
 
 */
 
@@ -113,7 +113,7 @@ CREATE TABLE competitions(
     name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE divisons(
+CREATE TABLE divisions(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     competition_id INT,
@@ -135,9 +135,9 @@ CREATE TABLE championships(
     club_id INT,
     FOREIGN KEY (club_id) 
         REFERENCES clubs(id),
-    divison_id INT,
-    FOREIGN KEY (divison_id)
-        REFERENCES divisons(id)
+    division_id INT,
+    FOREIGN KEY (division_id)
+        REFERENCES divisions(id)
 );
 
 CREATE TABLE champions(
