@@ -7,3 +7,7 @@ class Person:
     @property
     def name(self):
         return self.__name
+
+    @property
+    def birth(self):
+        return self.__birth
