@@ -172,23 +172,46 @@ hour -> 00:00 -> char(5)
 
 CREATE TABLE home_game_stats (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    goals
-    shots
-    shots_on_target
-    fouls
-    tackles
-    saves
-    ball_possession
-    offsides
-    freekicks
-    penalties
+    goals INT,
+    shots INT,
+    shots_on_target INT,
+    fouls INT,
+    tackles INT,
+    saves INT,
+    ball_possession INT,
+    offsides INT,
+    freekicks INT,
+    penalties INT,
+    club_id INT,
+    FOREIGN KEY (club_id)
+        REFERENCES clubs(id)
 );
 
-
+CREATE TABLE away_game_stats (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    goals INT,
+    shots INT,
+    shots_on_target INT,
+    fouls INT,
+    tackles INT,
+    saves INT,
+    ball_possession INT,
+    offsides INT,
+    freekicks INT,
+    penalties INT,
+    club_id INT,
+    FOREIGN KEY (club_id)
+        REFERENCES clubs(id)
+);
 
 CREATE TABLE games (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     season CHAR(4) NOT NULL,
-    hour CHAR(5)
-
+    hour CHAR(5),
+    home_game_id INT NOT NULL,
+    FOREIGN KEY(home_game_id)
+        REFERENCES home_game_stats(id),
+    away_game_id INT NOT NULL,
+    FOREIGN KEY(home_game_id)
+        REFERENCES away_game_stats(id)
 );
