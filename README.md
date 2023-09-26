@@ -96,8 +96,9 @@ I do not own the rights of any of it. It's just for fun.
 
 * [Python](https://python.org/)
 * [Pandas](https://pandas.pydata.org/)
-* [Sqlite3](https://www.sqlite.org/)
+* [Mysql](https://www.mysql.com/)
 * [Matplotlib](https://matplotlib.org/)
+* [Jupyter](https://jupyter.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -126,9 +127,11 @@ Clone, setup and running.
    ```sh
    git clone https://github.com/Rochamarc/tournament
    ```
+<!--
 2. ```py
    python season.py -d -r 
    ```
+-->
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -144,13 +147,14 @@ Clone, setup and running.
 * [Ranking](./docs/ranking.md)
 
 <!-- USAGE EXAMPLES -->
-
+<!--
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
+-->
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- ROADMAP -->
