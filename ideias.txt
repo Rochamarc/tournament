@@ -4,31 +4,32 @@
 * Compra e venda de jogadores
 * Sistema de modo de compra e de venda de jogadores baseado em perfis de clubes
 
-# Completos *
 # Organizar melhor os dados dois jogadores, eles agora passam a ser o maior foco devido aos dados gerados por eles.
+    ´De acordo com a versão 3.0 esse sistema de salvamento dos aposentados provavelmente mudará´
     - Aposentadoria para jogadores acima dos 35 - Completo
-        * Criar um arquivo de log e/ou uma nova tabela de jogadores aposentados - Completo
+        * Criar um arquivo de log e/ou uma nova tabela de jogadores aposentados 
 # Database
-    - Criar uma tabela para salvar a conquista de jogores aposentados - Completo
-    - Criar uma tabela que salve a conquista dos jogadores por temporada - Completo
+    - Criar uma tabela para salvar a conquista de jogores aposentados 
+    - Criar uma tabela que salve a conquista dos jogadores por temporada (x)
 # * Completos
 
 
 # Incompletos - Sistema
-    - Contrato 
+    - Contrato (x)
     - Venda 
     - Compra
 
 # Database
-    - Refatorar completamente a base de dados. Refazer a base de dados baseado no modelo em database_studies/novo_diagrama
+    - Refatorar completamente a base de dados. Refazer a base de dados baseado no modelo em database_studies/novo_diagrama (x)
  
 # Sistema
     - Integrar o sistema para funcionar baseado no novo schema de banco de dados
 
-### Mudar a modelagem do banco de dados de acordo com o novo diagrama.
-### mudar o sistema para se adequar ao novo schema utilizando FK
-### migrar completamente para o mysql
+### Mudar a modelagem do banco de dados de acordo com o novo diagrama. (x)
+### mudar o sistema para se adequar ao novo schema utilizando FK (x)
+### migrar completamente para o mysql (x)
 
+´Nao foi implementado mais o escopo do sistema permite que o faça´
 ### criar um sistema de dados muito maior que receba dados de todas as principais ligas mundiais.
 # premier league, laliga, ligue 1, serie a, bundesliga e liga argentina. Todas com somente a primeira divisão. inicialmente.
     * Isso ira criar uma base de dados imensa, que recebera uma enorme quantidade de dados, e escalara vantajosamente a base de dados.
