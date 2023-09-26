@@ -7,7 +7,7 @@ class ClassConstructor:
 		players = []
 
 		for pd in players_data:
-			players.append(Player(pd[0], pd[1], pd[2], pd[3], pd[4], pd[5], pd[6], pd[7], pd[8]))
+			players.append(Player(pd[0], pd[1], pd[2], pd[3], pd[4], pd[5], pd[6], pd[7], pd[8], pd[9]))
 
 		return players
 

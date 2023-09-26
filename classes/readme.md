@@ -11,7 +11,7 @@
 
 * Generating a new player
     ```py
-    Player('name':str, 'nationality':str, 'age':int, 'position':str, 'min_coeff':int, 'max_coeff':int, current_club=None)
+    Player('id':int, 'name':str, 'nationality':str, 'birth':int, 'position':str, 'height': float, 'weight':float, 'foot':str, 'overall':int, 'club_id': int)
     ```
 
 #### Stadium

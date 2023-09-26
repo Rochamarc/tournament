@@ -1,7 +1,7 @@
 from classes.person import Person 
 
 class Player(Person):
-    def __init__(self, id: int, name: str, nationality: str, birth: int, position: str, height: float, weight: float, foot: str, overall: int):
+    def __init__(self, id: int, name: str, nationality: str, birth: int, position: str, height: float, weight: float, foot: str, overall: int, club_id: int):
         super().__init__(name, nationality, birth)
         self.id = id
         self.position = position
@@ -12,6 +12,8 @@ class Player(Person):
         self.foot = foot
         self.overall = overall        
 
+        self.club_id = club_id
+        
     def __repr__(self):
         return f'Player({self.name})'
 
