@@ -19,8 +19,8 @@ from base_game import BaseGame
 # que será separado e upado para suas determinadas tabelas no banco de dados.
 
 class Game(BaseGame):
-    def __init__(self, home_club, away_club, competition, m_round, season, head_stadium=None, verbose=False):
-        super().__init__()
+    def __init__(self, home_club, away_club, competition, m_round, season, head_stadium=None):
+        super().__init__(home_club, away_club, competition, season, m_round)
         self.home_club = home_club 
         self.away_club = away_club
         self.competition = competition 
@@ -37,13 +37,12 @@ class Game(BaseGame):
         self.away_players = np.array([ player for player in self.away_club.start_eleven ])
         self.away_bench = np.array([ player for player in self.away_club.bench ])
 
-        self.verbose = verbose
     
     def start(self):
         ''' Simultes a match 
         '''
         
-        if self.verbose : self.get_score_board() 
+        self.get_score_board() 
 
         self.actions() # start match 
 
@@ -56,9 +55,6 @@ class Game(BaseGame):
         self.get_score_board(end_game=True) # now this is a outside function with lots of arguments
 
         return self.register_winner() 
-
-    def register_winner(self):
-        pass
 
     def actions(self):
         ''' Simulates a football actions, pass, defense, tackle and goals
@@ -121,16 +117,14 @@ class Game(BaseGame):
         other_club = None
         attack_move = None
         sender = None
-        destiny = None
-        attack_move_sucess = None
+        destiny = choice(['back', 'middle', 'front'])
+        attack_move_sucess = self.decision(attacker.overall)
         defense_move = None
         defensor = None
         defense_move_sucess = None
 
         if field_part == 'back':
             attack_move = choice(['pass', 'projection'])
-            destiny = choice(['back', 'middle', 'front'])
-            attack_move_sucess = self.decision(attacker.overall)
 
             defense_move = choice(['interception', 'tackle'])
             defensor = self.select_player(defense_club, 'attacker')
@@ -139,8 +133,6 @@ class Game(BaseGame):
 
         elif field_part == 'middle':
             attack_move = choice(['pass', 'projection'])
-            destiny = choice(['back', 'middle', 'front'])
-            attack_move_sucess = self.decision(attacker.overall)
 
             defense_move = choice(['interception', 'tackle'])
             defensor = self.select_player(defense_club, 'midfielder')
@@ -148,8 +140,6 @@ class Game(BaseGame):
 
         elif field_part == 'front':
             attack_move = choice(['pass', 'finish'])
-            destiny = choice(['back', 'middle', 'front'])
-            attack_move_sucess = self.decision(attacker.overall)
 
             defense_move = choice(['interception', 'tackle']) 
             defensor = self.select_player(defense_club, 'defender')
@@ -393,7 +383,6 @@ class Game(BaseGame):
         starting = np.delete(starting, np.where(starting==player_out)) # out of the field
         bench = np.delete(bench, np.where(bench==player_in)) # out of the bench
         
-        self.add_points([player_in], 1.5) # add some points
         self.add_matches([player_in]) # add matches played
         
         starting = np.append(starting, player_in) # into the pitch
@@ -401,11 +390,12 @@ class Game(BaseGame):
         if club == self.home_club : self.home_subs -= 1
         if club == self.away_club : self.away_subs -= 1
 
-        if self.verbose:
+        ''' this can go to logs, but its not decided yet
             print(f'{club.name}')
             print(f"In: {player_in} {player_in.position}")
             print(f"Out: {player_out} {player_in.position}")
-
+        '''
+        
         self.players_out.append(player_out)
         
         return True
@@ -424,17 +414,6 @@ class Game(BaseGame):
                 return [ b for b in bench if b.position in positions[key] ]
         return None
 
-
-    def add_stats(self, club, move):
-        if club == self.home_club:
-            self.stats['home_stats'][move] += 1
-            if self.move == 'shots on targe' : self.stats['home_stats']['shots'] += 1
-        elif club == self.away_club:
-            self.stats['away_stats'][move] += 1
-            if self.move == 'shots on targe' : self.stats['away_stats']['shots'] += 1
-        else: 
-            raise NameError('Club name doesnt match')
-
     def __str__(self):
         return f"Game({self.home_club} x {self.away_club})"
     
@@ -448,10 +427,3 @@ class Game(BaseGame):
         ''' Boolean: returns True if the team still have subs left '''
         return n_subs > 0
     
-    def add_goal(self, player):
-        ''' Add one goal to player '''
-        pass
-
-    def add_assist(self, player):
-        ''' Add one assist to player '''
-        pass
