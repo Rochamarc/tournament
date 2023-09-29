@@ -9,7 +9,7 @@ from random import choice
 #
 
 class BaseGame:
-    def __init__(self) -> None:
+    def __init__(self, home_team, away_team, competition, season, m_round) -> None:
         self.home_goal = 0
         self.away_goal = 0
 
@@ -19,14 +19,16 @@ class BaseGame:
         self.home_player_goals = defaultdict(int)
         self.away_player_goals = defaultdict(int)
 
+        self.stats = self.def_stats(home_team, away_team)
+
         self.scoreboard = {
-            'competition': self.competition,
-            'season': self.season,
-            'round': self.round,
+            'competition': competition,
+            'season': season,
+            'round': m_round,
             'hour': choice(['11:00', '16:00', '18:00', '19:00', '21:00']),
             'location': self.stadium.location,
-            'home_club': self.home_club,
-            'away_club': self.away_club,
+            'home_club': home_team.name,
+            'away_club': away_team.name,
             'conditions': f"{choice(['Cold', 'Hot'])} {choice(['Bright', 'Cloudless', 'Cloudy', 'Rainy', 'Light Rain'])}"
         }
 
@@ -54,10 +56,10 @@ class BaseGame:
             }
         }
 
-    @property
-    def stats(self) -> dict:
+    def def_stats(self, home_team, away_team) -> dict:
         return {
-        "home_stats": {
+        home_team.name: {
+            'home': True,
             'goals': 0,
             'shots' : 0,
             'shots on target' : 0,
@@ -69,7 +71,8 @@ class BaseGame:
             'free kicks' : 0,
             'penalties': 0
             },
-        "away_stats": {
+        away_team.name: {
+            'home': False,
             'goals': 0,
             'shots' : 0,
             'shots on target' : 0,
@@ -82,3 +85,11 @@ class BaseGame:
             'penalties': 0
             }
         }
+    
+    def add_stats(self, team: str, move: str) -> None:
+        ''' add a value to stats '''   
+
+        self.stats[team][move] += 1 
+        if move == 'shots on target' : self.stats[team]['shots'] += 1
+        
+        return None 
