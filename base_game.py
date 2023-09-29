@@ -1,6 +1,13 @@
 from collections import defaultdict
 from random import choice 
 
+# Logs will storage the game data. All info that was storage inside the class
+# will now be inside the logs, and later upload to database
+#
+#
+#
+#
+
 class BaseGame:
     def __init__(self) -> None:
         self.home_goal = 0
@@ -21,6 +28,30 @@ class BaseGame:
             'home_club': self.home_club,
             'away_club': self.away_club,
             'conditions': f"{choice(['Cold', 'Hot'])} {choice(['Bright', 'Cloudless', 'Cloudy', 'Rainy', 'Light Rain'])}"
+        }
+
+        self.logs = {
+            "game_stats": self.stats,
+            "scoreboard": self.scoreboard,
+            "player_stats": {
+                "assists": defaultdict(int),
+                "goals": defaultdict(int),
+                "tackles": defaultdict(int),
+                "defenses": defaultdict(int),
+                "dificult_defenses": defaultdict(int),
+                "clearances": defaultdict(int),
+                "fouls": defaultdict(int)
+            },
+            "players": {
+                "home_club": [],
+                "away_club": []
+            },
+            "others": {
+                "winner": [],
+                "loser": [],
+                "home_goals": self.home_goal,
+                "away_goals": self.away_goal                
+            }
         }
 
     @property
