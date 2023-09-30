@@ -9,9 +9,9 @@ class Formation:
 
         # only use reverse on the first one to use the pop method
         starting_eleven.append( cls.sorted_by_overall(cls.select_keepers(squad), reverse=True).pop() ) 
-        starting_eleven.append( cls.sorted_by_overall(cls.select_backs(squad))[0:4] )
-        starting_eleven.append( cls.sorted_by_overall(cls.select_mids(squad))[0:3] )
-        starting_eleven.append( cls.sorted_by_overall(cls.select_fronts(squad))[0:3] )
+        starting_eleven +=  cls.sorted_by_overall(cls.select_backs(squad))[0:4] 
+        starting_eleven +=  cls.sorted_by_overall(cls.select_mids(squad))[0:3] 
+        starting_eleven +=  cls.sorted_by_overall(cls.select_fronts(squad))[0:3] 
 
         return starting_eleven
     
@@ -38,5 +38,13 @@ class Formation:
     
     @classmethod
     def sorted_by_overall(cls, players: list, reverse = False) -> list:
-        players = sorted(players, key=players.overall, reverse=reverse)
+        players = sorted(players, key=lambda player: player.overall, reverse=reverse)
         return players
+
+if __name__ == "__main__":
+    pass 
+    '''
+    ceara = Club()
+    ceara.start_eleven = formation.starting_eleven(ceara.squad)
+    ceara.bench = formation.backups(ceara.squad, ceara.start_eleven)
+    '''
