@@ -137,3 +137,19 @@ INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 57, 3)
 INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 58, 3);
 INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 59, 3);
 INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 60, 3);
+
+/* GENERIC STADIUMS */
+
+INSERT INTO stadiums(name, capacity, location) VALUES('Rei Pelé Arena', 100000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Estádio Porto Alegre', 65000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Estádio Arthur Antunes Coimbra', 70000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Arena do Castelo', 90000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Arena Dom Pedro II', 150000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Estádio do Tupiniquim', 30000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Zumbi dos Palmares', 30000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Arena Princesa Izabel', 62000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Arena Joviedade', 200000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Estádio da Paulista', 150000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Estádio Sertanejo', 120000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Arena Mário Jorge Lobo Zagallo', 70000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Arena João Leite Ortiz', 35000 ,'Brazil');
