@@ -1,4 +1,4 @@
-SELECT divisons.id, divisons.name, competitions.name 
-FROM divisons 
+SELECT divisions.id, divisions.name, competitions.name 
+FROM divisions 
 INNER JOIN competitions 
     ON competition_id=competitions.id;

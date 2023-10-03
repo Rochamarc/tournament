@@ -1,8 +1,8 @@
 INSERT INTO competitions VALUES(NULL, 'Campeonato Brasileiro');
 
-INSERT INTO divisons VALUES(NULL, 'Serie A', 1);
-INSERT INTO divisons VALUES(NULL, 'Serie B', 1);
-INSERT INTO divisons VALUES(NULL, 'Serie C', 1);
+INSERT INTO divisions VALUES(NULL, 'Serie A', 1);
+INSERT INTO divisions VALUES(NULL, 'Serie B', 1);
+INSERT INTO divisions VALUES(NULL, 'Serie C', 1);
 
 /* INSERT SERIE A CLUBS OF 2022 SEASON */
 
@@ -27,30 +27,30 @@ INSERT INTO clubs VALUES(NULL, 'Sport Recife', 'Brazil');
 INSERT INTO clubs VALUES(NULL, 'Bahia', 'Brazil');
 INSERT INTO clubs VALUES(NULL, 'Atlético Goianiense', 'Brazil');
 
-/* INSERTING CLUBS OF THE FIRST DIVISON FROM THE BRAZILLAN CHAMPIONSHIP */
+/* INSERTING CLUBS OF THE FIRST division FROM THE BRAZILLAN CHAMPIONSHIP */
 
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 1, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 2, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 3, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 4, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 5, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 6, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 7, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 8, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 9, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 10, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 11, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 12, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 13, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 14, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 15, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 16, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 17, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 18, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 19, 1);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 20, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 1, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 2, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 3, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 4, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 5, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 6, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 7, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 8, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 9, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 10, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 11, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 12, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 13, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 14, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 15, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 16, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 17, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 18, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 19, 1);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 20, 1);
 
-/* SECOND DIVISON */
+/* SECOND division */
 
 INSERT INTO clubs VALUES(NULL, "Vasco da Gama", 'Brazil');
 INSERT INTO clubs VALUES(NULL, "Botafogo", 'Brazil');
@@ -73,28 +73,28 @@ INSERT INTO clubs VALUES(NULL, "Vitória", 'Brazil');
 INSERT INTO clubs VALUES(NULL, "Confiança", 'Brazil');
 INSERT INTO clubs VALUES(NULL, "Brasil de Pelotas", 'Brazil');
 
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 21, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 22, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 23, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 24, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 25, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 26, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 27, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 28, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 29, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 30, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 31, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 32, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 33, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 34, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 35, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 36, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 37, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 38, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 39, 2);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 40, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 21, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 22, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 23, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 24, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 25, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 26, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 27, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 28, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 29, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 30, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 31, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 32, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 33, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 34, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 35, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 36, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 37, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 38, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 39, 2);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 40, 2);
 
-/* THIRD DIVISON*/
+/* THIRD division*/
 
 INSERT INTO clubs VALUES(NULL, "Paysandu", "Brazil");
 INSERT INTO clubs VALUES(NULL, "Tombense", "Brazil");
@@ -117,23 +117,39 @@ INSERT INTO clubs VALUES(NULL, "Mirasol", "Brazil");
 INSERT INTO clubs VALUES(NULL, "Paraná", "Brazil");
 INSERT INTO clubs VALUES(NULL, "Oeste", "Brazil");
 
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 41, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 42, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 43, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 44, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 45, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 46, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 47, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 48, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 49, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 50, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 51, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 52, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 53, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 54, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 55, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 56, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 57, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 58, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 59, 3);
-INSERT INTO championships (season, club_id, divison_id ) VALUES ('2022', 60, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 41, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 42, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 43, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 44, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 45, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 46, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 47, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 48, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 49, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 50, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 51, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 52, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 53, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 54, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 55, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 56, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 57, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 58, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 59, 3);
+INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 60, 3);
+
+/* GENERIC STADIUMS */
+
+INSERT INTO stadiums(name, capacity, location) VALUES('Rei Pelé Arena', 100000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Estádio Porto Alegre', 65000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Estádio Arthur Antunes Coimbra', 70000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Arena do Castelo', 90000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Arena Dom Pedro II', 150000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Estádio do Tupiniquim', 30000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Zumbi dos Palmares', 30000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Arena Princesa Izabel', 62000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Arena Joviedade', 200000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Estádio da Paulista', 150000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Estádio Sertanejo', 120000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Arena Mário Jorge Lobo Zagallo', 70000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, location) VALUES('Arena João Leite Ortiz', 35000 ,'Brazil');

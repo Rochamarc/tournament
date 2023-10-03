@@ -1,0 +1,14 @@
+- Otimização 
+    * Criar contratos para treinadores (x)
+    * Reconstruir os clubes de acordo com a nova versão (x)
+
+- Criação
+    * Criar os demais controllers que fazem o simulador rodar 
+    * Connectar os controllers aos arquivos que fazem o simulador rodar
+
+- Debug
+    * Rodar o simulador de acordo com as novas versões ´basicamente game.py´
+
+- Refatoração
+    * Refatorar provavelmente 70% do game.py
+    * Redistribuição de funcionalidades do game.py para outros modulos/classes/funções 

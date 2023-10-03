@@ -1,8 +1,0 @@
-usage: python season.py [-h] [-d] [-r]
-
-Run the script that generates a n number of seasons
-
-options:
-    -h --help               show this massage
-    -d --defaul             starts a season in 2021, and run 1 season
-    -r --reset-database     run init_db.py and reset the database 
