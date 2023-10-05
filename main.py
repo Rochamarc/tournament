@@ -3,6 +3,11 @@ from db.players_controller import PlayersController
 from db.clubs_controller import ClubsController
 from classes.formation import Formation
 
+def define_formation(clubs: list) -> None:
+    for club in clubs:
+        club.start_eleven = formation.starting_eleven(club.squad)
+        club.bench = formation.backups(club.squad, club.start_eleven)
+
 cc = ClassConstructor()
 players_controller = PlayersController()
 clubs_controller = ClubsController()
@@ -27,19 +32,9 @@ serie_c_clubs = cc.clubs(serie_c)
 serie_c_clubs = cc.add_players_to_clubs(serie_c_clubs, players)
 
 
-for club in serie_a_clubs:
-    ''' Define the start eleven and the bench '''
-    club.start_eleven = formation.starting_eleven(club.squad)
-    club.bench = formation.backups(club.squad, club.start_eleven)
+define_formation(serie_a_clubs)
+define_formation(serie_b_clubs)
+define_formation(serie_c_clubs)
 
-
-for club in serie_b_clubs:
-    ''' Define the start eleven and the bench '''
-    club.start_eleven = formation.starting_eleven(club.squad)
-    club.bench = formation.backups(club.squad, club.start_eleven)
-
-
-for club in serie_c_clubs:
-    ''' Define the start eleven and the bench '''
-    club.start_eleven = formation.starting_eleven(club.squad)
-    club.bench = formation.backups(club.squad, club.start_eleven)
+print(serie_a_clubs[0].start_eleven)
+print(serie_a_clubs[0].bench)
