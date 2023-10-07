@@ -1,5 +1,6 @@
 from classes.player import Player
 from classes.club import Club
+from classes.stadium import Stadium
 
 class ClassConstructor:
 	@staticmethod
@@ -18,6 +19,14 @@ class ClassConstructor:
 		'''
 
 		return [ Club(cd[0], cd[1], cd[2]) for cd in clubs_data ]
+	
+	@staticmethod
+	def stadiums(stadiums_data: list) -> list[Stadium]:
+		''' Receive a stadium data list by the following pattern => 
+		[ stadium_name, stadium_location, stadium.capacity ] 
+		return a list of Stadium objects
+		'''
+		return [ Stadium(sd[0], sd[1], sd[2]) for sd in stadiums_data ] 
 	
 
 	@staticmethod
