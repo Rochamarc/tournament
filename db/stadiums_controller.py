@@ -9,7 +9,7 @@ class StadiumsController(BaseController):
 
         cursor.execute(cls.get_select_query('select_stadiums'))
 
-        stadiums = cursor.fetchall
+        stadiums = cursor.fetchall()
 
         conn.close()
         return stadiums 
