@@ -48,3 +48,13 @@ serie_c_schedule = class_const.define_schedule(serie_c_clubs)
 serie_a_games = class_const.prepare_games(serie_a_schedule, stadiums, 'Campeonato Brasileiro Serie A', 2022)
 serie_b_games = class_const.prepare_games(serie_b_schedule, stadiums, 'Campeonato Brasileiro Serie B', 2022)
 serie_c_games = class_const.prepare_games(serie_c_schedule, stadiums, 'Campeonato Brasileiro Serie C', 2022)
+
+# Starting this matches
+for game in serie_a_games:
+    game.start()
+
+for game in serie_b_games:
+    game.start()
+
+for game in serie_c_games:
+    game.start()
