@@ -89,6 +89,18 @@ CREATE TABLE overall(
     player_id INT
 );
 
+/* RETIRING AND BACKUPS */
+
+CREATE TABLE retired_players(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_player INT,    
+    name VARCHAR(100) NOT NULL,
+    nationality VARCHAR(100) NOT NULL,
+    position CHAR(2),
+    birth CHAR(4),
+    foot CHAR(1)
+);
+
 /* CONSTRAINTS */
 
 ALTER TABLE player_contracts
@@ -125,3 +137,17 @@ ALTER TABLE overall
 ADD CONSTRAINT fk_overall_players
 FOREIGN KEY(player_id)
 REFERENCES players(id);
+
+/* ADD TRIGGERS */
+
+DELIMITER $
+
+CREATE TRIGGER rtr_players 
+BEFORE DELETE ON players 
+FOR EACH ROW
+BEGIN 
+    INSERT INTO retired_players VALUES(NULL, OLD.id, OLD.name, OLD.nationality, OLD.position, OLD.birth, OLD.foot);
+END
+$
+
+DELIMITER ;
