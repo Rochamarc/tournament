@@ -9,7 +9,7 @@ from random import choice
 #
 
 class BaseGame:
-    def __init__(self, home_team, away_team, competition, season, m_round) -> None:
+    def __init__(self, home_team, away_team, competition, season, m_round, location) -> None:
         self.home_goal = 0
         self.away_goal = 0
 
@@ -21,12 +21,14 @@ class BaseGame:
 
         self.stats = self.def_stats(home_team, away_team)
 
+        self.location = location
+
         self.scoreboard = {
             'competition': competition,
             'season': season,
             'round': m_round,
             'hour': choice(['11:00', '16:00', '18:00', '19:00', '21:00']),
-            'location': self.stadium.location,
+            'location': self.location,
             'home_club': home_team.name,
             'away_club': away_team.name,
             'conditions': f"{choice(['Cold', 'Hot'])} {choice(['Bright', 'Cloudless', 'Cloudy', 'Rainy', 'Light Rain'])}"
