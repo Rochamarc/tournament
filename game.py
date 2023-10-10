@@ -19,7 +19,7 @@ from base_game import BaseGame
 # que será separado e upado para suas determinadas tabelas no banco de dados.
 
 class Game(BaseGame):
-    def __init__(self, home_club, away_club, competition, m_round, season, head_stadium=None):
+    def __init__(self, home_club, away_club, competition, m_round, season):
         super().__init__(home_club, away_club, competition, season, m_round)
         self.home_club = home_club 
         self.away_club = away_club
@@ -27,8 +27,6 @@ class Game(BaseGame):
         self.round = m_round
         self.season = season
         
-        self.head_stadium = head_stadium
-
         self.players_out = [] # list dedicated to players the are subbed
         
         self.home_players = np.array([ player for player in self.home_club.start_eleven ])
