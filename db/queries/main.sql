@@ -1,8 +1,8 @@
 /* DATABASE */
 
-CREATE DATABASE tournament_2;
+CREATE DATABASE tournament;
 
-USE tournament_2;
+USE tournament;
 
 /* TABLES */
 
