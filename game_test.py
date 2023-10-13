@@ -48,7 +48,8 @@ class Game:
         # update logs numbers
         self.update_scoreboard_on_logs()
         self.update_goals_on_logs()
-
+        self.update_winner_on_logs()
+        
         return self.logs 
     
     def move(self, attack_club, defense_club, field_part, sender=None):
@@ -420,8 +421,22 @@ class Game:
         ''' Calculate the diff between home and away goals, and update
         logs winner and lose. Or will return a tie(draw) and update 
         the draw to True and not add any club'''
-        pass 
+        if self.home_goal == self.away_goal:
+            self.logs['others']['draw'] = True 
+            return None
+        
+        if self.home_goal > self.away_goal:
+            winner = self.home.name
+            loser = self.away.name
+        else:
+            winner = self.away.name
+            loser = self.home.name 
 
+        self.logs['others']['winner'] = winner
+        self.logs['others']['loser'] = loser
+        
+        return None
+    
     def update_player_stats_on_logs(self, stats, player):
         ''' Add one item to the player stats that is a default dict '''
         self.logs['player_stats'][stats][player] += 1
