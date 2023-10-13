@@ -3,7 +3,7 @@ from classes.formation import Formation
 from classes.player import Player
 from classes.stadium import Stadium
 
-from game_test import Game 
+from game import Game 
 
 from random import choice 
 
