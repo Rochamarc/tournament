@@ -45,7 +45,7 @@ CREATE TABLE player_contracts(
     salary INT NOT NULL,
     termination_fine INT,
     club_id INT,
-    player_id INT UNIQUE
+    player_id INT
 );
 
 CREATE TABLE coach_contracts(
@@ -55,7 +55,7 @@ CREATE TABLE coach_contracts(
     salary INT NOT NULL,
     termination_fine INT,
     club_id INT,
-    coach_id INT UNIQUE
+    coach_id INT
 );
 
 CREATE TABLE stats(
