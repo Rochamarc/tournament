@@ -198,7 +198,7 @@ class Game:
                         
                         field_part = 'middle'
          
-                        self.finish(keeper, defensor, self.select_player(attack_club, 'midfielder'), attacker, attack_club)
+                        self.finish(self.select_player(attack_club, 'midfielder'), attacker, attack_club)
                 else:
                     ''' Kick Out '''
                 
@@ -317,7 +317,7 @@ class Game:
         self.logs['game_stats'][club_finish.name]['goals'] += 1
         self.logs['player_stats']['goals'][attacker] += 1
 
-        if assist : self.logs['players_stats']['assists'][midfielder] += 1 
+        if assist : self.logs['player_stats']['assists'][midfielder] += 1 
 
         return True
     
@@ -413,8 +413,8 @@ class Game:
         
     def update_goals_on_logs(self) -> None:
         ''' Update {others : home_goals: int, away_goals: int } on logs '''
-        self.logs['other']['home_goals'] = self.home_goal
-        self.logs['other']['away_goals'] = self.away_goal
+        self.logs['others']['home_goals'] = self.home_goal
+        self.logs['others']['away_goals'] = self.away_goal
 
     def update_winner_on_logs(self) -> None:
         ''' Calculate the diff between home and away goals, and update
