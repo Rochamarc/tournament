@@ -3,7 +3,7 @@ from collections import defaultdict
 def retuns_logs(stats: dict, scoreboard: str, home_goal: int, away_goal: int) -> dict:
     ''' Return a dict with the game logs '''
 
-    logs = {
+    return {
         "game_stats": stats,
         "scoreboard": scoreboard,
         "player_stats": {
