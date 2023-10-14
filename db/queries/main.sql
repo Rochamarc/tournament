@@ -101,6 +101,34 @@ CREATE TABLE retired_players(
     foot CHAR(1)
 );
 
+
+CREATE TABLE games(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    season CHAR(4) NOT NULL,
+    hour CHAR(5) NOT NULL,
+    climate VARCHAR(5),
+    weather VARCHAR(10),
+    home_game_stats_id INT,
+    away_game_stats_id INT
+);
+
+
+CREATE TABLE game_stats(
+    id INT PRIMARY KEY AUTO_INCREMENT,         
+    goals INT DEFAULT 0,           
+    shots INT DEFAULT 0,           
+    shots_on_target INT DEFAULT 0, 
+    fouls INT DEFAULT 0,           
+    tackles INT DEFAULT 0,         
+    saves INT DEFAULT 0,           
+    ball_possession INT DEFAULT 0, 
+    offsides INT DEFAULT 0,        
+    freekicks INT DEFAULT 0,       
+    penalties INT DEFAULT 0,       
+    club_id INT DEFAULT 0
+);
+
+
 /* CONSTRAINTS */
 
 ALTER TABLE player_contracts
@@ -137,6 +165,22 @@ ALTER TABLE overall
 ADD CONSTRAINT fk_overall_players
 FOREIGN KEY(player_id)
 REFERENCES players(id);
+
+ALTER TABLE games
+ADD CONSTRAINT fk_games_home_game_stats
+FOREIGN KEY(home_game_stats_id)
+REFERENCES game_stats(id);
+
+ALTER TABLE games
+ADD CONSTRAINT fk_games_away_game_stats
+FOREIGN KEY(away_game_stats_id)
+REFERENCES game_stats(id);
+
+ALTER TABLE game_stats 
+ADD CONSTRAINT fk_game_stats_clubs
+FOREIGN KEY(club_id)
+REFERENCES clubs(id);
+
 
 /* ADD TRIGGERS */
 
