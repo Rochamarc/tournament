@@ -1,9 +1,16 @@
 from collections import defaultdict
+from random import choice, randint
+
 
 
 class BaseGame:
-    def __init__(self, home, away):
+    def __init__(self, home, away, season, stadium, ticket):
         ''' This will handle all that code that have to do with the game data '''
+        
+        # define the audience with the whole stadium capacity with half of the capacity
+        audience = randint((stadium.capacity // 2), stadium.capacity)
+        audience_full_price = audience // 1.3,
+        audience_half_price = audience - audience_full_price
 
         self.stats = {
             home.name: {
@@ -18,7 +25,7 @@ class BaseGame:
                 'offsides' : 0,
                 'free kicks' : 0,
                 'penalties': 0
-                },
+            },
             away.name: {
                 'home': False,
                 'goals': 0,
@@ -31,7 +38,7 @@ class BaseGame:
                 'offsides' : 0,
                 'free kicks' : 0,
                 'penalties': 0
-                }
+            }
         }
 
         self.logs = {
@@ -57,6 +64,23 @@ class BaseGame:
                 "draw": False,
                 "home_goals": 0,
                 "away_goals": 0                
+            },
+            "field": {
+                "location": stadium.location,
+                "stadium": stadium.name,
+                "audience": audience,
+                "conditions": {
+                    "season": season,
+                    "climate": choice(['cold','hot']),
+                    "weather": choice(['rain', 'rainy', 'cloudy', 'sunny', 'cloudless', 'stuffy', 'light rain']),
+                    "hour": choice('11:00','14:00','16:00','18:00','20:00','22:00')
+                }
+            },
+            "finances": {
+                "ticket_price": ticket,
+                "ticket_half_price": ticket // 2,
+                "audience_full_price": audience_full_price,
+                "audience_half_price": audience_half_price
             }
         }
 
