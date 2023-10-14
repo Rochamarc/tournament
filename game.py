@@ -3,8 +3,8 @@ from random import choice, randint
 from base_game import BaseGame
 
 class Game(BaseGame):
-    def __init__(self, home, away, competition, season, match_round, stadium):
-        super().__init__(home, away)
+    def __init__(self, home, away, competition, season, match_round, stadium, ticket=50):
+        super().__init__(home, away, season, stadium, ticket)
 
         self.home = home 
         self.away = away 
