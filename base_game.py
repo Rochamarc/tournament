@@ -9,7 +9,7 @@ class BaseGame:
         
         # define the audience with the whole stadium capacity with half of the capacity
         audience = randint((stadium.capacity // 2), stadium.capacity)
-        audience_full_price = audience // 1.3,
+        audience_full_price = audience // 1.3
         audience_half_price = audience - audience_full_price
 
         self.stats = {
@@ -73,7 +73,7 @@ class BaseGame:
                     "season": season,
                     "climate": choice(['cold','hot']),
                     "weather": choice(['rain', 'rainy', 'cloudy', 'sunny', 'cloudless', 'stuffy', 'light rain']),
-                    "hour": choice('11:00','14:00','16:00','18:00','20:00','22:00')
+                    "hour": choice(['11:00','14:00','16:00','18:00','20:00','22:00'])
                 }
             },
             "finances": {
