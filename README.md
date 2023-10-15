@@ -86,7 +86,7 @@ Licences:
 * Campeonato brasileiro serie A
 * Campeonato brasileiro serie B
 * Campeonato brasileiro serie C
-* Libertadores da America (2020)
+<!-- * Libertadores da America (2020) -->
 
 I do not own the rights of any of it. It's just for fun.
 
@@ -124,14 +124,30 @@ This is an example of how to list things you need to use the software and how to
 Clone, setup and running.
 
 1. Clone the repo
-   ```sh
-   git clone https://github.com/Rochamarc/tournament
-   ```
-<!--
-2. ```py
-   python season.py -d -r 
-   ```
--->
+    ```sh
+    git clone https://github.com/Rochamarc/tournament
+    ```
+2. Initialize Name Generator Database 
+    ```sh
+    ./NameGenerator/database_initialize.sh  
+    ```
+3. Run
+    ```nb
+      ./NameGenerator/Insert_first_names.ipynb
+      ./NameGeneerator/Insert_last_names.ipynb
+    ```
+4. Initialize Tournament Database
+    ```sh
+      ./database_initialize.sh
+    ```
+5. Run
+    ```sh
+      ./coaches_creation.ipynb
+      ./insert_coaches_contract.ipnyb
+      ./players_creation.ipnyb
+      ./insert_players_overall.ipnyb
+    ```
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
