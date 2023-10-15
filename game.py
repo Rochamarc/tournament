@@ -19,9 +19,7 @@ class Game(BaseGame):
         self.away_players = self.away.start_eleven
         self.away_bench = self.away.bench
 
-
         self.add_players_on_logs()
-
 
     def start(self) -> dict:
         ''' Initialize a match, return the game logs '''
@@ -46,10 +44,8 @@ class Game(BaseGame):
         ''' Dict with info of move
          { 'destiny': '', 'club_possession': '', 'other_club': '', 'sender': '' }
         '''
-
         move_info = {}
 
-        
         attacker = self.select_player(attack_club, 'any') # select any player                
 
         # Select any player
@@ -88,15 +84,12 @@ class Game(BaseGame):
             defense_move = choice(['ball_steal', 'tackle'])
             defensor = self.select_player(defense_club, 'attacker')
             defense_move_sucess = self.decision(defensor.overall)
-
-
         elif field_part == 'middle':
             attack_move = choice(['pass', 'projection'])
 
             defense_move = choice(['ball_steal', 'tackle'])
             defensor = self.select_player(defense_club, 'midfielder')
             defense_move_sucess = self.decision(defensor.overall)
-
         elif field_part == 'front':
             attack_move = choice(['pass', 'finish'])
 
@@ -113,16 +106,15 @@ class Game(BaseGame):
             field_part = field_part
             ''' Defense Sucess '''
             club_possession, other_club = defense_club, attack_club
+            sender = defensor
             
             if defense_move == 'tackle':
                 ''' Tackle '''
-                sender = defensor
                 self.update_player_stats_on_logs('tackles', defensor)
                 self.update_game_stats_on_logs(defense_club.name, 'tackles')
 
             elif defense_move == 'ball_steal': 
-                ''' Ball steal '''
-                sender = defensor                
+                ''' Ball steal '''              
                 self.update_player_stats_on_logs('stolen_balls', defensor)
             
             else:
@@ -156,14 +148,12 @@ class Game(BaseGame):
  
                     # I THINK THAT THIS HAS TO B = INSTEAD OF ==
                     if goal:
-                        field_part == 'middle'
+                        field_part = 'middle'
                     else:
-                        field_part == 'back'
+                        field_part = 'back'
                     
                     # Here we invert the sides again
-                    club_possession, other_club = defense_club, attack_club
-                    
-            
+                    club_possession, other_club = defense_club, attack_club              
             elif attack_move == 'finish':
                 '''
                 This is NOT a foul by the defensive club, OR a sucessfull
@@ -204,7 +194,6 @@ class Game(BaseGame):
                 
                 # Invert the possesion and club 
                 club_possession, other_club = defense_club, attack_club
-
             else:
                 """ Attack move != 'finish'. This could be a pass or porjection """
 
@@ -267,19 +256,11 @@ class Game(BaseGame):
             # save the defense on logs as a DD
             # in the future the database will have a penalty defense column
             if defense : self.update_player_stats_on_logs('dificult_defenses', keeper) 
+            self.update_game_stats_on_logs(club_finish.name, 'shots on target')
 
             return False
         
-        # THIS CAN BE A FUNCTION
-        if club_finish == self.home:
-            ''' Here we have a goal and add the logs '''
-            self.home_goal += 1
-            self.home_player_goals[attacker] += 1 
-        elif club_finish == self.away:
-            self.away_goal += 1
-            self.away_player_goals[attacker] += 1
-        else:
-            raise NameError("Club finish doesn't match with home or away club")
+        self.add_a_goal(club_finish, attacker)
 
         # update the game_stats & player_stats on logs
         self.update_game_stats_on_logs(club_finish.name, 'goals')
@@ -292,15 +273,7 @@ class Game(BaseGame):
 
         assist = choice([True,False]) # defines if the goal have an assist
 
-        # THIS CAN BE A FUNCTION
-        if club_finish == self.home:
-            self.home_goal += 1
-            self.home_player_goals[attacker] += 1 
-        elif club_finish == self.away:
-            self.away_goal += 1
-            self.away_player_goals[attacker] += 1
-        else:
-            raise NameError("Club finish doesn't match with home or away club")
+        self.add_a_goal(club_finish, attacker)
 
         # Add stats to logs
         self.logs['game_stats'][club_finish.name]['goals'] += 1
@@ -313,23 +286,10 @@ class Game(BaseGame):
     def subs(self, club) -> bool:
         ''' Will make a sub if everything goes well return True '''
 
-        # this is for the self.add_player_on_logs only
-        home_away = ''
-
-        # THIS CAN BE A FUNCTION
-        # Defines s_check, startin, bench, n_subs 
-        if club == self.home:
-            s_check = self.check_subs(self.home_subs)
-            starting = self.home_players
-            bench = self.home_bench
-            home_away = 'home'
-        elif club == self.away:
-            s_check = self.check_subs(self.away_subs)
-            starting = self.away_players
-            bench = self.away_bench
-            home_away = 'away'
-        else:
-            raise NameError('Club not match home_team.name or away_team.name')
+        # Defines s_check, startin, bench, n_subs
+        sub_opt = self.sub_options(club) 
+        s_check, starting = sub_opt[0], sub_opt[1]
+        bench, home_away = sub_opt[2], sub_opt[3]
         
         # Select the player that is going to leave
         player_out = choice(starting) 
@@ -337,37 +297,53 @@ class Game(BaseGame):
         # Select the possible players based on the position
         options = self.set_options(player_out.position, bench)
         
-        if not s_check or not options:
-            return False 
-
-        # Select player the will enter the field
-        player_in = choice(options) 
-        
-        # Remove subed player from starting eleven & bench
-        starting.remove(player_out) 
-        bench.remove(player_in) 
-        
-        # Add player to starting eleven
-        starting.append(player_in) 
-        
-        # Remove one from subb
-        if club == self.home : self.home_subs -= 1
-        if club == self.away : self.away_subs -= 1
-        
-        # add player_in on the logs
-        self.add_player_on_logs(home_away, player_in)
-        
-        return True
+        if s_check and options:
+            # Select player the will enter the field
+            player_in = choice(options) 
+            
+            # Remove subed player from starting eleven & bench
+            starting.remove(player_out) 
+            bench.remove(player_in) 
+            
+            # Add player to starting eleven
+            starting.append(player_in) 
+            
+            # Remove one from subb
+            self.remove_one_sub(club)
+            
+            # add player_in on the logs
+            self.add_player_on_logs(home_away, player_in)
+            
+            return True
+        return False 
     
+    def add_a_goal(self, club, attacker) -> None:
+        if club == self.home:
+            self.home_goal += 1
+            self.home_player_goals[attacker] += 1
+            return None 
+        
+        self.away_goal += 1
+        self.away_player_goals[attacker] += 1
+        return None
+
+    def sub_options(self, club) -> list:
+        ''' Return the s_check, starting, bench & home_away '''
+        if club == self.home:
+            return [ self.check_subs(self.home_subs), self.home_players, self.home_bench, 'home' ]
+        return [self.check_subs(self.away_subs), self.away_players, self.away_bench, 'away']
+
+    def remove_one_sub(self, club) -> None:
+        ''' Remove one sub '''
+        if club == self.home : self.home_subs -= 1
+        if club == self.away : self.away_subs -= 1        
+
     def set_options(self, player_position, bench):
         ''' Return a list of players for a position that matches the player_position '''
         
-        positions = {
-            "defenders": [ 'CB', 'RB', 'LB'],
-            "midfielders": [ 'DM', 'CM', 'AM'],
-            "attackers": [ 'CF', 'SS', 'WG' ]
-        }
-
+        positions = self.positions.copy()
+        del positions['goalkeeper']
+        
         for key, item in positions.items():
             if player_position in item:
                 return [ b for b in bench if b.position in positions[key] ]
@@ -387,4 +363,3 @@ class Game(BaseGame):
 
     def __repr__(self) -> str:
         return 'Game({} x {})'.format(self.home, self.away)
-
