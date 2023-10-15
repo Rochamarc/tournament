@@ -9,8 +9,8 @@ class GamesController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        for game in games_data:
-            cursor.execute('', games_data)
+        for game_data in games_data:
+            cursor.execute(cls.get_insert_query('insert_game'), game_data)
 
         conn.commit()
         conn.close()
@@ -24,9 +24,9 @@ class GamesController(BaseController):
 
         cursor.execute(cls.get_insert_query('insert_game_stats'), game_data)
         conn.commit()
-    
-        conn.close()
 
+        conn.close()
+        return cls.select_last_id()
     
     @classmethod
     def select_last_id(cls) -> list:
