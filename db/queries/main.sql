@@ -108,6 +108,9 @@ CREATE TABLE games(
     hour CHAR(5) NOT NULL,
     climate VARCHAR(5),
     weather VARCHAR(10),
+    stadium VARCHAR(100) NOT NULL,
+    audience INT,
+    ticket_value INT,
     home_game_stats_id INT,
     away_game_stats_id INT
 );
