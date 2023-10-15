@@ -1,3 +1,3 @@
 SELECT id 
-FROM away_game_stats 
+FROM game_stats 
 ORDER BY id DESC LIMIT 1;
