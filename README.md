@@ -141,7 +141,7 @@ Clone, setup and running.
       ./database_initialize.sh
     ```
 5. Run
-    ```sh
+    ```py
       ./coaches_creation.ipynb
       ./insert_coaches_contract.ipnyb
       ./players_creation.ipnyb
