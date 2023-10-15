@@ -19,14 +19,6 @@ class Game(BaseGame):
         self.away_players = self.away.start_eleven
         self.away_bench = self.away.bench
 
-        self.home_goal = 0
-        self.away_goal = 0
-
-        self.home_player_goals = defaultdict(int)
-        self.away_player_goals = defaultdict(int)
-
-        self.home_subs = 5
-        self.away_subs = 5
 
         self.add_players_on_logs()
 
@@ -63,6 +55,7 @@ class Game(BaseGame):
         # Select any player
         if sender : attacker = sender                 
 
+        # THIS CAN BE A FUCTION
         # Check and execute a Substitution
         if attack_club == self.home:
             if self.home_subs > 0: 
@@ -125,6 +118,7 @@ class Game(BaseGame):
                 ''' Tackle '''
                 sender = defensor
                 self.update_player_stats_on_logs('tackles', defensor)
+                self.update_game_stats_on_logs(defense_club.name, 'tackles')
 
             elif defense_move == 'ball_steal': 
                 ''' Ball steal '''
@@ -160,7 +154,7 @@ class Game(BaseGame):
 
                     goal = self.penalty(keeper, shooter, attack_club)
  
-
+                    # I THINK THAT THIS HAS TO B = INSTEAD OF ==
                     if goal:
                         field_part == 'middle'
                     else:
@@ -192,6 +186,7 @@ class Game(BaseGame):
                         # update defensor logs move
                         self.update_player_stats_on_logs('defenses', keeper)                
                         self.update_game_stats_on_logs(defense_club.name, 'saves')
+                        self.update_game_stats_on_logs(attack_club.name, 'shots on target')
                     else:
                         ''' GOAL '''
                         
@@ -250,14 +245,7 @@ class Game(BaseGame):
         if player_position == 'any':
             return choice(start_eleven)
 
-        positions = {
-            "goalkeeper": [ 'GK' ],
-            "defender": [ 'CB', 'RB', 'LB'],
-            "midfielder": [ 'DM', 'CM', 'AM', 'LM', 'RM'],
-            "attacker": [ 'CF', 'SS', 'WG' ]
-        }
-
-        player = choice([player for player in start_eleven if player.position in positions[player_position]])
+        player = choice([player for player in start_eleven if player.position in self.positions[player_position]])
 
         return player 
 
@@ -282,6 +270,7 @@ class Game(BaseGame):
 
             return False
         
+        # THIS CAN BE A FUNCTION
         if club_finish == self.home:
             ''' Here we have a goal and add the logs '''
             self.home_goal += 1
@@ -303,6 +292,7 @@ class Game(BaseGame):
 
         assist = choice([True,False]) # defines if the goal have an assist
 
+        # THIS CAN BE A FUNCTION
         if club_finish == self.home:
             self.home_goal += 1
             self.home_player_goals[attacker] += 1 
@@ -326,6 +316,7 @@ class Game(BaseGame):
         # this is for the self.add_player_on_logs only
         home_away = ''
 
+        # THIS CAN BE A FUNCTION
         # Defines s_check, startin, bench, n_subs 
         if club == self.home:
             s_check = self.check_subs(self.home_subs)

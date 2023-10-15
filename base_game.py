@@ -6,7 +6,20 @@ from random import choice, randint
 class BaseGame:
     def __init__(self, home, away, season, stadium, ticket):
         ''' This will handle all that code that have to do with the game data '''
-        
+
+        # THIS CAN BE IN BASEGAME
+        self.home_goal = 0
+        self.away_goal = 0
+
+        # THIS CAN BE IN BASEGAME
+        self.home_player_goals = defaultdict(int)
+        self.away_player_goals = defaultdict(int)
+
+        # THIS CAN BE IN BASEGAME
+        self.home_subs = 5
+        self.away_subs = 5
+
+
         # define the audience with the whole stadium capacity with half of the capacity
         audience = randint((stadium.capacity // 2), stadium.capacity)
         audience_full_price = audience // 1.3
@@ -84,6 +97,13 @@ class BaseGame:
             }
         }
 
+        # THIS CAN BE ON BASE_GAME
+        self.positions = {
+            "goalkeeper": [ 'GK' ],
+            "defender": [ 'CB', 'RB', 'LB'],
+            "midfielder": [ 'DM', 'CM', 'AM', 'LM', 'RM'],
+            "attacker": [ 'CF', 'SS', 'WG' ]
+        }
     
     def add_players_on_logs(self) -> None:
         ''' Add the initial start eleven from both sides on logs'''
