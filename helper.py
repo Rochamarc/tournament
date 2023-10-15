@@ -69,4 +69,4 @@ class ClassConstructor:
 	@staticmethod
 	def prepare_games(games: list, stadiums: list, competition: str, season: int) -> list[Game]:
 		''' Return a list of Game objetcs '''
-		return [ Game(i[0], i[1], competition, 1, season, choice(stadiums)) for i in games ]
+		return [ Game(i[0], i[1], competition, season, 1, choice(stadiums)) for i in games ]
