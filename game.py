@@ -51,43 +51,24 @@ class Game(BaseGame):
 
         # Select any player
         if sender : attacker = sender                 
+        
+        defensor = self.select_player_on_field(field_part)
+        sender = None
+        
 
         # will generate all the block code of substition
         self.check_for_sub_club(attack_club)
 
         club_possession = None
         other_club = None
-        attack_move = None
-        sender = None
+        
         destiny = choice(['back', 'middle', 'front'])
-        attack_move_sucess = self.decision(attacker.overall)
+        
+        attack_move = self.define_attack_on_field(field_part)
         defense_move = None
-        defensor = None
-        defense_move_sucess = None
 
-        # This block of ifs has a good refactoring factor
-        # later this will be updated
-        if field_part == 'back':
-            attack_move = choice(['pass', 'projection'])
-
-            defense_move = choice(['ball_steal', 'tackle'])
-            defensor = self.select_player(defense_club, 'attacker')
-            defense_move_sucess = self.invert_decision(defensor.overall)
-        elif field_part == 'middle':
-            attack_move = choice(['pass', 'projection'])
-
-            defense_move = choice(['ball_steal', 'tackle'])
-            defensor = self.select_player(defense_club, 'midfielder')
-            defense_move_sucess = self.invert_decision(defensor.overall)
-        elif field_part == 'front':
-            attack_move = choice(['pass', 'finish'])
-
-            defense_move = choice(['ball_steal', 'tackle']) 
-            defensor = self.select_player(defense_club, 'defender')
-            defense_move_sucess = self.invert_decision(defensor.overall)
-        else:
-            raise NameError('Field Part doesnt match')
-
+        attack_move_sucess = self.decision(attacker.overall)
+        defense_move_sucess = self.invert_decision(defensor.overall)
 
         if defense_move_sucess:
             ''' This will represent a ball steal, tackle or a defense. A defensive move that is sucessfull'''
@@ -216,6 +197,27 @@ class Game(BaseGame):
 
         return move_info
     
+    def select_player_on_field(field_part: str):
+        ''' Return a player based on field part '''
+        if field_part == 'back':
+            return self.select_player(defense_club, 'attacker')
+        elif field_part == 'middle'
+-           return self.select_player(defense_club, 'midfielder')
+        else:
+            return self.select_player(defense_club, 'defender')
+
+    def define_defense_on_field() -> str:
+        ''' Return a defense move based on field part '''
+        return choice(['ball_steal', 'tackle'])
+
+
+    def define_attack_on_field(field_part: str) -> str:
+        ''' Return attack move based on field part ''' 
+        if field_part == 'front':
+            return choice(['pass', 'finish'])
+        return choice(['pass', 'projection'])
+
+
     def select_player(self, club, player_position):
         ''' Return a player from the club start eleven '''
 
