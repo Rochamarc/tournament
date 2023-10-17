@@ -52,20 +52,8 @@ class Game(BaseGame):
         # Select any player
         if sender : attacker = sender                 
 
-        # THIS CAN BE A FUCTION
-        # Check and execute a Substitution
-        if attack_club == self.home:
-            if self.home_subs > 0: 
-                sub = choice([True, False])
-                if sub:
-                    self.subs(self.home)
-        elif attack_club == self.away:
-            if self.away_subs > 0: 
-                sub = choice([True, False])
-                if sub:
-                    self.subs(self.away)
-        else:
-            raise NameError("Club name doesn't match")
+        # will generate all the block code of substition
+        self.check_for_sub_club(attack_club)
 
         club_possession = None
         other_club = None
@@ -333,6 +321,28 @@ class Game(BaseGame):
         self.away_goal += 1
         self.away_player_goals[attacker] += 1
         return None
+
+    def check_for_sub_club(self, club) -> bool:
+        ''' Receive a club as argument and return true if the sub will happen '''
+        sub_club = self.select_club_by_home_away(club)
+        n_subs = self.select_club_number_of_subs_by_home_away(sub_club)
+
+        if self.check_number_subs(n_subs):
+            self.subs(sub_club)
+            return True 
+        return False 
+
+    def check_number_subs(self, n_sub: int) -> None:
+        ''' Return True or False if the n of subs is greater than 0 '''
+        return choice([True, False]) if n_sub > 0
+            
+    def select_club_by_home_away(self, club):
+        ''' Return a club pointer based on home or away '''
+        return self.home if club == home else self.away
+
+    def select_club_number_of_subs_by_home_away(self, club):
+        ''' '''
+        return self.home_subs if club == home else self.away_subs
 
     def sub_options(self, club) -> list:
         ''' Return the s_check, starting, bench & home_away '''
