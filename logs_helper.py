@@ -23,6 +23,7 @@ class LogsHandler:
                 items['shots on target'],
                 items['fouls'],
                 items['tackles'],
+                items['stolen_balls'],
                 items['saves'],
                 items['ball possession'],
                 items['offsides'],
