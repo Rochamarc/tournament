@@ -64,9 +64,11 @@ class Game(BaseGame):
         
         destiny = choice(['back', 'middle', 'front'])
         
+        # Moves
         attack_move = self.define_attack_on_field(field_part)
-        defense_move = None
+        defense_move = self.define_defense_on_field(field_part)
 
+        # Sucess
         attack_move_sucess = self.decision(attacker.overall)
         defense_move_sucess = self.invert_decision(defensor.overall)
 
