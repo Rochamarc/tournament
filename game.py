@@ -82,11 +82,12 @@ class Game(BaseGame):
             if defense_move == 'tackle':
                 ''' Tackle '''
                 self.update_player_stats_on_logs('tackles', defensor)
-                self.update_game_stats_on_logs(defense_club.name, 'tackles')
+                self.update_game_stats_on_logs('tackles', defense_club.name)
 
             elif defense_move == 'ball_steal': 
                 ''' Ball steal '''              
                 self.update_player_stats_on_logs('stolen_balls', defensor)
+                self.update_game_stats_on_logs('stolen_balls', defense_club.name)
             
             else:
                 raise NameError('Move doesnt match')
@@ -113,7 +114,7 @@ class Game(BaseGame):
                     shooter = self.select_player(attack_club, 'attacker') # select the shooter
                     
                     # add a penalty to game_stats logs
-                    self.update_game_stats_on_logs(attack_club.name, 'penalties')
+                    self.update_game_stats_on_logs('penalties', attack_club.name)
 
                     goal = self.penalty(keeper, shooter, attack_club)
  
@@ -146,8 +147,8 @@ class Game(BaseGame):
 
                         # update defensor logs move
                         self.update_player_stats_on_logs('defenses', keeper)                
-                        self.update_game_stats_on_logs(defense_club.name, 'saves')
-                        self.update_game_stats_on_logs(attack_club.name, 'shots on target')
+                        self.update_game_stats_on_logs('saves', defense_club.name)
+                        self.update_game_stats_on_logs('shots on target', attack_club.name)
                     else:
                         ''' GOAL '''
                         
@@ -163,7 +164,7 @@ class Game(BaseGame):
                     sender = keeper # defino um sender 
 
                     # add this move to logs
-                    self.update_game_stats_on_logs(attack_club.name, 'shots')
+                    self.update_game_stats_on_logs('shots', attack_club.name)
                 
                 # this line of code belongs to attack_move_sucess
                 # independent of attack movement, the ball possession will invert
@@ -255,14 +256,14 @@ class Game(BaseGame):
             # save the defense on logs as a DD
             # in the future the database will have a penalty defense column
             if defense : self.update_player_stats_on_logs('dificult_defenses', keeper) 
-            self.update_game_stats_on_logs(club_finish.name, 'shots on target')
+            self.update_game_stats_on_logs('shots on target', club_finish.name)
 
             return False
         
         self.add_a_goal(club_finish, attacker)
 
         # update the game_stats & player_stats on logs
-        self.update_game_stats_on_logs(club_finish.name, 'goals')
+        self.update_game_stats_on_logs('goals', club_finish.name)
         self.update_player_stats_on_logs('goals', attacker)
 
         return True
