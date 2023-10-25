@@ -37,4 +37,3 @@ INNER JOIN clubs away_club
 	AND away.id = away_game_stats_id)
 	AND (home_club.id = home.club_id
 	AND away_club.id = away.club_id);
-
