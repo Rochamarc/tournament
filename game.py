@@ -52,7 +52,7 @@ class Game(BaseGame):
         # Select any player
         if sender : attacker = sender                 
         
-        defensor = self.select_player_on_field(field_part)
+        defensor = self.select_player_on_field(defense_club, field_part)
         sender = None
         
 
@@ -200,19 +200,23 @@ class Game(BaseGame):
 
         return move_info
     
-    def select_player_on_field(field_part: str):
+    def select_player_on_field(self, club, field_part: str):
         ''' Return a player based on field part '''
-        if field_part == 'back':
-            return self.select_player(defense_club, 'attacker')
-        elif field_part == 'middle'
--           return self.select_player(defense_club, 'midfielder')
-        else:
-            return self.select_player(defense_club, 'defender')
+        return self.select_player(club, self.select_position_by_field(field_part))
 
     def define_defense_on_field() -> str:
         ''' Return a defense move based on field part '''
         return choice(['ball_steal', 'tackle'])
 
+    def select_position_by_field(self, field_part: str) -> str:
+        ''' Return a position based on the field_part argument '''
+
+        if field_part == 'back':
+            return 'attacker'
+        if field_part == 'middle':
+            return 'midfielder'
+        
+        return 'defender'
 
     def define_attack_on_field(field_part: str) -> str:
         ''' Return attack move based on field part ''' 
@@ -339,15 +343,15 @@ class Game(BaseGame):
 
     def check_number_subs(self, n_sub: int) -> None:
         ''' Return True or False if the n of subs is greater than 0 '''
-        return choice([True, False]) if n_sub > 0
+        if n_sub > 0 :  return choice([True, False]) 
             
     def select_club_by_home_away(self, club):
         ''' Return a club pointer based on home or away '''
-        return self.home if club == home else self.away
+        return self.home if club == self.home else self.away
 
     def select_club_number_of_subs_by_home_away(self, club):
         ''' '''
-        return self.home_subs if club == home else self.away_subs
+        return self.home_subs if club == self.home else self.away_subs
 
     def sub_options(self, club) -> list:
         ''' Return the s_check, starting, bench & home_away '''
