@@ -27,8 +27,7 @@ class Game(BaseGame):
         time = 0
         move_info = self.move(self.home, self.away, 'middle')
 
-        while time < 180:
-            print(time)
+        while time < 90:
             ''' This is the ninety minutes simulation part '''
             if self.home_goal == 7 or self.away_goal == 7 : break 
             move_info = self.move(move_info['club_possession'], move_info['other_club'], move_info['field_part'], move_info['sender'])
@@ -70,8 +69,8 @@ class Game(BaseGame):
 
         # Sucess
         attack_move_sucess = self.decision(attacker.overall)
-        defense_move_sucess = self.invert_decision(defensor.overall)
-
+        defense_move_sucess = self.decision(defensor.overall)
+        
         if defense_move_sucess:
             ''' This will represent a ball steal, tackle or a defense. A defensive move that is sucessfull'''
 
@@ -92,11 +91,12 @@ class Game(BaseGame):
             else:
                 raise NameError('Move doesnt match')
 
-        else:
+        else:   
             ''' This represents a failed defensive move '''
             
             # this has to be false to represent a foul
-            foul = self.decision(defensor.overall)
+            foul_dec = self.decision(defensor.overall)
+            penal_decision = self.penal_decision()
             
             # here we invert the possession and the club
             club_possession, other_club = attack_club, defense_club
@@ -104,28 +104,65 @@ class Game(BaseGame):
             # declare a keeper
             keeper = self.select_player(defense_club, 'goalkeeper')
 
-            if foul:
+            offside = self.offise()
+
+            if foul_dec and not offside:
+                
                 ''' This represent a foul or a penalty kick '''
 
-                if field_part == 'front':
+                if field_part == 'front' and penal_decision:
                     ''' Penalty kick '''
 
                     # select shooter    
-                    shooter = self.select_player(attack_club, 'attacker') # select the shooter
+                    shooter = self.select_player(attack_club, 'attacker')
                     
                     # add a penalty to game_stats logs
                     self.update_game_stats_on_logs('penalties', attack_club.name)
 
                     goal = self.penalty(keeper, shooter, attack_club)
  
-                    # I THINK THAT THIS HAS TO B = INSTEAD OF ==
                     if goal:
                         field_part = 'middle'
                     else:
                         field_part = 'back'
                     
                     # Here we invert the sides again
-                    club_possession, other_club = defense_club, attack_club              
+                    club_possession, other_club = defense_club, attack_club
+
+                else:
+                    ''' Based on the field this represent a formal foul, 
+                    so we keep the ball posssession to the attacking club 
+                    and add a foul log to the defensive club
+                    '''
+
+                    self.update_game_stats_on_logs('fouls', defense_club.name)
+
+                    if field_part == 'middle':
+                        ''' This is a free kick '''
+
+                        self.update_game_stats_on_logs('free kicks', attack_club.name)
+                        
+                        # select shooter    
+                        shooter = self.select_player(attack_club, 'attacker')
+
+                        # add a penalty to game_stats logs
+                        self.update_game_stats_on_logs('penalties', attack_club.name)
+
+                        goal = self.penalty(keeper, shooter, attack_club)
+    
+                        if goal:
+                            field_part = 'middle'
+                        else:
+                            field_part = 'back'
+
+                        club_possession, other_club = defense_club, attack_club
+            
+            elif offside:
+                ''' This is an offside '''
+
+                self.update_game_stats_on_logs('offsides', attack_club.name)
+                club_possession, other_club = defense_club, attack_club
+
             elif attack_move == 'finish':
                 '''
                 This is NOT a foul by the defensive club, OR a sucessfull
@@ -377,15 +414,23 @@ class Game(BaseGame):
     
     def decision(self, p_overall) -> bool:
         ''' Retrun True if player overall is greater then a random between (1,100) '''
-        return randint(1,100) < p_overall 
+        return randint(49, 100) < p_overall 
 
     def invert_decision(self, p_overall) -> bool:
         ''' Retrun True if player overall is smaller then a random between (1,100) '''
-        return randint(1,100) > p_overall
+        return randint(49, 100) > p_overall
     
     def check_subs(self, n_subs) -> bool:
         ''' returns True if the team still have subs left '''
         return n_subs > 0
 
+    def penal_decision(self) -> bool:
+        ''' 1 of 5 chances of a penalty kick '''
+        return choice([True, False, False, False, False])
+
+    def offise(self):
+        ''' 1 0f 2 chances of offside '''
+        return choice([True, False])
+    
     def __repr__(self) -> str:
         return 'Game({} x {})'.format(self.home, self.away)
