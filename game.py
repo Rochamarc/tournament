@@ -66,7 +66,7 @@ class Game(BaseGame):
         
         # Moves
         attack_move = self.define_attack_on_field(field_part)
-        defense_move = self.define_defense_on_field(field_part)
+        defense_move = self.define_defense_on_field()
 
         # Sucess
         attack_move_sucess = self.decision(attacker.overall)
@@ -204,7 +204,7 @@ class Game(BaseGame):
         ''' Return a player based on field part '''
         return self.select_player(club, self.select_position_by_field(field_part))
 
-    def define_defense_on_field() -> str:
+    def define_defense_on_field(self) -> str:
         ''' Return a defense move based on field part '''
         return choice(['ball_steal', 'tackle'])
 
@@ -218,7 +218,7 @@ class Game(BaseGame):
         
         return 'defender'
 
-    def define_attack_on_field(field_part: str) -> str:
+    def define_attack_on_field(self, field_part: str) -> str:
         ''' Return attack move based on field part ''' 
         if field_part == 'front':
             return choice(['pass', 'finish'])
