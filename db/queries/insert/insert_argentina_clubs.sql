@@ -1,0 +1,21 @@
+INSERT INTO clubs VALUES(NULL, 'Boca Juniors', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'River Plate', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Club Atlético Tucumán', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Club de Gimnasia y Esgrima La Plate', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Racing Club', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Independiente', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'San Lorenzo', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Talleres', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Huracán', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Vélez Sarsfield', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Estudiantes de La Plata', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Rosario Central', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Lanús', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Argentinos Juniors', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Newells Old Boys', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Banfield', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Defensa y Justicia', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Córdoba', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Godoy Cruz', 'Argentina');
+INSERT INTO clubs VALUES(NULL, 'Colón', 'Argentina');
+
