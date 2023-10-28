@@ -7,7 +7,7 @@ class BaseController:
             with open(file_path, 'r') as file:
                 return ''.join(file.readlines())
         except: 
-            raise FileNotFoundError("File name doesn't exists")
+            raise FileNotFoundError("File {} doesn't exists".format(file_path))
     
     @classmethod
     def get_update_query(cls, file_name: str) -> str:
@@ -17,7 +17,7 @@ class BaseController:
             with open(file_path, 'r') as file:
                 return ''.join(file.readlines())
         except:
-            raise FileNotFoundError("File {} name doesn't exists".format(file_path))
+            raise FileNotFoundError("File {} doesn't exists".format(file_path))
 
     @classmethod
     def get_insert_query(cls, file_name: str) -> str:
@@ -27,7 +27,7 @@ class BaseController:
             with open(file_path, 'r') as file:
                 return ''.join(file.readlines())
         except:
-            raise FileNotFoundError("File name doesn't exists")
+            raise FileNotFoundError("File {} doesn't exists".format(file_path))
         
     @classmethod
     @property

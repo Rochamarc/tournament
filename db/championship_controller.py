@@ -8,7 +8,7 @@ class ChampionshipsController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_championship_by_club'), [club_id, season])
+        cursor.execute(cls.get_select_query('select_championship_by_club'), [season, club_id])
         values = cursor.fetchall()
 
         conn.close()
@@ -20,7 +20,7 @@ class ChampionshipsController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_championship_by_division'), [season, division_name])
+        cursor.execute(cls.get_select_query('select_all_table_by_division'), [season, division_name])
         values = cursor.fetchall()
 
         conn.close()
