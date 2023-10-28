@@ -135,7 +135,8 @@ CREATE TABLE game_stats(
 CREATE TABLE championships(
     id INT PRIMARY KEY AUTO_INCREMENT,
     season CHAR(4) NOT NULL,
-    division VARCHAR(30) NOT NULL ,
+    division VARCHAR(30) NOT NULL,
+    matches INT DEFAULT 0,
     win INT DEFAULT 0,
     loss INT DEFAULT 0,
     draw INT DEFAULT 0,

@@ -1,3 +1,13 @@
-SELECT matches, won, draw, lost, goals_for, goals_away, goall_diff, points
+SELECT 	clubs.name,
+		championships.matches, 
+		championships.win, 
+		championships.draw, 
+		championships.loss, 
+		championships.goals_for, 
+		championships.goals_away, 
+		championships.goals_diff, 
+		championships.points
 FROM championships 
-WHERE (club_id = %s AND season = %s);
+JOIN clubs
+	ON (championships.club_id = clubs.id)
+WHERE season = %s and division = %s;
