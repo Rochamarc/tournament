@@ -12,3 +12,25 @@
 - Refatoração
     * Refatorar provavelmente 70% do game.py
     * Redistribuição de funcionalidades do game.py para outros modulos/classes/funções 
+
+
+# Novembro de 2023
+    TODO LIST
+        * Adicionar o update dos championships table 
+        * Adicionar os clubes argentinos e o campeonato argentino com o sistema de jogos baseado no apertura e clausura
+        * Implementar um sistema de jogadores que tenham mais atributos e o game seja calculado baseado nisso
+            - Keeper: 
+                positioning: defesa durante um chute e durante penalti, 
+                reflex: defesa durante um chute, 
+                diving: defesa durante um chute,
+            - Defense (center back, rright/left back, defensive midfielder):
+                tackle: roubada de bola e clearance,
+                strength: roubada de bola,
+                pass: passe de bola
+            - Attack (center midfielder, center forward, winger, attack/right/left midfielder):
+                dribling: manter a bola durante uma tentativa de roubada do defensor,
+                finishing: finalizar,
+                penalties: bater penalti
+
+            obs: Agora o overall não será o que será calculado, e sim a média aritimética dos tres atributos
+            que por enquanto eles recebem
