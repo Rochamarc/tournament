@@ -104,7 +104,38 @@ class Game(BaseGame):
             # declare a keeper
             keeper = self.select_player(defense_club, 'goalkeeper')
 
-            offside = self.offise()
+            offside = self.offside()
+
+            '''
+            new if statement sequence
+
+            if offside:
+                
+                # this block of code end the move for the attacking team
+
+            elif attack_move_sucess:
+                if attack_move == 'finish':
+                    
+                    # foul and penalty is now only if the move is equal finish and the attacking is sucessfull
+                    
+                    -- this has to have a failed defense move
+                    if foul:
+                        if field_part == 'front':
+                            
+                            # This is a penalty
+
+                        else:
+                            
+                            # This is a foul
+                else:
+                    
+                    # Atacking move failed
+
+                
+                
+            '''
+
+
 
             if foul_dec and not offside:
                 
@@ -158,10 +189,7 @@ class Game(BaseGame):
                         club_possession, other_club = defense_club, attack_club
             
             elif offside:
-                ''' This is an offside '''
-
-                self.update_game_stats_on_logs('offsides', attack_club.name)
-                club_possession, other_club = defense_club, attack_club
+                pass
 
             elif attack_move == 'finish':
                 '''
@@ -428,7 +456,7 @@ class Game(BaseGame):
         ''' 1 of 5 chances of a penalty kick '''
         return choice([True, False, False, False, False])
 
-    def offise(self):
+    def offside(self):
         ''' 1 0f 2 chances of offside '''
         return choice([True, False])
     
