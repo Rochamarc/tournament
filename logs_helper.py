@@ -50,3 +50,28 @@ class LogsHandler:
             game_stats_id[0],
             game_stats_id[1]
         ]
+
+    @staticmethod
+    def prepare_championships_logs_to_db(logs: dict, club: int, season: int) -> list:
+        ''' 
+        Convert and prepare the logs to insert a chmapionships table 
+        return [ win, loss, draw, home_goals, away_goals, goals_diff, club_id, season ]
+        '''
+
+        data = []
+
+        if logs['others']['draw']:
+            data += [0,0,1]
+        elif logs['others']['winner'] == club:
+            data += [1,0,0]
+        else:
+            data += [0,1,0]
+
+        data.append(logs['others']['home_goals'])
+        data.append(logs['others']['away_goals'])
+        data.append(data[0] - data[1])
+
+        data.append(club.id)
+        data.append(season)
+
+        return data
