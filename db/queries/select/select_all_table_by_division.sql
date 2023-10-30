@@ -9,5 +9,6 @@ SELECT 	clubs.name,
 		championships.points
 FROM championships 
 JOIN clubs
-	ON (championships.club_id = clubs.id)
-WHERE championships.season = %s AND clubs.id = %s;
+	ON championships.club_id = clubs.id
+WHERE 	(championships.season = %s 
+	AND championships.division = %s);

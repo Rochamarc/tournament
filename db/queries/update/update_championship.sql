@@ -1,3 +1,10 @@
 UPDATE championships 
-SET matches = %s, won = %s, draw = %s, lost = %s, goals_for = %s, goals_away = %s, goall_diff = %s
-WHERE (championships.club_id = %s AND championships.season = %s);
+SET 	matches = matches + 1, 
+		win = win + %s, 
+		draw = draw + %s, 
+		loss = loss + %s, 
+		goals_for = goals_for + %s, 
+		goals_away = goals_away + %s, 
+		goals_diff = goals_diff + %s
+WHERE 	(championships.club_id = %s 
+	AND championships.season = %s);

@@ -33,6 +33,7 @@ class BaseGame:
                 'shots on target' : 0,
                 'fouls' : 0,
                 'tackles' : 0,
+                'stolen_balls': 0,
                 'saves' : 0,
                 'ball possession' : 0,
                 'offsides' : 0,
@@ -46,6 +47,7 @@ class BaseGame:
                 'shots on target' : 0,
                 'fouls' : 0,
                 'tackles' : 0,
+                'stolen_balls': 0,
                 'saves' : 0,
                 'ball possession' : 0,
                 'offsides' : 0,
@@ -147,6 +149,6 @@ class BaseGame:
         ''' Add one item to the player stats that is a default dict '''
         self.logs['player_stats'][stats][player] += 1
 
-    def update_game_stats_on_logs(self, home_away, stat):
+    def update_game_stats_on_logs(self, stat, home_away):
         ''' Update a field in logs { 'game_stats': [home_away]: stat += 1 } '''
         self.logs['game_stats'][home_away][stat] += 1
