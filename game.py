@@ -1,6 +1,7 @@
 from collections import defaultdict
 from random import choice, randint 
 from base_game import BaseGame
+from classes.player import Player 
 
 class Game(BaseGame):
     def __init__(self, home, away, competition, season, match_round, stadium, ticket=50):
@@ -54,7 +55,6 @@ class Game(BaseGame):
         defensor = self.select_player_on_field(defense_club, field_part)
         sender = None
         
-
         # will generate all the block code of substition
         self.check_for_sub_club(attack_club)
 
@@ -63,201 +63,96 @@ class Game(BaseGame):
         
         destiny = choice(['back', 'middle', 'front'])
         
-        # Moves
-        attack_move = self.define_attack_on_field(field_part)
-        defense_move = self.define_defense_on_field()
+        player_decision = self.player_decision(field_part) 
 
-        # Sucess
-        attack_move_sucess = self.decision(attacker.overall)
-        defense_move_sucess = self.decision(defensor.overall)
-        
-        if defense_move_sucess:
-            ''' This will represent a ball steal, tackle or a defense. A defensive move that is sucessfull'''
+        if player_decision == 'keep_ball_possession':
+            # Keep ball possession
+            # send to another player and keep the field
+            
+            attack_move = 'pass'
+            field_part = field_part
+            sender = self.select_player_on_field(attack_club, field_part)
 
-            ''' Defense Sucess '''
-            club_possession, other_club = defense_club, attack_club
-            sender = defensor # defino um sender
-            
-            if defense_move == 'tackle':
-                ''' Tackle '''
-                self.update_player_stats_on_logs('tackles', defensor)
-                self.update_game_stats_on_logs('tackles', defense_club.name)
+            if not self.move_decision(attacker, defensor):
+                # not sucessfull pass
+                # keep the field part and invert the ball possession
 
-            elif defense_move == 'ball_steal': 
-                ''' Ball steal '''              
-                self.update_player_stats_on_logs('stolen_balls', defensor)
-                self.update_game_stats_on_logs('stolen_balls', defense_club.name)
+                club_possession, other_club = defense_club, attack_club
+                sender = defensor
             
-            else:
-                raise NameError('Move doesnt match')
-
-        else:   
-            ''' This represents a failed defensive move '''
-            
-            # this has to be false to represent a foul
-            foul_dec = self.decision(defensor.overall)
-            penal_decision = self.penal_decision()
-            
-            # here we invert the possession and the club
             club_possession, other_club = attack_club, defense_club
 
-            # declare a keeper
-            keeper = self.select_player(defense_club, 'goalkeeper')
+        
+        elif player_decision == 'advance':
+            # Make an attack move
 
-            offside = self.offside()
-
-            '''
-            new if statement sequence
-
-            if offside:
-                
-                # this block of code end the move for the attacking team
-
-            elif attack_move_sucess:
-                if attack_move == 'finish':
-                    
-                    # foul and penalty is now only if the move is equal finish and the attacking is sucessfull
-                    
-                    -- this has to have a failed defense move
-                    if foul:
-                        if field_part == 'front':
-                            
-                            # This is a penalty
-
-                        else:
-                            
-                            # This is a foul
-                else:
-                    
-                    # Atacking move failed
-
-                
-                
-            '''
-
-
-
-            if foul_dec and not offside:
-                
-                ''' This represent a foul or a penalty kick '''
-
-                if field_part == 'front' and penal_decision:
-                    ''' Penalty kick '''
-
-                    # select shooter    
-                    shooter = self.select_player(attack_club, 'attacker')
-                    
-                    # add a penalty to game_stats logs
-                    self.update_game_stats_on_logs('penalties', attack_club.name)
-
-                    goal = self.penalty(keeper, shooter, attack_club)
- 
-                    if goal:
-                        field_part = 'middle'
-                    else:
-                        field_part = 'back'
-                    
-                    # Here we invert the sides again
-                    club_possession, other_club = defense_club, attack_club
-
-                else:
-                    ''' Based on the field this represent a formal foul, 
-                    so we keep the ball posssession to the attacking club 
-                    and add a foul log to the defensive club
-                    '''
-
-                    self.update_game_stats_on_logs('fouls', defense_club.name)
-
-                    if field_part == 'middle':
-                        ''' This is a free kick '''
-
-                        self.update_game_stats_on_logs('free kicks', attack_club.name)
-                        
-                        # select shooter    
-                        shooter = self.select_player(attack_club, 'attacker')
-
-                        # add a penalty to game_stats logs
-                        self.update_game_stats_on_logs('penalties', attack_club.name)
-
-                        goal = self.penalty(keeper, shooter, attack_club)
-    
-                        if goal:
-                            field_part = 'middle'
-                        else:
-                            field_part = 'back'
-
-                        club_possession, other_club = defense_club, attack_club
-            
-            elif offside:
-                pass
-
-            elif attack_move == 'finish':
-                '''
-                This is NOT a foul by the defensive club, OR a sucessfull
-                defensive move. So, now it's the time to the attacking club make a 
-                sucessnfull attack move. In this case, a finish
-                '''
-                
-
-                if attack_move_sucess:
-                    ''' This is the attacker and keepers duel. '''
- 
-                    keeper_sucess = self.decision(keeper.overall)
-                    
-                    if keeper_sucess:
-                        ''' Keeper's defense '''
-
-                        field_part = 'back'
-                        sender = keeper # defino um sender
-
-                        # update defensor logs move
-                        self.update_player_stats_on_logs('defenses', keeper)                
-                        self.update_game_stats_on_logs('saves', defense_club.name)
-                        self.update_game_stats_on_logs('shots on target', attack_club.name)
-                    else:
-                        ''' GOAL '''
-                        
-                        field_part = 'middle'
-         
-                        self.finish(self.select_player(attack_club, 'midfielder'), attacker, attack_club)
-                        sender = attacker
-
-                else:
-                    ''' Kick Out & The keeper start the ball possession '''
-
-                    field_part = 'back'
-                    sender = keeper # defino um sender 
-
-                    # add this move to logs
-                    self.update_game_stats_on_logs('shots', attack_club.name)
-                
-                # this line of code belongs to attack_move_sucess
-                # independent of attack movement, the ball possession will invert
-                # after attack move
-                # Invert the possesion and club 
-                club_possession, other_club = defense_club, attack_club
-                
-
+            if field_part == 'back':
+                destiny = choice(['middle','front'])
             else:
-                """ Attack move != 'finish'. This could be a pass or porjection """
+                destiny = 'front'
+            
+            attack_move = choice(['pass','projection'])
+            sender = self.select_player_on_field(attack_club, destiny)
 
-                if attack_move_sucess:
-                    ''' Sucessfull pass OR projection ''' 
+            if not self.move_decision(attacker, defensor):
+                # failed pass or projection
 
-                    club_possession, other_club = attack_club, defense_club
-                    field_part = destiny
-                    sender = attacker # defino um sender
+                if defense_move == 'tackle':
+                    ''' Tackle '''
+                    self.update_player_stats_on_logs('tackles', defensor)
+                    self.update_game_stats_on_logs('tackles', defense_club.name)
 
-                else:
-                    ''' Wrong pass or interceptation '''
+                elif defense_move == 'ball_steal': 
+                    ''' Ball steal '''              
+                    self.update_player_stats_on_logs('stolen_balls', defensor)
+                    self.update_game_stats_on_logs('stolen_balls', defense_club.name)
 
-                    club_possession, other_club = defense_club, attack_club
-                    sender = defensor # defino um sender
+                club_possession, other_club = defense_club, attack_club
+                sender = defensor 
+            else:
+                # sucessfull pass or projection 
+                # change the field_part to destiny
+                # doesnt change the sender
+                # TODO add a pass to logs and database
 
-                    # This has to be updated on the logs
-                    # and have to be on database pass, intercpetation
-                    # & clearances. This else, could be any one of this
+                field_part = destiny
+                club_possession, other_club = attack_club, defense_club
+                
+        
+        else:
+            # take_a_risk
+            keeper = self.select_player(defense_club, 'goalkeeper')
+            attack_move = 'finish'
 
+            # i can decrease the attacker chance based on the part of the field 
+            # that he is shooting passing a decrease_attacker_chance = 0 and adding
+            # to the value of the attacker decision 
+            if not self.move_decision(attacker, keeper):
+                ''' Defense '''
+
+                field_part = 'back'
+                sender = keeper 
+
+                self.update_player_stats_on_logs('defenses', keeper)                
+                self.update_game_stats_on_logs('saves', defense_club.name)
+            
+            else:
+                ''' goal '''
+                
+                field_part = 'middle'
+
+                midfielder =  self.select_player(attack_club, 'midfielder')
+                self.finish(midfielder, attacker, attack_club)
+                
+                # change sender to defensor
+                sender = self.select_player(defense_club, 'attacker') 
+
+            # no matter what happen above,
+            # this block always represents a shot on target
+            self.update_game_stats_on_logs('shots on target', attack_club.name)
+            club_possession, other_club = defense_club, attack_club
+                
+        
         move_info['field_part'] = field_part
         move_info['club_possession'] = club_possession
         move_info['other_club'] = other_club
@@ -265,6 +160,16 @@ class Game(BaseGame):
 
         return move_info
     
+    def player_decision(self, field_part=None) -> str:
+        ''' Return a decision that can be made by a player '''
+        if field_part == 'front':
+            return choice(['keep_ball_possesion', 'take_a_risk'])
+        return choice(['keep_ball_possession', 'advance', 'take_a_risk'])
+
+    def move_decision(self, attacker, defensor) -> bool:
+        ''' Based on attacker and defensor overall make a decision, but the defensor have advantage '''
+        return not self.decision(defensor.overall) and self.decision(attacker.overall)  
+
     def select_player_on_field(self, club, field_part: str):
         ''' Return a player based on field part '''
         return self.select_player(club, self.select_position_by_field(field_part))
@@ -289,7 +194,6 @@ class Game(BaseGame):
             return choice(['pass', 'finish'])
         return choice(['pass', 'projection'])
 
-
     def select_player(self, club, player_position):
         ''' Return a player from the club start eleven '''
 
@@ -298,7 +202,7 @@ class Game(BaseGame):
         elif club == self.away:
             start_eleven = self.away_players 
         else:
-            raise NameError('Club not match home_team.name or away_team.name')
+            raise NameError('Club {} does not match {} or {}'.format(club, self.home.name, self.away.name))
 
         if player_position == 'any':
             return choice(start_eleven)
