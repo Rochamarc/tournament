@@ -2,8 +2,30 @@ from collections import defaultdict
 from random import choice, randint
 
 
-
 class BaseGame:
+	"""
+    Class that deals with Game logs and all data inside the Game
+
+    ...
+
+    Methods
+    -------
+    add_players_on_logs()
+        Add players to logs['players']
+    add_player_on_logs(home_away: str, player: Player)
+        Add one player to logs['players']
+    update_goals_on_logs()
+        Update logs['scoreboard']
+    update_goals_on_logs()
+        Update logs['others']['home_goals'] & logs['others']['away_goals']
+    update_winner_on_logs()
+        Calculate winner and loser OR draw
+    update_player_stats_on_logs(stats: str, player: Player)
+        Increase by one the player_stats on logs
+    update_game_stats_on_logs(stat: str, home_away: str)
+        Increase by one the game_stats on logs
+	"""
+
     def __init__(self, home, away, season, stadium, ticket):
         ''' This will handle all that code that have to do with the game data '''
 
@@ -108,27 +130,63 @@ class BaseGame:
         }
     
     def add_players_on_logs(self) -> None:
-        ''' Add the initial start eleven from both sides on logs'''
+        """Add self.home_players & self.away_players to logs['players']
+
+        Returns
+        -------
+            None
+        """
+        
         self.logs['players']['home'] += self.home_players
         self.logs['players']['away'] += self.away_players
 
     def add_player_on_logs(self, home_away: str, player) -> None:
-        ''' Add a player on logs {'players': 'home_or_away': [] }'''
+        """Add one player to logs['players']
+
+        Parameters
+        ----------
+        home_away : str
+            Club's name
+        player : Player
+            Player Object
+
+        Returns
+        -------
+            None
+        """
+
         self.logs['players'][home_away].append(player)
 
     def update_scoreboard_on_logs(self) -> None:
-        '''' '''
+        """Update the scoreboard goals on logs['scoreboard']
+        
+        Returns
+        -------
+            None
+        """
+        
         self.logs['scoreboard'] = "{} x {}".format(self.home_goal, self.away_goal)
         
     def update_goals_on_logs(self) -> None:
-        ''' Update {others : home_goals: int, away_goals: int } on logs '''
+        """Update the goals on logs['others]['home_goals'] & logs['others]['away_goals']
+        
+        Returns
+        -------
+            None
+        """
+
         self.logs['others']['home_goals'] = self.home_goal
         self.logs['others']['away_goals'] = self.away_goal
 
     def update_winner_on_logs(self) -> None:
-        ''' Calculate the diff between home and away goals, and update
-        logs winner and lose. Or will return a tie(draw) and update 
-        the draw to True and not add any club'''
+        """Calculate the difference between self.home_goals & self.away_goals then update logs winner and loser.
+        If the diference between self.home_goals & away_goals =0, update the logs['others']['draw'] = True and end function.
+        
+        Returns
+        -------
+            None
+        """
+        
         if self.home_goal == self.away_goal:
             self.logs['others']['draw'] = True 
             return None
@@ -145,10 +203,36 @@ class BaseGame:
         
         return None
     
-    def update_player_stats_on_logs(self, stats, player):
-        ''' Add one item to the player stats that is a default dict '''
+    def update_player_stats_on_logs(self, stats: str, player):
+        """Increase by one the stat on logs['player_stats'][stats][player]
+
+        Parameters
+        ----------
+        stats : str
+            The stat that will be increased
+        player : str
+            Player Object that will be increased
+
+        Returns
+        -------
+            None
+        """
+        
         self.logs['player_stats'][stats][player] += 1
 
-    def update_game_stats_on_logs(self, stat, home_away):
-        ''' Update a field in logs { 'game_stats': [home_away]: stat += 1 } '''
+    def update_game_stats_on_logs(self, stat: str, home_away: str):
+        """Increase by one the stat on logs['game_stats'][home_away][stats]
+
+        Parameters
+        ----------
+        stat : str
+            The stat that will be increased
+        home_away : str
+            Club's name
+        
+        Returns
+        -------
+            None
+        """
+
         self.logs['game_stats'][home_away][stat] += 1
