@@ -131,18 +131,17 @@ Clone, setup and running.
     ```sh
     ./NameGenerator/database_initialize.sh  
     ```
-3. Run
-    ```nb
-      ./NameGenerator/Insert_first_names.ipynb
-      ./NameGeneerator/Insert_last_names.ipynb
+3. Populate Name Generator Database
+    ```py
+      python NameGenerator/configure.py
     ```
 4. Initialize Tournament Database
     ```sh
       ./database_initialize.sh
     ```
-5. Run
+5. Populate Tournament Database with Data
     ```py
-      python configure.py
+      python ./configure.py
     ```
 
 
