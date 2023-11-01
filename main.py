@@ -64,7 +64,7 @@ for game in serie_a_games:
 
     # Insert and Get the id of the game stats inserted
     home = games_controller.insert_game_stat_with_id_return(stats_data[0])
-    away = games_controller.insert_game_stat_with_id_return(stats_data[0])
+    away = games_controller.insert_game_stat_with_id_return(stats_data[1])
 
     # Game stats id
     game_ids = home[0][0], away[0][0]
@@ -82,7 +82,7 @@ for game in serie_b_games:
 
     # Insert and Get the id of the game stats inserted
     home = games_controller.insert_game_stat_with_id_return(stats_data[0])
-    away = games_controller.insert_game_stat_with_id_return(stats_data[0])
+    away = games_controller.insert_game_stat_with_id_return(stats_data[1])
 
     # Game stats id
     game_ids = home[0][0], away[0][0]
@@ -100,7 +100,7 @@ for game in serie_c_games:
 
     # Insert and Get the id of the game stats inserted
     home = games_controller.insert_game_stat_with_id_return(stats_data[0])
-    away = games_controller.insert_game_stat_with_id_return(stats_data[0])
+    away = games_controller.insert_game_stat_with_id_return(stats_data[1])
 
     # Game stats id
     game_ids = home[0][0], away[0][0]
