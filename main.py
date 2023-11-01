@@ -1,15 +1,20 @@
 from helper import ClassConstructor
-from db.players_controller import PlayersController
 from db.clubs_controller import ClubsController
+from db.games_controller import GamesController
+from db.players_controller import PlayersController
 from db.stadiums_controller import StadiumsController
 
+from logs_helper import LogsHandler
 
 # Static classes
 class_const = ClassConstructor()
-players_controller = PlayersController()
+
 clubs_controller = ClubsController()
+games_controller = GamesController()
+players_controller = PlayersController()
 stadiums_controller = StadiumsController()
 
+logs_handler = LogsHandler()
 
 # Select and transform stadium data into objects
 stadiums_data = stadiums_controller.select_all_stadiums()
@@ -53,8 +58,53 @@ serie_c_games = class_const.prepare_games(serie_c_schedule, stadiums, 'Campeonat
 for game in serie_a_games:
     game.start()
 
+    # saving into database
+    game_stats = logs_handler.get_game_stats(game.logs, game.home, game.away)
+    stats_data = logs_handler.prepare_game_stats_logs_to_db(game_stats)
+
+    # Insert and Get the id of the game stats inserted
+    home = games_controller.insert_game_stat_with_id_return(stats_data[0])
+    away = games_controller.insert_game_stat_with_id_return(stats_data[0])
+
+    # Game stats id
+    game_ids = home[0][0], away[0][0]
+
+    # Prepare data for insertiong
+    prepare_game = logs_handler.prepare_game_logs_to_db(game.logs, game_ids)
+    games_controller.insert_games_list([prepare_game])
+
 for game in serie_b_games:
     game.start()
 
+    # saving into database
+    game_stats = logs_handler.get_game_stats(game.logs, game.home, game.away)
+    stats_data = logs_handler.prepare_game_stats_logs_to_db(game_stats)
+
+    # Insert and Get the id of the game stats inserted
+    home = games_controller.insert_game_stat_with_id_return(stats_data[0])
+    away = games_controller.insert_game_stat_with_id_return(stats_data[0])
+
+    # Game stats id
+    game_ids = home[0][0], away[0][0]
+
+    # Prepare data for insertiong
+    prepare_game = logs_handler.prepare_game_logs_to_db(game.logs, game_ids)
+    games_controller.insert_games_list([prepare_game])
+
 for game in serie_c_games:
     game.start()
+
+    # saving into database
+    game_stats = logs_handler.get_game_stats(game.logs, game.home, game.away)
+    stats_data = logs_handler.prepare_game_stats_logs_to_db(game_stats)
+
+    # Insert and Get the id of the game stats inserted
+    home = games_controller.insert_game_stat_with_id_return(stats_data[0])
+    away = games_controller.insert_game_stat_with_id_return(stats_data[0])
+
+    # Game stats id
+    game_ids = home[0][0], away[0][0]
+
+    # Prepare data for insertiong
+    prepare_game = logs_handler.prepare_game_logs_to_db(game.logs, game_ids)
+    games_controller.insert_games_list([prepare_game])
