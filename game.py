@@ -56,13 +56,13 @@ class Game(BaseGame):
         # Define an defensor
         defensor = self.select_player_on_field(defense_club, field_part)
         
-        sender = None
+        # Declare variables
+        sender, club_possession, other_club = None, None ,None
         
-        club_possession = None
-        other_club = None
-        
+        # This will be used in advance block
         destiny = choice(['back', 'middle', 'front'])
         
+        # Defines a decision of the player with the ball
         player_decision = self.player_decision(field_part) 
 
         if player_decision == 'keep_ball_possession':
@@ -193,10 +193,6 @@ class Game(BaseGame):
         ''' Return a player based on field part '''
         return self.select_player(club, self.select_position_by_field(field_part))
 
-    def define_defense_on_field(self) -> str:
-        ''' Return a defense move based on field part '''
-        return choice(['ball_steal', 'tackle'])
-
     def select_position_by_field(self, field_part: str) -> str:
         ''' Return a position based on the field_part argument '''
 
@@ -206,12 +202,6 @@ class Game(BaseGame):
             return 'midfielder'
         
         return 'defender'
-
-    def define_attack_on_field(self, field_part: str) -> str:
-        ''' Return attack move based on field part ''' 
-        if field_part == 'front':
-            return choice(['pass', 'finish'])
-        return choice(['pass', 'projection'])
 
     def select_player(self, club, player_position):
         ''' Return a player from the club start eleven '''
@@ -230,35 +220,6 @@ class Game(BaseGame):
 
         return player 
 
-    def penalty(self, keeper, attacker, club_finish) -> bool:
-        ''' Represents a penalty kick, and save to the logs inside this method '''
-
-        shot = self.decision(attacker.overall)
-        defense = self.decision(keeper.overall)
-        
-        # Goal or Defense
-        if defense:
-            defense = True
-        
-        # defense == True OR shot = False
-        # to make a goal the attacker has to have a True and a False Defense
-        if defense or (not shot): 
-            ''' This is a defense &/OR a miss penalty'''
-            
-            # save the defense on logs as a DD
-            # in the future the database will have a penalty defense column
-            if defense : self.update_player_stats_on_logs('dificult_defenses', keeper) 
-            self.update_game_stats_on_logs('shots on target', club_finish.name)
-
-            return False
-        
-        self.add_a_goal(club_finish, attacker)
-
-        # update the game_stats & player_stats on logs
-        self.update_game_stats_on_logs('goals', club_finish.name)
-        self.update_player_stats_on_logs('goals', attacker)
-
-        return True
 
     def finish(self, midfielder, attacker, club_finish):
         ''' Represents a sucessfull finish. Update the stats on logs '''
@@ -366,22 +327,10 @@ class Game(BaseGame):
     def decision(self, p_overall) -> bool:
         ''' Retrun True if player overall is greater then a random between (1,100) '''
         return randint(49, 100) < p_overall 
-
-    def invert_decision(self, p_overall) -> bool:
-        ''' Retrun True if player overall is smaller then a random between (1,100) '''
-        return randint(49, 100) > p_overall
     
     def check_subs(self, n_subs) -> bool:
         ''' returns True if the team still have subs left '''
         return n_subs > 0
 
-    def penal_decision(self) -> bool:
-        ''' 1 of 5 chances of a penalty kick '''
-        return choice([True, False, False, False, False])
-
-    def offside(self):
-        ''' 1 0f 2 chances of offside '''
-        return choice([True, False])
-    
     def __repr__(self) -> str:
         return 'Game({} x {})'.format(self.home, self.away)
