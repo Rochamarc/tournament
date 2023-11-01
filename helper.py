@@ -10,35 +10,96 @@ from random import choice
 formation = Formation()
 
 class ClassConstructor:
+	"""
+    Class focused in transform db data into objects
+
+    ...
+
+    Methods
+    -------
+    players(players_data: list)
+        Instantiate players
+   	clubs(clubs_data: list)
+		Instantiate clubs
+	stadiums(stadiums_data: list)
+		Instantiate stadiums
+	add_players_to_clubs(clubs: list, players: list)
+		Add players to Club.squad
+	define_formation(clubs: list)
+		Modify Club's start_eleven and bench
+	define_schedule(clubs: list)
+		Generates confronts between clubs
+	prepare_games(games: list, stadiums: list, competition: str, season: int)
+		Instantiate games
+	"""
+    
 	@staticmethod
 	def players(players_data: list) -> list[Player]:	
-		''' Receive a players data list by the the following pattern =>
-		[ id, name, nationality, birth, position, height, weight, foot, overall, club_id ] 
-		return a list of Player objetcts
-		'''
+		"""Transform data into Player Objects
+		
+		Parameters
+		----------
+		players_data : list
+			A list of data with the following format
+			[ id, name, nationality, birth, position, height, weight, foot, overall, club_id ]
+		
+		Returns
+		-------
+			A list of Player Objects constructed with the data received
+		"""
+
 		return [ Player(pd[0], pd[1], pd[2], pd[3], pd[4], pd[5], pd[6], pd[7], pd[8], pd[9]) for pd in players_data ]
 
 	@staticmethod
 	def clubs(clubs_data: list) -> list[Club]:
-		''' Receive a clubs data list by the following pattern => 
-		[ club_id, club_name, club_country ] 
-		return a list of Club objects
-		'''
+		"""Transform data into Club Objects
+		
+		Parameters
+		----------
+		clubs_data : list
+			A list of data with the following format 
+			[ club_id, club_name, club_country ] 
+		
+		Returns
+		-------
+			A list of Club Objects constructed with the data received
+		"""
 
 		return [ Club(cd[0], cd[1], cd[2]) for cd in clubs_data ]
 	
 	@staticmethod
 	def stadiums(stadiums_data: list) -> list[Stadium]:
-		''' Receive a stadium data list by the following pattern => 
-		[ stadium_name, stadium_location, stadium.capacity ] 
-		return a list of Stadium objects
-		'''
+		"""Transform data into Stadium Objects 
+		
+		Parameters
+		----------
+		stadiums_data : list
+			A list of data with the following format 
+			[ stadium_name, stadium_location, stadium_capacity ] 
+		
+		Returns
+		-------
+			A list of Stadium Objects constructed with the data received
+		"""
+
 		return [ Stadium(sd[0], sd[1], sd[2]) for sd in stadiums_data ] 
 	
 
 	@staticmethod
-	def add_players_to_clubs(clubs: list, players: list) -> list[clubs]:
-		''' Add players to squad and return the list of clubs '''
+	def add_players_to_clubs(clubs: list, players: list) -> list[Club]:
+		"""Add players to squad according to player.club_id and club_id
+		
+		Parameters
+		----------
+		clubs : list
+			A list of Club Objects
+		players : list
+			A list of Player Objects
+
+		Returns
+		------- 
+			A list of Club Objects 
+		"""
 
 		for club in clubs:
 			for player in players:
@@ -48,7 +109,17 @@ class ClassConstructor:
 	
 	@staticmethod
 	def define_formation(clubs: list) -> None:
-		''' Return None, just change the players situation inside the Club objects '''
+		"""Modify the Club.start_eleven & Club.bench 
+		
+		Parameters
+		----------
+		clubs : list
+			A list of Clubs Objects That have players in Club.squad
+
+		Returns
+		-------
+			None
+		"""
 		
 		for club in clubs:
 			club.start_eleven = formation.starting_eleven(club.squad)
@@ -57,16 +128,46 @@ class ClassConstructor:
 		return None 
 	
 	@staticmethod
-	def define_schedule(clubs_list: list):
-		''' Return a list of lists wich one with home_team and away_team '''
+	def define_schedule(clubs: list) -> list[list]:
+		"""Generates a list of confronts between two different clubs.
+		Each list has 2 elements a home and away team, two confronts can be
+		equal if their positioning in the list is inverted
+		ex: [team_a, team_b] , [team_b, team_a]
+
+		Parameters
+		----------
+		clubs : list 
+			A list of Club Objects
+
+		Returns
+		-------
+			A list of lists containing two clubs in each one
+		"""
 
 		games = []
-		for home in clubs_list:
-			for away in clubs_list:
+		for home in clubs:
+			for away in clubs:
 				if home != away : games.append([home, away]) 
 		return games
 
 	@staticmethod
 	def prepare_games(games: list, stadiums: list, competition: str, season: int) -> list[Game]:
-		''' Return a list of Game objetcs '''
+		"""Transform data into Game Objects
+		
+		Parameters
+		----------
+		games : list
+			A list of game data containing two clubs
+		stadiums : list
+			A list of Stadiums Objects
+		competition : str
+			Name of the competition of this games
+		season : int
+			Season relating to this games
+
+		Returns
+		-------
+			A list of Game Objetcs 
+		"""
+		
 		return [ Game(i[0], i[1], competition, season, 1, choice(stadiums)) for i in games ]
