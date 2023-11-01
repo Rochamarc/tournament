@@ -142,10 +142,7 @@ Clone, setup and running.
     ```
 5. Run
     ```py
-      ./coaches_creation.ipynb
-      ./insert_coaches_contract.ipnyb
-      ./players_creation.ipnyb
-      ./insert_players_overall.ipnyb
+      python configure.py
     ```
 
 
