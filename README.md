@@ -152,11 +152,10 @@ Clone, setup and running.
 ## Other Docs
 
 * [Classes](./docs/classes.md)
-* [Helper](./docs/helper.md)
 * [Database](./docs/database.md)
 * [Game](./docs/game.md)
 * [Name](./docs/name_nationality.md)
-* [Ranking](./docs/ranking.md)
+
 
 <!-- USAGE EXAMPLES -->
 <!--
