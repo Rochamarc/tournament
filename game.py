@@ -47,17 +47,17 @@ class Game(BaseGame):
         '''
         move_info = {}
 
-        attacker = self.select_player(attack_club, 'any') # select any player                
+        # Define an attacker
+        if sender: 
+            attacker = sender                 
+        else:
+            attacker = self.select_player(attack_club, 'any') 
 
-        # Select any player
-        if sender : attacker = sender                 
-        
+        # Define an defensor
         defensor = self.select_player_on_field(defense_club, field_part)
+        
         sender = None
         
-        # will generate all the block code of substition
-        self.check_for_sub_club(attack_club)
-
         club_possession = None
         other_club = None
         
@@ -71,7 +71,15 @@ class Game(BaseGame):
             
             attack_move = 'pass'
             field_part = field_part
+        
+            # In case the attack was not sucessfull this will change
+            # inside the move decision
+            club_possession, other_club = attack_club, defense_club
             sender = self.select_player_on_field(attack_club, field_part)
+    
+            # check for a foul to update on logs
+            if not self.decision(defensor.overall):
+                self.update_game_stats_on_logs('fouls', attack_club.name)
 
             if not self.move_decision(attacker, defensor):
                 # not sucessfull pass
@@ -79,9 +87,7 @@ class Game(BaseGame):
 
                 club_possession, other_club = defense_club, attack_club
                 sender = defensor
-            
-            club_possession, other_club = attack_club, defense_club
-
+    
         
         elif player_decision == 'advance':
             # Make an attack move
@@ -96,6 +102,8 @@ class Game(BaseGame):
 
             if not self.move_decision(attacker, defensor):
                 # failed pass or projection
+
+                defense_move = choice(['tackle','ball_steal'])
 
                 if defense_move == 'tackle':
                     ''' Tackle '''
@@ -128,14 +136,21 @@ class Game(BaseGame):
             # that he is shooting passing a decrease_attacker_chance = 0 and adding
             # to the value of the attacker decision 
             if not self.move_decision(attacker, keeper):
-                ''' Defense '''
+                ''' Defense or kick out '''
 
                 field_part = 'back'
                 sender = keeper 
 
-                self.update_player_stats_on_logs('defenses', keeper)                
-                self.update_game_stats_on_logs('saves', defense_club.name)
-            
+                # Define for a defense or a kick out
+                # to update the logs
+                if self.decision(keeper.overall):
+                    self.update_player_stats_on_logs('defenses', keeper)                
+                    self.update_game_stats_on_logs('saves', defense_club.name)
+                    self.update_game_stats_on_logs('shots on target', attack_club.name)
+                else:
+                    self.update_game_stats_on_logs('shots', attack_club.name)
+
+
             else:
                 ''' goal '''
                 
@@ -147,12 +162,16 @@ class Game(BaseGame):
                 # change sender to defensor
                 sender = self.select_player(defense_club, 'attacker') 
 
-            # no matter what happen above,
-            # this block always represents a shot on target
-            self.update_game_stats_on_logs('shots on target', attack_club.name)
+                self.update_game_stats_on_logs('shots on target', attack_club.name)
+            
+
             club_possession, other_club = defense_club, attack_club
                 
         
+        # Make a substitution
+        self.check_for_sub_club(attack_club)
+
+        # Update the exit dict 
         move_info['field_part'] = field_part
         move_info['club_possession'] = club_possession
         move_info['other_club'] = other_club
