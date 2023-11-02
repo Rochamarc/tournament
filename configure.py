@@ -95,8 +95,8 @@ for club in clubs:
 # Queries
 # select_players_id
 
-# insert a players overall table with season = '2022'
-# insert_players_overall 
+# insert a players overall table with 
+season = '2022'
 
 # Select players id
 players = players_controller.select_all_players_id()
@@ -107,7 +107,7 @@ for player in players:
     id = player[0]
     overall = randint(50,90)
     # cursor.execute(insert_players_overall, [overall, id])
-    overall_controller.insert_overall([ [overall, id] ])
+    overall_controller.insert_overall([ [season, overall, id] ])
 
 # CREATE COACHES
 

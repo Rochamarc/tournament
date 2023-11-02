@@ -1,1 +1,1 @@
-INSERT INTO overall VALUES(NULL, '2022', %s, %s)
+INSERT INTO overall VALUES(NULL, %s, %s, %s)
