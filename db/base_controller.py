@@ -1,7 +1,27 @@
 class BaseController:
+    """
+    Base class that contains every property and functions used in other controllers
+    """
+    
     @classmethod
     def get_select_query(cls, file_name: str) -> str:
-        ''' Return a string query by a file in sql '''
+        """Get one query on db/queries/select
+
+        Parameters
+        ----------
+        file_name : str
+            Name of the file inside the path without the file extension
+        
+        Returns
+        -------
+            A string with the query in the file
+
+        Raises
+        ------
+            FileNotFoundError
+                If the file doesnt exists
+        """
+        
         file_path = 'db/queries/select/{}.sql'.format(file_name)
         try:
             with open(file_path, 'r') as file:
@@ -11,7 +31,23 @@ class BaseController:
     
     @classmethod
     def get_update_query(cls, file_name: str) -> str:
-        ''' Retuarn a string query '''
+        """Get one query on db/queries/update
+
+        Parameters
+        ----------
+        file_name : str
+            Name of the file inside the path without the file extension
+        
+        Returns
+        -------
+            A string with the query in the file 
+
+        Raises
+        ------
+            FileNotFoundError
+                If the file doesnt exists
+        """
+        
         file_path = 'db/queries/update/{}.sql'.format(file_name)
         try:
             with open(file_path, 'r') as file:
@@ -21,7 +57,23 @@ class BaseController:
 
     @classmethod
     def get_insert_query(cls, file_name: str) -> str:
-        ''' Return a string query by a file in sql '''
+        """Get one query on db/queries/insert
+
+        Parameters
+        ----------
+        file_name : str
+            Name of the file inside the path without the file extension
+        
+        Returns
+        -------
+            A string with the query in the file
+
+        Raises
+        ------
+            FileNotFoundError
+                If the file doesnt exists
+        """
+        
         file_path = 'db/queries/insert/{}.sql'.format(file_name)
         try:
             with open(file_path, 'r') as file:

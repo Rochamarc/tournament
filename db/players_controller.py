@@ -2,12 +2,36 @@ import mysql.connector
 from db.base_controller import BaseController
 
 class PlayersController(BaseController):
+    """
+    Class that manage the tournament.players
+
+    ...
+
+    Methods
+    -------
+
+    select_players_by_club(club_name: str, season: str)
+        Select all players with contract with a specific club
+    select_players_with_contract(season: str)
+        Select all players with contract with a club
+    """
+        
     @classmethod
     def select_players_by_club(cls, club_name: str, season: str) -> list[set]:
-        ''' Select players by club_name and season clause 
-            club_name -> club on player_contracts
-            season -> overall on overall
-        '''
+        """Select players with contract of a club
+
+        Parameters
+        ----------
+        
+        club_name : str
+            Club's name that will be used as parameter to the players
+        season : str
+            Season that will be used as parameter to player_contracts extension
+
+        Returns
+        -------
+            A list of Players data 
+        """
 
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
@@ -19,9 +43,18 @@ class PlayersController(BaseController):
 
     @classmethod
     def select_players_with_contract(cls, season: str) -> list[set]:
-        ''' Select players by player_contracts and season clause 
-            season -> overall on overall
-        '''
+        """Select all players that have a contract with a club
+
+        Parameters
+        ----------
+
+        season : str
+            Season that will be used as parameter to player_contracts extension
+
+        Returns
+        -------
+            A list of Players data 
+        """        
 
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
