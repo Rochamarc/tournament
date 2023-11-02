@@ -131,7 +131,7 @@ for c in clubs:
     birth = str(randint(1950, 1979)) # birth
 
     # Coaches controller
-    coaches_controller.insert_coaches([ [name, nationality, birth] ])
+    coaches_controller.insert_coaches([ [full_name, nationality, birth] ])
 
 # COACHES CONTRACTS 
 
@@ -150,5 +150,8 @@ shuffle(clubs)
 
 # Create and inser data into the database
 
-for _ in range(len(coaches)):
-    coach_contracts_controller.insert_player_contracts([ start, end, salary, clubs.pop()[0], coaches.pop()[0] ])
+for _ in range(len(clubs)):
+    club_id = clubs.pop()
+    coach_id = coaches.pop()[0]
+
+    coach_contracts_controller.insert_coach_contracts([ [start, end, salary, club_id, coach_id] ])
