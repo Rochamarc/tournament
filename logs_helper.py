@@ -63,6 +63,7 @@ class LogsHandler:
             A list formated with the data to be inserted in the 
             tournament.game_stats table
         """
+        
         data = []
 
         for _, items in logs.items():
@@ -115,21 +116,21 @@ class LogsHandler:
         ]
 
     @staticmethod
-    def prepare_championships_logs_to_db(logs: dict, club_id: int, season: int) -> list:
+    def prepare_championships_logs_to_db(logs: dict, club: Club, season: str) -> list:
         """Convert and prepare the logs to insert a chmapionships table
         
         Parameters
         ----------
         logs : dict
             The return dict from Game().logs
-        club_id : int
-            The id from the Club object
-        season : int
+        club : Club
+            A Club Object
+        season : str
             The value of the season from the championship
 
         Returns
         -------
-            A list formated with the data to be inserted in the 
+            A formated list with a data to be inserted in the 
             tournament.championships table
         
             [ win, loss, draw, home_goals, away_goals, goals_diff, club_id, season ]
@@ -150,7 +151,7 @@ class LogsHandler:
         data.append(logs['others']['away_goals'])
         data.append(data[0] - data[1])
 
-        data.append(club_id)
+        data.append(club.id)
         data.append(season)
 
         return data
