@@ -3,7 +3,7 @@ from random import choice, randint
 
 
 class BaseGame:
-	"""
+    """
     Class that deals with Game logs and all data inside the Game
 
     ...
@@ -24,8 +24,8 @@ class BaseGame:
         Increase by one the player_stats on logs
     update_game_stats_on_logs(stat: str, home_away: str)
         Increase by one the game_stats on logs
-	"""
-
+    """
+    
     def __init__(self, home, away, season, stadium, ticket):
         ''' This will handle all that code that have to do with the game data '''
 
