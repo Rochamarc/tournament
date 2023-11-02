@@ -136,16 +136,14 @@ class LogsHandler:
             [ win, loss, draw, home_goals, away_goals, goals_diff, club_id, season ]
         """
          
-                
-
         data = []
 
         if logs['others']['draw']:
-            data += [0,0,1]
-        elif logs['others']['winner'] == club:
-            data += [1,0,0]
+            data += [1,0,0,1]
+        elif logs['others']['winner'] == club.name:
+            data += [3,1,0,0]
         else:
-            data += [0,1,0]
+            data += [0,0,1,0]
 
         data.append(logs['others']['home_goals'])
         data.append(logs['others']['away_goals'])
