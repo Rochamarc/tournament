@@ -1,0 +1,3 @@
+ex: 
+
+pydoc-markdown -I classes/. --render-toc > classes.md 
