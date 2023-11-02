@@ -147,6 +147,10 @@ Clone, setup and running.
     ```py
       python ./configure.py
     ```
+7. Run the main code
+    ```py
+      python main.py
+    ```
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
