@@ -8,9 +8,33 @@ database_config = {
 }
 
 class NamesController:
+    """
+    Class that handle tournament_name database
+
+    Methods
+    -------
+    insert_first_names(first_names: list, nationality: str)
+        Insert first names in database
+    insert_last_names(last_names: list, nationality: str)
+        Insert last names in database
+    """
+    
     @staticmethod
     def insert_first_names(first_names: list, nationality: str) -> None:
-        ''' Insert names into the tournament_name.first_names '''
+        """Insert names into the tournament_name.first_names 
+        
+        Parameters
+        ----------
+        first_names : list
+            A list of first names
+        nationality : str
+            A string with the nationality of the names
+        
+        Returns
+        -------
+            None
+        """
+        
         conn = mysql.connector.connect(**database_config)
         cursor = conn.cursor()
 
@@ -24,7 +48,20 @@ class NamesController:
 
     @staticmethod
     def insert_last_names(last_names: list, nationality: str) -> None:
-        ''' '''
+        """Insert names into the tournament_name.last_names 
+        
+        Parameters
+        ----------
+        last_names : list
+            A list of last names
+        nationality : str
+            A string with the nationality of the names
+        
+        Returns
+        -------
+            None
+        """        
+
         conn = mysql.connector.connect(**database_config)
         cursor = conn.cursor()
 
