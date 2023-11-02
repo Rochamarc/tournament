@@ -1,4 +1,5 @@
 from helper import ClassConstructor
+from db.championship_controller import ChampionshipsController
 from db.clubs_controller import ClubsController
 from db.games_controller import GamesController
 from db.players_controller import PlayersController
@@ -9,6 +10,7 @@ from logs_helper import LogsHandler
 # Static classes
 class_const = ClassConstructor()
 
+championships_controller = ChampionshipsController()
 clubs_controller = ClubsController()
 games_controller = GamesController()
 players_controller = PlayersController()
@@ -54,6 +56,8 @@ serie_a_games = class_const.prepare_games(serie_a_schedule, stadiums, 'Campeonat
 serie_b_games = class_const.prepare_games(serie_b_schedule, stadiums, 'Campeonato Brasileiro Serie B', 2022)
 serie_c_games = class_const.prepare_games(serie_c_schedule, stadiums, 'Campeonato Brasileiro Serie C', 2022)
 
+season = '2022'
+
 # Starting this matches
 for game in serie_a_games:
     game.start()
@@ -73,6 +77,12 @@ for game in serie_a_games:
     prepare_game = logs_handler.prepare_game_logs_to_db(game.logs, game_ids)
     games_controller.insert_games_list([prepare_game])
 
+    home_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.home, season)
+    away_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.away, season)
+
+    championships_controller.update_championship_table(home_data)
+    championships_controller.update_championship_table(away_data)
+
 for game in serie_b_games:
     game.start()
 
@@ -91,6 +101,13 @@ for game in serie_b_games:
     prepare_game = logs_handler.prepare_game_logs_to_db(game.logs, game_ids)
     games_controller.insert_games_list([prepare_game])
 
+    home_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.home, season)
+    away_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.away, season)
+
+    championships_controller.update_championship_table(home_data)
+    championships_controller.update_championship_table(away_data)
+
+
 for game in serie_c_games:
     game.start()
 
@@ -108,3 +125,9 @@ for game in serie_c_games:
     # Prepare data for insertiong
     prepare_game = logs_handler.prepare_game_logs_to_db(game.logs, game_ids)
     games_controller.insert_games_list([prepare_game])
+
+    home_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.home, season)
+    away_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.away, season)
+
+    championships_controller.update_championship_table(home_data)
+    championships_controller.update_championship_table(away_data)
