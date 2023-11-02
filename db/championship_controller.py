@@ -11,8 +11,11 @@ class ChampionshipsController(BaseController):
     -------
 
     select_championships_table_by_club(season: int, club_id: int)
-        Select championships table by club
-    
+        Select one championships row by club
+    select_championship_table_by_division(season: int, division_name: str)
+        Select all divisions championships rows by division & season
+    update_championship_table(data: list)
+        Update a championships row
     """
     
     @classmethod
