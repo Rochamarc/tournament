@@ -123,7 +123,7 @@ class NamesController(BaseController):
         return res
 
     @classmethod
-    def select_full_name_by_nationality(cls, nationality: str):
+    def select_full_name_by_nationality(cls, nationality: str) -> list[set]:
         """Select a random name from tournament_name.first_names & tournament_name.last_names 
         
         Parameters
@@ -139,9 +139,12 @@ class NamesController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_random_name_by_nationality'), [nationality])
+        cursor.execute(cls.get_select_query('select_random_name_by_nationality'), [nationality, nationality])
         res = cursor.fetchall()
 
         conn.close()
 
         return res
+
+if __name__ == "__main__":
+    print(NamesController().select_full_name_by_nationality('portuguese br'))
