@@ -21,7 +21,7 @@ class OverallController(BaseController):
         ----------
         overall_data : list
             A list of list containing
-            overall: int, player_id: int
+            season: str, overall: int, player_id: int
         
         Returns
         -------
