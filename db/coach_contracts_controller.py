@@ -14,7 +14,7 @@ class CoachContractsController(BaseController):
     """
 
     @classmethod
-    def insert_player_contracts(cls, coach_contracts_data: list) -> None:
+    def insert_coach_contracts(cls, coach_contracts_data: list) -> None:
         """Insert a list of player_contracts_data into tournament.coach_contracts
 
         Parameters

@@ -1,4 +1,4 @@
-from base_controller import BaseController
+from NameGenerator.base_controller import BaseController
 
 import mysql.connector
 
