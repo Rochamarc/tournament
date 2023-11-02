@@ -1,1 +1,1 @@
-INSERT INTO coaches VALUES(NULL, %s, %s, %s)
+INSERT INTO coaches VALUES(NULL, %s, %s, %s);

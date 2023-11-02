@@ -22,7 +22,7 @@ class BaseController:
                 If the file doesnt exists
         """
         
-        file_path = 'queries/select/{}.sql'.format(file_name)
+        file_path = 'NameGenerator/queries/select/{}.sql'.format(file_name)
         try:
             with open(file_path, 'r') as file:
                 return ''.join(file.readlines())
@@ -48,7 +48,7 @@ class BaseController:
                 If the file doesnt exists
         """
         
-        file_path = 'queries/insert/{}.sql'.format(file_name)
+        file_path = 'NameGenerator/queries/insert/{}.sql'.format(file_name)
         try:
             with open(file_path, 'r') as file:
                 return ''.join(file.readlines())
