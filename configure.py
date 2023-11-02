@@ -3,11 +3,15 @@ from random import choice, randint, shuffle, uniform
 
 from NameGenerator.names_controller import NamesController
 from db.clubs_controller import ClubsController
+from db.coaches_controller import CoachesController
+from db.coach_contracts_controller import CoachContractsController
 from db.overall_controller import OverallController
 from db.players_controller import PlayersController
 from db.player_contracts_controller import PlayerContractsController
 
 clubs_controller = ClubsController()
+coaches_controller = CoachesController()
+coach_contracts_controller = CoachContractsController()
 names_controller = NamesController()
 overall_controller = OverallController()
 players_controller = PlayersController()
@@ -92,9 +96,6 @@ for club in clubs:
 
 # INSERT PLAYERS OVERALL
 
-# Queries
-# select_players_id
-
 # insert a players overall table with 
 season = '2022'
 
@@ -111,57 +112,28 @@ for player in players:
 
 # CREATE COACHES
 
-# Database configuration and connection
-db_config['database'] = 'tournament_name'
-
-conn = mysql.connector.connect(**db_config)
-cursor = conn.cursor()
-
-# Queries 
-select_clubs_id = "SELECT id FROM clubs;" 
-
-insert_coaches = "INSERT INTO coaches VALUES(NULL, %s, %s, %s)"
-
-select_random_first_name = 'SELECT first_names.value FROM first_names ORDER BY RAND() LIMIT 1';
-select_random_last_name = 'SELECT last_names.value FROM last_names ORDER BY RAND() LIMIT 1';
-
-# Change databse and reconnect and create a new cursor 
-db_config['database'] = 'tournament'
-
-conn2 = mysql.connector.connect(**db_config)
-cursor2 = conn2.cursor()
-
 # Create a list of countries to be coach.nationality
 countries = ['Brazil', 'Chile', 'Argentina', 'Uruguay', 'Portugal', 'Paraguay', 'Colombia', 'Venezuela' ]
 
 # Select clubs id
-cursor2.execute(select_clubs_id)
-clubs = cursor2.fetchall()
+clubs = clubs_controller.select_id()
 
 # Create coaches and insert into the database 
 for c in clubs:
-    cursor.execute(select_random_first_name) # select a random first name
-    f = cursor.fetchall()
-
-    cursor.execute(select_random_last_name) # select a random last name
-    l = cursor.fetchall()
+    # Select the name
+    name = names_controller.select_full_name_by_nationality('portuguese br') 
     
-    name = ' '.join([f[0][0], l[0][0]]) # define the name    
+    # define the name
+    full_name = ' '.join([name[0][0], name[0][-1]])     
     
     nationality = choice(countries) # nationality
     
     birth = str(randint(1950, 1979)) # birth
 
-    cursor2.execute(insert_coaches, [name, nationality, birth])
-
-conn2.commit()    
+    # Coaches controller
+    coaches_controller.insert_coaches([ [name, nationality, birth] ])
 
 # COACHES CONTRACTS 
-
-# Queries 
-insert_contract = "INSERT INTO coach_contracts (start, end, salary, club_id, coach_id) VALUES(%s, %s, %s, %s, %s);"
-select_coaches = "SELECT id FROM coaches;"
-select_clubs = "SELECT id FROM clubs"
 
 # Coaches creation clauses
 start = '2022'
@@ -169,11 +141,8 @@ end = '2026'
 salary = 100_000
 
 # Select coaches and clubs
-cursor2.execute(select_coaches)
-coaches = cursor2.fetchall()
-
-cursor2.execute(select_clubs)
-clubs = cursor2.fetchall()
+coaches = coaches_controller.select_id()
+clubs = clubs_controller.select_id()
 
 # Shuffle the data
 shuffle(coaches)
@@ -182,11 +151,4 @@ shuffle(clubs)
 # Create and inser data into the database
 
 for _ in range(len(coaches)):
-    club_id = clubs.pop()[0]
-    coach_id = coaches.pop()[0]
-
-    cursor2.execute(insert_contract, [start, end, salary, club_id, coach_id])
-conn2.commit()
-
-conn2.close()
-conn.close()
+    coach_contracts_controller.insert_player_contracts([ start, end, salary, clubs.pop()[0], coaches.pop()[0] ])

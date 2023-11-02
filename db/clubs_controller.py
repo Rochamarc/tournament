@@ -11,6 +11,8 @@ class ClubsController(BaseController):
     -------
     select_id_name()
         Select all club's id and name
+    select_id()
+        Select all club's id
     select_serie_a_clubs()
         Select all clubs by serie a
     select_serie_b_clubs()
@@ -37,7 +39,19 @@ class ClubsController(BaseController):
         conn.close()
 
         return res
+    
+    @classmethod
+    def select_id(cls) -> list[set]:
+        """Select id from clubs
+
+        Returns
+        -------
+            A list of lists with: id
+        """
+
+        res = cls.select_id_name()
         
+        return [ r[0] for r in res ]
 
     @classmethod
     def select_serie_a_clubs(cls) -> list[set]:
