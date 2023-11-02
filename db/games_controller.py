@@ -11,7 +11,7 @@ class GamesController(BaseController):
     -------
 
     insert_games_list(games_data: list)
-        Insert a list of tournament.game in database
+        Insert a list of tournament.games in database
     insert_game_stat_with_id_return(game_data)
         Insert a tournament.game_stats in database
     select_last_id()

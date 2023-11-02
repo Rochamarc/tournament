@@ -1,0 +1,1 @@
+INSERT INTO player_contracts (start, end, salary, club_id, player_id) VALUES(%s, %s, %s, %s, %s);
