@@ -156,9 +156,10 @@ Clone, setup and running.
 ## Other Docs
 
 * [Classes](./docs/classes.md)
+* [Tournament](./docs/tournament.md)
 * [Database](./docs/database.md)
-* [Game](./docs/game.md)
-* [Name](./docs/name_nationality.md)
+* [Controllers](./docs/controllers.md)
+* [NameGenerator](./docs/name_generator.md)
 
 
 <!-- USAGE EXAMPLES -->
