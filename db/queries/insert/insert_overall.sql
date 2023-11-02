@@ -1,0 +1,1 @@
+INSERT INTO overall VALUES(NULL, '2022', %s, %s)

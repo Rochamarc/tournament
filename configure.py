@@ -1,43 +1,19 @@
 import mysql.connector
 from random import choice, randint, shuffle, uniform
 
-# Database creation and configuration 
-db_config = {
-    "user": "tournament_user",
-    "password": "tournament_pass",
-    "host": "localhost",
-    "database": "tournament_name"
-}
+from NameGenerator.names_controller import NamesController
+from db.clubs_controller import ClubsController
+from db.overall_controller import OverallController
+from db.players_controller import PlayersController
+from db.player_contracts_controller import PlayerContractsController
 
-conn = mysql.connector.connect(**db_config)
-cursor = conn.cursor()
+clubs_controller = ClubsController()
+names_controller = NamesController()
+overall_controller = OverallController()
+players_controller = PlayersController()
+player_contracts_controller = PlayerContractsController()
 
 # CREATE PLAYERS AND PLAYERS CONTRACT
-
-# Queries
-# Select queries, the 3 queries that are used before insertion
-select_first_names = """
-SELECT first_names.value 
-FROM first_names
-WHERE first_names.nationality = 'portuguese br';
-"""
-
-# WHERE first_names.language = 'Portuguese';
-
-select_last_names = """
-SELECT last_names.value 
-FROM last_names
-WHERE last_names.nationality = 'portuguese br';
-"""
-
-# WHERE last_names.language = 'Portuguese';
-
-select_clubs = "SELECT id, name FROM clubs;"
-
-# Insert and select queries, the 3 last queries that are used in insertion
-insert_contract = "INSERT INTO player_contracts (start, end, salary, club_id, player_id) VALUES(%s, %s, %s, %s, %s);"
-insert_players = "INSERT INTO players VALUES(NULL, %s, %s, %s, %s, %s, %s, %s);"
-select_last_players = "SELECT id FROM players ORDER BY(id) DESC LIMIT 30;"
 
 # Suport lists
 gk = ['GK']
@@ -48,29 +24,19 @@ at = ['SS', 'WG', 'CF' ]
 countries = ['Argentina', 'Colombia', 'Uruguay', 'Paraguay', 'Chile']
 
 # Select brazilian first & last names
-cursor.execute(select_first_names)
-br_first_names = cursor.fetchall()
+nationality = "portuguese br"
 
-cursor.execute(select_last_names)
-br_last_names = cursor.fetchall()
+br_first_names = names_controller.select_first_names(nationality)
+br_last_names = names_controller.select_last_names(nationality)
 
 # Select spanish first & last names
-cursor.execute(select_first_names.replace('portuguese br','spanish'))
-g_first_names = cursor.fetchall()
+nationality = 'spanish'
 
-cursor.execute(select_last_names.replace('portuguese br', 'Spanish'))
-g_last_names = cursor.fetchall()
-
-# Change the database to tournament database instead of  tournament_name 
-# and reconnect and create another cursor 
-db_config['database'] = 'tournament'
-
-conn = mysql.connector.connect(**db_config)
-cursor = conn.cursor()
+g_first_names = names_controller.select_first_names(nationality)
+g_last_names = names_controller.select_last_names(nationality)
 
 # Select clubs names and id
-cursor.execute(select_clubs)
-clubs = cursor.fetchall()
+clubs = clubs_controller.select_id_name()
 
 # Create and insert a list of players data and insert into database
 for club in clubs:
@@ -110,43 +76,38 @@ for club in clubs:
             else: 
                 nationality = 'Brazil'
                 name = ' '.join([choice(br_first_names)[0], choice(br_last_names)[0]])
-                
-            cursor.execute(insert_players, [name, nationality, position, birth, height, weight, foot ]) # insert player into database
+                 
+            # insert player into database
+            players_controller.insert_players([[name, nationality, position, birth, height, weight, foot ]])
             
             # end of player insertion 
-        
-        conn.commit()
 
     # Select the 30 last players created and insert a contract between a club and player
-    cursor.execute(select_last_players) 
-    last_players = cursor.fetchall()
+    last_players = players_controller.select_last_players()
 
     for player in last_players:
-        cursor.execute(insert_contract, ['2022','2026', 100_000, club_id, player[0]])
-
-    conn.commit()
+        # cursor.execute(insert_contract, ['2022','2026', 100_000, club_id, player[0]])
+        player_contracts_controller.insert_player_contracts([ [ '2022', '2026', 100_000, club_id, player[0] ] ])
+    
 
 # INSERT PLAYERS OVERALL
 
 # Queries
-select_players_id = "SELECT id FROM players;"
+# select_players_id
 
 # insert a players overall table with season = '2022'
-insert_players_overall = "INSERT INTO overall VALUES(NULL, '2022', %s, %s)"
+# insert_players_overall 
 
 # Select players id
-cursor.execute(select_players_id)
-players = cursor.fetchall()
+players = players_controller.select_all_players_id()
 
 # Create and insert data into database 
 
-for p in players:
-    id = p[0]
+for player in players:
+    id = player[0]
     overall = randint(50,90)
-    cursor.execute(insert_players_overall, [overall, id])
-
-conn.commit()
-
+    # cursor.execute(insert_players_overall, [overall, id])
+    overall_controller.insert_overall([ [overall, id] ])
 
 # CREATE COACHES
 
