@@ -153,3 +153,35 @@ INSERT INTO stadiums(name, capacity, location) VALUES('Estádio da Paulista', 15
 INSERT INTO stadiums(name, capacity, location) VALUES('Estádio Sertanejo', 120000 ,'Brazil');
 INSERT INTO stadiums(name, capacity, location) VALUES('Arena Mário Jorge Lobo Zagallo', 70000 ,'Brazil');
 INSERT INTO stadiums(name, capacity, location) VALUES('Arena João Leite Ortiz', 35000 ,'Brazil');
+
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Monumental de la U",80903,"Peru","Lima");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Maracanã",78838,"Brazil","Rio de Janeiro");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Mané Garrincha",72788,"Brazil","Brasília");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Morumbi",72039,"Brazil"."Sao Paulo");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Monumental de Núñez",70074,"Argentina","Buenos Aires");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Mineirão",61846,"Brazil","Belo Horizonte");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Arena do Grêmio",60540,"Brazil","Porto Alegre");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Centenario",60235,"Uruguay"),"Montevideu";
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Estadio Nacional del Peru",60000,"Peru","Lima");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Arruda",60044,"Brazil","Recife");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Estadio Monumental Isidro Romero Carbo",57267,"Ecuador","Guayaquil");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Estadio Mario Alberto Kempes",57000,"Argentina","Cordoba");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Estadio La Bombonera",54000,"Argentina","Buenos Aires");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Municipal João Avelange",53350,"Brazil","Uberlandia");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Ciudad de La Plata",53000,"Argentina","Buenos Aires");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Castelão",52552,"Brazil","Fortaleza");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Deportivo Cali",52000,"Colombia","Cali");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Monumental de Maturín",51796,"Venezuela","Maturin");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Presidente Juan Domingo Perón",51389,"Argentina","Buenos Aires");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Beira-Rio",50842,"Brazil","Porto Alegre")
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Libertadores da America",49592,"Argentina","Buenos Aires");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("José Amalfitani",49540,"Argentina","Buenos Aires");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Néo Química Arena",49205,"Brazil","Sao Paulo");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Nacional de Chile",48665,"Chile","Santiago");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Metropolitano Lara",47913,"Venezuela","Cabudare");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Monumental de Chile",47347,"Chile","Santiago");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Ciudad de Lanús",47027,"Argentina","Lanus");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Metropolitano de Barranquilla",46692,"Colombia","Barranquilla");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Olímpico Pascual Guerrero",46400,"Colombia","Cali");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("General Pablo Rojas",45000,"Paraguay","Assunçao");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Atanasio Girardot",44739,"Colombia","Medellin");
