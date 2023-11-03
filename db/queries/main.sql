@@ -33,7 +33,8 @@ CREATE TABLE players(
 CREATE TABLE stadiums(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    location VARCHAR(100) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    city VARCHAR(100),
     capacity INT
 );
 
