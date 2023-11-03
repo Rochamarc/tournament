@@ -47,6 +47,8 @@ for club in clubs:
     club_id = club[0]
     n_for_player = { 'GK': 3, 'DF': 9, 'MF': 11, 'AT': 7 }
 
+    players_data = []
+
     # for position, number_of_players_per_position
     for ps, n_ps in n_for_player.items():
         # Player creation block 
@@ -80,18 +82,22 @@ for club in clubs:
             else: 
                 nationality = 'Brazil'
                 name = ' '.join([choice(br_first_names)[0], choice(br_last_names)[0]])
-                 
-            # insert player into database
-            players_controller.insert_players([[name, nationality, position, birth, height, weight, foot ]])
+                
+            # append player data
+            players_data.append([ name, nationality, position, birth, height, weight, foot ])
             
-            # end of player insertion 
+    # players insertion
+    players_controller.insert_players(players_data)
 
     # Select the 30 last players created and insert a contract between a club and player
     last_players = players_controller.select_last_players()
 
+    player_contracts = []
     for player in last_players:
-        # cursor.execute(insert_contract, ['2022','2026', 100_000, club_id, player[0]])
-        player_contracts_controller.insert_player_contracts([ [ '2022', '2026', 100_000, club_id, player[0] ] ])
+        # append players contracts
+        player_contracts.append([ '2022', '2026', 100_000, club_id, player[0] ])
+        
+    player_contracts_controller.insert_player_contracts(player_contracts)
     
 
 # INSERT PLAYERS OVERALL
@@ -104,11 +110,14 @@ players = players_controller.select_all_players_id()
 
 # Create and insert data into database 
 
+players_overall = []
 for player in players:
     id = player[0]
     overall = randint(50,90)
-    # cursor.execute(insert_players_overall, [overall, id])
-    overall_controller.insert_overall([ [season, overall, id] ])
+    players_overall.append([season, overall, id])
+
+overall_controller.insert_overall(players_overall)
+
 
 # CREATE COACHES
 
@@ -119,6 +128,8 @@ countries = ['Brazil', 'Chile', 'Argentina', 'Uruguay', 'Portugal', 'Paraguay', 
 clubs = clubs_controller.select_id()
 
 # Create coaches and insert into the database 
+
+coaches = []
 for c in clubs:
     # Select the name
     name = names_controller.select_full_name_by_nationality('portuguese br') 
@@ -131,7 +142,10 @@ for c in clubs:
     birth = str(randint(1950, 1979)) # birth
 
     # Coaches controller
-    coaches_controller.insert_coaches([ [full_name, nationality, birth] ])
+    coaches.append([full_name, nationality, birth])
+
+coaches_controller.insert_coaches(coaches)
+
 
 # COACHES CONTRACTS 
 
@@ -149,9 +163,11 @@ shuffle(coaches)
 shuffle(clubs)
 
 # Create and inser data into the database
-
+coach_contracts = []
 for _ in range(len(clubs)):
     club_id = clubs.pop()
     coach_id = coaches.pop()[0]
 
-    coach_contracts_controller.insert_coach_contracts([ [start, end, salary, club_id, coach_id] ])
+    coach_contracts.append([start, end, salary, club_id, coach_id])
+
+coach_contracts_controller.insert_coach_contracts(coach_contracts)
