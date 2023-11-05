@@ -148,6 +148,17 @@ CREATE TABLE championships(
     club_id INT
 );
 
+CREATE TABLE competitions(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100)
+);
+
+CREATE TABLE divisions(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    competition_id INT
+);
+
 /* CONSTRAINTS */
 
 ALTER TABLE player_contracts
@@ -209,6 +220,11 @@ ALTER TABLE championships
 ADD CONSTRAINT fk_championship_divisions
 FOREIGN KEY(division_id)
 REFERENCES divisions(id);
+
+ALTER TABLE divisions 
+ADD CONSTRAINT fk_division_competitions
+FOREIGN KEY(competition_id)
+REFERENCES competitions(id);
 
 /* ADD TRIGGERS */
 
