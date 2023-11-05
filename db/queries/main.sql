@@ -136,7 +136,6 @@ CREATE TABLE game_stats(
 CREATE TABLE championships(
     id INT PRIMARY KEY AUTO_INCREMENT,
     season CHAR(4) NOT NULL,
-    division VARCHAR(30) NOT NULL,
     matches INT DEFAULT 0,
     win INT DEFAULT 0,
     loss INT DEFAULT 0,
@@ -145,6 +144,7 @@ CREATE TABLE championships(
     goals_away INT DEFAULT 0,
     goals_diff INT DEFAULT 0,
     points INT DEFAULT 0,
+    division_id INT,
     club_id INT
 );
 
@@ -204,6 +204,11 @@ ALTER TABLE championships
 ADD CONSTRAINT fk_championship_clubs
 FOREIGN KEY(club_id)
 REFERENCES clubs(id);
+
+ALTER TABLE championships
+ADD CONSTRAINT fk_championship_divisions
+FOREIGN KEY(division_id)
+REFERENCES divisions(id);
 
 /* ADD TRIGGERS */
 
