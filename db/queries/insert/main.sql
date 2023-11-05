@@ -244,7 +244,7 @@ INSERT INTO stadiums(name, capacity, country, city) VALUES("Castelão",52552,"Br
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Deportivo Cali",52000,"Colombia","Cali");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Monumental de Maturín",51796,"Venezuela","Maturin");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Presidente Juan Domingo Perón",51389,"Argentina","Buenos Aires");
-INSERT INTO stadiums(name, capacity, country, city) VALUES("Beira-Rio",50842,"Brazil","Porto Alegre")
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Beira-Rio",50842,"Brazil","Porto Alegre");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Libertadores da America",49592,"Argentina","Buenos Aires");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("José Amalfitani",49540,"Argentina","Buenos Aires");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Néo Química Arena",49205,"Brazil","Sao Paulo");
