@@ -209,30 +209,30 @@ INSERT INTO championships(season, club_id, division_id) VALUES ('2022', 88, 4);
 
 /* GENERIC STADIUMS */
 
-INSERT INTO stadiums(name, capacity, location) VALUES('Rei Pelé Arena', 100000 ,'Brazil');
-INSERT INTO stadiums(name, capacity, location) VALUES('Estádio Porto Alegre', 65000 ,'Brazil');
-INSERT INTO stadiums(name, capacity, location) VALUES('Estádio Arthur Antunes Coimbra', 70000 ,'Brazil');
-INSERT INTO stadiums(name, capacity, location) VALUES('Arena do Castelo', 90000 ,'Brazil');
-INSERT INTO stadiums(name, capacity, location) VALUES('Arena Dom Pedro II', 150000 ,'Brazil');
-INSERT INTO stadiums(name, capacity, location) VALUES('Estádio do Tupiniquim', 30000 ,'Brazil');
-INSERT INTO stadiums(name, capacity, location) VALUES('Zumbi dos Palmares', 30000 ,'Brazil');
-INSERT INTO stadiums(name, capacity, location) VALUES('Arena Princesa Izabel', 62000 ,'Brazil');
-INSERT INTO stadiums(name, capacity, location) VALUES('Arena Joviedade', 200000 ,'Brazil');
-INSERT INTO stadiums(name, capacity, location) VALUES('Estádio da Paulista', 150000 ,'Brazil');
-INSERT INTO stadiums(name, capacity, location) VALUES('Estádio Sertanejo', 120000 ,'Brazil');
-INSERT INTO stadiums(name, capacity, location) VALUES('Arena Mário Jorge Lobo Zagallo', 70000 ,'Brazil');
-INSERT INTO stadiums(name, capacity, location) VALUES('Arena João Leite Ortiz', 35000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, country) VALUES('Rei Pelé Arena', 100000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, country) VALUES('Estádio Porto Alegre', 65000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, country) VALUES('Estádio Arthur Antunes Coimbra', 70000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, country) VALUES('Arena do Castelo', 90000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, country) VALUES('Arena Dom Pedro II', 150000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, country) VALUES('Estádio do Tupiniquim', 30000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, country) VALUES('Zumbi dos Palmares', 30000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, country) VALUES('Arena Princesa Izabel', 62000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, country) VALUES('Arena Joviedade', 200000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, country) VALUES('Estádio da Paulista', 150000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, country) VALUES('Estádio Sertanejo', 120000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, country) VALUES('Arena Mário Jorge Lobo Zagallo', 70000 ,'Brazil');
+INSERT INTO stadiums(name, capacity, country) VALUES('Arena João Leite Ortiz', 35000 ,'Brazil');
 
 /* REAL STADIUMS */
 
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Monumental de la U",80903,"Peru","Lima");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Maracanã",78838,"Brazil","Rio de Janeiro");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Mané Garrincha",72788,"Brazil","Brasília");
-INSERT INTO stadiums(name, capacity, country, city) VALUES("Morumbi",72039,"Brazil"."Sao Paulo");
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Morumbi",72039,"Brazil","Sao Paulo");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Monumental de Núñez",70074,"Argentina","Buenos Aires");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Mineirão",61846,"Brazil","Belo Horizonte");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Arena do Grêmio",60540,"Brazil","Porto Alegre");
-INSERT INTO stadiums(name, capacity, country, city) VALUES("Centenario",60235,"Uruguay"),"Montevideu";
+INSERT INTO stadiums(name, capacity, country, city) VALUES("Centenario",60235,"Uruguay","Montevideu");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Estadio Nacional del Peru",60000,"Peru","Lima");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Arruda",60044,"Brazil","Recife");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Estadio Monumental Isidro Romero Carbo",57267,"Ecuador","Guayaquil");
@@ -256,3 +256,34 @@ INSERT INTO stadiums(name, capacity, country, city) VALUES("Metropolitano de Bar
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Olímpico Pascual Guerrero",46400,"Colombia","Cali");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("General Pablo Rojas",45000,"Paraguay","Assunçao");
 INSERT INTO stadiums(name, capacity, country, city) VALUES("Atanasio Girardot",44739,"Colombia","Medellin");
+
+/* Stadium ownership */
+
+-- Maracana
+INSERT INTO stadium_ownership VALUES(NULL, 6, 15);
+INSERT INTO stadium_ownership VALUES(NULL, 7, 15);
+
+-- Neo quimica
+INSERT INTO stadium_ownership VALUES(NULL, 14, 36);
+
+-- morumbi
+INSERT INTO stadium_ownership VALUES(NULL, 13, 17);
+
+-- monumental
+INSERT INTO stadium_ownership VALUES(NULL, 61, 18);
+
+-- Mineirao
+INSERT INTO stadium_ownership VALUES(NULL, 23, 19);
+
+-- Arena gremio
+INSERT INTO stadium_ownership VALUES(NULL, 9, 20);
+
+-- castelao
+INSERT INTO stadium_ownership VALUES(NULL, 5, 29);
+INSERT INTO stadium_ownership VALUES(NULL, 4, 29);
+
+-- beira rio
+INSERT INTO stadium_ownership VALUES(NULL, 10, 33);
+
+-- Bombonera
+INSERT INTO stadium_ownership VALUES(NULL, 67, 26);

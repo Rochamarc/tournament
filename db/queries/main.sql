@@ -159,6 +159,12 @@ CREATE TABLE divisions(
     competition_id INT
 );
 
+CREATE TABLE stadium_ownership(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    club_id INT,
+    stadium_id INT
+);
+
 /* CONSTRAINTS */
 
 ALTER TABLE player_contracts
@@ -225,6 +231,16 @@ ALTER TABLE divisions
 ADD CONSTRAINT fk_division_competitions
 FOREIGN KEY(competition_id)
 REFERENCES competitions(id);
+
+ALTER TABLE stadium_ownership
+ADD CONSTRAINT fk_stadium_ownership_clubs
+FOREIGN KEY(club_id)
+REFERENCES clubs(id);
+
+ALTER TABLE stadium_ownership
+ADD CONSTRAINT fk_stadium_ownership_stadiums
+FOREIGN KEY(stadium_id)
+REFERENCES stadiums(id);
 
 /* ADD TRIGGERS */
 
