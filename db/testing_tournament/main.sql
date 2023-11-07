@@ -50,3 +50,65 @@ SELECT	name AS 'NAME',
 		pass AS 'PASS',
 		CEIL((tackle + strength + pass)/3) AS 'OVERALL' 
 FROM player;
+
+/* CUP TESTING */
+
+/*
+In this case, each table will have 4 clubs,
+for example the 2023 Libertadores 
+
+Group D
+
+Fluminense
+River Plate
+Sporting Cristal
+The Strongest
+*/
+
+CREATE TABLE clubs(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE competitions(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(100) NOT NULL
+);
+
+INSERT INTO clubs VALUES(NULL, 'FLUMINENSE');
+INSERT INTO clubs VALUES(NULL, 'RIVER PLATE');
+INSERT INTO clubs VALUES(NULL, 'SPORTING CRISTAL');
+INSERT INTO clubs VALUES(NULL, 'THE STRONGEST');
+
+INSERT INTO competitions VALUES(NULL, 'CONMEBOL LIBERTADORES DA AMERICA');
+
+CREATE TABLE group_phase(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+	group_name CHAR(1) NOT NULL,
+    season CHAR(4) NOT NULL,
+    matches INT DEFAULT 0,
+    win INT DEFAULT 0,
+    loss INT DEFAULT 0,
+    draw INT DEFAULT 0,
+    goals_for INT DEFAULT 0,
+    goals_away INT DEFAULT 0,
+    goals_diff INT DEFAULT 0,
+    points INT DEFAULT 0,
+    club_id INT,
+    competition_id INT
+);
+
+ALTER TABLE group_phase
+ADD CONSTRAINT fk_group_phase_clubs
+FOREIGN KEY(club_id)
+REFERENCES clubs(id);
+
+ALTER TABLE group_phase
+ADD CONSTRAINT fk_group_phase_competitons
+FOREIGN KEY(competition_id)
+REFERENCES competitions(id);
+
+INSERT INTO group_phase(group_name, season, club_id, competition_id) VALUES ('D', '2023', 1, 1);
+INSERT INTO group_phase(group_name, season, club_id, competition_id) VALUES ('D', '2023', 2, 1);
+INSERT INTO group_phase(group_name, season, club_id, competition_id) VALUES ('D', '2023', 3, 1);
+INSERT INTO group_phase(group_name, season, club_id, competition_id) VALUES ('D', '2023', 4, 1);
