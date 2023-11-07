@@ -112,3 +112,87 @@ INSERT INTO group_phase(group_name, season, club_id, competition_id) VALUES ('D'
 INSERT INTO group_phase(group_name, season, club_id, competition_id) VALUES ('D', '2023', 2, 1);
 INSERT INTO group_phase(group_name, season, club_id, competition_id) VALUES ('D', '2023', 3, 1);
 INSERT INTO group_phase(group_name, season, club_id, competition_id) VALUES ('D', '2023', 4, 1);
+
+/* REAL MODEL OF PLAYER OVERALL */
+
+CREATE TABLE player(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(100) NOT NULL,
+	position CHAR(2) NOT NULL
+);
+
+
+-- Position, reflex and diving only for keepers
+-- Tackle, strength pass are defensive skills
+-- Dribling, finishing and penalty are attacking skills
+
+CREATE TABLE player_skill(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	positioning INT DEFAULT 0,
+	reflex INT DEFAULT 0,
+	diving INT DEFAULT 0,
+	tackle INT DEFAULT 0,
+	strength INT DEFAULT 0,
+	passing INT DEFAULT 0,
+	dribling INT DEFAULT 0,
+	finish INT DEFAULT 0,
+	penalty INT DEFAULT 0,
+	player_id INT
+);
+
+ALTER TABLE player_skill
+ADD CONSTRAINT fk_player_skill_players
+FOREIGN KEY(player_id)
+REFERENCES player(id);
+
+INSERT INTO player VALUES(NULL, 'Player 1', 'GK');
+INSERT INTO player VALUES(NULL, 'Player 2', 'CB');
+INSERT INTO player VALUES(NULL, 'Player 3', 'AM');
+INSERT INTO player VALUES(NULL, 'Player 4', 'CF');
+
+INSERT INTO player_skill(positioning, reflex, diving, player_id) VALUES(65, 80, 82, 1);
+INSERT INTO player_skill(tackle, strength, passing, dribling, finish, penalty, player_id) VALUES(70, 80, 82, 60, 55, 40, 2);
+INSERT INTO player_skill(tackle, strength, passing, dribling, finish, penalty, player_id) VALUES(30, 20, 50, 80, 70, 66, 3);
+INSERT INTO player_skill(tackle, strength, passing, dribling, finish, penalty, player_id) VALUES(55, 54, 55, 75, 88, 90, 4);
+
+SELECT 	player.name,
+		player.position,
+		CEIL((player_skill.tackle + player_skill.strength + player_skill.passing + player_skill.dribling + player_skill.finish + player_skill.penalty)/6) AS 'Overall',
+		CEIL((player_skill.tackle + player_skill.strength + player_skill.passing)/3) AS 'Defensive Overall',
+		CEIL((player_skill.dribling + player_skill.finish + player_skill.penalty)/3) AS 'Attacking Overall'
+FROM player
+INNER JOIN player_skill
+WHERE player.id = player_skill.player_id AND player.position != 'GK';
+
+-- Ordenando por ataque
+SELECT 	player.name,
+		player.position,
+		CEIL((player_skill.tackle + player_skill.strength + player_skill.passing + player_skill.dribling + player_skill.finish + player_skill.penalty)/6) AS 'Overall',
+		CEIL((player_skill.tackle + player_skill.strength + player_skill.passing)/3) AS 'Defensive Overall',
+		CEIL((player_skill.dribling + player_skill.finish + player_skill.penalty)/3) AS 'Attacking Overall'
+FROM player
+INNER JOIN player_skill
+WHERE player.id = player_skill.player_id AND player.position != 'GK'
+ORDER BY 5;
+
+-- Ordenando por defensa
+SELECT 	player.name,
+		player.position,
+		CEIL((player_skill.tackle + player_skill.strength + player_skill.passing + player_skill.dribling + player_skill.finish + player_skill.penalty)/6) AS 'Overall',
+		CEIL((player_skill.tackle + player_skill.strength + player_skill.passing)/3) AS 'Defensive Overall',
+		CEIL((player_skill.dribling + player_skill.finish + player_skill.penalty)/3) AS 'Attacking Overall'
+FROM player
+INNER JOIN player_skill
+WHERE player.id = player_skill.player_id AND player.position != 'GK'
+ORDER BY 4;
+
+-- Ordenando por media geral
+SELECT 	player.name,
+		player.position,
+		CEIL((player_skill.tackle + player_skill.strength + player_skill.passing + player_skill.dribling + player_skill.finish + player_skill.penalty)/6) AS 'Overall',
+		CEIL((player_skill.tackle + player_skill.strength + player_skill.passing)/3) AS 'Defensive Overall',
+		CEIL((player_skill.dribling + player_skill.finish + player_skill.penalty)/3) AS 'Attacking Overall'
+FROM player
+INNER JOIN player_skill
+WHERE player.id = player_skill.player_id AND player.position != 'GK'
+ORDER BY 3;
