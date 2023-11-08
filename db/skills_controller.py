@@ -15,7 +15,7 @@ class SkillsController(BaseController):
     """
     
     @classmethod
-    def insert_skills(cls, skills_data: list) -> None:
+    def insert_skills(cls, skills_data: list, season: str) -> None:
         """Insert a list of overall data into tournament.overall
         
         Parameters
@@ -34,6 +34,8 @@ class SkillsController(BaseController):
         cursor = conn.cursor()                               
 
         for skill in skills_data:   
+            skill.insert(0, season) # insert season at data
+
             if len(skill) == 4:
                 query = cls.get_insert_query('insert_gk_skills')
             else:
