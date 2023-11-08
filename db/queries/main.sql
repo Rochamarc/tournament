@@ -148,6 +148,35 @@ CREATE TABLE championships(
     club_id INT
 );
 
+/* PLAYER SKILL 
+
+sliding_tackle
+shooting
+strength
+vision
+
+short_passing
+long_passing
+
+marking
+
+penalties
+*/
+
+CREATE TABLE skills(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    positioning INT DEFAULT 0,
+	reflexes INT DEFAULT 0,
+	diving INT DEFAULT 0,
+	standing_tackle INT DEFAULT 0,
+	physical INT DEFAULT 0,
+	passing INT DEFAULT 0,
+    dribbling INT DEFAULT 0,
+	long_shot INT DEFAULT 0,
+	finishing INT DEFAULT 0,
+	player_id INT
+);
+
 CREATE TABLE competitions(
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100)
@@ -241,6 +270,11 @@ ALTER TABLE stadium_ownership
 ADD CONSTRAINT fk_stadium_ownership_stadiums
 FOREIGN KEY(stadium_id)
 REFERENCES stadiums(id);
+
+ALTER TABLE skills
+ADD CONSTRAINT fk_skills_players
+FOREIGN KEY(player_id)
+REFERENCES players(id);
 
 /* ADD TRIGGERS */
 
