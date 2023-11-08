@@ -165,6 +165,7 @@ penalties
 
 CREATE TABLE skills(
     id INT PRIMARY KEY AUTO_INCREMENT,
+    season CHAR(4) NOT NULL,
     positioning INT DEFAULT 0,
 	reflexes INT DEFAULT 0,
 	diving INT DEFAULT 0,
