@@ -107,7 +107,7 @@ class PlayersController(BaseController):
     @classmethod
     def select_players_by_club(cls, club_name: str, season: str) -> list[set]:
         """Select players with contract of a club, this aggregates players table
-        with player_contracts, clubs & overall
+        with player_contracts, clubs & skills
 
         Parameters
         ----------
@@ -115,7 +115,7 @@ class PlayersController(BaseController):
         club_name : str
             Club's name that will be used as condition to clubs.name
         season : str
-            Season that will be used as parameter to player_contracts & overall
+            Season that will be used as parameter to player_contracts & skills
 
         Returns
         -------
@@ -135,13 +135,13 @@ class PlayersController(BaseController):
     @classmethod
     def select_players_with_contract(cls, season: str) -> list[set]:
         """Select all players that have a contract with a club, this aggregates players table
-        with player_contracts, clubs & overall
+        with player_contracts, clubs & skills
 
         Parameters
         ----------
 
         season : str
-            Season that will be used as parameter to player_contracts & overall
+            Season that will be used as parameter to player_contracts & skills
 
         Returns
         -------
