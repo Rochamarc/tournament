@@ -15,6 +15,8 @@ class PlayersController(BaseController):
         Select the 30 last tournament.players inserted
     select_all_players_id()
         Select all the player's id of tournament.players
+    select_all_players_id_position()
+        Select all the player's id and position of tournament.players
     select_players_by_club(club_name: str, season: str)
         Select all players with contract with a specific club
     select_players_with_contract(season: str)
@@ -60,6 +62,8 @@ class PlayersController(BaseController):
         cursor.execute(cls.get_select_query('select_last_players'))
         players = cursor.fetchall()
 
+        conn.close()
+
         return players
         
     @classmethod
@@ -68,7 +72,7 @@ class PlayersController(BaseController):
 
         Returns
         -------
-            A list with the id column from the tournament.players
+            A list of sets with (id,) column from the tournament.players
         """
         
         conn = mysql.connector.connect(**cls.database_config)
@@ -76,6 +80,27 @@ class PlayersController(BaseController):
 
         cursor.execute(cls.get_select_query('select_id_from_players'))
         players = cursor.fetchall()
+
+        conn.close()
+
+        return players
+    
+    @classmethod
+    def select_all_players_id_position(cls) -> list[set]:
+        """Select the player's id and position from tournament.players 
+
+        Returns
+        -------
+            A list of sets with (id, position,) from tournament.players
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(cls.get_select_query('select_id_position_from_players'))
+        players = cursor.fetchall()
+
+        conn.close()
 
         return players
 
@@ -103,6 +128,8 @@ class PlayersController(BaseController):
         cursor.execute(cls.get_select_query('select_players_by_clubs'), [club_name, season])
         players = cursor.fetchall()
 
+        conn.close()
+
         return players
 
     @classmethod
@@ -127,8 +154,9 @@ class PlayersController(BaseController):
         cursor.execute(cls.get_select_query('select_players_by_contracts'), [season])
         players = cursor.fetchall()
 
+        conn.close()
+        
         return players
-
 
 if __name__ == "__main__":
     print(PlayersController().select_players_by_club('2022'))
