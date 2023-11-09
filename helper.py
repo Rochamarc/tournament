@@ -41,14 +41,15 @@ class ClassConstructor:
 		----------
 		players_data : list
 			A list of data with the following format
-			[ id, name, nationality, birth, position, height, weight, foot, overall, club_id ]
+			[ id, name, nationality, birth, position, height, weight, foot, positioning,
+			reflexes, diving, dribling, long_shot, finishing, club_id ]
 		
 		Returns
 		-------
 			A list of Player Objects constructed with the data received
 		"""
 
-		return [ Player(pd[0], pd[1], pd[2], pd[3], pd[4], pd[5], pd[6], pd[7], pd[8], pd[9]) for pd in players_data ]
+		return [ Player(pd[0], pd[1], pd[2], pd[3], pd[4], pd[5], pd[6], pd[7], pd[8], pd[9], pd[10], pd[11], pd[12], pd[13], pd[14], pd[15], pd[16], pd[17]) for pd in players_data ]
 
 	@staticmethod
 	def clubs(clubs_data: list) -> list[Club]:
