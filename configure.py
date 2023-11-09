@@ -101,7 +101,7 @@ for club in clubs:
     for player in last_players:
         # append players contracts
         player_contracts.append([ '2022', '2026', 100_000, club_id, player[0] ])
-        
+
     player_contracts_controller.insert_player_contracts(player_contracts)
     
 
