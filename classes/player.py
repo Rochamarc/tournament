@@ -125,13 +125,15 @@ class Player(Person):
         -------
             gk_average if is a goalkeeper. the full average if it's not. 
         
-        TODO add weighted average to the position that are being calculated ex: self.defense_overall * 2 if the player are defensive
         '''
         
         if self.position == 'GK':
             return self.gk_average
-        return (self.standing_tackle + self.physical + self.passing + self.dribbling + self.long_shot + self.finishing) // 6
-    
+        
+        if self.defense_overall > self.attacking_overall:
+            return (self.defense_overall * 2 + self.attacking_overall) // 3
+        return (self.attacking_overall * 2 + self.defense_overall) // 3
+
     def __repr__(self):
         return f'Player({self.name})'
 
