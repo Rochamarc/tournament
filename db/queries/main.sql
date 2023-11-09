@@ -83,13 +83,6 @@ CREATE TABLE market_value(
 );
 
 
-CREATE TABLE overall(
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    season CHAR(4) NOT NULL,
-    overall INT NOT NULL,
-    player_id INT
-);
-
 /* RETIRING AND BACKUPS */
 
 CREATE TABLE retired_players(
@@ -227,11 +220,6 @@ ADD CONSTRAINT fk_market_value_players
 FOREIGN KEY(player_id)
 REFERENCES players(id);
 
-ALTER TABLE overall
-ADD CONSTRAINT fk_overall_players
-FOREIGN KEY(player_id)
-REFERENCES players(id);
-
 ALTER TABLE games
 ADD CONSTRAINT fk_games_home_game_stats
 FOREIGN KEY(home_game_stats_id)
@@ -290,3 +278,17 @@ END
 $
 
 DELIMITER ;
+
+/*
+CREATE TABLE overall(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    season CHAR(4) NOT NULL,
+    overall INT NOT NULL,
+    player_id INT
+);
+
+ALTER TABLE overall
+ADD CONSTRAINT fk_overall_players
+FOREIGN KEY(player_id)
+REFERENCES players(id);
+*/
