@@ -36,7 +36,7 @@ class SkillsController(BaseController):
         for skill in skills_data:   
             skill.insert(0, season) # insert season at data
 
-            if len(skill) == 4:
+            if len(skill) == 5:
                 query = cls.get_insert_query('insert_gk_skills')
             else:
                 query = cls.get_insert_query('insert_skills')
