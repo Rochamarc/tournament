@@ -8,6 +8,10 @@ from db.coach_contracts_controller import CoachContractsController
 from db.overall_controller import OverallController
 from db.players_controller import PlayersController
 from db.player_contracts_controller import PlayerContractsController
+from db.skills_controller import SkillsController
+
+from data_generator import get_skill_by_position
+
 
 clubs_controller = ClubsController()
 coaches_controller = CoachesController()
@@ -16,6 +20,7 @@ names_controller = NamesController()
 overall_controller = OverallController()
 players_controller = PlayersController()
 player_contracts_controller = PlayerContractsController()
+skills_controller = SkillsController()
 
 # CREATE PLAYERS AND PLAYERS CONTRACT
 
@@ -106,18 +111,21 @@ for club in clubs:
 season = '2022'
 
 # Select players id
-players = players_controller.select_all_players_id()
+players = players_controller.select_all_players_id_position()
 
 # Create and insert data into database 
 
-players_overall = []
+player_skills = []
 for player in players:
     id = player[0]
-    overall = randint(50,90)
-    players_overall.append([season, overall, id])
+    position = player[1]
 
-overall_controller.insert_overall(players_overall)
+    skills = get_skill_by_position(position)
+    skills.append(id)
 
+    player_skills.append(skills)
+    
+skills_controller.insert_skills(player_skills, season)
 
 # CREATE COACHES
 
