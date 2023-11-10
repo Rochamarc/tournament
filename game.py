@@ -1,9 +1,55 @@
-from collections import defaultdict
 from random import choice, randint 
 from base_game import BaseGame
-from classes.player import Player 
+from classes.player import Player
+from classes.club import Club
 
 class Game(BaseGame):
+    """
+    Class that deals with Game Simulation, generates data and makes game decisions automatically
+
+    ...
+    Methods
+    -------
+    start()
+        Start a match
+    move(attack_club: Club, defense_club: Club, field_part: str, sender=None)
+        Runs a move decisions
+    player_decision(field_part=None)
+        Make a player decision based on field part
+    move_decision(attacker: Player, defensor: Player)
+        Calculates a move sucess
+    select_player_on_field(club: Club, field_part: str)
+        Select a player based on his field part
+    select_position_by_field(field_part: str)
+        Select a player position by field part
+    select_player(club: Club, player_position: str)
+        Select a player based on his position and club
+    finish(midfielder: Player, attacker: Player, club_finish: Club)
+        Sucessfull finish
+    subs(club: Club)
+        Make a substitution
+    add_a_goal(club: Club, attacker: Player)
+        Add a goal to a club and attacker
+    check_for_sub_club(club: Club)
+        Check number of subs by club
+    check_number_subs(n_sub: int)
+        Calculates a substitution sucess
+    select_club_by_home_away(club: Club)
+        Return a club based on club
+    select_number_of_subs_by_home_away(club: Club)
+        Return home_subs or away_subs
+    sub_options(club: Club)
+        Select substitutes players options
+    remove_one_sub(club: Club)
+        Decrease a home_subs or away_subs
+    set_options(player_position: str, bench: list)
+        Select a list of players for position
+    decision(player_overall: int)
+        Calculates a decision sucess
+    check_subs(n_subs: int)
+        Calculates n_subs
+    """
+    
     def __init__(self, home, away, competition, season, match_round, stadium, ticket=50):
         super().__init__(home, away, season, stadium, ticket)
 
@@ -23,13 +69,18 @@ class Game(BaseGame):
         self.add_players_on_logs()
 
     def start(self) -> dict:
-        ''' Initialize a match, return the game logs '''
+        """Initialize a match start
+
+        Returns
+        -------
+            A dict with all the game stats, movements & information
+        """
 
         time = 0
         move_info = self.move(self.home, self.away, 'middle')
 
         while time < 90:
-            ''' This is the ninety minutes simulation part '''
+            # This is the ninety minutes simulation part 
             if self.home_goal == 7 or self.away_goal == 7 : break 
             move_info = self.move(move_info['club_possession'], move_info['other_club'], move_info['field_part'], move_info['sender'])
             time += 1
@@ -41,10 +92,25 @@ class Game(BaseGame):
         
         return self.logs 
     
-    def move(self, attack_club, defense_club, field_part, sender=None):
-        ''' Dict with info of move
-         { 'destiny': '', 'club_possession': '', 'other_club': '', 'sender': '' }
-        '''
+    def move(self, attack_club: Club, defense_club: Club, field_part: str, sender=None) -> dict:
+        """Makes decisions & calculates movements about the game and generates data
+        
+        Parameters
+        ----------
+        attack_club : Club
+            Club with ball possession
+        defense_club : Club
+            Club that will handle defense
+        field_part : str
+            Field part that the ball is running
+        sender : Player
+            Player that have the ball. If sender is None that means that the game is gonna start or after a goal
+        
+        Returns
+        -------
+            A dict with { 'field_part': str ,'club_possession': Club, 'other_club': Club, 'sender': Player }
+        """
+
         move_info = {}
 
         # Define an attacker
@@ -179,22 +245,69 @@ class Game(BaseGame):
 
         return move_info
     
-    def player_decision(self, field_part=None) -> str:
-        ''' Return a decision that can be made by a player '''
+    def player_decision(self, field_part: str) -> str:
+        """Simulates a decision that can be made by a player by his field part
+
+        Parameters
+        ----------
+        field_part : str
+            Part of the field that the player is
+
+        Returns
+        -------
+            A string that matches a player decision 
+        """
+        
         if field_part == 'front':
             return choice(['keep_ball_possesion', 'take_a_risk'])
         return choice(['keep_ball_possession', 'advance', 'take_a_risk'])
 
-    def move_decision(self, attacker, defensor) -> bool:
-        ''' Based on attacker and defensor overall make a decision, but the defensor have advantage '''
+    def move_decision(self, attacker: Player, defensor: Player) -> bool:
+        """Make a bool decision about the movement
+
+        Parameters
+        ----------
+        attacker : Player
+           Attacking player that will provides his overall
+        defensor : Player
+            Defensor player that will provides his overall
+
+        Returns
+        -------
+            A bool based on the denial of defensor decision and a true attacker decision
+        """
+
         return not self.decision(defensor.overall) and self.decision(attacker.overall)  
 
-    def select_player_on_field(self, club, field_part: str):
-        ''' Return a player based on field part '''
+    def select_player_on_field(self, club: Club, field_part: str):
+        """Select a random player based on his field part 
+        
+        Parameters
+        ----------
+        club : Club
+            A Club Object
+        field_part : str
+            A string that will set the position
+
+        Returns
+        -------
+            A Player object
+        """
+
         return self.select_player(club, self.select_position_by_field(field_part))
 
     def select_position_by_field(self, field_part: str) -> str:
-        ''' Return a position based on the field_part argument '''
+        """Select a player football role based on field_part
+
+        Parameters
+        ----------
+        field_part : str
+            A string containing a field_part
+
+        Returns
+        -------
+            A string containing a football role 
+        """
 
         if field_part == 'back':
             return 'attacker'
@@ -203,8 +316,20 @@ class Game(BaseGame):
         
         return 'defender'
 
-    def select_player(self, club, player_position):
-        ''' Return a player from the club start eleven '''
+    def select_player(self, club: Club, player_position: str):
+        """Select a player by a specific position
+        
+        Parameters
+        ----------
+        club : Club
+            A Club object that will set the list of players to be selected
+        player_position : str
+            A string with a player position. If position == 'any' select player by any position
+        
+        Returns
+        -------
+            A Player Object
+        """
 
         if club == self.home:
             start_eleven = self.home_players
@@ -221,24 +346,48 @@ class Game(BaseGame):
         return player 
 
 
-    def finish(self, midfielder, attacker, club_finish):
-        ''' Represents a sucessfull finish. Update the stats on logs '''
+    def finish(self, assistant: Player, finisher: Player, club_finish: Club) -> True:
+        """Update base_game logs & attributes
+
+        Parameters
+        ----------
+        assistant : Player
+            A Player Object that make the assistance
+        finisher : Player
+            A Player Object that make the finish
+        club_finish : Club
+            Club Object that have the assistant and finisher
+        
+        Returns
+        -------
+            A True boolean
+        """
 
         assist = choice([True,False]) # defines if the goal have an assist
 
-        self.add_a_goal(club_finish, attacker)
+        self.add_a_goal(club_finish, finisher)
 
         # Add stats to logs
         self.logs['game_stats'][club_finish.name]['goals'] += 1
-        self.logs['player_stats']['goals'][attacker] += 1
+        self.logs['player_stats']['goals'][finisher] += 1
 
-        if assist : self.logs['player_stats']['assists'][midfielder] += 1 
+        if assist : self.logs['player_stats']['assists'][assistant] += 1 
 
         return True
     
-    def subs(self, club) -> bool:
-        ''' Will make a sub if everything goes well return True '''
+    def subs(self, club: Club) -> bool:
+        """Make a substitution and updates the base_game logs
 
+        Parameters
+        ----------
+        club : Club
+            A Club Object that will make the substitution
+
+        Returns
+        -------
+            A bool based on the sucessfullness of the substitution
+        """
+        
         # Defines s_check, startin, bench, n_subs
         sub_opt = self.sub_options(club) 
         s_check, starting = sub_opt[0], sub_opt[1]
@@ -270,7 +419,21 @@ class Game(BaseGame):
             return True
         return False 
     
-    def add_a_goal(self, club, attacker) -> None:
+    def add_a_goal(self, club: Club, attacker: Player) -> None:
+        """Update base_game logs & attributes related to goals
+
+        Parameters
+        ----------
+        club : Club
+            A Club Object that score the goal
+        attacker : Player
+            A Player Object that score the goal
+        
+        Returns
+        -------
+            None
+        """
+        
         if club == self.home:
             self.home_goal += 1
             self.home_player_goals[attacker] += 1
@@ -280,8 +443,19 @@ class Game(BaseGame):
         self.away_player_goals[attacker] += 1
         return None
 
-    def check_for_sub_club(self, club) -> bool:
-        ''' Receive a club as argument and return true if the sub will happen '''
+    def check_for_sub_club(self, club: Club) -> bool:
+        """Check for the number of subs 
+        
+        Parameters
+        ----------
+        club : Club
+            A Club Object
+
+        Returns
+        -------
+            A boolean
+        """
+        
         sub_club = self.select_club_by_home_away(club)
         n_subs = self.select_club_number_of_subs_by_home_away(sub_club)
 
@@ -290,31 +464,98 @@ class Game(BaseGame):
             return True 
         return False 
 
-    def check_number_subs(self, n_sub: int) -> None:
-        ''' Return True or False if the n of subs is greater than 0 '''
+    def check_number_subs(self, n_sub: int) -> bool:
+        """Check if number of subs is greater than zero
+
+        Parameters
+        ----------
+        n_sub : int
+            An integer of number of subs
+
+        Returns
+        -------
+            A boolean 
+        """
+
         if n_sub > 0 :  return choice([True, False]) 
             
-    def select_club_by_home_away(self, club):
-        ''' Return a club pointer based on home or away '''
+    def select_club_by_home_away(self, club: Club) -> Club:
+        """Select home or away class attribute based on club
+
+        Parameters
+        ---------- 
+        club : Club
+            A Club Object  
+        
+        Returns
+        -------
+            A Club Object
+        """
+
         return self.home if club == self.home else self.away
 
-    def select_club_number_of_subs_by_home_away(self, club):
-        ''' '''
+    def select_club_number_of_subs_by_home_away(self, club: Club) -> int:
+        """Select home_subs or away_subs class attribute based on club
+
+        Parameters
+        ----------
+        club : Club
+            A Club Object
+        
+        Returns
+        -------
+            An integer
+        """
+        
         return self.home_subs if club == self.home else self.away_subs
 
     def sub_options(self, club) -> list:
-        ''' Return the s_check, starting, bench & home_away '''
+        """Select a list of players that can be subbed
+
+        Parameters
+        ----------
+        club : Club
+            A Club Object
+        
+        Returns
+        -------
+            A list with Player Objects that are'n in Club().start_eleven
+        """
+        
         if club == self.home:
             return [ self.check_subs(self.home_subs), self.home_players, self.home_bench, 'home' ]
         return [self.check_subs(self.away_subs), self.away_players, self.away_bench, 'away']
 
-    def remove_one_sub(self, club) -> None:
-        ''' Remove one sub '''
+    def remove_one_sub(self, club: Club) -> None:
+        """Decrease one home_subs or away_subs class attribute
+
+        Parameters
+        ----------
+        club : Club
+            A Club Object
+        
+        Returns
+        -------
+            None
+        """
+        
         if club == self.home : self.home_subs -= 1
         if club == self.away : self.away_subs -= 1        
 
-    def set_options(self, player_position, bench):
-        ''' Return a list of players for a position that matches the player_position '''
+    def set_options(self, player_position: str, bench: list) -> list:
+        """Select a list of players by position
+
+        Parameters
+        ----------
+        player_position : str
+            A string with player's position
+        bench : list
+            A list of bench players
+        
+        Returns
+        -------
+            A list with bench players
+        """
         
         positions = self.positions.copy()
         del positions['goalkeeper']
@@ -325,11 +566,33 @@ class Game(BaseGame):
         return None
     
     def decision(self, p_overall) -> bool:
-        ''' Retrun True if player overall is greater then a random between (1,100) '''
+        """Calculates a decision based on players overall
+
+        Parameters
+        ----------
+        p_overall : int
+            An integer with players overall
+
+        Returns
+        -------
+            A bool
+        """
+        
         return randint(49, 100) < p_overall 
     
     def check_subs(self, n_subs) -> bool:
-        ''' returns True if the team still have subs left '''
+        """Check for a sub based on number of subs
+
+        Parameters
+        ----------
+        n_subs : int
+            An integer containing number of subs
+        
+        Returns
+        -------
+            A bool
+        """
+        
         return n_subs > 0
 
     def __repr__(self) -> str:
