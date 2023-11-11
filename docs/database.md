@@ -94,13 +94,21 @@
     player_id FOREIGN KEY 
 ```
 
-### Overall
+### Skills
 ---
 ```sql
     id PRIMARY KEY
     season CHAR(4)
-    overall INT
-    player_id FOREIGN KEY
+    positioning INT
+	reflexes INT
+	diving INT
+	standing_tackle INT
+	physical INT
+	passing INT
+    dribbling INT
+	long_shot INT
+	finishing INT
+	player_id FOREIGN KEY
 ```
 
 ### Retired Players
@@ -164,6 +172,26 @@
     goals_diff INT
     points INT
     club_id FOREIGN KEY
+```
+
+### Competitions
+```sql
+    id PRIMARY KEY
+    name VARCHAR(100)
+```
+
+### Divions
+```sql
+    id PRIMARY KEY
+    name VARCHAR(100)
+    competition_id FOREIGN KEY
+```
+
+### Stadium_Ownership
+```sql
+    id PRIMARY KEY
+    club_id INT
+    stadium_id FOREIGN KEY
 ```
 
 ### Back to the main file
