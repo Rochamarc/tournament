@@ -21,6 +21,8 @@ class PlayersController(BaseController):
         Select all players with contract with a specific club
     select_players_with_contract(season: str)
         Select all players with contract with a club
+    delete_players()
+        Delete all players from database
     """
         
     @classmethod
@@ -157,6 +159,26 @@ class PlayersController(BaseController):
         conn.close()
         
         return players
+
+    @classmethod
+    def delete_players(cls) -> None:
+        """Delete all players and his constraints
+
+        Returns
+        -------
+            None
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(cls.get_delete_query('delete_players'))
+
+        conn.close()
+
+        return None 
+
+        pass 
 
 if __name__ == "__main__":
     print(PlayersController().select_players_by_club('2022'))
