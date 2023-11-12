@@ -43,39 +43,30 @@ class BaseGame:
 
 
         # define the audience with the whole stadium capacity with half of the capacity
-        audience = randint((stadium.capacity // 2), stadium.capacity)
+        audience = randint((stadium.capacity // 4), stadium.capacity)
         audience_full_price = audience // 1.3
         audience_half_price = audience - audience_full_price
 
+        stats_example = {
+            'home': True,
+            'goals': 0,
+            'shots' : 0,
+            'shots on target' : 0,
+            'fouls' : 0,
+            'passes': 0,
+            'interceptions': 0,
+            'tackles' : 0,
+            'stolen_balls': 0,
+            'saves' : 0,
+            'ball possession' : 0,
+            'offsides' : 0,
+            'free kicks' : 0,
+            'penalties': 0
+        }
+
         self.stats = {
-            home.name: {
-                'home': True,
-                'goals': 0,
-                'shots' : 0,
-                'shots on target' : 0,
-                'fouls' : 0,
-                'tackles' : 0,
-                'stolen_balls': 0,
-                'saves' : 0,
-                'ball possession' : 0,
-                'offsides' : 0,
-                'free kicks' : 0,
-                'penalties': 0
-            },
-            away.name: {
-                'home': False,
-                'goals': 0,
-                'shots' : 0,
-                'shots on target' : 0,
-                'fouls' : 0,
-                'tackles' : 0,
-                'stolen_balls': 0,
-                'saves' : 0,
-                'ball possession' : 0,
-                'offsides' : 0,
-                'free kicks' : 0,
-                'penalties': 0
-            }
+            home.name: stats_example,
+            away.name: stats_example
         }
 
         self.logs = {
@@ -103,7 +94,7 @@ class BaseGame:
                 "away_goals": 0                
             },
             "field": {
-                "location": "{} {}".format(stadium.city, stadium.country),
+                "location": "{}, {}".format(stadium.city, stadium.country),
                 "stadium": stadium.name,
                 "audience": audience,
                 "conditions": {
