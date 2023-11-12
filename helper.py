@@ -76,14 +76,14 @@ class ClassConstructor:
 		----------
 		stadiums_data : list
 			A list of data with the following format 
-			[ stadium_name, stadium_location, stadium_capacity ] 
+			[ stadium_name, stadium_country, stadium_city, stadium_capacity ] 
 		
 		Returns
 		-------
 			A list of Stadium Objects constructed with the data received
 		"""
 
-		return [ Stadium(sd[0], sd[1], sd[2]) for sd in stadiums_data ] 
+		return [ Stadium(sd[0], sd[1], sd[2], sd[3]) for sd in stadiums_data ] 
 	
 
 	@staticmethod

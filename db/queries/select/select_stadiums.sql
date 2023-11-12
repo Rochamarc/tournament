@@ -1,4 +1,5 @@
 SELECT  name, 
-        location, 
+        country,
+        city, 
         capacity
 FROM stadiums;

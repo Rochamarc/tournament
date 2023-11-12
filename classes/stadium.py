@@ -8,15 +8,18 @@ class Stadium:
     ----------
         name : str
             The name of the Stadium
-        location : str
-            The location of the stadium
+        country : str
+            Stadium country
+        city : str
+            Stadium city
         capacity : int
             The maximum capacity of audience supported by the stadium
     """
 
-    def __init__(self, name: str, location: str, capacity: int):
+    def __init__(self, name: str, country: str, city: str, capacity: int):
         self.name = name
-        self.location = location
+        self.country = country
+        self.city = city
         self.capacity = capacity
         
     def __repr__(self) -> str:
