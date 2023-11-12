@@ -54,6 +54,7 @@ class BaseGame:
             'shots on target' : 0,
             'fouls' : 0,
             'passes': 0,
+            'wrong passes': 0,
             'interceptions': 0,
             'tackles' : 0,
             'stolen_balls': 0,
@@ -65,8 +66,8 @@ class BaseGame:
         }
 
         self.stats = {
-            home.name: stats_example,
-            away.name: stats_example
+            home.name: stats_example.copy(),
+            away.name: stats_example.copy()
         }
 
         self.logs = {
@@ -77,6 +78,9 @@ class BaseGame:
                 "goals": defaultdict(int),
                 "tackles": defaultdict(int),
                 "defenses": defaultdict(int),
+                "passes": defaultdict(int),
+                "wrong_passes": defaultdict(int),
+                "intercepted_passes": defaultdict(int),
                 "dificult_defenses": defaultdict(int),
                 "clearances": defaultdict(int),
                 "fouls": defaultdict(int),
@@ -194,6 +198,7 @@ class BaseGame:
     
     def update_player_stats_on_logs(self, stats: str, player: Player):
         """Increase by one the stat on logs['player_stats'][stats][player]
+        
 
         Parameters
         ----------
@@ -209,9 +214,11 @@ class BaseGame:
         
         self.logs['player_stats'][stats][player] += 1
 
-    def update_game_stats_on_logs(self, stat: str, home_away: str):
+    def update_game_stats_on_logs(self, stat: str, club_name: str):
         """Increase by one the stat on logs['game_stats'][home_away][stats]
-
+        stats options = 'goals','shots','shots on target','fouls','passes','wrong passes','interceptions',
+        'tackles','stolen_balls','saves','ball possession','offsides','free kicks','penalties'
+        
         Parameters
         ----------
         stat : str
@@ -224,4 +231,4 @@ class BaseGame:
             None
         """
 
-        self.logs['game_stats'][home_away][stat] += 1
+        self.logs['game_stats'][club_name][stat] += 1
