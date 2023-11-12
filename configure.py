@@ -5,7 +5,6 @@ from NameGenerator.names_controller import NamesController
 from db.clubs_controller import ClubsController
 from db.coaches_controller import CoachesController
 from db.coach_contracts_controller import CoachContractsController
-from db.overall_controller import OverallController
 from db.players_controller import PlayersController
 from db.player_contracts_controller import PlayerContractsController
 from db.skills_controller import SkillsController
@@ -17,7 +16,6 @@ clubs_controller = ClubsController()
 coaches_controller = CoachesController()
 coach_contracts_controller = CoachContractsController()
 names_controller = NamesController()
-overall_controller = OverallController()
 players_controller = PlayersController()
 player_contracts_controller = PlayerContractsController()
 skills_controller = SkillsController()
