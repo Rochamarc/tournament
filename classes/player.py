@@ -93,7 +93,7 @@ class Player(Person):
             Average of position, reflexes & diving
         '''
 
-        return (self.position + self.reflexes + self.diving) // 3
+        return (self.positioning + self.reflexes + self.diving) // 3
     
     @property
     def defense_overall(self) -> int:
