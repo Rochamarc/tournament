@@ -77,6 +77,9 @@
     goals INT
     assists INT
     tackles INT
+    passes INT
+    wrong_passes INT
+    intercepted_passes INT 
     clearences INT
     stolen_balls INT
     clean_sheets INT
@@ -148,6 +151,9 @@
     shots INT
     shots_on_target INT
     fouls INT
+    passes INT
+    wrong_passes INT
+    interceptations INT
     tackles INT
     stolen_balls INT
     saves INT
