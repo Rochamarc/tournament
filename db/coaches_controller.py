@@ -60,5 +60,25 @@ class CoachesController(BaseController):
 
         return res
 
+    @classmethod
+    def delete_coaches(cls) -> None:
+        """Delete all coaches and his constraints
+
+        Returns
+        -------
+            None
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(cls.get_delete_query('delete_coaches'))
+
+        conn.close()
+
+        return None 
+
+        
+
 if __name__ == "__main__":
     print(CoachesController().select_id())
