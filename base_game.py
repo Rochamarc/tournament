@@ -1,6 +1,6 @@
 from collections import defaultdict
 from random import choice, randint
-
+from classes.player import Player
 
 class BaseGame:
     """
@@ -131,7 +131,7 @@ class BaseGame:
         self.logs['players']['home'] += self.home_players
         self.logs['players']['away'] += self.away_players
 
-    def add_player_on_logs(self, home_away: str, player) -> None:
+    def add_player_on_logs(self, home_away: str, player: Player) -> None:
         """Add one player to logs['players']
 
         Parameters
@@ -191,10 +191,8 @@ class BaseGame:
 
         self.logs['others']['winner'] = winner
         self.logs['others']['loser'] = loser
-        
-        return None
     
-    def update_player_stats_on_logs(self, stats: str, player):
+    def update_player_stats_on_logs(self, stats: str, player: Player):
         """Increase by one the stat on logs['player_stats'][stats][player]
 
         Parameters
