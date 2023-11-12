@@ -111,6 +111,8 @@ class Game(BaseGame):
             A dict with { 'field_part': str ,'club_possession': Club, 'other_club': Club, 'sender': Player }
         """
 
+        # TODO make the game have way more passes 
+
         move_info = {}
 
         # Define an attacker
@@ -134,22 +136,42 @@ class Game(BaseGame):
         if player_decision == 'keep_ball_possession':
             # Keep ball possession
             # send to another player and keep the field
+            # Here the attack club is making a move
+            # The defense and the defensor are here to make the opposite
             
-            attack_move = 'pass'
+            # attack_move = 'pass'
             field_part = field_part
         
             # In case the attack was not sucessfull this will change
             # inside the move decision
             club_possession, other_club = attack_club, defense_club
             sender = self.select_player_on_field(attack_club, field_part)
-    
+
+            # update for the pass
+            self.update_game_stats_on_logs('passes', attack_club.name)
+            self.update_player_stats_on_logs('passes', attacker)
+
             # check for a foul to update on logs
             if not self.decision(defensor.overall):
                 self.update_game_stats_on_logs('fouls', attack_club.name)
+                self.update_player_stats_on_logs('fouls', defensor)
 
             if not self.move_decision(attacker, defensor):
                 # not sucessfull pass
                 # keep the field part and invert the ball possession
+                
+                # basic method to separate a interception from a wrong pass
+                # doesnt affect the game if dynamic, just the logs data
+                # TODO make this if statement a proper function with better algorithm
+                if randint(1,2) == 1:
+                    # interception
+                    self.update_game_stats_on_logs('interceptions', defense_club.name)
+                    self.update_player_stats_on_logs('intercepted_passes', defensor)
+                else:
+                    # wrong pass
+                    self.update_game_stats_on_logs('wrong passes', attack_club.name)
+                    self.update_player_stats_on_logs('wrong_passes', attacker)
+                    
 
                 club_possession, other_club = defense_club, attack_club
                 sender = defensor
@@ -163,14 +185,20 @@ class Game(BaseGame):
             else:
                 destiny = 'front'
             
-            attack_move = choice(['pass','projection'])
+            # attack_move = choice(['pass','projection'])
             sender = self.select_player_on_field(attack_club, destiny)
+
+            self.update_game_stats_on_logs('passes', attack_club.name)
+            self.update_player_stats_on_logs('passes', attacker)
+
 
             if not self.move_decision(attacker, defensor):
                 # failed pass or projection
 
+                # TODO add interception and uodate just like above
                 defense_move = choice(['tackle','ball_steal'])
 
+                # this could also have a wrong pass & interception
                 if defense_move == 'tackle':
                     ''' Tackle '''
                     self.update_player_stats_on_logs('tackles', defensor)
@@ -187,7 +215,6 @@ class Game(BaseGame):
                 # sucessfull pass or projection 
                 # change the field_part to destiny
                 # doesnt change the sender
-                # TODO add a pass to logs and database
 
                 field_part = destiny
                 club_possession, other_club = attack_club, defense_club
@@ -196,7 +223,7 @@ class Game(BaseGame):
         else:
             # take_a_risk
             keeper = self.select_player(defense_club, 'goalkeeper')
-            attack_move = 'finish'
+            # attack_move = 'finish'
 
             # i can decrease the attacker chance based on the part of the field 
             # that he is shooting passing a decrease_attacker_chance = 0 and adding
@@ -220,16 +247,16 @@ class Game(BaseGame):
             else:
                 ''' goal '''
                 
-                field_part = 'middle'
-
+                # update attacking team move
                 midfielder =  self.select_player(attack_club, 'midfielder')
                 self.finish(midfielder, attacker, attack_club)
+                self.update_game_stats_on_logs('shots on target', attack_club.name)
+                
+                # ball on the central circle
+                field_part = 'middle'
                 
                 # change sender to defensor
                 sender = self.select_player(defense_club, 'attacker') 
-
-                self.update_game_stats_on_logs('shots on target', attack_club.name)
-            
 
             club_possession, other_club = defense_club, attack_club
                 
