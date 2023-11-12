@@ -103,7 +103,7 @@ class BaseGame:
                 "away_goals": 0                
             },
             "field": {
-                "location": stadium.location,
+                "location": "{} {}".format(stadium.city, stadium.country),
                 "stadium": stadium.name,
                 "audience": audience,
                 "conditions": {
