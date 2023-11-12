@@ -114,46 +114,46 @@ class Player(Person):
 
     @property
     def gk_average(self) -> int:
-        '''Calculates the goal keeper average
+        """Calculates the goal keeper average
         
         Returns
         -------
             Average of position, reflexes & diving
-        '''
+        """
 
         return (self.positioning + self.reflexes + self.diving) // 3
     
     @property
     def defense_overall(self) -> int:
-        '''Calculates the defensive players average
+        """Calculates the defensive players average
         
         Returns
         -------
             Average of stading_tackle, physical & passing
-        '''
+        """
 
         return (self.standing_tackle + self.physical + self.passing) // 3
 
     @property
     def attacking_overall(self) -> int:
-        '''Calculates the attacking players average
+        """Calculates the attacking players average
 
         Returns
         -------
             Average of driblling, long_shot & finishing
-        '''
+        """
         
         return (self.dribbling + self.long_shot + self.finishing) // 3
 
     @property
     def overall(self) -> int:
-        '''Calculates the full skill players average
+        """Calculates the full skill players average
         
         Returns
         -------
             gk_average if is a goalkeeper. the full average if it's not. 
         
-        '''
+        """
         
         if self.position == 'GK':
             return self.gk_average
