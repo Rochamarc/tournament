@@ -1,6 +1,8 @@
 from collections import defaultdict
 from random import choice, randint
 from classes.player import Player
+from classes.club import Club
+from classes.stadium import Stadium
 
 class BaseGame:
     """
@@ -26,7 +28,7 @@ class BaseGame:
         Increase by one the game_stats on logs
     """
     
-    def __init__(self, home, away, season, stadium, ticket):
+    def __init__(self, home: Club, away: Club, season: str, stadium: Stadium, ticket: int):
         ''' This will handle all that code that have to do with the game data '''
 
         # THIS CAN BE IN BASEGAME
