@@ -196,3 +196,26 @@ FROM player
 INNER JOIN player_skill
 WHERE player.id = player_skill.player_id AND player.position != 'GK'
 ORDER BY 3;
+
+
+CREATE TABLE player_game_stats(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	assists INT DEFAULT 0,
+	goals INT DEFAULT 0,
+	tackles INT DEFAULT 0,
+	defenses INT DEFAULT 0,
+	passes INT DEFAULT 0,
+	wrong_passes INT DEFAULT 0,
+	intercepted_passes INT DEFAULT 0,
+	dificult_defenses INT DEFAULT 0,
+	clearances INT DEFAULT 0,
+	fouls INT DEFAULT 0,
+	stolen_balls INT DEFAULT 0,
+	player_id INT,
+	game_id INT	
+);
+
+/*
+player_id FOREIGN KEY
+game_id FOREIGN KEY
+*/

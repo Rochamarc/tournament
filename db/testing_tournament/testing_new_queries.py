@@ -28,6 +28,8 @@ def get_skill_by_position(position: str) -> list[int]:
         A list of integer values
     '''
     
+    if position == 'GK' : return [ randint(55,99) for _ in range(3) ]
+
     if position in ['CB','LB','RB','DM']:
         return [ randint(55,99) for _ in range(3) ] + [ randint(35,85) for _ in range(3)]
     return [ randint(35,85) for _ in range(3) ] + [ randint(55,99) for _ in range(3) ]
