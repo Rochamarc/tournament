@@ -177,6 +177,25 @@ CREATE TABLE skills(
 	player_id INT
 );
 
+
+CREATE TABLE player_game_stats(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	assists INT DEFAULT 0,
+	goals INT DEFAULT 0,
+	tackles INT DEFAULT 0,
+	defenses INT DEFAULT 0,
+	passes INT DEFAULT 0,
+	wrong_passes INT DEFAULT 0,
+	intercepted_passes INT DEFAULT 0,
+	dificult_defenses INT DEFAULT 0,
+	clearances INT DEFAULT 0,
+	fouls INT DEFAULT 0,
+	stolen_balls INT DEFAULT 0,
+	player_id INT,
+	game_id INT	
+);
+
+
 CREATE TABLE competitions(
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100)
@@ -270,6 +289,16 @@ ALTER TABLE skills
 ADD CONSTRAINT fk_skills_players
 FOREIGN KEY(player_id)
 REFERENCES players(id);
+
+ALTER TABLE player_game_stats
+ADD CONSTRAINT fk_player_game_stats_players
+FOREIGN KEY(player_id)
+REFERENCES players(id);
+
+ALTER TABLE player_game_stats
+ADD CONSTRAINT fk_players_game_stats_games
+FOREIGN KEY(game_id)
+REFERENCES games(id);
 
 /* ADD TRIGGERS */
 
