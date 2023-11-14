@@ -116,10 +116,14 @@ class Game(BaseGame):
         move_info = {}
 
         # Define an attacker
-        if sender: 
-            attacker = sender                 
-        else:
-            attacker = self.select_player(attack_club, 'any') 
+        # attacker = sender or self.select_player(attack_club, 'any')              
+
+        #if sender: 
+        #    attacker = sender                 
+        #else:
+        #    attacker = self.select_player(attack_club, 'any') 
+        
+        attacker = sender or self.select_player(attack_club, 'any')
 
         # Define an defensor
         defensor = self.select_player_on_field(defense_club, field_part)
