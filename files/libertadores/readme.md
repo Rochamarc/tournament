@@ -1,5 +1,6 @@
 # Vacancies by country
 
+
 <ul>
     <li>6 <strong>Argentina</strong></li>  	
     <li>4 <strong>Bolívia</strong></li>
