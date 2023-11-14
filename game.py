@@ -3,6 +3,10 @@ from base_game import BaseGame
 from classes.player import Player
 from classes.club import Club
 
+import numpy as np
+
+# TODO change overall as int for decisions 
+
 class Game(BaseGame):
     """
     Class that deals with Game Simulation, generates data and makes game decisions automatically
@@ -83,7 +87,9 @@ class Game(BaseGame):
             # This is the ninety minutes simulation part 
             if self.home_goal == 7 or self.away_goal == 7 : break 
             move_info = self.move(move_info['club_possession'], move_info['other_club'], move_info['field_part'], move_info['sender'])
-            time += 1
+            
+            # make the game have more passes
+            if not move_info['keep_ball_possession'] : time += 1
 
         # update logs numbers
         self.update_scoreboard_on_logs()
@@ -108,12 +114,14 @@ class Game(BaseGame):
         
         Returns
         -------
-            A dict with { 'field_part': str ,'club_possession': Club, 'other_club': Club, 'sender': Player }
+            A dict with { 'field_part': str ,'club_possession': Club, 'other_club': Club, 'sender': Player, 'keep_ball_possesion': bool }
         """
 
         # TODO make the game have way more passes 
 
         move_info = {}
+
+        keep_ball_possession =  False 
 
         # Define an attacker
         # attacker = sender or self.select_player(attack_club, 'any')              
@@ -145,7 +153,9 @@ class Game(BaseGame):
             
             # attack_move = 'pass'
             field_part = field_part
-        
+
+            keep_ball_possession = True
+
             # In case the attack was not sucessfull this will change
             # inside the move decision
             club_possession, other_club = attack_club, defense_club
@@ -232,7 +242,7 @@ class Game(BaseGame):
             # i can decrease the attacker chance based on the part of the field 
             # that he is shooting passing a decrease_attacker_chance = 0 and adding
             # to the value of the attacker decision 
-            if not self.move_decision(attacker, keeper):
+            if self.move_decision(attacker, keeper) == False:
                 ''' Defense or kick out '''
 
                 field_part = 'back'
@@ -249,18 +259,20 @@ class Game(BaseGame):
 
 
             else:
-                ''' goal '''
-                
-                # update attacking team move
-                midfielder =  self.select_player(attack_club, 'midfielder')
-                self.finish(midfielder, attacker, attack_club)
-                self.update_game_stats_on_logs('shots on target', attack_club.name)
-                
-                # ball on the central circle
-                field_part = 'middle'
-                
-                # change sender to defensor
-                sender = self.select_player(defense_club, 'attacker') 
+
+                if self.decision(attacker.finishing):
+                    ''' goal '''
+                    
+                    # update attacking team move
+                    midfielder =  self.select_player(attack_club, 'midfielder')
+                    self.finish(midfielder, attacker, attack_club)
+                    self.update_game_stats_on_logs('shots on target', attack_club.name)
+                    
+                    # ball on the central circle
+                    field_part = 'middle'
+                    
+                    # change sender to defensor
+                    sender = self.select_player(defense_club, 'attacker') 
 
             club_possession, other_club = defense_club, attack_club
                 
@@ -273,6 +285,7 @@ class Game(BaseGame):
         move_info['club_possession'] = club_possession
         move_info['other_club'] = other_club
         move_info['sender'] = sender
+        move_info['keep_ball_possession'] = keep_ball_possession
 
         return move_info
     
@@ -289,9 +302,14 @@ class Game(BaseGame):
             A string that matches a player decision 
         """
         
+        # lets increase the chance of keep ball possession and advance 
+        # to try to make my data has way more passes
+
         if field_part == 'front':
-            return choice(['keep_ball_possesion', 'take_a_risk'])
-        return choice(['keep_ball_possession', 'advance', 'take_a_risk'])
+            # 3 chances of 4 to keep ball possesion
+            return choice(['keep_ball_possesion','keep_ball_possession','keep_ball_possession', 'take_a_risk'])
+        # 3/6 chances of ball_possession, 2/6 chances of advance 1/6 chances of take_a_risk
+        return choice(['keep_ball_possession', 'keep_ball_possession','keep_ball_possession', 'advance', 'advance', 'take_a_risk'])
 
     def move_decision(self, attacker: Player, defensor: Player) -> bool:
         """Make a bool decision about the movement
@@ -308,7 +326,7 @@ class Game(BaseGame):
             A bool based on the denial of defensor decision and a true attacker decision
         """
 
-        return not self.decision(defensor.overall) and self.decision(attacker.overall)  
+        return not self.decision(defensor.overall) and self.decision(attacker.overall, 5)  
 
     def select_player_on_field(self, club: Club, field_part: str):
         """Select a random player based on his field part 
@@ -596,7 +614,7 @@ class Game(BaseGame):
                 return [ b for b in bench if b.position in positions[key] ]
         return None
     
-    def decision(self, p_overall) -> bool:
+    def decision2(self, p_overall) -> bool:
         """Calculates a decision based on players overall
 
         Parameters
@@ -609,7 +627,7 @@ class Game(BaseGame):
             A bool
         """
         
-        return randint(49, 100) < p_overall 
+        return randint(1,100) > p_overall 
     
     def check_subs(self, n_subs) -> bool:
         """Check for a sub based on number of subs
@@ -625,6 +643,31 @@ class Game(BaseGame):
         """
         
         return n_subs > 0
+    
+    def decision(self, p_overall: int, num_trials: int = 1) -> bool:
+        """Calculates a decision based on players overall
+
+        Parameters
+        ----------
+        p_overall : int
+            An integer with players overall
+
+        Returns
+        -------
+            A bool
+        """
+                
+        # Garante que p_overall está no intervalo [0, 100]
+        # p_overall = max(0, min(100, p_overall))
+
+        # Calcula a probabilidade de sucesso
+        p_success = 1 - p_overall / 100.0
+
+        # Gera um número binomial com a probabilidade de sucesso
+        result = np.random.binomial(num_trials, p_success)
+
+        # Retorna True se o número de sucessos for 0 (mais frequentemente)
+        return result == 0
 
     def __repr__(self) -> str:
         return 'Game({} x {})'.format(self.home, self.away)
