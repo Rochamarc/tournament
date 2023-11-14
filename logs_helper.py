@@ -26,6 +26,23 @@ class LogsHandler:
     """
     
     @staticmethod
+    def get_player_stats(logs: dict, stat: str) -> list:
+        """Filter the players stats from logs
+
+        Parameters
+        ----------
+        logs : dict
+            Dict of data from from Game().logs
+        stat : str
+            String the stat that you want to get from logs
+
+        Returns
+        -------
+            A list with player and number of the stat 
+        """
+        pass
+
+    @staticmethod
     def get_game_stats(logs: dict, home: Club, away: Club) -> dict:
         """Return the game stats from logs 
         
