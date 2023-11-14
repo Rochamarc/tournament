@@ -41,6 +41,28 @@ class GamesController(BaseController):
 
         conn.commit()
         conn.close()
+    
+    @classmethod
+    def insert_game(cls, game_data: list) -> list[str]:
+        """Insert a game data into tournament.games without tournament.games_stats foreign key and return his id
+
+        Parameters
+        ----------
+        game_data : list
+            A list with game data [season, hour, climate, weather, stadium, audience, ticket_value ]
+        
+        Returns
+        -------
+            A list containing a set with his id
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(cls.get_insert_query(''))
+        pass
+
+
 
     @classmethod
     def insert_game_stat_with_id_return(cls, game_data: list) -> list:
