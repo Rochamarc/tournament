@@ -164,6 +164,25 @@
     club_id FOREIGN KEY
 ```
 
+### Player Game Stats
+---
+```sql
+	id PRIMARY KEY
+	assists INT
+	goals INT
+	tackles INT
+	defenses INT
+	passes INT
+	wrong_passes INT
+	intercepted_passes INT
+	dificult_defenses INT
+	clearances INT
+	fouls INT
+	stolen_balls INT
+	player_id FOREIGN KEY
+	game_id FOREIGN KEY
+```
+
 ### Championships
 ---
 ```sql
