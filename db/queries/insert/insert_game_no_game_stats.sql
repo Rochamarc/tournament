@@ -1,0 +1,1 @@
+INSERT INTO games (season, hour, climate, weather, stadium, audience, ticket_value) VALUES (%s, %s, %s, %s, %s, %s, %s);
