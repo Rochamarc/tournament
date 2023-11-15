@@ -2,6 +2,7 @@ from random import choice, randint
 from base_game import BaseGame
 from classes.player import Player
 from classes.club import Club
+from classes.stadium import Stadium
 
 import numpy as np
 
@@ -54,7 +55,7 @@ class Game(BaseGame):
         Calculates n_subs
     """
     
-    def __init__(self, home, away, competition, season, match_round, stadium, ticket=50):
+    def __init__(self, home: Club, away: Club, competition: str, season: str, match_round: int, stadium: Stadium, ticket: int = 50):
         super().__init__(home, away, season, stadium, ticket)
 
         self.home = home 
@@ -98,7 +99,7 @@ class Game(BaseGame):
         
         return self.logs 
     
-    def move(self, attack_club: Club, defense_club: Club, field_part: str, sender=None) -> dict:
+    def move(self, attack_club: Club, defense_club: Club, field_part: str, sender: Player = None) -> dict:
         """Makes decisions & calculates movements about the game and generates data
         
         Parameters
@@ -328,7 +329,7 @@ class Game(BaseGame):
 
         return not self.decision(defensor.overall) and self.decision(attacker.overall, 5)  
 
-    def select_player_on_field(self, club: Club, field_part: str):
+    def select_player_on_field(self, club: Club, field_part: str) -> Player:
         """Select a random player based on his field part 
         
         Parameters
@@ -365,7 +366,7 @@ class Game(BaseGame):
         
         return 'defender'
 
-    def select_player(self, club: Club, player_position: str):
+    def select_player(self, club: Club, player_position: str) -> Player:
         """Select a player by a specific position
         
         Parameters
