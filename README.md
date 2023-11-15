@@ -78,7 +78,7 @@
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 -->
 
-This project was create to get fake data and statistcs about my favorite sport. So i built this system to generate football data.
+This project was created to get fake data and statistcs about my favorite sport. So i built this system to generate football data.
 
 Championships:
 
