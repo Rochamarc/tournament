@@ -25,7 +25,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">Tournament Soccer</h3>
+<h3 align="center">Football Tournament</h3>
 
 <p align="center">
     Game to simulates the brazillian divisions on football and the libertadores cup with generic players!
@@ -78,17 +78,18 @@
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 -->
 
-This project was create to get fake data and statistcs about my favorite sport. And then i created this to
-generate players and games and finally getting this data.
+This project was create to get fake data and statistcs about my favorite sport. So i built this system to generate football data.
 
-Licences:
+Championships:
 
 * Campeonato brasileiro serie A
 * Campeonato brasileiro serie B
 * Campeonato brasileiro serie C
-<!-- * Libertadores da America (2020) -->
+<!-- * Libertadores da America  -->
+<!-- * Copa do Brasil -->
+<!-- * Liga Profesional de Futbol (ARG) -->
 
-I do not own the rights of any of it. It's just for fun.
+I do not own the rights of any of this. It's just for fun.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -106,8 +107,7 @@ I do not own the rights of any of it. It's just for fun.
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+
 
 ### Prerequisites
 
