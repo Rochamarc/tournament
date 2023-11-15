@@ -213,6 +213,44 @@ CREATE TABLE stadium_ownership(
     stadium_id INT
 );
 
+/* CUPS TABLES 
+
+On knock_out
+match_number -> 1 or 2
+ex: if single_match False
+    game 1 of 2
+    game 2 of 2
+*/
+
+CREATE TABLE group_phase(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+	group_name CHAR(1) NOT NULL,
+    season CHAR(4) NOT NULL,
+    matches INT DEFAULT 0,
+    win INT DEFAULT 0,
+    loss INT DEFAULT 0,
+    draw INT DEFAULT 0,
+    goals_for INT DEFAULT 0,
+    goals_away INT DEFAULT 0,
+    goals_diff INT DEFAULT 0,
+    points INT DEFAULT 0,
+    club_id INT,
+    competition_id INT
+);
+
+CREATE TABLE knock_out(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    season CHAR(4) NOT NULL,
+    phase VARCHAR(50) NOT NULL,
+    single_match BOOLEAN NOT NULL,
+    match_number INT,
+    home_id INT NOT NULL,
+    away_id INT NOT NULL,
+    home_game_stats_id INT,
+    away_game_stats_id INT,
+    competition_id INT
+);
+
 /* CONSTRAINTS */
 
 ALTER TABLE player_contracts
@@ -299,6 +337,44 @@ ALTER TABLE player_game_stats
 ADD CONSTRAINT fk_players_game_stats_games
 FOREIGN KEY(game_id)
 REFERENCES games(id);
+
+/* CUPS */
+
+ALTER TABLE group_phase
+ADD CONSTRAINT fk_group_phase_clubs 
+FOREIGN KEY(club_id)
+REFERENCES clubs(id);
+
+ALTER TABLE group_phase
+ADD CONSTRAINT fk_group_phase_competitions
+FOREIGN KEY(competition_id)
+REFERENCES competitions(id);
+
+ALTER TABLE knock_out
+ADD CONSTRAINT fk_knock_out_home_clubs
+FOREIGN KEY(home_id)
+REFERENCES clubs(id);
+
+ALTER TABLE knock_out
+ADD CONSTRAINT fk_knock_out_away_clubs
+FOREIGN KEY(away_id)
+REFERENCES clubs(id);
+
+ALTER TABLE knock_out
+ADD CONSTRAINT fk_knock_out_home_game_stats
+FOREIGN KEY(home_game_stats_id)
+REFERENCES game_stats(id);
+
+ALTER TABLE knock_out
+ADD CONSTRAINT fk_knock_out_away_game_stats
+FOREIGN KEY(away_game_stats_id)
+REFERENCES game_stats(id);
+
+ALTER TABLE knock_out
+ADD CONSTRAINT fk_knock_out_competitions
+FOREIGN KEY(competition_id)
+REFERENCES competitions(id);
+
 
 /* ADD TRIGGERS */
 

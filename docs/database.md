@@ -206,18 +206,50 @@
     name VARCHAR(100)
 ```
 
-### Divions
+### Divisions
 ```sql
     id PRIMARY KEY
     name VARCHAR(100)
     competition_id FOREIGN KEY
 ```
 
-### Stadium_Ownership
+### Stadium Ownership
 ```sql
     id PRIMARY KEY
     club_id INT
     stadium_id FOREIGN KEY
+```
+
+
+### Group Phase
+```sql
+    id PRIMARY KEY
+    group_name CHAR(1)
+    season CHAR(4)
+    matches INT
+    win INT
+    loss INT
+    draw INT
+    goals_for INT
+    goals_away INT
+    goals_diff INT
+    points INT
+    club_id FOREIGN KEY
+    competition_id FOREIGN KEY
+```
+
+### Knock Out
+```sql
+    id PRIMARY KEY
+    season CHAR(4)
+    phase VARCHAR(50)
+    single_match BOOLEAN
+    match_number INT
+    home_id FOREIGN KEY
+    away_id FOREIGN KEY
+    home_game_stats_id FOREIGN KEY
+    away_game_stats_id FOREIGN KEY
+    competition_id FOREIGN KEY
 ```
 
 ### Back to the main file

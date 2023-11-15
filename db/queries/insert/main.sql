@@ -4,6 +4,11 @@ INSERT INTO competitions VALUES(NULL, 'Campeonato Brasileiro');
 -- Liga Profesional de Fútbol
 INSERT INTO competitions VALUES(NULL, 'Liga Profesional de Futbol');
 
+
+-- CUPS 
+INSERT INTO competitions VALUES(NULL, 'Copa do Brasil');
+INSERT INTO competitions VALUES(NULL, 'Copa Libertadores da America');
+
 -- Brasilian divisions
 INSERT INTO divisions VALUES(NULL, 'Serie A', 1);
 INSERT INTO divisions VALUES(NULL, 'Serie B', 1);
