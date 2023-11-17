@@ -16,6 +16,12 @@ class ChampionshipsController(BaseController):
         Select all divisions championships rows by division & season
     update_championship_table(data: list)
         Update a championships row
+    select_champion(season: str, division_name: str)
+        Select championship champion by season & division
+    select_relegated(season: str, division_name: str)
+        Select championship relegated clubs by season & division
+    select_promoted(season: str, division_name: str)
+        Select championship promoted clubs by season & division
     """
     
     @classmethod
@@ -94,3 +100,80 @@ class ChampionshipsController(BaseController):
 
         return None
 
+    @classmethod
+    def select_champion(cls, season: str, division_name: str) -> list[set]:
+        """Select the first row from championsips 
+
+        Parameters
+        ----------
+        season : str
+            A string containing the season of championship
+        division_name : str
+            A string containing the name of the division
+
+        Returns
+        -------
+            A list with a set with [ name, matches, win, draw, loss, goals_for, goals_away, goals_diff, points ]
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(cls.get_select_query('select_champion'), [season, division_name])
+
+        club = cursor.fetchall()
+        conn.close()
+
+        return club
+
+    @classmethod
+    def select_relegated(cls, season: str, division_name: str) -> list[set]:
+        """Select the 4 last rows from championsips 
+
+        Parameters
+        ----------
+        season : str
+            A string containing the season of championship
+        division_name : str
+            A string containing the name of the division
+
+        Returns
+        -------
+            A list with a set with [ name, matches, win, draw, loss, goals_for, goals_away, goals_diff, points ]
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(cls.get_select_query('select_relegated_zone'), [season, division_name])
+
+        clubs = cursor.fetchall()
+        conn.close()
+
+        return clubs 
+     
+    @classmethod
+    def select_promoted(cls, season: str, division_name: str) -> list[set]:
+        """Select the first 4 rows from championsips 
+
+        Parameters
+        ----------
+        season : str
+            A string containing the season of championship
+        division_name : str
+            A string containing the name of the division
+
+        Returns
+        -------
+            A list with a set with [ name, matches, win, draw, loss, goals_for, goals_away, goals_diff, points ]
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(cls.get_select_query('select_promoted_zone'), [season, division_name])
+
+        clubs = cursor.fetchall()
+        conn.close()
+
+        return clubs 
