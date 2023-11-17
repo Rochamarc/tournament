@@ -38,3 +38,60 @@ INNER JOIN divisions
     ON championships.division_id = divisions.id
 WHERE (championships.season = '2022' AND divisions.name = 'Serie A')
 ORDER BY championships.points DESC; 
+
+/* SELECT CHAMPIOM */
+SELECT 	clubs.name,
+		championships.matches, 
+		championships.win, 
+		championships.draw, 
+		championships.loss, 
+		championships.goals_for, 
+		championships.goals_away, 
+		championships.goals_diff, 
+		championships.points
+FROM championships 
+INNER JOIN clubs
+	ON championships.club_id = clubs.id
+INNER JOIN divisions 
+    ON championships.division_id = divisions.id
+WHERE (championships.season = '2022' AND divisions.name = 'Serie A')
+ORDER BY championships.points DESC 
+LIMIT 1; 
+
+/* SELECT RELEGATEDS */
+SELECT 	clubs.name,
+		championships.matches, 
+		championships.win, 
+		championships.draw, 
+		championships.loss, 
+		championships.goals_for, 
+		championships.goals_away, 
+		championships.goals_diff, 
+		championships.points
+FROM championships 
+INNER JOIN clubs
+	ON championships.club_id = clubs.id
+INNER JOIN divisions 
+    ON championships.division_id = divisions.id
+WHERE (championships.season = '2022' AND divisions.name = 'Serie A')
+ORDER BY championships.points ASC
+LIMIT 4; 
+
+/* SELECT LIBERTADORES OR PROMOTED CLUBS */
+SELECT 	clubs.name,
+		championships.matches, 
+		championships.win, 
+		championships.draw, 
+		championships.loss, 
+		championships.goals_for, 
+		championships.goals_away, 
+		championships.goals_diff, 
+		championships.points
+FROM championships 
+INNER JOIN clubs
+	ON championships.club_id = clubs.id
+INNER JOIN divisions 
+    ON championships.division_id = divisions.id
+WHERE (championships.season = '2022' AND divisions.name = 'Serie A')
+ORDER BY championships.points DESC 
+LIMIT 4; 
