@@ -231,7 +231,6 @@ CREATE TABLE knock_out(
 CREATE TABLE champions(
     id INT PRIMARY KEY AUTO_INCREMENT,
     season CHAR(4) NOT NULL,
-    competition_id INT NOT NULL,
     division_id INT,
     club_id INT NOT NULL
 );
@@ -357,11 +356,6 @@ REFERENCES game_stats(id);
 
 ALTER TABLE knock_out
 ADD CONSTRAINT fk_knock_out_competitions
-FOREIGN KEY(competition_id)
-REFERENCES competitions(id);
-
-ALTER TABLE champions
-ADD CONSTRAINT fk_champions_competitions
 FOREIGN KEY(competition_id)
 REFERENCES competitions(id);
 
