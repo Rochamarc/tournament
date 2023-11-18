@@ -68,7 +68,7 @@ CREATE TABLE stats(
     tackles INT DEFAULT 0,
     passes INT DEFAULT 0,
     wrong_passes INT DEFAULT 0,
-    intercepted_passes DEFAULT 0,
+    intercepted_passes INT DEFAULT 0,
     clearences INT DEFAULT 0,
     stolen_balls INT DEFAULT 0,
     clean_sheets INT DEFAULT 0,
@@ -84,9 +84,6 @@ CREATE TABLE market_value(
     value INT,
     player_id INT    
 );
-
-
-/* RETIRING AND BACKUPS */
 
 CREATE TABLE retired_players(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -147,20 +144,6 @@ CREATE TABLE championships(
     club_id INT
 );
 
-/* PLAYER SKILL 
-
-sliding_tackle
-shooting
-strength
-vision
-
-short_passing
-long_passing
-
-marking
-
-penalties
-*/
 
 CREATE TABLE skills(
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -213,14 +196,6 @@ CREATE TABLE stadium_ownership(
     stadium_id INT
 );
 
-/* CUPS TABLES 
-
-On knock_out
-match_number -> 1 or 2
-ex: if single_match False
-    game 1 of 2
-    game 2 of 2
-*/
 
 CREATE TABLE group_phase(
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -249,6 +224,16 @@ CREATE TABLE knock_out(
     home_game_stats_id INT,
     away_game_stats_id INT,
     competition_id INT
+);
+
+-- CHAMPIONS 
+
+CREATE TABLE champions(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    season CHAR(4) NOT NULL,
+    competition_id INT NOT NULL,
+    division_id INT,
+    club_id INT NOT NULL
 );
 
 /* CONSTRAINTS */
@@ -338,7 +323,7 @@ ADD CONSTRAINT fk_players_game_stats_games
 FOREIGN KEY(game_id)
 REFERENCES games(id);
 
-/* CUPS */
+-- CUPS 
 
 ALTER TABLE group_phase
 ADD CONSTRAINT fk_group_phase_clubs 
@@ -375,6 +360,20 @@ ADD CONSTRAINT fk_knock_out_competitions
 FOREIGN KEY(competition_id)
 REFERENCES competitions(id);
 
+ALTER TABLE champions
+ADD CONSTRAINT fk_champions_competitions
+FOREIGN KEY(competition_id)
+REFERENCES competitions(id);
+
+ALTER TABLE champions
+ADD CONSTRAINT fk_champions_divisions
+FOREIGN KEY(division_id)
+REFERENCES divisions(id);
+
+ALTER TABLE champions
+ADD CONSTRAINT fk_champions_clubs
+FOREIGN KEY(club_id)
+REFERENCES clubs(id);
 
 /* ADD TRIGGERS */
 
@@ -389,6 +388,32 @@ END
 $
 
 DELIMITER ;
+
+
+/* PLAYER SKILL 
+
+sliding_tackle
+shooting
+strength
+vision
+
+short_passing
+long_passing
+
+marking
+
+penalties
+*/
+
+
+/* CUPS TABLES 
+
+On knock_out
+match_number -> 1 or 2
+ex: if single_match False
+    game 1 of 2
+    game 2 of 2
+*/
 
 /*
 CREATE TABLE overall(
