@@ -13,12 +13,12 @@ class ClubsController(BaseController):
         Select all club's id and name
     select_id()
         Select all club's id
-    select_serie_a_clubs()
-        Select all clubs by serie a
-    select_serie_b_clubs()
-        Select all clubs by serie b
-    select_serie_c_clubs()
-        Select all clubs by serie c
+    select_serie_a_clubs(season: str)
+        Select all clubs by serie a by season
+    select_serie_b_clubs(season: str)
+        Select all clubs by serie b by season
+    select_serie_c_clubs(season: str)
+        Select all clubs by serie c by season
     """
     
     @classmethod
@@ -54,7 +54,7 @@ class ClubsController(BaseController):
         return [ r[0] for r in res ]
 
     @classmethod
-    def select_serie_a_clubs(cls) -> list[set]:
+    def select_serie_a_clubs(cls, season: str) -> list[set]:
         """Select all clubs that belongs to Serie A division
 
         Returns
@@ -65,14 +65,14 @@ class ClubsController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_serie_a_clubs'))
+        cursor.execute(cls.get_select_query('select_serie_a_clubs'), [season] )
         clubs = cursor.fetchall()
 
         conn.close()
         return clubs 
 
     @classmethod
-    def select_serie_b_clubs(cls) -> list[set]:
+    def select_serie_b_clubs(cls, season: str) -> list[set]:
         """Select all clubs that belongs to Serie B division
 
         Returns
@@ -83,7 +83,7 @@ class ClubsController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_serie_b_clubs'))
+        cursor.execute(cls.get_select_query('select_serie_b_clubs'), [season] )
         clubs = cursor.fetchall()
 
         conn.close()
@@ -91,7 +91,7 @@ class ClubsController(BaseController):
     
 
     @classmethod
-    def select_serie_c_clubs(cls) -> list[set]:
+    def select_serie_c_clubs(cls, season: str) -> list[set]:
         """Select all clubs that belongs to Serie C division
 
         Returns
@@ -102,7 +102,7 @@ class ClubsController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_serie_c_clubs'))
+        cursor.execute(cls.get_select_query('select_serie_c_clubs'), [season] )
         clubs = cursor.fetchall()
 
         conn.close()
