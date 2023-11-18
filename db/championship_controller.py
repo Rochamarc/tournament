@@ -10,6 +10,10 @@ class ChampionshipsController(BaseController):
     Methods
     -------
 
+    insert_championships(clubs_data: list)
+        Insert default championships table
+    select_championships_to_insert(divison_name: str)
+        Select championships table ordered by points
     select_championships_table_by_club(season: int, club_id: int)
         Select one championships row by club
     select_championship_table_by_division(season: int, division_name: str)
@@ -24,6 +28,54 @@ class ChampionshipsController(BaseController):
         Select championship promoted clubs by season & division
     """
     
+    @classmethod
+    def insert_championship(cls, clubs_data: list) -> None:
+        """Insert the championships table with all stats with 0
+
+        Parameters
+        ----------
+        clubs_data : list
+            Each list has to have [ season, club_id, division_id ]
+        
+        Returns
+        -------
+            None
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+        
+        for club_data in clubs_data:
+            cursor.execute(cls.get_insert_query('insert_championships'), club_data)
+        
+        conn.commit()
+        conn.close()
+
+        return None
+    
+    @classmethod
+    def select_championships_to_insert(cls, division_name: str) -> list[set]:
+        """Select championships table ordered by points
+
+        Parameters
+        ----------
+        division_name : str
+            Name of division that will be used as where clause
+        
+        Returns
+        -------
+            A list of sets with [ club_id, division_id ]
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(cls.get_select_query('select_championships_to_insert'), [division_name])
+        values = cursor.fetchall()
+
+        conn.close()
+        return values
+
     @classmethod
     def select_championship_table_by_club(cls, season: int, club_id: int) -> list[set]:
         """Select the club's championships table by his id
