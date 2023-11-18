@@ -1,5 +1,4 @@
 SELECT 	clubs.name,
-		clubs.id,
 		championships.matches, 
 		championships.win, 
 		championships.draw, 
