@@ -7,4 +7,4 @@ INNER JOIN championships
 INNER JOIN divisions 
     ON clubs.id = championships.club_id
     AND championships.division_id = divisions.id
-WHERE divisions.name = 'Serie A';
+WHERE divisions.name = 'Serie A' AND championships.season = %s;
