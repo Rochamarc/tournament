@@ -3,7 +3,7 @@ import mysql.connector
 
 class GamesController(BaseController):
     """
-    Class that manage the tournament.games & game_stats table
+    Class that manage the tournament.games, game_stats & knock_out table
 
     ...
 
@@ -16,6 +16,8 @@ class GamesController(BaseController):
         Insert a tournament.game_stats in database
     select_last_id()
         Select the last tournament.game_stats inserted 
+    insert_knock_out(knock_out_data: list) 
+        Insert a tournament.knock_out in database 
     """
         
     @classmethod
@@ -105,3 +107,28 @@ class GamesController(BaseController):
         
         conn.close()
         return id 
+
+    @classmethod
+    def insert_knock_out(cls, knock_out_data: list) -> None:
+        """Insert a knock_out_data into tournament.knock_out
+
+        Parameters
+        ----------
+        knock_out_data : list
+            A list containing data to knock_out table 
+            [ season, phase, single_match, match_number, home_id, away_id, home_game_stats, away_game_stats, competition_id ]
+        
+        Returns
+        -------
+            None
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(cls.get_insert_query('insert_knock_out'), knock_out_data)
+        
+        conn.commit()
+        conn.close()
+
+        return None
