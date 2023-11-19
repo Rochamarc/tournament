@@ -1,6 +1,6 @@
 from helper import ClassConstructor
 from db.champions_controller import ChampionsController
-from db.championship_controller import ChampionshipsController
+from db.championships_controller import ChampionshipsController
 from db.clubs_controller import ClubsController
 from db.games_controller import GamesController
 from db.players_controller import PlayersController

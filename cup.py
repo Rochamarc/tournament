@@ -1,4 +1,4 @@
-from db.championship_controller import ChampionshipsController
+from db.championships_controller import ChampionshipsController
 from db.clubs_controller import ClubsController
 from db.games_controller import GamesController
 from db.stadiums_controller import StadiumsController
