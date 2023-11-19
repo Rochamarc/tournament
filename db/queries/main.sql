@@ -381,6 +381,14 @@ BEGIN
 END
 $
 
+CREATE TRIGGER update_goals_diff
+BEFORE UPDATE ON championships
+FOR EACH ROW
+BEGIN
+    SET NEW.goals_diff = NEW.goals_for - NEW.goals_away;
+END
+$
+
 DELIMITER ;
 
 
