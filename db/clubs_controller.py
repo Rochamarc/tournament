@@ -107,6 +107,30 @@ class ClubsController(BaseController):
 
         conn.close()
         return clubs 
+
+    @classmethod
+    def select_club_by_id(cls, id: int) -> list[set]:
+        """Select a club by his id
+
+        Parameters
+        ----------
+        id : int
+            A int value that refers to club's id
+        
+        Returns
+        -------
+            A list of set with club: id, name, country
+        """
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(cls.get_select_query('select_club_by_id'), [id])
+        clubs = cursor.fetchall()
+
+        conn.close()
+        return clubs 
+    
+
     
 if __name__ == "__main__":
     print(ClubsController().select_serie_a_clubs())
