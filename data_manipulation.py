@@ -25,6 +25,38 @@ def change_to_c(data: list) -> list[list]:
         a[-1] = 3
     return data 
 
+def fomrmulate_clubs_to_simple_cup(data_1: list, data_2: list) -> list:
+    """Formulate club's id for sort confronts
+
+    Paramters
+    ---------
+    data_1 : list
+        A list of lists, sets or tuples with club_id data
+    data_2 : list
+        A list of lists, sets or tuples with club_id data
+    
+    Returns
+    -------
+        A one dimentional list combined by the two data lists
+    
+    Raises
+    ------
+    Exception
+        If the final data length is odd
+    """
+    
+    data_1 = [ d[0] for d in data_1 ]
+    data_2 = [ d[0] for d in data_2 ]
+
+    data = data_1 + data_2
+    
+    l_data = len(data)
+
+    if not l_data % 2 == 0:
+        raise Exception("The sum of length of data_1 + data_2 = {} is odd, this has to be even".format(l_data))
+    return data_1 + data_2
+    
+
 def formulate_clubs_to_championships(data_1: list, data_2: list, data_3: list) -> list:
     """Change promoted, relegated and remains clubs to next season
 
@@ -115,4 +147,4 @@ def relegate_serie_c(championships_data: list, next_season: str) -> dict:
 
 
 if __name__ == "__main__":
-    print(relegate_serie_a([ i for i in range(1,21) ]))
+    print(fomrmulate_clubs_to_simple_cup([[1]],[[2]]))
