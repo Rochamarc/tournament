@@ -18,8 +18,8 @@ class BaseController:
 
         Raises
         ------
-            FileNotFoundError
-                If the file doesnt exists
+        FileNotFoundError
+            If the file doesnt exists
         """
         
         file_path = 'db/queries/delete/{}.sql'.format(file_name)
@@ -45,8 +45,8 @@ class BaseController:
 
         Raises
         ------
-            FileNotFoundError
-                If the file doesnt exists
+        FileNotFoundError
+            If the file doesnt exists
         """
         
         file_path = 'db/queries/select/{}.sql'.format(file_name)
@@ -71,8 +71,8 @@ class BaseController:
 
         Raises
         ------
-            FileNotFoundError
-                If the file doesnt exists
+        FileNotFoundError
+            If the file doesnt exists
         """
         
         file_path = 'db/queries/update/{}.sql'.format(file_name)
@@ -97,8 +97,8 @@ class BaseController:
 
         Raises
         ------
-            FileNotFoundError
-                If the file doesnt exists
+        FileNotFoundError
+            If the file doesnt exists
         """
         
         file_path = 'db/queries/insert/{}.sql'.format(file_name)
