@@ -153,22 +153,25 @@ class LogsHandler:
             A formated list with a data to be inserted in the 
             tournament.championships table
         
-            [ win, loss, draw, home_goals, away_goals, goals_diff, club_id, season ]
+            /* pontos, vitorias, empates, derrotas, gols, sofridos, club_id, season */
+            [ points, win, loss, draw, home_goals, away_goals, club_id, season ]
         """
          
         data = []
 
+        # points, wins, draw, loss
         if logs['others']['draw']:
-            data += [1,0,0,1]
+            data += [1,0,1,0]
         elif logs['others']['winner'] == club.name:
             data += [3,1,0,0]
         else:
-            data += [0,0,1,0]
+            data += [0,0,0,1]
 
+        # goals_for, goals_away
         data.append(logs['others']['home_goals'])
         data.append(logs['others']['away_goals'])
-        data.append(data[0] - data[1])
 
+        # club_id, season
         data.append(club.id)
         data.append(season)
 
