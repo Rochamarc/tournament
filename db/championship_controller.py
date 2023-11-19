@@ -26,6 +26,10 @@ class ChampionshipsController(BaseController):
         Select championship relegated clubs by season & division
     select_promoted(season: str, division_name: str)
         Select championship promoted clubs by season & division
+    select_serie_a_cup(season: str)
+        Select serie a clubs id by season
+    select_serie_b_c_cup(season: str)
+        Select serie b & serie c clubs id by season
     """
     
     @classmethod
@@ -224,6 +228,54 @@ class ChampionshipsController(BaseController):
         cursor = conn.cursor()
 
         cursor.execute(cls.get_select_query('select_promoted_zone'), [season, division_name])
+
+        clubs = cursor.fetchall()
+        conn.close()
+
+        return clubs 
+    
+    @classmethod
+    def select_serie_a_cup(cls, season: str) -> list[set]:
+        """Select club's id from serie a championships by season
+
+        Parameters
+        ----------
+        season : str
+            A string containing the season of championship
+
+        Returns
+        -------
+            A 20 length list with a set of id's
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(cls.get_select_query('select_id_from_championships_serie_a'), [season])
+
+        clubs = cursor.fetchall()
+        conn.close()
+
+        return clubs 
+    
+    @classmethod
+    def select_serie_b_c_cup(cls, season: str) -> list[set]:
+        """Select 12 random club's id from serie b and c championships by season
+
+        Parameters
+        ----------
+        season : str
+            A string containing the season of championship
+
+        Returns
+        -------
+            A 12 length list with a set of id's
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(cls.get_select_query('select_id_from_championships_serie_b_c'), [season])
 
         clubs = cursor.fetchall()
         conn.close()
