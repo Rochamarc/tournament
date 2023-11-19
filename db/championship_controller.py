@@ -135,7 +135,7 @@ class ChampionshipsController(BaseController):
         Parameters
         ----------
         data : list
-            A list containing: points, win, loss, draw, goals_for, goals_away, goal_diff, club_id, season
+            A list containing: points, win, loss, draw, goals_for, goals_away, club_id, season
         
         Returns
         -------
