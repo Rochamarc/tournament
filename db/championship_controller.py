@@ -122,7 +122,7 @@ class ChampionshipsController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_all_table_by_division'), [season, division_name])
+        cursor.execute(cls.get_select_query('select_championship_by_division'), [season, division_name])
         values = cursor.fetchall()
 
         conn.close()
@@ -165,7 +165,7 @@ class ChampionshipsController(BaseController):
 
         Returns
         -------
-            A list with a set with [ name, matches, win, draw, loss, goals_for, goals_away, goals_diff, points ]
+            A list with a set with [ season, division_id, club_id ]
         """
 
         conn = mysql.connector.connect(**cls.database_config)
