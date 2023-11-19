@@ -1,4 +1,5 @@
 from helper import ClassConstructor
+from db.champions_controller import ChampionsController
 from db.championship_controller import ChampionshipsController
 from db.clubs_controller import ClubsController
 from db.games_controller import GamesController
@@ -14,10 +15,10 @@ from logs_helper import LogsHandler
 
 season = '2022'
 
-
 # Static classes
 class_const = ClassConstructor()
 
+champions_controller = ChampionsController()
 championships_controller = ChampionshipsController()
 clubs_controller = ClubsController()
 games_controller = GamesController()
@@ -37,9 +38,11 @@ players = class_const.players(p) # transform into objects
 
 # Promoted and relegate
 
-promo = input("Want to promote and relegate [Y/n]:")
+promo = input("Want to promote and relegate [Y/n]: ")
 
-if promo == 'Y':
+if promo in ['Y','y']:
+    print("Promoting and relegating clubs")
+
     season = str(int(season) + 1)
 
     # select from championships
@@ -93,6 +96,8 @@ serie_b_games = class_const.prepare_games(serie_b_schedule, stadiums, 'Campeonat
 serie_c_games = class_const.prepare_games(serie_c_schedule, stadiums, 'Campeonato Brasileiro Serie C', int(season))
 
 
+print("Running serie A")
+
 # Starting this matches
 for game in serie_a_games:
     game.start()
@@ -117,6 +122,9 @@ for game in serie_a_games:
 
     championships_controller.update_championship_table(home_data)
     championships_controller.update_championship_table(away_data)
+
+
+print("Running serie B")
 
 for game in serie_b_games:
     game.start()
@@ -143,6 +151,9 @@ for game in serie_b_games:
     championships_controller.update_championship_table(away_data)
 
 
+print("Running serie C")
+
+
 for game in serie_c_games:
     game.start()
 
@@ -166,3 +177,12 @@ for game in serie_c_games:
 
     championships_controller.update_championship_table(home_data)
     championships_controller.update_championship_table(away_data)
+
+# insert champions 
+a_champion = championships_controller.select_champion(season, 'Serie A')[0]
+b_champion = championships_controller.select_champion(season, 'Serie B')[0]
+c_champion = championships_controller.select_champion(season, 'Serie C')[0]
+
+champions_controller.insert_champion(a_champion[0],a_champion[1],a_champion[2])
+champions_controller.insert_champion(b_champion[0],b_champion[1],b_champion[2])
+champions_controller.insert_champion(c_champion[0],c_champion[1],c_champion[2])
