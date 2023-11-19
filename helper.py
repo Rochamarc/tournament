@@ -5,7 +5,7 @@ from classes.stadium import Stadium
 
 from game import Game 
 
-from random import choice 
+from random import choice, shuffle
 
 formation = Formation()
 
@@ -31,6 +31,8 @@ class ClassConstructor:
 		Generates confronts between clubs
 	prepare_games(games: list, stadiums: list, competition: str, season: int)
 		Instantiate games
+	sort_simple_cup_confronts(clubs_id: list)
+		Sort clubs confronts to the Copa Do Brasil	
 	"""
     
 	@staticmethod
@@ -172,3 +174,28 @@ class ClassConstructor:
 		"""
 		
 		return [ Game(i[0], i[1], competition, season, 1, choice(stadiums)) for i in games ]
+	
+	@staticmethod
+	def sort_simple_cup_confronts(clubs: list) -> list[list]:
+		"""Groups the list into a two dimensional array with doubles random values 
+
+		Parameters
+		----------
+		clubs : list
+			A list containing a pair of Club objects
+
+		Returns
+		-------
+			A list of lists with two Club objects inside of each one
+		"""
+		shuffle(clubs)
+
+		data = []
+
+		for _ in range(len(clubs)//2):
+			home = clubs.pop()
+			away = clubs.pop()
+
+			data.append([home, away])
+
+		return data
