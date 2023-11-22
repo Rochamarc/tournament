@@ -115,6 +115,10 @@ class BaseGame:
                 "ticket_half_price": ticket // 2,
                 "audience_full_price": audience_full_price,
                 "audience_half_price": audience_half_price
+            },
+            "clubs": {
+                "home_id": home.id,
+                "away_id": away.id
             }
         }
 
