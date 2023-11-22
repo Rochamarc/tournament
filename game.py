@@ -53,6 +53,10 @@ class Game(BaseGame):
         Calculates a decision sucess
     check_subs(n_subs: int)
         Calculates n_subs
+    move_info(self, field_part: str, club_possession: Club, other_club: Club, sender: Player, keep_ball_possession: bool)
+        Formulate a dict with move information
+    invert_ball_possession(self, club_possession: Club, other_club: Club)
+        Invert ball possession between clubs
     """
     
     def __init__(self, home: Club, away: Club, competition: str, season: str, match_round: int, stadium: Stadium, ticket: int = 50):
@@ -115,12 +119,11 @@ class Game(BaseGame):
         
         Returns
         -------
-            A dict with { 'field_part': str ,'club_possession': Club, 'other_club': Club, 'sender': Player, 'keep_ball_possesion': bool }
+            self.move_info()
         """
 
         # TODO make the game have way more passes 
 
-        move_info = {}
 
         keep_ball_possession =  False 
 
@@ -188,7 +191,7 @@ class Game(BaseGame):
                     self.update_player_stats_on_logs('wrong_passes', attacker)
                     
 
-                club_possession, other_club = defense_club, attack_club
+                club_possession, other_club = self.invert_ball_possession(attack_club, defense_club)
                 sender = defensor
     
         
@@ -224,7 +227,7 @@ class Game(BaseGame):
                     self.update_player_stats_on_logs('stolen_balls', defensor)
                     self.update_game_stats_on_logs('stolen_balls', defense_club.name)
 
-                club_possession, other_club = defense_club, attack_club
+                club_possession, other_club = self.invert_ball_possession(attack_club, defense_club)
                 sender = defensor 
             else:
                 # sucessfull pass or projection 
@@ -275,20 +278,59 @@ class Game(BaseGame):
                     # change sender to defensor
                     sender = self.select_player(defense_club, 'attacker') 
 
-            club_possession, other_club = defense_club, attack_club
+            club_possession, other_club = self.invert_ball_possession(attack_club, defense_club)
                 
         
         # Make a substitution
         self.check_for_sub_club(attack_club)
 
-        # Update the exit dict 
-        move_info['field_part'] = field_part
-        move_info['club_possession'] = club_possession
-        move_info['other_club'] = other_club
-        move_info['sender'] = sender
-        move_info['keep_ball_possession'] = keep_ball_possession
+        return self.move_info(field_part, club_possession, other_club, sender, keep_ball_possession)
+    
+    def move_info(self, field_part: str, club_possession: Club, other_club: Club, sender: Player, keep_ball_possession: bool) -> dict:
+        """Defines a dict with move information
 
-        return move_info
+        Parameters
+        ----------
+        field_part : str
+            A string containig part of the field where the ball is
+        club_possession : Club
+            A club object that has the ball
+        other_club : Club
+            A club object that is defending
+        sender : Player
+            A player that has the ball
+        keep_ball_possession : bool
+            A bool value for the ball possession
+        
+        Returns
+        -------
+            A dict with information about that moment in the game
+        """
+
+        return {
+            'field_part': field_part,
+            'club_possession': club_possession,
+            'other_club': other_club,
+            'sender': sender,
+            'keep_ball_possession': keep_ball_possession
+        }
+
+    def invert_ball_possession(self, club_possession: Club, other_club: Club) -> list:
+        """Invert clubs order
+
+        Parameters
+        ----------
+        club_possession : Club
+            A club object that has the ball
+        other_club : Club
+            A club object that is defending
+        
+        Returns
+        -------
+            An inverted list of the club objects
+        """
+
+        return [ other_club, club_possession ]
     
     def player_decision(self, field_part: str) -> str:
         """Simulates a decision that can be made by a player by his field part
