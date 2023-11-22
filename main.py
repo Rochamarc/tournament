@@ -32,9 +32,7 @@ stadiums_data = stadiums_controller.select_all_stadiums()
 stadiums = class_const.stadiums(stadiums_data)
 
 # Select players with contract
-p = players_controller.select_players_with_contract(season) # get from db
-players = class_const.players(p) # transform into objects
-
+players_data = players_controller.select_players_with_contract(season)
 
 # Promoted and relegate
 
@@ -67,23 +65,15 @@ if promo in ['Y','y']:
 
 # Serie A clubs selection & cast
 serie_a = clubs_controller.select_serie_a_clubs(season)
-serie_a_clubs = class_const.clubs(serie_a)
-serie_a_clubs = class_const.add_players_to_clubs(serie_a_clubs, players)
+serie_a_clubs = class_const.prepare_clubs(serie_a, players_data)
 
 # Serie B clubs selection & cast
 serie_b = clubs_controller.select_serie_b_clubs(season)
-serie_b_clubs = class_const.clubs(serie_b)
-serie_b_clubs = class_const.add_players_to_clubs(serie_b_clubs, players)
+serie_b_clubs = class_const.prepare_clubs(serie_b, players_data)
 
 # Serie C clubs selection & cast
 serie_c = clubs_controller.select_serie_c_clubs(season)
-serie_c_clubs = class_const.clubs(serie_c)
-serie_c_clubs = class_const.add_players_to_clubs(serie_c_clubs, players)
-
-# Set clubs formation
-class_const.define_formation(serie_a_clubs)
-class_const.define_formation(serie_b_clubs)
-class_const.define_formation(serie_c_clubs)
+serie_c_clubs = class_const.prepare_clubs(serie_c, players_data)
 
 # Define the clubs matches, this will return a list of lists with two differents teams
 serie_a_schedule = class_const.define_schedule(serie_a_clubs)
