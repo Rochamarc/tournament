@@ -1,3 +1,5 @@
+import mysql.connector
+
 class BaseController:
     """
     Base class that contains every property and functions used in other controllers
@@ -107,7 +109,56 @@ class BaseController:
                 return ''.join(file.readlines())
         except:
             raise FileNotFoundError("File {} doesn't exists".format(file_path))
+    
+    @classmethod
+    def execute_one_insert_query(cls, query_path: str, data: list) -> None:
+        """
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(query_path, data)
         
+        conn.commit()
+        conn.close()
+
+        return None
+
+    @classmethod
+    def execute_multi_insert_query(cls, query_path: str, datas: list) -> None:
+        """
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        for data in datas:
+            cursor.execute(query_path, data)
+        
+        conn.commit()
+        conn.close()
+
+        return None
+
+    @classmethod
+    def execute_select_query(cls, query_path: str, data: list) -> list[set]:
+        """
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(query_path, data)
+        exit_data = cursor.fetchall()
+
+        conn.close()
+
+        return exit_data
+
+    
+    
+    
     @classmethod
     @property
     def database_config(cls):
