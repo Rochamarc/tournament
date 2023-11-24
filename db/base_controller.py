@@ -142,14 +142,18 @@ class BaseController:
         return None
 
     @classmethod
-    def select_register(cls, query_path: str, data: list) -> list[set]:
+    def select_register(cls, query_path: str, data: list = []) -> list[set]:
         """
         """
 
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(query_path, data)
+        if data:
+            cursor.execute(query_path, data)
+        else:
+            cursor.execute(query_path)
+            
         exit_data = cursor.fetchall()
 
         conn.close()
