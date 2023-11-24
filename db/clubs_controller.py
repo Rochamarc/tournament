@@ -1,4 +1,3 @@
-import mysql.connector
 from db.base_controller import BaseController
 
 class ClubsController(BaseController):
@@ -30,15 +29,7 @@ class ClubsController(BaseController):
             A list of lists with: id, name
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        cursor.execute(cls.get_select_query('select_id_name_from_clubs'))
-        res = cursor.fetchall()
-
-        conn.close()
-
-        return res
+        return cls.select_register(cls.get_select_query('select_id_name_from_clubs'))
     
     @classmethod
     def select_id(cls) -> list[set]:
@@ -61,15 +52,8 @@ class ClubsController(BaseController):
         -------
             A list of lists with: id, name, country, division 
         """
-        
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_serie_a_clubs'), [season] )
-        clubs = cursor.fetchall()
-
-        conn.close()
-        return clubs 
+        return cls.select_register(cls.get_select_query('select_serie_a_clubs'), [season])
 
     @classmethod
     def select_serie_b_clubs(cls, season: str) -> list[set]:
@@ -80,15 +64,7 @@ class ClubsController(BaseController):
             A list of lists with: id, name, country, division 
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        cursor.execute(cls.get_select_query('select_serie_b_clubs'), [season] )
-        clubs = cursor.fetchall()
-
-        conn.close()
-        return clubs 
-    
+        return cls.select_register(cls.get_select_query('select_serie_b_clubs'), [season])    
 
     @classmethod
     def select_serie_c_clubs(cls, season: str) -> list[set]:
@@ -99,14 +75,8 @@ class ClubsController(BaseController):
             A list of lists with: id, name, country, division 
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
+        return cls.select_register(cls.get_select_query('select_serie_c_clubs'), [season])
 
-        cursor.execute(cls.get_select_query('select_serie_c_clubs'), [season] )
-        clubs = cursor.fetchall()
-
-        conn.close()
-        return clubs 
 
     @classmethod
     def select_club_by_id(cls, id: int) -> list[set]:
@@ -121,16 +91,8 @@ class ClubsController(BaseController):
         -------
             A list of set with club: id, name, country
         """
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_club_by_id'), [id])
-        clubs = cursor.fetchall()
-
-        conn.close()
-        return clubs 
-    
-
+        return cls.select_register(cls.get_select_query('select_club_by_id'), [id])
     
 if __name__ == "__main__":
     print(ClubsController().select_serie_a_clubs())

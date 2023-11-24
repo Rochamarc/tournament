@@ -1,4 +1,3 @@
-import mysql.connector
 from db.base_controller import BaseController
 
 class StadiumsController(BaseController):
@@ -22,13 +21,5 @@ class StadiumsController(BaseController):
         -------
             A list of lists with stadium data
         """
-        
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_stadiums'))
-
-        stadiums = cursor.fetchall()
-
-        conn.close()
-        return stadiums 
+        return cls.select_register(cls.get_select_query('select_stadiums'))

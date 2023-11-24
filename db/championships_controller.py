@@ -1,4 +1,3 @@
-import mysql.connector
 from db.base_controller import BaseController
 
 class ChampionshipsController(BaseController):
@@ -45,17 +44,9 @@ class ChampionshipsController(BaseController):
         -------
             None
         """
-
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
         
-        for club_data in clubs_data:
-            cursor.execute(cls.get_insert_query('insert_championships'), club_data)
-        
-        conn.commit()
-        conn.close()
+        return cls.insert_registers(cls.get_insert_query('insert_championships'), clubs_data)
 
-        return None
     
     @classmethod
     def select_championships_to_insert(cls, division_name: str) -> list[set]:
@@ -70,15 +61,8 @@ class ChampionshipsController(BaseController):
         -------
             A list of sets with [ club_id, division_id ]
         """
+        return cls.insert_register(cls.get_select_query('select_championships_to_insert'), [division_name])
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        cursor.execute(cls.get_select_query('select_championships_to_insert'), [division_name])
-        values = cursor.fetchall()
-
-        conn.close()
-        return values
 
     @classmethod
     def select_championship_table_by_club(cls, season: int, club_id: int) -> list[set]:
@@ -97,15 +81,8 @@ class ChampionshipsController(BaseController):
             matches, win, draw, loss, goals_for, goals_away, goals_conceded, goals_diff, points
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        cursor.execute(cls.get_select_query('select_championship_by_club'), [season, club_id])
-        values = cursor.fetchall()
-
-        conn.close()
-        return values
-    
+        return cls.select_register(cls.get_select_query('select_championship_by_club'), [season, club_id])
+        
     @classmethod
     def select_championship_table_by_division(cls, season: int, division_name: str) -> list[set]:
         """Select all the rows of the championsips table based on the season and divison
@@ -122,15 +99,8 @@ class ChampionshipsController(BaseController):
             A list of lists containing 
             matches, win, draw, loss, goals_for, goals_away, goals_diff, points
         """
-                
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_championship_by_division'), [season, division_name])
-        values = cursor.fetchall()
-
-        conn.close()
-        return values
+        return cls.select_register(cls.get_select_query('select_championship_by_division'), [season, division_name])
 
     @classmethod
     def update_championship_table(cls, data: list) -> None:
@@ -146,16 +116,11 @@ class ChampionshipsController(BaseController):
             None
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
+        # TODO make this with new format
 
-        cursor.execute(cls.get_update_query('update_championship'), data)
-        
-        conn.commit()
-        conn.close()
 
-        return None
-
+        return (cls.get_update_query('update_championship'), data)
+    
     @classmethod
     def select_champion(cls, season: str, division_name: str) -> list[set]:
         """Select the first row from championsips 
@@ -172,16 +137,8 @@ class ChampionshipsController(BaseController):
             A list with a set with [ season, division_id, club_id ]
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        cursor.execute(cls.get_select_query('select_champion'), [season, division_name])
-
-        club = cursor.fetchall()
-        conn.close()
-
-        return club
-
+        return cls.select_register(cls.get_select_query('select_champion'), [season, division_name])
+        
     @classmethod
     def select_relegated(cls, season: str, division_name: str) -> list[set]:
         """Select the 4 last rows from championsips 
@@ -198,15 +155,8 @@ class ChampionshipsController(BaseController):
             A list with a set with [ name, matches, win, draw, loss, goals_for, goals_away, goals_diff, points ]
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
+        return cls.select_register(cls.get_select_query('select_relegated_zone'), [season, division_name])
 
-        cursor.execute(cls.get_select_query('select_relegated_zone'), [season, division_name])
-
-        clubs = cursor.fetchall()
-        conn.close()
-
-        return clubs 
      
     @classmethod
     def select_promoted(cls, season: str, division_name: str) -> list[set]:
@@ -224,15 +174,7 @@ class ChampionshipsController(BaseController):
             A list with a set with [ name, matches, win, draw, loss, goals_for, goals_away, goals_diff, points ]
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        cursor.execute(cls.get_select_query('select_promoted_zone'), [season, division_name])
-
-        clubs = cursor.fetchall()
-        conn.close()
-
-        return clubs 
+        return cls.select_register(cls.get_select_query('select_promoted_zone'), [season, division_name])
     
     @classmethod
     def select_serie_a_cup(cls, season: str) -> list[set]:
@@ -247,16 +189,8 @@ class ChampionshipsController(BaseController):
         -------
             A 20 length list with a set of id's
         """
-
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        cursor.execute(cls.get_select_query('select_id_from_championships_serie_a'), [season])
-
-        clubs = cursor.fetchall()
-        conn.close()
-
-        return clubs 
+        
+        return cls.select_register(cls.get_select_query('select_id_from_championships_serie_a'), [season])
     
     @classmethod
     def select_serie_b_c_cup(cls, season: str) -> list[set]:
@@ -272,12 +206,6 @@ class ChampionshipsController(BaseController):
             A 12 length list with a set of id's
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
+        return cls.select_register(cls.get_select_query('select_id_from_championships_serie_b_c'), [season])
 
-        cursor.execute(cls.get_select_query('select_id_from_championships_serie_b_c'), [season])
-
-        clubs = cursor.fetchall()
-        conn.close()
-
-        return clubs 
+         
