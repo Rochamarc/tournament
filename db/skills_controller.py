@@ -1,5 +1,4 @@
 from db.base_controller import BaseController
-import mysql.connector
 
 class SkillsController(BaseController):
     """
@@ -30,9 +29,6 @@ class SkillsController(BaseController):
             None
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()                               
-
         for skill in skills_data:   
             skill.insert(0, season) # insert season at data
 
@@ -41,7 +37,4 @@ class SkillsController(BaseController):
             else:
                 query = cls.get_insert_query('insert_skills')
             
-            cursor.execute(query, skill)
-        
-        conn.commit()
-        conn.close()
+            cls.insert_register(query, skill)

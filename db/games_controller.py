@@ -35,14 +35,7 @@ class GamesController(BaseController):
             None
         """
         
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        for game_data in games_data:
-            cursor.execute(cls.get_insert_query('insert_game'), game_data)
-
-        conn.commit()
-        conn.close()
+        return cls.insert_registers(cls.get_insert_query('insert_game'), games_data)
     
     @classmethod
     def insert_game(cls, game_data: list) -> list[str]:
@@ -81,13 +74,8 @@ class GamesController(BaseController):
             A list containing the game_stats.id from the game_stats inserted in db
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        cursor.execute(cls.get_insert_query('insert_game_stats'), game_data)
-        conn.commit()
-
-        conn.close()
+        cls.insert_register(cls.get_insert_query('insert_game_stats'), game_data)
+        
         return cls.select_last_id()
     
     @classmethod
@@ -98,15 +86,8 @@ class GamesController(BaseController):
         -------
             A list with id from last game_stats row
         """
-
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        cursor.execute(cls.get_select_query('select_game_stats_id_last_inserted'))
-        id = cursor.fetchall()
         
-        conn.close()
-        return id 
+        return cls.select_register(cls.get_select_query('select_game_stats_id_last_inserted'))
 
     @classmethod
     def insert_knock_out(cls, knock_out_data: list, second_leg: bool = False) -> None:

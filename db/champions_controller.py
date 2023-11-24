@@ -1,7 +1,5 @@
 from db.base_controller import BaseController
 
-import mysql.connector
-
 class ChampionsController(BaseController):
     """
     Class that manage the tournament.champíons table
@@ -33,12 +31,7 @@ class ChampionsController(BaseController):
             None
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
+        data = [season, division_id, club_id]
+        return cls.insert_register(cls.get_insert_query('insert_champions'), data)
 
-        cursor.execute(cls.get_insert_query('insert_champions'), [season, division_id, club_id])
         
-        conn.commit()
-        conn.close()
-
-        return None

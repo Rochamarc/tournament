@@ -1,4 +1,3 @@
-import mysql.connector
 from db.base_controller import BaseController
 
 class CoachesController(BaseController):
@@ -30,16 +29,8 @@ class CoachesController(BaseController):
             None
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
+        return cls.insert_registers(cls.get_insert_query('insert_coaches'), coaches_data)
 
-        for coach_data in coaches_data:
-            cursor.execute(cls.get_insert_query('insert_coaches'), coach_data)
-        
-        conn.commit()
-        conn.close()
-
-        return None
 
     @classmethod
     def select_id(cls) -> list[set]:
@@ -50,15 +41,7 @@ class CoachesController(BaseController):
             A list of lists with: id
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        cursor.execute(cls.get_select_query('select_id_from_coaches')) 
-        res = cursor.fetchall()
-
-        conn.close()
-
-        return res
+        return cls.select_register(cls.get_select_query('select_id_from_coaches')) 
 
     @classmethod
     def delete_coaches(cls) -> None:
@@ -69,16 +52,7 @@ class CoachesController(BaseController):
             None
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        cursor.execute(cls.get_delete_query('delete_coaches'))
-
-        conn.close()
-
-        return None 
-
-        
+        return cls.delete_register(cls.get_delete_query('delete_coaches'))
 
 if __name__ == "__main__":
     print(CoachesController().select_id())
