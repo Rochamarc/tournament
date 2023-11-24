@@ -111,7 +111,7 @@ class BaseController:
             raise FileNotFoundError("File {} doesn't exists".format(file_path))
     
     @classmethod
-    def execute_one_insert_query(cls, query_path: str, data: list) -> None:
+    def insert_register(cls, query_path: str, data: list) -> None:
         """
         """
 
@@ -126,7 +126,7 @@ class BaseController:
         return None
 
     @classmethod
-    def execute_multi_insert_query(cls, query_path: str, datas: list) -> None:
+    def insert_registers(cls, query_path: str, datas: list) -> None:
         """
         """
 
@@ -142,7 +142,7 @@ class BaseController:
         return None
 
     @classmethod
-    def execute_select_query(cls, query_path: str, data: list) -> list[set]:
+    def select_register(cls, query_path: str, data: list) -> list[set]:
         """
         """
 
@@ -156,7 +156,19 @@ class BaseController:
 
         return exit_data
 
-    
+    @classmethod
+    def delete_register(cls, query_path: str) -> None:
+        """
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(query_path)
+
+        conn.close()    
+
+        return None
     
     
     @classmethod
