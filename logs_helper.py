@@ -121,16 +121,17 @@ class LogsHandler:
             tournamet.game table
         """
         
-        conditions = logs['field']['conditions']
+        conditions = logs['field_conditions']['conditions']
         
         return [
             conditions['season'],
             conditions['hour'],
             conditions['climate'],
             conditions['weather'],
-            logs['field']['stadium'],
-            logs['field']['audience'],
+            logs['field_conditions']['stadium'],
+            logs['field_conditions']['audience'],
             logs['finances']['ticket_price'],
+            logs['competitions']['id'],
             game_stats_id[0],
             game_stats_id[1]
         ]
@@ -176,3 +177,14 @@ class LogsHandler:
         data.append(season)
 
         return data
+
+    @staticmethod
+    def prepare_knock_out_logs_to_db(phase: str, single_match: bool, match_number: int) -> list:
+        """
+        """
+        
+        return [
+            phase,
+            single_match,
+            match_number
+        ]

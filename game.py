@@ -59,8 +59,8 @@ class Game(BaseGame):
         Invert ball possession between clubs
     """
     
-    def __init__(self, home: Club, away: Club, competition: str, season: str, match_round: int, stadium: Stadium, ticket: int = 50):
-        super().__init__(home, away, season, stadium, ticket)
+    def __init__(self, home: Club, away: Club, competition: str, competition_id: int, season: str, match_round: int, stadium: Stadium, ticket: int = 50):
+        super().__init__(home, away, season, stadium, competition, competition_id, ticket)
 
         self.home = home 
         self.away = away 

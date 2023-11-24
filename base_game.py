@@ -28,7 +28,7 @@ class BaseGame:
         Increase by one the game_stats on logs
     """
     
-    def __init__(self, home: Club, away: Club, season: str, stadium: Stadium, ticket: int):
+    def __init__(self, home: Club, away: Club, season: str, stadium: Stadium, competition: str, competition_id: int, ticket: int):
         ''' This will handle all that code that have to do with the game data '''
 
         # THIS CAN BE IN BASEGAME
@@ -99,7 +99,7 @@ class BaseGame:
                 "home_goals": 0,
                 "away_goals": 0                
             },
-            "field": {
+            "field_conditions": {
                 "location": "{}, {}".format(stadium.city, stadium.country),
                 "stadium": stadium.name,
                 "audience": audience,
@@ -119,6 +119,10 @@ class BaseGame:
             "clubs": {
                 "home_id": home.id,
                 "away_id": away.id
+            },
+            "competitions": {
+                "name": competition,
+                "id": competition_id
             }
         }
 

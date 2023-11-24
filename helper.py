@@ -162,7 +162,7 @@ class ClassConstructor:
 		return games
 
 	@staticmethod
-	def prepare_games(games: list, stadiums: list, competition: str, season: int) -> list[Game]:
+	def prepare_games(games: list, stadiums: list, competition: str, competition_id: int, season: int) -> list[Game]:
 		"""Transform data into Game Objects
 		
 		Parameters
@@ -181,7 +181,7 @@ class ClassConstructor:
 			A list of Game Objetcs 
 		"""
 		
-		return [ Game(i[0], i[1], competition, season, 1, choice(stadiums)) for i in games ]
+		return [ Game(i[0], i[1], competition, competition_id, season, 1, choice(stadiums)) for i in games ]
 	
 	@classmethod
 	def prepare_clubs(cls, clubs_data: list, players_data: list) -> list[Club]:
@@ -284,6 +284,7 @@ class CupHelper:
 			away = games_controller.insert_game_stat_with_id_return(stats_data[1])
 
 			# knock out data
+			# this is obsolete, the kncok_out table has changed
 			knock_data = logs_handler.prepare_knock_out_logs_to_db(game.logs, phase, False, match_number, home[0][0], away[0][0], competition_id)
 
 			games_controller.insert_knock_out(knock_data)

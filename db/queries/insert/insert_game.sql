@@ -1,1 +1,1 @@
-INSERT INTO games VALUES(NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+INSERT INTO games VALUES(NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
