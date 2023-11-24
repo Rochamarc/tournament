@@ -109,15 +109,17 @@ class GamesController(BaseController):
         return id 
 
     @classmethod
-    def insert_knock_out(cls, knock_out_data: list) -> None:
+    def insert_knock_out(cls, knock_out_data: list, second_leg: bool = False) -> None:
         """Insert a knock_out_data into tournament.knock_out
 
         Parameters
         ----------
         knock_out_data : list
             A list containing data to knock_out table 
-            [ season, phase, single_match, match_number, home_id, away_id, home_game_stats, away_game_stats, competition_id ]
-        
+            if second_leg is False knock_out_data = [ season, phase, single_match, match_number, home_id, away_id, home_game_stats, away_game_stats, competition_id ]
+            if second_leg is True knock_out_data = [ season, phase, single_match, match_number, penalties, home_penalties, away_penalties, home_id, away_id, home_game_stats, away_game_stats, competition_id ]
+        second_leg : bool
+            Parameter to select insert query
         Returns
         -------
             None
@@ -126,8 +128,11 @@ class GamesController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(cls.get_insert_query('insert_knock_out'), knock_out_data)
-        
+        if not second_leg:
+            cursor.execute(cls.get_insert_query('insert_knock_out_first_leg'), knock_out_data)
+        else:
+            cursor.execute(cls.get_insert_query('insert_knock_out_second_leg'), knock_out_data)
+
         conn.commit()
         conn.close()
 
