@@ -174,7 +174,21 @@ class BaseController:
 
         return None
     
-    
+    @classmethod
+    def update_register(cls, query_path: str, data: list) -> None:
+        """
+        """
+
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(query_path, data)
+
+        conn.commit()
+        conn.close()    
+
+        return None
+            
     @classmethod
     @property
     def database_config(cls):
