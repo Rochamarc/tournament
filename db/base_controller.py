@@ -111,14 +111,14 @@ class BaseController:
             raise FileNotFoundError("File {} doesn't exists".format(file_path))
     
     @classmethod
-    def insert_register(cls, query_path: str, data: list) -> None:
+    def insert_register(cls, query: str, data: list) -> None:
         """
         """
 
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(query_path, data)
+        cursor.execute(query, data)
         
         conn.commit()
         conn.close()
@@ -126,7 +126,7 @@ class BaseController:
         return None
 
     @classmethod
-    def insert_registers(cls, query_path: str, datas: list) -> None:
+    def insert_registers(cls, query: str, datas: list) -> None:
         """
         """
 
@@ -134,7 +134,7 @@ class BaseController:
         cursor = conn.cursor()
 
         for data in datas:
-            cursor.execute(query_path, data)
+            cursor.execute(query, data)
         
         conn.commit()
         conn.close()
@@ -142,7 +142,7 @@ class BaseController:
         return None
 
     @classmethod
-    def select_register(cls, query_path: str, data: list = []) -> list[set]:
+    def select_register(cls, query: str, data: list = []) -> list[set]:
         """
         """
 
@@ -150,9 +150,9 @@ class BaseController:
         cursor = conn.cursor()
 
         if data:
-            cursor.execute(query_path, data)
+            cursor.execute(query, data)
         else:
-            cursor.execute(query_path)
+            cursor.execute(query)
             
         exit_data = cursor.fetchall()
 
@@ -161,28 +161,28 @@ class BaseController:
         return exit_data
 
     @classmethod
-    def delete_register(cls, query_path: str) -> None:
+    def delete_register(cls, query: str) -> None:
         """
         """
 
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(query_path)
+        cursor.execute(query)
 
         conn.close()    
 
         return None
     
     @classmethod
-    def update_register(cls, query_path: str, data: list) -> None:
+    def update_register(cls, query: str, data: list) -> None:
         """
         """
 
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(query_path, data)
+        cursor.execute(query, data)
 
         conn.commit()
         conn.close()    
