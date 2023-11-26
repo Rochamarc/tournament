@@ -1,6 +1,7 @@
 from helper import ClassConstructor
 from db.champions_controller import ChampionsController
 from db.championships_controller import ChampionshipsController
+from db.competitions_controller import CompetitionsController
 from db.clubs_controller import ClubsController
 from db.games_controller import GamesController
 from db.players_controller import PlayersController
@@ -10,6 +11,11 @@ from data_manipulation import formulate_clubs_to_championships, relegate_serie_a
 
 from logs_helper import LogsHandler
 
+from alive_progress import alive_it
+
+# TODO nao ta atualizando o championships 
+#
+#
 
 # define a season
 
@@ -20,6 +26,7 @@ class_const = ClassConstructor()
 
 champions_controller = ChampionsController()
 championships_controller = ChampionshipsController()
+competitions_controller = CompetitionsController()
 clubs_controller = ClubsController()
 games_controller = GamesController()
 players_controller = PlayersController()
@@ -34,8 +41,10 @@ stadiums = class_const.stadiums(stadiums_data)
 # Select players with contract
 players_data = players_controller.select_players_with_contract(season)
 
-# Promoted and relegate
+competition_name = 'Campeonato Brasileiro'
+competition_id = competitions_controller.select_competition_id(competition_name)[0][0]
 
+# Promoted and relegate
 promo = input("Want to promote and relegate [Y/n]: ")
 
 if promo in ['Y','y']:
@@ -81,15 +90,15 @@ serie_b_schedule = class_const.define_schedule(serie_b_clubs)
 serie_c_schedule = class_const.define_schedule(serie_c_clubs)
 
 # Return a list of games object with all the confrontations through the season
-serie_a_games = class_const.prepare_games(serie_a_schedule, stadiums, 'Campeonato Brasileiro Serie A', int(season))
-serie_b_games = class_const.prepare_games(serie_b_schedule, stadiums, 'Campeonato Brasileiro Serie B', int(season))
-serie_c_games = class_const.prepare_games(serie_c_schedule, stadiums, 'Campeonato Brasileiro Serie C', int(season))
+serie_a_games = class_const.prepare_games(serie_a_schedule, stadiums, competition_name, competition_id, int(season))
+serie_b_games = class_const.prepare_games(serie_b_schedule, stadiums, competition_name, competition_id, int(season))
+serie_c_games = class_const.prepare_games(serie_c_schedule, stadiums, competition_name, competition_id, int(season))
 
 
 print("Running serie A")
 
 # Starting this matches
-for game in serie_a_games:
+for game in alive_it(serie_a_games):
     game.start()
 
     # saving into database
@@ -116,7 +125,7 @@ for game in serie_a_games:
 
 print("Running serie B")
 
-for game in serie_b_games:
+for game in alive_it(serie_b_games):
     game.start()
 
     # saving into database
@@ -144,7 +153,7 @@ for game in serie_b_games:
 print("Running serie C")
 
 
-for game in serie_c_games:
+for game in alive_it(serie_c_games):
     game.start()
 
     # saving into database
