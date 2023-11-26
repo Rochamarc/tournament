@@ -61,7 +61,7 @@ class ChampionshipsController(BaseController):
         -------
             A list of sets with [ club_id, division_id ]
         """
-        return cls.insert_register(cls.get_select_query('select_championships_to_insert'), [division_name])
+        return cls.select_register(cls.get_select_query('select_championships_to_insert'), data=[division_name])
 
 
     @classmethod
@@ -116,10 +116,7 @@ class ChampionshipsController(BaseController):
             None
         """
 
-        # TODO make this with new format
-
-
-        return (cls.get_update_query('update_championship'), data)
+        return cls.update_register(cls.get_update_query('update_championship'), data)
     
     @classmethod
     def select_champion(cls, season: str, division_name: str) -> list[set]:
