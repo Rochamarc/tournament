@@ -51,11 +51,8 @@ class GamesController(BaseController):
             A list containing a set with his id
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        cursor.execute(cls.get_insert_query(''))
-        pass
+        return cls.insert_register(cls.get_insert_query('insert_game'), game_data)
+        
 
 
 
