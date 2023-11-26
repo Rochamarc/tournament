@@ -95,6 +95,7 @@ CREATE TABLE retired_players(
     foot CHAR(1)
 );
 
+-- TODO add competition ind on games
 
 CREATE TABLE games(
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -105,6 +106,7 @@ CREATE TABLE games(
     stadium VARCHAR(100) NOT NULL,
     audience INT,
     ticket_value INT,
+    competition_id INT,
     home_game_stats_id INT,
     away_game_stats_id INT
 );
@@ -213,17 +215,35 @@ CREATE TABLE group_phase(
     competition_id INT
 );
 
+
+/* NEW SYSTEM 
+
+now 
+    home_id -> games
+    away_id -> games
+    home_game_stats_id -> games
+    away_games_stats_id -> games
+    season -> games
+    penalties -> penalties
+    home_penalties -> penalties
+    away_penalties -> penalties
+*/
+
+
 CREATE TABLE knock_out(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    season CHAR(4) NOT NULL,
     phase VARCHAR(50) NOT NULL,
     single_match BOOLEAN NOT NULL,
-    match_number INT,
-    home_id INT NOT NULL,
-    away_id INT NOT NULL,
-    home_game_stats_id INT,
-    away_game_stats_id INT,
-    competition_id INT
+    match_number INT NOT NULL,
+    game_id INT,
+    penalty_id INT
+);
+
+CREATE TABLE penalties(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    penalties BOOLEAN NOT NULL,
+    home_penalties INT,
+    away_penalties INT
 );
 
 -- CHAMPIONS 
@@ -276,6 +296,11 @@ ALTER TABLE games
 ADD CONSTRAINT fk_games_away_game_stats
 FOREIGN KEY(away_game_stats_id)
 REFERENCES game_stats(id);
+
+ALTER TABLE games
+ADD CONSTRAINT fk_games_competitions
+FOREIGN KEY(competition_id)
+REFERENCES competitions(id);
 
 ALTER TABLE game_stats 
 ADD CONSTRAINT fk_game_stats_clubs
@@ -335,29 +360,15 @@ FOREIGN KEY(competition_id)
 REFERENCES competitions(id);
 
 ALTER TABLE knock_out
-ADD CONSTRAINT fk_knock_out_home_clubs
-FOREIGN KEY(home_id)
-REFERENCES clubs(id);
+ADD CONSTRAINT fk_knock_out_games
+FOREIGN KEY(game_id)
+REFERENCES games(id);
 
 ALTER TABLE knock_out
-ADD CONSTRAINT fk_knock_out_away_clubs
-FOREIGN KEY(away_id)
-REFERENCES clubs(id);
+ADD CONSTRAINT fk_knock_out_penalties
+FOREIGN KEY(penalty_id)
+REFERENCES penalties(id);
 
-ALTER TABLE knock_out
-ADD CONSTRAINT fk_knock_out_home_game_stats
-FOREIGN KEY(home_game_stats_id)
-REFERENCES game_stats(id);
-
-ALTER TABLE knock_out
-ADD CONSTRAINT fk_knock_out_away_game_stats
-FOREIGN KEY(away_game_stats_id)
-REFERENCES game_stats(id);
-
-ALTER TABLE knock_out
-ADD CONSTRAINT fk_knock_out_competitions
-FOREIGN KEY(competition_id)
-REFERENCES competitions(id);
 
 ALTER TABLE champions
 ADD CONSTRAINT fk_champions_divisions
