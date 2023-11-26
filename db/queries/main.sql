@@ -75,7 +75,8 @@ CREATE TABLE stats(
     defenses INT DEFAULT 0,
     difficult_defenses INT DEFAULT 0,
     goals_conceded INT DEFAULT 0,
-    player_id INT
+    player_id INT,
+    game_id INT
 );
 
 CREATE TABLE market_value(
@@ -281,6 +282,11 @@ ALTER TABLE stats
 ADD CONSTRAINT fk_stats_players
 FOREIGN KEY(player_id)
 REFERENCES players(id);
+
+ALTER TABLE stats 
+ADD CONSTRAINT fk_stats_clubs
+FOREIGN KEY(game_id)
+REFERENCES games(id);
 
 ALTER TABLE market_value 
 ADD CONSTRAINT fk_market_value_players
