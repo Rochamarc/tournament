@@ -174,8 +174,9 @@ class Game(BaseGame):
             # check for a foul to update on logs
             if not self.decision(defensor.overall):
                 self.update_game_stats_on_logs('fouls', attack_club.name)
-                self.update_player_stats_on_logs('fouls', defensor)
                 
+                self.update_player_stats_on_logs('fouls', defensor)
+                self.update_player_stats('fouls_committed', defensor)
 
             if not self.move_decision(attacker, defensor):
                 # not sucessfull pass
@@ -187,11 +188,13 @@ class Game(BaseGame):
                 if randint(1,2) == 1:
                     # interception
                     self.update_game_stats_on_logs('interceptions', defense_club.name)
+
                     self.update_player_stats_on_logs('intercepted_passes', defensor)
                     self.update_player_stats('intercepted_passes', defensor)
                 else:
                     # wrong pass
                     self.update_game_stats_on_logs('wrong passes', attack_club.name)
+                    
                     self.update_player_stats_on_logs('wrong_passes', attacker)
                     self.update_player_stats('wrong_passes', attacker)
                     
@@ -212,6 +215,7 @@ class Game(BaseGame):
             sender = self.select_player_on_field(attack_club, destiny)
 
             self.update_game_stats_on_logs('passes', attack_club.name)
+
             self.update_player_stats_on_logs('passes', attacker)
             self.update_player_stats('passes', attacker)
 
@@ -226,12 +230,14 @@ class Game(BaseGame):
                 if defense_move == 'tackle':
                     ''' Tackle '''
                     self.update_game_stats_on_logs('tackles', defense_club.name)
+
                     self.update_player_stats_on_logs('tackles', defensor)
                     self.update_player_stats('tackles', defensor)
 
                 elif defense_move == 'ball_steal': 
                     ''' Ball steal '''              
                     self.update_game_stats_on_logs('stolen_balls', defense_club.name)
+
                     self.update_player_stats_on_logs('stolen_balls', defensor)
                     self.update_player_stats('stolen_balls', defensor)
 
@@ -240,7 +246,11 @@ class Game(BaseGame):
             else:
                 # sucessfull pass or projection 
                 # change the field_part to destiny
-                # doesnt change the sender
+                # doesnt change the sender or club_possession
+
+                self.update_game_stats_on_logs('passes', attack_club.name)
+
+                self.update_player_stats('passes', attacker)
 
                 field_part = destiny
                 club_possession, other_club = attack_club, defense_club
@@ -264,13 +274,22 @@ class Game(BaseGame):
                 # to update the logs
                 if self.decision(keeper.overall):
                     self.update_game_stats_on_logs('saves', defense_club.name)
+
                     self.update_game_stats_on_logs('shots on target', attack_club.name)
+                    self.update_player_stats('shots_on_target', attacker)
                     
-                    # update keeper stats
-                    self.update_player_stats_on_logs('defenses', keeper)
-                    self.update_player_stats('defenses', keeper)                
+                    if randint(0,1):
+                        # Difficult defense
+                        self.update_player_stats('difficult_defenses', keeper)
+                        self.update_player_stats_on_logs('difficult_defenses', keeper)                
+                    else:
+                        # update keeper stats
+                        self.update_player_stats_on_logs('defenses', keeper)
+                        self.update_player_stats('defenses', keeper)
+
                 else:
                     self.update_game_stats_on_logs('shots', attack_club.name)
+                    self.update_player_stats('shots', attacker)
 
 
             else:

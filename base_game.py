@@ -282,8 +282,11 @@ class BaseGame:
 
         game_data = {
             "matches": 0,
+            "shots": 0,
+            "shots_on_target": 0,
             "goals": 0,
             "assists": 0,
+            "fouls_committed": 0,
             "tackles": 0,
             "passes": 0,
             "wrong_passes": 0,
