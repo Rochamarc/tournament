@@ -1,0 +1,1 @@
+SELECT id FROM games ORDER BY (id) DESC LIMIT 1;
