@@ -59,7 +59,10 @@ class Game(BaseGame):
         Invert ball possession between clubs
     """
     
-    def __init__(self, home: Club, away: Club, competition: str, competition_id: int, season: str, match_round: int, stadium: Stadium, ticket: int = 50):
+    def __init__(self, home: Club, away: Club, competition: str, competition_id: int, 
+                 season: str, match_round: int, stadium: Stadium, ticket: int = 50):
+        
+        # Instantiate BaseGame variables
         super().__init__(home, away, season, stadium, competition, competition_id, ticket)
 
         self.home = home 
@@ -90,7 +93,12 @@ class Game(BaseGame):
 
         while time < 90:
             # This is the ninety minutes simulation part 
-            if self.home_goal == 7 or self.away_goal == 7 : break 
+
+            # Games doenst have more of seven goals
+            seven_goals = self.home_goal == 7 or self.away_goal == 7
+            if seven_goals: 
+                break 
+            
             move_info = self.move(move_info['club_possession'], move_info['other_club'], move_info['field_part'], move_info['sender'])
             
             # make the game have more passes
@@ -103,7 +111,7 @@ class Game(BaseGame):
         
         return self.logs 
     
-    def move(self, attack_club: Club, defense_club: Club, field_part: str, sender: Player = None) -> dict:
+    def move(self, attack_club: Club, defense_club: Club, field_part: str, sender: Player=None) -> dict:
         """Makes decisions & calculates movements about the game and generates data
         
         Parameters
@@ -128,13 +136,6 @@ class Game(BaseGame):
         keep_ball_possession =  False 
 
         # Define an attacker
-        # attacker = sender or self.select_player(attack_club, 'any')              
-
-        #if sender: 
-        #    attacker = sender                 
-        #else:
-        #    attacker = self.select_player(attack_club, 'any') 
-        
         attacker = sender or self.select_player(attack_club, 'any')
 
         # Define an defensor
