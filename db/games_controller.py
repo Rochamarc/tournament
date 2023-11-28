@@ -38,8 +38,8 @@ class GamesController(BaseController):
         return cls.insert_registers(cls.get_insert_query('insert_game'), games_data)
     
     @classmethod
-    def insert_game(cls, game_data: list) -> list[str]:
-        """Insert a game data into tournament.games without tournament.games_stats foreign key and return his id
+    def insert_game(cls, game_data: list) -> list[set]:
+        """Insert a game data into tournament.games return his id
 
         Parameters
         ----------
@@ -50,10 +50,11 @@ class GamesController(BaseController):
         -------
             A list containing a set with his id
         """
-
-        return cls.insert_register(cls.get_insert_query('insert_game'), game_data)
         
+        # insert a game into database
+        cls.insert_register(cls.get_insert_query('insert_game'), game_data)
 
+        return cls.select_register(cls.get_select_query('select_last_game'))
 
 
     @classmethod
@@ -73,10 +74,10 @@ class GamesController(BaseController):
 
         cls.insert_register(cls.get_insert_query('insert_game_stats'), game_data)
         
-        return cls.select_last_id()
+        return cls.select_last_game_stats_id()
     
     @classmethod
-    def select_last_id(cls) -> list:
+    def select_last_game_stats_id(cls) -> list:
         """Select the last id from tournament.game_stats 
         
         Returns
