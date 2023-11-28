@@ -26,6 +26,10 @@ class BaseGame:
         Increase by one the player_stats on logs
     update_game_stats_on_logs(stat: str, home_away: str)
         Increase by one the game_stats on logs
+    update_player_stats(stats: str, player: Player)
+        Update stats item on logs
+    prepare_player_data_dict(home_players: list, away_players: list)
+        Prepare dict data for player stats
     """
     
     def __init__(self, home: Club, away: Club, season: str, stadium: Stadium, competition: str, competition_id: int, ticket: int):
@@ -123,7 +127,8 @@ class BaseGame:
             "competitions": {
                 "name": competition,
                 "id": competition_id
-            }
+            },
+            "stats": self.prepare_player_data_dict(home.squad, away.squad)
         }
 
         # THIS CAN BE ON BASE_GAME
@@ -224,10 +229,27 @@ class BaseGame:
         
         self.logs['player_stats'][stats][player] += 1
 
+    def update_player_stats(self, stats: str, player: Player) -> None:
+        """Update stats item on logs
+
+        Parameters
+        ----------
+        stats : str
+            A string containing stat that will be increased
+            stats options => matches, goals, assists, tackles, passes, wrong_passes, intercepted_passes, clearances, stolen_balls, clean_sheets, defenses, difficult_defenses, goals_conceded     
+        players : Player
+            A player object 
+        
+        Returns
+        -------
+            None
+        """
+
+        self.logs['stats'][player.name][stats] += 1
+
     def update_game_stats_on_logs(self, stat: str, club_name: str):
         """Increase by one the stat on logs['game_stats'][home_away][stats]
-        stats options = 'goals','shots','shots on target','fouls','passes','wrong passes','interceptions',
-        'tackles','stolen_balls','saves','ball possession','offsides','free kicks','penalties'
+        stats options => goals, shots, shots on target, fouls, passes, wrong passes, interceptions, tackles, stolen_balls, saves, ball possession, offsides, free kicks, penalties
         
         Parameters
         ----------
@@ -242,3 +264,46 @@ class BaseGame:
         """
 
         self.logs['game_stats'][club_name][stat] += 1
+
+    def prepare_player_data_dict(self, home_players: list, away_players: list) -> dict:
+        """Prepare player stats data
+
+        Parameters
+        ----------
+        home_players : list
+            Home Club squad
+        away_players : list
+            Away Club squad
+
+        Returns
+        -------
+            A dict with player game data for home and away players
+        """
+
+        game_data = {
+            "matches": 0,
+            "goals": 0,
+            "assists": 0,
+            "tackles": 0,
+            "passes": 0,
+            "wrong_passes": 0,
+            "intercepted_passes": 0,
+            "clearances": 0,
+            "stolen_balls": 0,
+            "clean_sheets": 0,
+            "defenses": 0,
+            "difficult_defenses": 0,
+            "goals_conceded": 0,     
+        }
+
+        data = {}
+
+        for player in home_players:
+            data[player.name] = game_data.copy()
+            data[player.name]['player_id'] = player.id
+        
+        for player in away_players:
+            data[player.name] = game_data.copy()
+            data[player.name]['player_id'] = player.id
+
+        return data
