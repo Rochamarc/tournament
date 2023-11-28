@@ -22,6 +22,10 @@ class PlayersController(BaseController):
         Select all players with contract with a club
     delete_players()
         Delete all players from database
+    insert_player_stats(stats_data : list)
+        Insert a tournament.stats in database
+    insert_player_stats(stats_datas : list)
+        Insert a list of tournament.stats in database
     """
         
     @classmethod
@@ -40,6 +44,42 @@ class PlayersController(BaseController):
         
         return cls.insert_registers(cls.get_insert_query('insert_players'), players_data)
 
+    @classmethod
+    def insert_player_stats(cls, stats_data : list) -> None:
+        """Insert stats_data into tournament.stats
+
+        Parameters
+        ----------
+        stats_data : list
+            A list containing [ season: str, matches: int, goals: int, assists: int, tackles: int, passes: int, 
+            wrong_passes: int, intercepted_passes: int, clearences: int, stolen_balls: int, clean_sheets: int,
+            defenses: int, difficult_defenses: int, goals_conceded: int, player_id: int, game_id: int ]
+        
+        Returns
+        -------
+            None
+        """
+
+        return cls.insert_register(cls.get_insert_query('insert_stats'), stats_data)
+    
+    @classmethod
+    def insert_players_stats(cls, stats_datas : list) -> None:
+        """Insert a list of stats_data into tournament.stats
+
+        Parameters
+        ----------
+        stats_datas : list
+            A list of data list containing [ season: str, matches: int, goals: int, assists: int, tackles: int, passes: int, 
+            wrong_passes: int, intercepted_passes: int, clearences: int, stolen_balls: int, clean_sheets: int,
+            defenses: int, difficult_defenses: int, goals_conceded: int, player_id: int, game_id: int ]
+        
+        Returns
+        -------
+            None
+        """
+
+        return cls.insert_registers(cls.get_insert_query('insert_stats'), stats_datas)
+    
     @classmethod
     def select_last_players(cls) -> list:
         """Select the last players from tournament.players
