@@ -168,11 +168,13 @@ class Game(BaseGame):
             # update for the pass
             self.update_game_stats_on_logs('passes', attack_club.name)
             self.update_player_stats_on_logs('passes', attacker)
+            self.update_player_stats('passes', attacker)
 
             # check for a foul to update on logs
             if not self.decision(defensor.overall):
                 self.update_game_stats_on_logs('fouls', attack_club.name)
                 self.update_player_stats_on_logs('fouls', defensor)
+                
 
             if not self.move_decision(attacker, defensor):
                 # not sucessfull pass
@@ -185,10 +187,12 @@ class Game(BaseGame):
                     # interception
                     self.update_game_stats_on_logs('interceptions', defense_club.name)
                     self.update_player_stats_on_logs('intercepted_passes', defensor)
+                    self.update_player_stats('intercepted_passes', defensor)
                 else:
                     # wrong pass
                     self.update_game_stats_on_logs('wrong passes', attack_club.name)
                     self.update_player_stats_on_logs('wrong_passes', attacker)
+                    self.update_player_stats('wrong_passes', attacker)
                     
 
                 club_possession, other_club = self.invert_ball_possession(attack_club, defense_club)
@@ -208,6 +212,7 @@ class Game(BaseGame):
 
             self.update_game_stats_on_logs('passes', attack_club.name)
             self.update_player_stats_on_logs('passes', attacker)
+            self.update_player_stats('passes', attacker)
 
 
             if not self.move_decision(attacker, defensor):
@@ -219,13 +224,15 @@ class Game(BaseGame):
                 # this could also have a wrong pass & interception
                 if defense_move == 'tackle':
                     ''' Tackle '''
-                    self.update_player_stats_on_logs('tackles', defensor)
                     self.update_game_stats_on_logs('tackles', defense_club.name)
+                    self.update_player_stats_on_logs('tackles', defensor)
+                    self.update_player_stats('tackles', defensor)
 
                 elif defense_move == 'ball_steal': 
                     ''' Ball steal '''              
-                    self.update_player_stats_on_logs('stolen_balls', defensor)
                     self.update_game_stats_on_logs('stolen_balls', defense_club.name)
+                    self.update_player_stats_on_logs('stolen_balls', defensor)
+                    self.update_player_stats('stolen_balls', defensor)
 
                 club_possession, other_club = self.invert_ball_possession(attack_club, defense_club)
                 sender = defensor 
@@ -255,9 +262,12 @@ class Game(BaseGame):
                 # Define for a defense or a kick out
                 # to update the logs
                 if self.decision(keeper.overall):
-                    self.update_player_stats_on_logs('defenses', keeper)                
                     self.update_game_stats_on_logs('saves', defense_club.name)
                     self.update_game_stats_on_logs('shots on target', attack_club.name)
+                    
+                    # update keeper stats
+                    self.update_player_stats_on_logs('defenses', keeper)
+                    self.update_player_stats('defenses', keeper)                
                 else:
                     self.update_game_stats_on_logs('shots', attack_club.name)
 
@@ -460,10 +470,14 @@ class Game(BaseGame):
         self.add_a_goal(club_finish, finisher)
 
         # Add stats to logs
-        self.logs['game_stats'][club_finish.name]['goals'] += 1
-        self.logs['player_stats']['goals'][finisher] += 1
+        self.update_game_stats_on_logs('goals', club_finish.name)
 
-        if assist : self.logs['player_stats']['assists'][assistant] += 1 
+        self.update_player_stats_on_logs('goals', finisher)
+        self.update_player_stats('goals', finisher)
+
+        if assist: 
+            self.update_player_stats_on_logs('assists', assistant)
+            self.update_player_stats('assists', assistant)
 
         return True
     
