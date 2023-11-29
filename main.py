@@ -7,6 +7,8 @@ from db.games_controller import GamesController
 from db.players_controller import PlayersController
 from db.stadiums_controller import StadiumsController
 
+from tournament import run_league
+
 from data_manipulation import formulate_clubs_to_championships, relegate_serie_a, relegate_serie_b, relegate_serie_c
 
 from logs_helper import LogsHandler
@@ -96,86 +98,14 @@ serie_c_games = class_const.prepare_games(serie_c_schedule, stadiums, competitio
 
 
 print("Running serie A")
-
-# Starting this matches
-for game in alive_it(serie_a_games):
-    game.start()
-
-    # saving into database
-    game_stats = logs_handler.get_game_stats(game.logs, game.home, game.away)
-    stats_data = logs_handler.prepare_game_stats_logs_to_db(game_stats)
-
-    # Insert and Get the id of the game stats inserted
-    home = games_controller.insert_game_stat_with_id_return(stats_data[0])
-    away = games_controller.insert_game_stat_with_id_return(stats_data[1])
-
-    # Game stats id
-    game_ids = home[0][0], away[0][0]
-
-    # Prepare data for insertiong
-    prepare_game = logs_handler.prepare_game_logs_to_db(game.logs, game_ids)
-    games_controller.insert_games_list([prepare_game])
-
-    home_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.home, season)
-    away_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.away, season)
-
-    championships_controller.update_championship_table(home_data)
-    championships_controller.update_championship_table(away_data)
-
+run_league(serie_a_games, season)
 
 print("Running serie B")
-
-for game in alive_it(serie_b_games):
-    game.start()
-
-    # saving into database
-    game_stats = logs_handler.get_game_stats(game.logs, game.home, game.away)
-    stats_data = logs_handler.prepare_game_stats_logs_to_db(game_stats)
-
-    # Insert and Get the id of the game stats inserted
-    home = games_controller.insert_game_stat_with_id_return(stats_data[0])
-    away = games_controller.insert_game_stat_with_id_return(stats_data[1])
-
-    # Game stats id
-    game_ids = home[0][0], away[0][0]
-
-    # Prepare data for insertiong
-    prepare_game = logs_handler.prepare_game_logs_to_db(game.logs, game_ids)
-    games_controller.insert_games_list([prepare_game])
-
-    home_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.home, season)
-    away_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.away, season)
-
-    championships_controller.update_championship_table(home_data)
-    championships_controller.update_championship_table(away_data)
-
-
+run_league(serie_b_games, season)
+ 
 print("Running serie C")
+run_league(serie_c_games, season)
 
-
-for game in alive_it(serie_c_games):
-    game.start()
-
-    # saving into database
-    game_stats = logs_handler.get_game_stats(game.logs, game.home, game.away)
-    stats_data = logs_handler.prepare_game_stats_logs_to_db(game_stats)
-
-    # Insert and Get the id of the game stats inserted
-    home = games_controller.insert_game_stat_with_id_return(stats_data[0])
-    away = games_controller.insert_game_stat_with_id_return(stats_data[1])
-
-    # Game stats id
-    game_ids = home[0][0], away[0][0]
-
-    # Prepare data for insertiong
-    prepare_game = logs_handler.prepare_game_logs_to_db(game.logs, game_ids)
-    games_controller.insert_games_list([prepare_game])
-
-    home_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.home, season)
-    away_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.away, season)
-
-    championships_controller.update_championship_table(home_data)
-    championships_controller.update_championship_table(away_data)
 
 # insert champions 
 a_champion = championships_controller.select_champion(season, 'Serie A')[0]
