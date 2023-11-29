@@ -229,7 +229,7 @@ class BaseGame:
         
         self.logs['player_stats'][stats][player] += 1
 
-    def update_player_stats(self, stats: str, player: Player) -> None:
+    def update_player_stats(self, stats: str, player: Player, n: int=1) -> None:
         """Update stats item on logs
 
         Parameters
@@ -239,13 +239,15 @@ class BaseGame:
             stats options => matches, goals, assists, tackles, passes, wrong_passes, intercepted_passes, clearances, stolen_balls, clean_sheets, defenses, difficult_defenses, goals_conceded     
         players : Player
             A player object 
+        n: int
+            Value that will be added on stats
         
         Returns
         -------
             None
         """
 
-        self.logs['stats'][player.name][stats] += 1
+        self.logs['stats'][player.name][stats] += n
 
     def update_game_stats_on_logs(self, stat: str, club_name: str):
         """Increase by one the stat on logs['game_stats'][home_away][stats]
@@ -311,33 +313,58 @@ class BaseGame:
 
         return data
     
-    def check_for_clean_sheets(self, home: Club, away: Club) -> list:
-        """
+    def check_for_clean_sheets(self) -> None:
+        """Check for clean sheet and update stats for clean_sheets
+        to all players on stats
+
+        Returns
+        -------
+            None
         """
 
-        home_clean = not self.home_goal
-        away_clean = not self.away_goal
-        
-        data = []
-
+        home_clean = not self.away_goal
+        away_clean = not self.home_goal
+            
+        # if the oponent doesnt score then add one clean sheet to opposite side
         if home_clean:
-            data.append(home)
+            for player in self.logs['players']['home']:
+                self.update_player_stats('clean_sheets', player)
         
         if away_clean:
-            data.append(away)
-        
-        return data 
+            for player in self.logs['players']['away']:
+                self.update_player_stats('clean_sheets', player)
+ 
 
-    def check_for_goals_conceded(self, home: Club, away: Club) -> list:
-        """
-        """
+    def check_for_goals_conceded(self):
+        """Check for goals conceded and update stats for goals_conceded
+        to all players on stats
         
-        data = []
+        Returns
+        -------
+            None
+        """
 
-        if self.home_goal:
-            data.append(home)
-        
+        # if the oponent made goals then add this goals to opposite side
         if self.away_goal:
-            data.append(away)
+            for player in self.logs['players']['home']:
+                self.update_player_stats('goals_conceded', player, n=self.away_goal)
+             
+        if self.home_goal:
+            for player in self.logs['players']['away']:
+                self.update_player_stats('goals_conceded', player, n=self.home_goal)
 
-        return data
+
+    def update_player_matches_on_field(self) -> None:
+        """Update matches from players that enter the field on self.logs['stats']
+
+        Returns
+        -------
+            None
+        """
+
+        for player in self.logs['players']['home']:
+            self.update_player_stats('matches', player)
+
+        for player in self.logs['players']['away']:
+            self.update_player_stats('matches', player)
+    

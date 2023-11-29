@@ -109,6 +109,11 @@ class Game(BaseGame):
         self.update_goals_on_logs()
         self.update_winner_on_logs()
         
+        # player stats
+        self.update_player_matches_on_field()
+        self.check_for_goals_conceded()
+        self.check_for_clean_sheets()
+
         return self.logs 
     
     def move(self, attack_club: Club, defense_club: Club, field_part: str, sender: Player=None) -> dict:
