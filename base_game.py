@@ -87,7 +87,7 @@ class BaseGame:
                 "passes": defaultdict(int),
                 "wrong_passes": defaultdict(int),
                 "intercepted_passes": defaultdict(int),
-                "dificult_defenses": defaultdict(int),
+                "difficult_defenses": defaultdict(int),
                 "clearances": defaultdict(int),
                 "fouls": defaultdict(int),
                 "stolen_balls": defaultdict(int)
@@ -308,5 +308,36 @@ class BaseGame:
         for player in away_players:
             data[player.name] = game_data.copy()
             data[player.name]['player_id'] = player.id
+
+        return data
+    
+    def check_for_clean_sheets(self, home: Club, away: Club) -> list:
+        """
+        """
+
+        home_clean = not self.home_goal
+        away_clean = not self.away_goal
+        
+        data = []
+
+        if home_clean:
+            data.append(home)
+        
+        if away_clean:
+            data.append(away)
+        
+        return data 
+
+    def check_for_goals_conceded(self, home: Club, away: Club) -> list:
+        """
+        """
+        
+        data = []
+
+        if self.home_goal:
+            data.append(home)
+        
+        if self.away_goal:
+            data.append(away)
 
         return data
