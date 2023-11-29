@@ -27,7 +27,7 @@ def prepare_player_stats_to_db(player_stats: dict, season: int, game_id: int) ->
             item['passes'],
             item['wrong_passes'],
             item['intercepted_passes'],
-            item['clearences'],
+            item['clearances'],
             item['stolen_balls'],
             item['clean_sheets'],
             item['defenses'],
