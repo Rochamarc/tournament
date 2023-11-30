@@ -269,6 +269,17 @@ class Game(BaseGame):
             # i can decrease the attacker chance based on the part of the field 
             # that he is shooting passing a decrease_attacker_chance = 0 and adding
             # to the value of the attacker decision 
+
+            if attacker.position == 'GK':
+                # add a pass to the keeper
+                self.update_player_stats_on_logs('passes', attacker)
+                self.update_player_stats('passes', attacker)
+                
+                self.update_game_stats_on_logs('passes', attack_club.name)
+                
+                attacker =  self.select_player(attack_club, 'any', unless='GK')
+
+
             if self.move_decision(attacker, keeper) == False:
                 ''' Defense or kick out '''
 
@@ -443,7 +454,7 @@ class Game(BaseGame):
         
         return 'defender'
 
-    def select_player(self, club: Club, player_position: str) -> Player:
+    def select_player(self, club: Club, player_position: str, unless: str = None) -> Player:
         """Select a player by a specific position
         
         Parameters
@@ -452,7 +463,8 @@ class Game(BaseGame):
             A Club object that will set the list of players to be selected
         player_position : str
             A string with a player position. If position == 'any' select player by any position
-        
+        unless : str
+            A string containing a position that is not allowed
         Returns
         -------
             A Player Object
@@ -468,9 +480,12 @@ class Game(BaseGame):
         if player_position == 'any':
             return choice(start_eleven)
 
-        player = choice([player for player in start_eleven if player.position in self.positions[player_position]])
+        if unless:
+            options = [player for player in start_eleven if player.position in self.positions[player_position].remove(unless)]
+        else:
+            options = [player for player in start_eleven if player.position in self.positions[player_position]]
 
-        return player 
+        return choice(options)
 
 
     def finish(self, assistant: Player, finisher: Player, club_finish: Club) -> True:
