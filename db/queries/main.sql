@@ -178,7 +178,7 @@ CREATE TABLE player_game_stats(
 	intercepted_passes INT DEFAULT 0,
 	dificult_defenses INT DEFAULT 0,
 	clearances INT DEFAULT 0,
-	fouls INT DEFAULT 0,
+	fouls_committed INT DEFAULT 0,
 	stolen_balls INT DEFAULT 0,
 	player_id INT,
 	game_id INT	
