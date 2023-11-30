@@ -72,7 +72,7 @@ CREATE TABLE stats(
     passes INT DEFAULT 0,
     wrong_passes INT DEFAULT 0,
     intercepted_passes INT DEFAULT 0,
-    clearences INT DEFAULT 0,
+    clearances INT DEFAULT 0,
     stolen_balls INT DEFAULT 0,
     clean_sheets INT DEFAULT 0,
     defenses INT DEFAULT 0,
