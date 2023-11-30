@@ -1,10 +1,12 @@
-def prepare_player_stats_to_db(player_stats: dict, season: int, game_id: int) -> list[list]:
+def prepare_player_stats_to_db(player_stats: dict, season: str, game_id: int) -> list[list]:
     """Prepare a list of data to insert into tournament.stats schema
 
     Parameters
     ----------
     player_stats : dict
         Stats from Game.logs['stats'] format
+    season : str
+        A str with season 
     game_id : int
         A integer of the id from the game
 
