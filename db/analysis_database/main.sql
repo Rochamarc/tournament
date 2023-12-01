@@ -26,14 +26,14 @@ CREATE TABLE player_stats(
     goals_conceded INT NOT NULL,  
     competition VARCHAR(100) NOT NULL,
     division VARCHAR(100),
-    home VARCHAR(100) NOT NULL,
-    away VARCHAR(100) NOT NULL
+    club_owner VARCHAR(100) NOT NULL,
+    match_clubs VARCHAR(200) NOT NULL
 );
 
 /* COPY FILES FROM MAIN DB TO ANALISYS DB */
 INSERT INTO football_analysis.player_stats
 SELECT  NULL,
-        players.id,
+        players.id AS 'player_id',
         players.name,
         players.position,
         player_stats.season,
@@ -53,10 +53,10 @@ SELECT  NULL,
         player_stats.defenses,           
         player_stats.difficult_defenses, 
         player_stats.goals_conceded,
-        competitions.name,
-        divisions.name,
-        home.name,
-        away.name
+        competitions.name AS 'competition',
+        divisions.name AS 'division',
+        club_owner.name AS 'club_owner',
+        CONCAT(home.name,' x ',away.name) AS 'match' 
 FROM player_stats 
 INNER JOIN players 
     ON player_stats.player_id = players.id
@@ -66,6 +66,8 @@ INNER JOIN competitions
     ON games.competition_id = competitions.id
 INNER JOIN player_contracts
     ON player_contracts.player_id = players.id
+INNER JOIN clubs club_owner
+    ON player_contracts.club_id = club_owner.id
 INNER JOIN game_stats home_game_stats
     ON games.home_game_stats_id = home_game_stats.id
 INNER JOIN game_stats away_game_stats
