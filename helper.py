@@ -8,6 +8,7 @@ from db.games_controller import GamesController
 from logs_helper import LogsHandler
 
 from game import Game 
+from cup_game import CupGame
 
 from random import choice, shuffle
 
@@ -183,6 +184,17 @@ class ClassConstructor:
 		
 		return [ Game(i[0], i[1], competition, competition_id, season, 1, choice(stadiums)) for i in games ]
 	
+	@staticmethod
+	def prepare_cup_games(games: list, competition: str, competition_id: int, 
+					   	  season: str, phase: str, game_number: int, stadiums: list, 
+						  first_leg_home_goals: int=0, first_leg_away_goals: int=0) -> list[Game]:
+		"""
+		"""
+		
+		return [ CupGame(i[0], i[1], competition, competition_id, season, phase, game_number, choice(stadiums), 
+				   		 first_leg_home_goals=first_leg_home_goals, first_leg_away_goals=first_leg_away_goals ) for i in games 
+		]
+
 	@classmethod
 	def prepare_clubs(cls, clubs_data: list, players_data: list) -> list[Club]:
 		"""Prepare clubs & players by their respective data
@@ -272,6 +284,8 @@ class CupHelper:
 		games : list
 			A list of games 
 		"""
+		
+		single_phase = False 
 
 		for game in games:
 			game.start()
@@ -283,8 +297,14 @@ class CupHelper:
 			home = games_controller.insert_game_stat_with_id_return(stats_data[0])
 			away = games_controller.insert_game_stat_with_id_return(stats_data[1])
 
+			# Game
+			game_stats_ids = [home[0][0], away[0][0]]
+
+			game_data = logs_handler.prepare_game_logs_to_db(game.logs, game_stats_ids)
+			game_id = games_controller.insert_game(game_data)
+
 			# knock out data
 			# this is obsolete, the kncok_out table has changed
-			knock_data = logs_handler.prepare_knock_out_logs_to_db(game.logs, phase, False, match_number, home[0][0], away[0][0], competition_id)
+			knock_data = logs_handler.prepare_knock_out_logs_to_db(phase, single_phase, match_number, game_id[0][0])
 
 			games_controller.insert_knock_out(knock_data)
