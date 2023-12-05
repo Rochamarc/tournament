@@ -39,6 +39,9 @@ class BaseGame:
         self.home_goal = 0
         self.away_goal = 0
 
+        self.home_penalties = 0
+        self.away_penalties = 0
+
         # THIS CAN BE IN BASEGAME
         self.home_player_goals = defaultdict(int)
         self.away_player_goals = defaultdict(int)
@@ -128,7 +131,10 @@ class BaseGame:
                 "name": competition,
                 "id": competition_id
             },
-            "stats": self.prepare_player_data_dict(home.squad, away.squad)
+            "stats": self.prepare_player_data_dict(home.squad, away.squad),
+            "game_info": {
+                
+            }
         }
 
         # THIS CAN BE ON BASE_GAME
@@ -187,6 +193,34 @@ class BaseGame:
 
         self.logs['others']['home_goals'] = self.home_goal
         self.logs['others']['away_goals'] = self.away_goal
+
+    def update_penalties_on_logs(self) -> None:
+        """Update the penalties on logs['others']['home_penalties'] & logs['others']['away_penalties']
+        ps: This adds two new values to dictionary, they don't have this two keys originaly
+        
+        Returns
+        -------
+            None
+        """
+        
+        self.logs['others']['home_penalties'] = self.home_penalties
+        self.logs['others']['away_penalties'] = self.away_penalties
+
+    def update_winner_by_penalties_on_logs(self) -> None:
+        """Calculate the difference between self.home_penalties & self.away_penalties then update logs winner and loser
+        
+        Retruns
+        -------
+            None
+        """
+
+        if self.home_penalties > self.away_penalties:
+            self.logs['others']['winner'] = self.home 
+            self.logs['others']['loser'] = self.away
+            return None
+        self.logs['others']['winner'] = self.away 
+        self.logs['others']['loser'] = self.home 
+         
 
     def update_winner_on_logs(self) -> None:
         """Calculate the difference between self.home_goals & self.away_goals then update logs winner and loser.
