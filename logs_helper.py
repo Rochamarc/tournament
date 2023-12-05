@@ -177,14 +177,30 @@ class LogsHandler:
         data.append(season)
 
         return data
-
+    
     @staticmethod
-    def prepare_knock_out_logs_to_db(phase: str, single_match: bool, match_number: int) -> list:
+    def prepare_cup_game_logs_to_db(game_data: list, competition_id:int, home_game_stats_id: int, away_game_stats_id: int) -> list:
+        """
+        """
+        game_data.append(competition_id)
+        game_data.append(home_game_stats_id)
+        game_data.append(away_game_stats_id)
+
+        return game_data
+    
+    @staticmethod
+    def prepare_knock_out_logs_to_db(phase: str, single_match: bool, match_number: int, game_id: int, penalties_id: int=False) -> list:
         """
         """
         
-        return [
+        data = [
             phase,
             single_match,
-            match_number
+            match_number,
+            game_id
         ]
+
+        if penalties_id:
+            data.append(penalties_id)
+        
+        return data
