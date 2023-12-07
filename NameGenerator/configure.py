@@ -11,6 +11,8 @@ from file_handler import open_basic_files, open_language_files
 
 names_controller = NamesController()
 
+print("Insert first names")
+
 # Insert basic files from first names
 br_names = open_basic_files('first_names','brazilian_names')
 names_controller.insert_first_names(br_names, 'portuguese br')
@@ -44,8 +46,9 @@ spanish = [ name[0] for name in south_american_names if name[-1] == 'spanish' ]
 names_controller.insert_first_names(brazil, 'portuguese br')
 names_controller.insert_first_names(spanish, 'spanish')
 
-
 # LAST NAMES
+
+print("Insert last names")
 
 # Asian Last Names
 asian_names = open_basic_files('last_names', 'asian_names')
