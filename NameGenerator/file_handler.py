@@ -1,3 +1,8 @@
+import os
+import pathlib
+
+CURRENT_PATH = pathlib.Path(__file__).parent.resolve()
+
 def open_basic_files(dir_name: str, file_name: str) -> list[str]:
     """Open files that only has on item by row 
     in NameGenerator/files/{dir_name}/{file_name}.csv
@@ -13,8 +18,14 @@ def open_basic_files(dir_name: str, file_name: str) -> list[str]:
     -------
         A list of lists with names
     """
-    
-    with open('./files/{}/{}.csv'.format(dir_name, file_name), 'r') as file:
+    file_path = os.path.join(
+        CURRENT_PATH,
+        'files',
+        dir_name,
+        '{}.csv'.format(file_name)
+    )
+
+    with open(file_path, 'r') as file:
         file = file.readlines()
         return [ name.replace('\n', '') for name in file ]
 
@@ -33,8 +44,15 @@ def open_language_files(dir_name: str, file_name: str) -> dict:
     -------
         A list of lists with names
     """
+    
+    file_path = os.path.join(
+        CURRENT_PATH,
+        'files',
+        dir_name,
+        '{}.csv'.format(file_name)
+    )
 
-    with open('./files/{}/{}.csv'.format(dir_name, file_name), 'r') as file:
+    with open(file_path, 'r') as file:
         file = file.readlines()
         return [ name.replace('\n', '').split(',') for name in file ]
             
