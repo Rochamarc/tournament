@@ -2,14 +2,14 @@
     * Criar contratos para treinadores (x)
     * Reconstruir os clubes de acordo com a nova versão (x)
 
-- Criação
+- Criação (x)
     * Criar os demais controllers que fazem o simulador rodar 
     * Connectar os controllers aos arquivos que fazem o simulador rodar
 
-- Debug
+- Debug (x)
     * Rodar o simulador de acordo com as novas versões ´basicamente game.py´
 
-- Refatoração
+- Refatoração (x)
     * Refatorar provavelmente 70% do game.py
     * Redistribuição de funcionalidades do game.py para outros modulos/classes/funções 
 
@@ -37,10 +37,11 @@
 
 ### TODO list da finalização e aumento de escopo
     PRIORIDADE (finalização do escopo)
-        - Rebaixar, promover e levar pra libertadores os times
-        - Premirar campeoes
-        - Inserir numeros dos jogadores na base de dados
-        - Salvar campeões
+        - Rebaixar, promover (x)
+        - Levar pra libertadores os times 
+        - Premirar campeoes 
+        - Inserir numeros dos jogadores na base de dados (x)
+        - Salvar campeões 
         - Rodar as copas (do brasil, libetadores e sulamericana)
         - Rankear jogadores por seus numeros (defesas, passes, gols e assistencias)
         - Gerar jogadores pros times de outros paises
