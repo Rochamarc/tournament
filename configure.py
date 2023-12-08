@@ -11,7 +11,6 @@ from db.skills_controller import SkillsController
 
 from data_generator import get_skill_by_position
 
-
 clubs_controller = ClubsController()
 coaches_controller = CoachesController()
 coach_contracts_controller = CoachContractsController()
