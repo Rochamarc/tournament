@@ -13,6 +13,7 @@ from data_generator import get_skill_by_position
 
 from alive_progress import alive_it
 
+
 clubs_controller = ClubsController()
 coaches_controller = CoachesController()
 coach_contracts_controller = CoachContractsController()

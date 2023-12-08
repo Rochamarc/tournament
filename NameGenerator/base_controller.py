@@ -1,3 +1,8 @@
+import os
+import pathlib
+
+CURRENT_PATH = pathlib.Path(__file__).parent.resolve()
+
 class BaseController:
     """
     Base class that contains every property and functions used in other controllers
@@ -22,7 +27,15 @@ class BaseController:
                 If the file doesnt exists
         """
         
-        file_path = 'NameGenerator/queries/select/{}.sql'.format(file_name)
+        # 'NameGenerator/queries/select/{}.sql'.format(file_name)
+
+        file_path = os.path.join(
+            CURRENT_PATH,
+            'queries',
+            'select',
+            f'{file_name}.sql'
+        )
+        
         try:
             with open(file_path, 'r') as file:
                 return ''.join(file.readlines())
@@ -48,7 +61,13 @@ class BaseController:
                 If the file doesnt exists
         """
         
-        file_path = 'NameGenerator/queries/insert/{}.sql'.format(file_name)
+        file_path = os.path.join(
+            CURRENT_PATH,
+            'queries',
+            'insert',
+            f'{file_name}.sql'
+        )
+        
         try:
             with open(file_path, 'r') as file:
                 return ''.join(file.readlines())

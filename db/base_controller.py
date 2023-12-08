@@ -1,4 +1,12 @@
+import os
+import pathlib
+
+CURRENT_PATH = pathlib.Path(__file__).parent.resolve()
+
+# TODO refact all that get_query to just one receiving the method => insert, update, delete, etc
+
 import mysql.connector
+
 
 class BaseController:
     """
@@ -23,8 +31,14 @@ class BaseController:
         FileNotFoundError
             If the file doesnt exists
         """
-        
-        file_path = 'db/queries/delete/{}.sql'.format(file_name)
+
+        file_path = os.path.join(
+            CURRENT_PATH,
+            'queries',
+            'delete',
+            '{}.sql'.format(file_name)            
+        )
+
         try:
             with open(file_path, 'r') as file:
                 return ''.join(file.readlines())
@@ -51,7 +65,13 @@ class BaseController:
             If the file doesnt exists
         """
         
-        file_path = 'db/queries/select/{}.sql'.format(file_name)
+        file_path = os.path.join(
+            CURRENT_PATH,
+            'queries',
+            'select',
+            '{}.sql'.format(file_name)            
+        )
+
         try:
             with open(file_path, 'r') as file:
                 return ''.join(file.readlines())
@@ -76,8 +96,14 @@ class BaseController:
         FileNotFoundError
             If the file doesnt exists
         """
+
+        file_path = os.path.join(
+            CURRENT_PATH,
+            'queries',
+            'update',
+            '{}.sql'.format(file_name)            
+        )
         
-        file_path = 'db/queries/update/{}.sql'.format(file_name)
         try:
             with open(file_path, 'r') as file:
                 return ''.join(file.readlines())
@@ -102,8 +128,13 @@ class BaseController:
         FileNotFoundError
             If the file doesnt exists
         """
-        
-        file_path = 'db/queries/insert/{}.sql'.format(file_name)
+
+        file_path = os.path.join(
+            CURRENT_PATH,
+            'queries',
+            'insert',
+            '{}.sql'.format(file_name)            
+        )
         try:
             with open(file_path, 'r') as file:
                 return ''.join(file.readlines())

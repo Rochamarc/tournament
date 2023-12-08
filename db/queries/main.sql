@@ -281,7 +281,7 @@ ADD CONSTRAINT fk_coach_contracts_coaches
 FOREIGN KEY(coach_id)
 REFERENCES coaches(id);
 
-ALTER TABLE stats 
+ALTER TABLE player_game_stats 
 ADD CONSTRAINT fk_stats_players
 FOREIGN KEY(player_id)
 REFERENCES players(id);
