@@ -1,0 +1,1 @@
+INSERT INTO champions VALUES (NULL, %s, %s, %s);

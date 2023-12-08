@@ -1,0 +1,1 @@
+SELECT id FROM competitions WHERE competitions.name = %s;

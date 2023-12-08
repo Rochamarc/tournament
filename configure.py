@@ -11,6 +11,9 @@ from db.skills_controller import SkillsController
 
 from data_generator import get_skill_by_position
 
+from alive_progress import alive_it
+
+
 clubs_controller = ClubsController()
 coaches_controller = CoachesController()
 coach_contracts_controller = CoachContractsController()
@@ -45,7 +48,9 @@ g_last_names = names_controller.select_last_names(nationality)
 clubs = clubs_controller.select_id_name()
 
 # Create and insert a list of players data and insert into database
-for club in clubs:
+print("Creating Players")
+
+for club in alive_it(clubs):
     club_id = club[0]
     n_for_player = { 'GK': 3, 'DF': 9, 'MF': 11, 'AT': 7 }
 
@@ -98,7 +103,7 @@ for club in clubs:
     for player in last_players:
         # append players contracts
         player_contracts.append([ '2022', '2026', 100_000, club_id, player[0] ])
-
+    
     player_contracts_controller.insert_player_contracts(player_contracts)
     
 
@@ -112,8 +117,9 @@ players = players_controller.select_all_players_id_position()
 
 # Create and insert data into database 
 
+print("Creating Player Skills")
 player_skills = []
-for player in players:
+for player in alive_it(players):
     id = player[0]
     position = player[1]
 
@@ -121,7 +127,8 @@ for player in players:
     skills.append(id)
 
     player_skills.append(skills)
-    
+
+print("Inserting Player Skills")
 skills_controller.insert_skills(player_skills, season)
 
 # CREATE COACHES
@@ -134,8 +141,9 @@ clubs = clubs_controller.select_id()
 
 # Create coaches and insert into the database 
 
+print("Creating Coaches")
 coaches = []
-for c in clubs:
+for c in alive_it(clubs):
     # Select the name
     name = names_controller.select_full_name_by_nationality('portuguese br') 
     
@@ -149,6 +157,7 @@ for c in clubs:
     # Coaches controller
     coaches.append([full_name, nationality, birth])
 
+print("Inserting Coaches")
 coaches_controller.insert_coaches(coaches)
 
 
@@ -168,11 +177,15 @@ shuffle(coaches)
 shuffle(clubs)
 
 # Create and inser data into the database
+
+print("Creating Coach Contracts")
+
 coach_contracts = []
-for _ in range(len(clubs)):
+for _ in alive_it(range(len(clubs))):
     club_id = clubs.pop()
     coach_id = coaches.pop()[0]
 
     coach_contracts.append([start, end, salary, club_id, coach_id])
 
+print("Inserting Coach Contracts")
 coach_contracts_controller.insert_coach_contracts(coach_contracts)

@@ -121,16 +121,17 @@ class LogsHandler:
             tournamet.game table
         """
         
-        conditions = logs['field']['conditions']
+        conditions = logs['field_conditions']['conditions']
         
         return [
             conditions['season'],
             conditions['hour'],
             conditions['climate'],
             conditions['weather'],
-            logs['field']['stadium'],
-            logs['field']['audience'],
+            logs['field_conditions']['stadium'],
+            logs['field_conditions']['audience'],
             logs['finances']['ticket_price'],
+            logs['competitions']['id'],
             game_stats_id[0],
             game_stats_id[1]
         ]
@@ -153,23 +154,53 @@ class LogsHandler:
             A formated list with a data to be inserted in the 
             tournament.championships table
         
-            [ win, loss, draw, home_goals, away_goals, goals_diff, club_id, season ]
+            /* pontos, vitorias, empates, derrotas, gols, sofridos, club_id, season */
+            [ points, win, loss, draw, home_goals, away_goals, club_id, season ]
         """
          
         data = []
 
+        # points, wins, draw, loss
         if logs['others']['draw']:
-            data += [1,0,0,1]
+            data += [1,0,1,0]
         elif logs['others']['winner'] == club.name:
             data += [3,1,0,0]
         else:
-            data += [0,0,1,0]
+            data += [0,0,0,1]
 
+        # goals_for, goals_away
         data.append(logs['others']['home_goals'])
         data.append(logs['others']['away_goals'])
-        data.append(data[0] - data[1])
 
+        # club_id, season
         data.append(club.id)
         data.append(season)
 
+        return data
+    
+    @staticmethod
+    def prepare_cup_game_logs_to_db(game_data: list, competition_id:int, home_game_stats_id: int, away_game_stats_id: int) -> list:
+        """
+        """
+        game_data.append(competition_id)
+        game_data.append(home_game_stats_id)
+        game_data.append(away_game_stats_id)
+
+        return game_data
+    
+    @staticmethod
+    def prepare_knock_out_logs_to_db(phase: str, single_match: bool, match_number: int, game_id: int, penalties_id: int=False) -> list:
+        """
+        """
+        
+        data = [
+            phase,
+            single_match,
+            match_number,
+            game_id
+        ]
+
+        if penalties_id:
+            data.append(penalties_id)
+        
         return data

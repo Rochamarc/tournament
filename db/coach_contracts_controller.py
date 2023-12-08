@@ -1,4 +1,3 @@
-import mysql.connector
 from db.base_controller import BaseController
 
 class CoachContractsController(BaseController):
@@ -27,15 +26,7 @@ class CoachContractsController(BaseController):
         -------
             None
         """
-        
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
 
-        for coach_contract in coach_contracts_data:
-            cursor.execute(cls.get_insert_query('insert_coach_contracts'), coach_contract)
-        
-        conn.commit()
-        conn.close()
-
-        return None 
+        return cls.insert_registers(cls.get_insert_query('insert_coach_contracts'), coach_contracts_data)
+         
     

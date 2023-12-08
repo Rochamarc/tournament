@@ -8,7 +8,9 @@ SELECT 	clubs.name,
 		championships.goals_diff, 
 		championships.points
 FROM championships 
-JOIN clubs
+INNER JOIN clubs
 	ON (championships.club_id = clubs.id)
-WHERE championships.season = '2022' and championships.division = 'Serie A'
+INNER JOIN divisions
+	ON (championships.division_id = divisions.id )
+WHERE championships.season = '2022' and divisions.name = 'Serie A'
 ORDER BY championships.points DESC;

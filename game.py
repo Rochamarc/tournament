@@ -53,10 +53,17 @@ class Game(BaseGame):
         Calculates a decision sucess
     check_subs(n_subs: int)
         Calculates n_subs
+    move_info(self, field_part: str, club_possession: Club, other_club: Club, sender: Player, keep_ball_possession: bool)
+        Formulate a dict with move information
+    invert_ball_possession(self, club_possession: Club, other_club: Club)
+        Invert ball possession between clubs
     """
     
-    def __init__(self, home: Club, away: Club, competition: str, season: str, match_round: int, stadium: Stadium, ticket: int = 50):
-        super().__init__(home, away, season, stadium, ticket)
+    def __init__(self, home: Club, away: Club, competition: str, competition_id: int, 
+                 season: str, match_round: int, stadium: Stadium, ticket: int = 50):
+        
+        # Instantiate BaseGame variables
+        super().__init__(home, away, season, stadium, competition, competition_id, ticket)
 
         self.home = home 
         self.away = away 
@@ -86,7 +93,12 @@ class Game(BaseGame):
 
         while time < 90:
             # This is the ninety minutes simulation part 
-            if self.home_goal == 7 or self.away_goal == 7 : break 
+
+            # Games doenst have more of seven goals
+            seven_goals = self.home_goal == 7 or self.away_goal == 7
+            if seven_goals: 
+                break 
+            
             move_info = self.move(move_info['club_possession'], move_info['other_club'], move_info['field_part'], move_info['sender'])
             
             # make the game have more passes
@@ -97,9 +109,14 @@ class Game(BaseGame):
         self.update_goals_on_logs()
         self.update_winner_on_logs()
         
+        # player stats
+        self.update_player_matches_on_field()
+        self.check_for_goals_conceded()
+        self.check_for_clean_sheets()
+
         return self.logs 
     
-    def move(self, attack_club: Club, defense_club: Club, field_part: str, sender: Player = None) -> dict:
+    def move(self, attack_club: Club, defense_club: Club, field_part: str, sender: Player=None) -> dict:
         """Makes decisions & calculates movements about the game and generates data
         
         Parameters
@@ -115,23 +132,15 @@ class Game(BaseGame):
         
         Returns
         -------
-            A dict with { 'field_part': str ,'club_possession': Club, 'other_club': Club, 'sender': Player, 'keep_ball_possesion': bool }
+            self.move_info()
         """
 
         # TODO make the game have way more passes 
 
-        move_info = {}
 
         keep_ball_possession =  False 
 
         # Define an attacker
-        # attacker = sender or self.select_player(attack_club, 'any')              
-
-        #if sender: 
-        #    attacker = sender                 
-        #else:
-        #    attacker = self.select_player(attack_club, 'any') 
-        
         attacker = sender or self.select_player(attack_club, 'any')
 
         # Define an defensor
@@ -165,11 +174,14 @@ class Game(BaseGame):
             # update for the pass
             self.update_game_stats_on_logs('passes', attack_club.name)
             self.update_player_stats_on_logs('passes', attacker)
+            self.update_player_stats('passes', attacker)
 
             # check for a foul to update on logs
             if not self.decision(defensor.overall):
                 self.update_game_stats_on_logs('fouls', attack_club.name)
+                
                 self.update_player_stats_on_logs('fouls', defensor)
+                self.update_player_stats('fouls_committed', defensor)
 
             if not self.move_decision(attacker, defensor):
                 # not sucessfull pass
@@ -181,14 +193,18 @@ class Game(BaseGame):
                 if randint(1,2) == 1:
                     # interception
                     self.update_game_stats_on_logs('interceptions', defense_club.name)
+
                     self.update_player_stats_on_logs('intercepted_passes', defensor)
+                    self.update_player_stats('intercepted_passes', defensor)
                 else:
                     # wrong pass
                     self.update_game_stats_on_logs('wrong passes', attack_club.name)
+                    
                     self.update_player_stats_on_logs('wrong_passes', attacker)
+                    self.update_player_stats('wrong_passes', attacker)
                     
 
-                club_possession, other_club = defense_club, attack_club
+                club_possession, other_club = self.invert_ball_possession(attack_club, defense_club)
                 sender = defensor
     
         
@@ -204,7 +220,9 @@ class Game(BaseGame):
             sender = self.select_player_on_field(attack_club, destiny)
 
             self.update_game_stats_on_logs('passes', attack_club.name)
+
             self.update_player_stats_on_logs('passes', attacker)
+            self.update_player_stats('passes', attacker)
 
 
             if not self.move_decision(attacker, defensor):
@@ -216,20 +234,28 @@ class Game(BaseGame):
                 # this could also have a wrong pass & interception
                 if defense_move == 'tackle':
                     ''' Tackle '''
-                    self.update_player_stats_on_logs('tackles', defensor)
                     self.update_game_stats_on_logs('tackles', defense_club.name)
+
+                    self.update_player_stats_on_logs('tackles', defensor)
+                    self.update_player_stats('tackles', defensor)
 
                 elif defense_move == 'ball_steal': 
                     ''' Ball steal '''              
-                    self.update_player_stats_on_logs('stolen_balls', defensor)
                     self.update_game_stats_on_logs('stolen_balls', defense_club.name)
 
-                club_possession, other_club = defense_club, attack_club
+                    self.update_player_stats_on_logs('stolen_balls', defensor)
+                    self.update_player_stats('stolen_balls', defensor)
+
+                club_possession, other_club = self.invert_ball_possession(attack_club, defense_club)
                 sender = defensor 
             else:
                 # sucessfull pass or projection 
                 # change the field_part to destiny
-                # doesnt change the sender
+                # doesnt change the sender or club_possession
+
+                self.update_game_stats_on_logs('passes', attack_club.name)
+
+                self.update_player_stats('passes', attacker)
 
                 field_part = destiny
                 club_possession, other_club = attack_club, defense_club
@@ -243,6 +269,17 @@ class Game(BaseGame):
             # i can decrease the attacker chance based on the part of the field 
             # that he is shooting passing a decrease_attacker_chance = 0 and adding
             # to the value of the attacker decision 
+
+            if attacker.position == 'GK':
+                # add a pass to the keeper
+                self.update_player_stats_on_logs('passes', attacker)
+                self.update_player_stats('passes', attacker)
+                
+                self.update_game_stats_on_logs('passes', attack_club.name)
+                
+                attacker =  self.select_player(attack_club, 'any', unless='GK')
+
+
             if self.move_decision(attacker, keeper) == False:
                 ''' Defense or kick out '''
 
@@ -252,11 +289,23 @@ class Game(BaseGame):
                 # Define for a defense or a kick out
                 # to update the logs
                 if self.decision(keeper.overall):
-                    self.update_player_stats_on_logs('defenses', keeper)                
                     self.update_game_stats_on_logs('saves', defense_club.name)
+
                     self.update_game_stats_on_logs('shots on target', attack_club.name)
+                    self.update_player_stats('shots_on_target', attacker)
+                    
+                    if randint(0,1):
+                        # Difficult defense
+                        self.update_player_stats('difficult_defenses', keeper)
+                        self.update_player_stats_on_logs('difficult_defenses', keeper)                
+                    else:
+                        # update keeper stats
+                        self.update_player_stats_on_logs('defenses', keeper)
+                        self.update_player_stats('defenses', keeper)
+
                 else:
                     self.update_game_stats_on_logs('shots', attack_club.name)
+                    self.update_player_stats('shots', attacker)
 
 
             else:
@@ -275,20 +324,59 @@ class Game(BaseGame):
                     # change sender to defensor
                     sender = self.select_player(defense_club, 'attacker') 
 
-            club_possession, other_club = defense_club, attack_club
+            club_possession, other_club = self.invert_ball_possession(attack_club, defense_club)
                 
         
         # Make a substitution
         self.check_for_sub_club(attack_club)
 
-        # Update the exit dict 
-        move_info['field_part'] = field_part
-        move_info['club_possession'] = club_possession
-        move_info['other_club'] = other_club
-        move_info['sender'] = sender
-        move_info['keep_ball_possession'] = keep_ball_possession
+        return self.move_info(field_part, club_possession, other_club, sender, keep_ball_possession)
+    
+    def move_info(self, field_part: str, club_possession: Club, other_club: Club, sender: Player, keep_ball_possession: bool) -> dict:
+        """Defines a dict with move information
 
-        return move_info
+        Parameters
+        ----------
+        field_part : str
+            A string containig part of the field where the ball is
+        club_possession : Club
+            A club object that has the ball
+        other_club : Club
+            A club object that is defending
+        sender : Player
+            A player that has the ball
+        keep_ball_possession : bool
+            A bool value for the ball possession
+        
+        Returns
+        -------
+            A dict with information about that moment in the game
+        """
+
+        return {
+            'field_part': field_part,
+            'club_possession': club_possession,
+            'other_club': other_club,
+            'sender': sender,
+            'keep_ball_possession': keep_ball_possession
+        }
+
+    def invert_ball_possession(self, club_possession: Club, other_club: Club) -> list:
+        """Invert clubs order
+
+        Parameters
+        ----------
+        club_possession : Club
+            A club object that has the ball
+        other_club : Club
+            A club object that is defending
+        
+        Returns
+        -------
+            An inverted list of the club objects
+        """
+
+        return [ other_club, club_possession ]
     
     def player_decision(self, field_part: str) -> str:
         """Simulates a decision that can be made by a player by his field part
@@ -366,7 +454,7 @@ class Game(BaseGame):
         
         return 'defender'
 
-    def select_player(self, club: Club, player_position: str) -> Player:
+    def select_player(self, club: Club, player_position: str, unless: str = None) -> Player:
         """Select a player by a specific position
         
         Parameters
@@ -375,7 +463,8 @@ class Game(BaseGame):
             A Club object that will set the list of players to be selected
         player_position : str
             A string with a player position. If position == 'any' select player by any position
-        
+        unless : str
+            A string containing a position that is not allowed
         Returns
         -------
             A Player Object
@@ -391,9 +480,12 @@ class Game(BaseGame):
         if player_position == 'any':
             return choice(start_eleven)
 
-        player = choice([player for player in start_eleven if player.position in self.positions[player_position]])
+        if unless:
+            options = [player for player in start_eleven if player.position in self.positions[player_position].remove(unless)]
+        else:
+            options = [player for player in start_eleven if player.position in self.positions[player_position]]
 
-        return player 
+        return choice(options)
 
 
     def finish(self, assistant: Player, finisher: Player, club_finish: Club) -> True:
@@ -418,10 +510,14 @@ class Game(BaseGame):
         self.add_a_goal(club_finish, finisher)
 
         # Add stats to logs
-        self.logs['game_stats'][club_finish.name]['goals'] += 1
-        self.logs['player_stats']['goals'][finisher] += 1
+        self.update_game_stats_on_logs('goals', club_finish.name)
 
-        if assist : self.logs['player_stats']['assists'][assistant] += 1 
+        self.update_player_stats_on_logs('goals', finisher)
+        self.update_player_stats('goals', finisher)
+
+        if assist: 
+            self.update_player_stats_on_logs('assists', assistant)
+            self.update_player_stats('assists', assistant)
 
         return True
     

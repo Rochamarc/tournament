@@ -1,4 +1,3 @@
-import mysql.connector
 from db.base_controller import BaseController
 
 class PlayersController(BaseController):
@@ -23,6 +22,10 @@ class PlayersController(BaseController):
         Select all players with contract with a club
     delete_players()
         Delete all players from database
+    insert_player_stats(stats_data : list)
+        Insert a tournament.stats in database
+    insert_player_stats(stats_datas : list)
+        Insert a list of tournament.stats in database
     """
         
     @classmethod
@@ -39,17 +42,44 @@ class PlayersController(BaseController):
             None
         """
         
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
+        return cls.insert_registers(cls.get_insert_query('insert_players'), players_data)
 
-        for player_data in players_data:
-            cursor.execute(cls.get_insert_query('insert_players'), player_data)
+    @classmethod
+    def insert_player_stats(cls, stats_data : list) -> None:
+        """Insert stats_data into tournament.stats
+
+        Parameters
+        ----------
+        stats_data : list
+            A list containing [ season: str, matches: int, goals: int, assists: int, tackles: int, passes: int, 
+            wrong_passes: int, intercepted_passes: int, clearences: int, stolen_balls: int, clean_sheets: int,
+            defenses: int, difficult_defenses: int, goals_conceded: int, player_id: int, game_id: int ]
         
-        conn.commit()
-        conn.close()
+        Returns
+        -------
+            None
+        """
 
-        return None
+        return cls.insert_register(cls.get_insert_query('insert_stats'), stats_data)
+    
+    @classmethod
+    def insert_players_stats(cls, stats_datas : list) -> None:
+        """Insert a list of stats_data into tournament.stats
 
+        Parameters
+        ----------
+        stats_datas : list
+            A list of data list containing [ season: str, matches: int, goals: int, assists: int, tackles: int, passes: int, 
+            wrong_passes: int, intercepted_passes: int, clearences: int, stolen_balls: int, clean_sheets: int,
+            defenses: int, difficult_defenses: int, goals_conceded: int, player_id: int, game_id: int ]
+        
+        Returns
+        -------
+            None
+        """
+
+        return cls.insert_registers(cls.get_insert_query('insert_stats'), stats_datas)
+    
     @classmethod
     def select_last_players(cls) -> list:
         """Select the last players from tournament.players
@@ -58,15 +88,8 @@ class PlayersController(BaseController):
         -------
             A list with 30 length containing player information
         """
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_last_players'))
-        players = cursor.fetchall()
-
-        conn.close()
-
-        return players
+        return cls.select_register(cls.get_select_query('select_last_players'))
         
     @classmethod
     def select_all_players_id(cls) -> list:
@@ -77,16 +100,8 @@ class PlayersController(BaseController):
             A list of sets with (id,) column from the tournament.players
         """
         
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
+        return cls.select_register(cls.get_select_query('select_id_from_players'))
 
-        cursor.execute(cls.get_select_query('select_id_from_players'))
-        players = cursor.fetchall()
-
-        conn.close()
-
-        return players
-    
     @classmethod
     def select_all_players_id_position(cls) -> list[set]:
         """Select the player's id and position from tournament.players 
@@ -96,15 +111,8 @@ class PlayersController(BaseController):
             A list of sets with (id, position,) from tournament.players
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
+        return cls.select_register(cls.get_select_query('select_id_position_from_players'))
 
-        cursor.execute(cls.get_select_query('select_id_position_from_players'))
-        players = cursor.fetchall()
-
-        conn.close()
-
-        return players
 
     @classmethod
     def select_players_by_club(cls, club_name: str, season: str) -> list[set]:
@@ -124,15 +132,8 @@ class PlayersController(BaseController):
             A list of Players data 
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
+        return cls.select_register(cls.get_select_query('select_players_by_clubs'), [club_name, season])
 
-        cursor.execute(cls.get_select_query('select_players_by_clubs'), [club_name, season])
-        players = cursor.fetchall()
-
-        conn.close()
-
-        return players
 
     @classmethod
     def select_players_with_contract(cls, season: str) -> list[set]:
@@ -150,15 +151,7 @@ class PlayersController(BaseController):
             A list of Players data 
         """        
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        cursor.execute(cls.get_select_query('select_players_by_contracts'), [season])
-        players = cursor.fetchall()
-
-        conn.close()
-        
-        return players
+        return cls.select_register(cls.get_select_query('select_players_by_contracts'), [season])
 
     @classmethod
     def delete_players(cls) -> None:
@@ -169,16 +162,9 @@ class PlayersController(BaseController):
             None
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
+        return cls.delete_register(cls.get_delete_query('delete_players'))
 
-        cursor.execute(cls.get_delete_query('delete_players'))
 
-        conn.close()
-
-        return None 
-
-        pass 
 
 if __name__ == "__main__":
     print(PlayersController().select_players_by_club('2022'))
