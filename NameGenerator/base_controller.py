@@ -34,7 +34,7 @@ class BaseController:
             'queries',
             'select',
             f'{file_name}.sql'
-            )
+        )
         
         try:
             with open(file_path, 'r') as file:
@@ -66,7 +66,7 @@ class BaseController:
             'queries',
             'insert',
             f'{file_name}.sql'
-            )
+        )
         
         try:
             with open(file_path, 'r') as file:
