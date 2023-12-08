@@ -1,0 +1,1 @@
+SELECT id FROM players ORDER BY(id) DESC LIMIT 30;

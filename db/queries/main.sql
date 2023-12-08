@@ -33,7 +33,8 @@ CREATE TABLE players(
 CREATE TABLE stadiums(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    location VARCHAR(100) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    city VARCHAR(100),
     capacity INT
 );
 
@@ -62,16 +63,23 @@ CREATE TABLE stats(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     season CHAR(4) NOT NULL,
     matches INT DEFAULT 0,
+    shots INT DEFAULT 0,
+    shots_on_target INT DEFAULT 0,
     goals INT DEFAULT 0,
     assists INT DEFAULT 0,
+    fouls_committed INT DEFAULT 0,
     tackles INT DEFAULT 0,
-    clearences INT DEFAULT 0,
+    passes INT DEFAULT 0,
+    wrong_passes INT DEFAULT 0,
+    intercepted_passes INT DEFAULT 0,
+    clearances INT DEFAULT 0,
     stolen_balls INT DEFAULT 0,
     clean_sheets INT DEFAULT 0,
     defenses INT DEFAULT 0,
     difficult_defenses INT DEFAULT 0,
     goals_conceded INT DEFAULT 0,
-    player_id INT
+    player_id INT,
+    game_id INT
 );
 
 CREATE TABLE market_value(
@@ -80,16 +88,6 @@ CREATE TABLE market_value(
     value INT,
     player_id INT    
 );
-
-
-CREATE TABLE overall(
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    season CHAR(4) NOT NULL,
-    overall INT NOT NULL,
-    player_id INT
-);
-
-/* RETIRING AND BACKUPS */
 
 CREATE TABLE retired_players(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -101,6 +99,7 @@ CREATE TABLE retired_players(
     foot CHAR(1)
 );
 
+-- TODO add competition ind on games
 
 CREATE TABLE games(
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -111,6 +110,7 @@ CREATE TABLE games(
     stadium VARCHAR(100) NOT NULL,
     audience INT,
     ticket_value INT,
+    competition_id INT,
     home_game_stats_id INT,
     away_game_stats_id INT
 );
@@ -122,6 +122,9 @@ CREATE TABLE game_stats(
     shots INT DEFAULT 0,           
     shots_on_target INT DEFAULT 0, 
     fouls INT DEFAULT 0,           
+    passes INT DEFAULT 0,
+    wrong_passes INT DEFAULT 0,
+    interceptions INT DEFAULT 0,
     tackles INT DEFAULT 0,
     stolen_balls INT DEFAULT 0,
     saves INT DEFAULT 0,           
@@ -135,7 +138,6 @@ CREATE TABLE game_stats(
 CREATE TABLE championships(
     id INT PRIMARY KEY AUTO_INCREMENT,
     season CHAR(4) NOT NULL,
-    division VARCHAR(30) NOT NULL,
     matches INT DEFAULT 0,
     win INT DEFAULT 0,
     loss INT DEFAULT 0,
@@ -144,7 +146,117 @@ CREATE TABLE championships(
     goals_away INT DEFAULT 0,
     goals_diff INT DEFAULT 0,
     points INT DEFAULT 0,
+    division_id INT,
     club_id INT
+);
+
+
+CREATE TABLE skills(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    season CHAR(4) NOT NULL,
+    positioning INT DEFAULT 0,
+	reflexes INT DEFAULT 0,
+	diving INT DEFAULT 0,
+	standing_tackle INT DEFAULT 0,
+	physical INT DEFAULT 0,
+	passing INT DEFAULT 0,
+    dribbling INT DEFAULT 0,
+	long_shot INT DEFAULT 0,
+	finishing INT DEFAULT 0,
+	player_id INT
+);
+
+
+CREATE TABLE player_game_stats(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	assists INT DEFAULT 0,
+	goals INT DEFAULT 0,
+	tackles INT DEFAULT 0,
+	defenses INT DEFAULT 0,
+	passes INT DEFAULT 0,
+	wrong_passes INT DEFAULT 0,
+	intercepted_passes INT DEFAULT 0,
+	dificult_defenses INT DEFAULT 0,
+	clearances INT DEFAULT 0,
+	fouls_committed INT DEFAULT 0,
+	stolen_balls INT DEFAULT 0,
+	player_id INT,
+	game_id INT	
+);
+
+
+CREATE TABLE competitions(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100)
+);
+
+CREATE TABLE divisions(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    competition_id INT
+);
+
+CREATE TABLE stadium_ownership(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    club_id INT,
+    stadium_id INT
+);
+
+
+CREATE TABLE group_phase(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+	group_name CHAR(1) NOT NULL,
+    season CHAR(4) NOT NULL,
+    matches INT DEFAULT 0,
+    win INT DEFAULT 0,
+    loss INT DEFAULT 0,
+    draw INT DEFAULT 0,
+    goals_for INT DEFAULT 0,
+    goals_away INT DEFAULT 0,
+    goals_diff INT DEFAULT 0,
+    points INT DEFAULT 0,
+    club_id INT,
+    competition_id INT
+);
+
+
+/* NEW SYSTEM 
+
+now 
+    home_id -> games
+    away_id -> games
+    home_game_stats_id -> games
+    away_games_stats_id -> games
+    season -> games
+    penalties -> penalties
+    home_penalties -> penalties
+    away_penalties -> penalties
+*/
+
+
+CREATE TABLE knock_out(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    phase VARCHAR(50) NOT NULL,
+    single_match BOOLEAN NOT NULL,
+    match_number INT NOT NULL,
+    game_id INT,
+    penalty_id INT
+);
+
+CREATE TABLE penalties(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    penalties BOOLEAN NOT NULL,
+    home_penalties INT,
+    away_penalties INT
+);
+
+-- CHAMPIONS 
+
+CREATE TABLE champions(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    season CHAR(4) NOT NULL,
+    division_id INT,
+    club_id INT NOT NULL
 );
 
 /* CONSTRAINTS */
@@ -169,18 +281,18 @@ ADD CONSTRAINT fk_coach_contracts_coaches
 FOREIGN KEY(coach_id)
 REFERENCES coaches(id);
 
-ALTER TABLE stats 
+ALTER TABLE player_game_stats 
 ADD CONSTRAINT fk_stats_players
 FOREIGN KEY(player_id)
 REFERENCES players(id);
 
+ALTER TABLE stats 
+ADD CONSTRAINT fk_stats_clubs
+FOREIGN KEY(game_id)
+REFERENCES games(id);
+
 ALTER TABLE market_value 
 ADD CONSTRAINT fk_market_value_players
-FOREIGN KEY(player_id)
-REFERENCES players(id);
-
-ALTER TABLE overall
-ADD CONSTRAINT fk_overall_players
 FOREIGN KEY(player_id)
 REFERENCES players(id);
 
@@ -194,6 +306,11 @@ ADD CONSTRAINT fk_games_away_game_stats
 FOREIGN KEY(away_game_stats_id)
 REFERENCES game_stats(id);
 
+ALTER TABLE games
+ADD CONSTRAINT fk_games_competitions
+FOREIGN KEY(competition_id)
+REFERENCES competitions(id);
+
 ALTER TABLE game_stats 
 ADD CONSTRAINT fk_game_stats_clubs
 FOREIGN KEY(club_id)
@@ -201,6 +318,74 @@ REFERENCES clubs(id);
 
 ALTER TABLE championships 
 ADD CONSTRAINT fk_championship_clubs
+FOREIGN KEY(club_id)
+REFERENCES clubs(id);
+
+ALTER TABLE championships
+ADD CONSTRAINT fk_championship_divisions
+FOREIGN KEY(division_id)
+REFERENCES divisions(id);
+
+ALTER TABLE divisions 
+ADD CONSTRAINT fk_division_competitions
+FOREIGN KEY(competition_id)
+REFERENCES competitions(id);
+
+ALTER TABLE stadium_ownership
+ADD CONSTRAINT fk_stadium_ownership_clubs
+FOREIGN KEY(club_id)
+REFERENCES clubs(id);
+
+ALTER TABLE stadium_ownership
+ADD CONSTRAINT fk_stadium_ownership_stadiums
+FOREIGN KEY(stadium_id)
+REFERENCES stadiums(id);
+
+ALTER TABLE skills
+ADD CONSTRAINT fk_skills_players
+FOREIGN KEY(player_id)
+REFERENCES players(id);
+
+ALTER TABLE player_game_stats
+ADD CONSTRAINT fk_player_game_stats_players
+FOREIGN KEY(player_id)
+REFERENCES players(id);
+
+ALTER TABLE player_game_stats
+ADD CONSTRAINT fk_players_game_stats_games
+FOREIGN KEY(game_id)
+REFERENCES games(id);
+
+-- CUPS 
+
+ALTER TABLE group_phase
+ADD CONSTRAINT fk_group_phase_clubs 
+FOREIGN KEY(club_id)
+REFERENCES clubs(id);
+
+ALTER TABLE group_phase
+ADD CONSTRAINT fk_group_phase_competitions
+FOREIGN KEY(competition_id)
+REFERENCES competitions(id);
+
+ALTER TABLE knock_out
+ADD CONSTRAINT fk_knock_out_games
+FOREIGN KEY(game_id)
+REFERENCES games(id);
+
+ALTER TABLE knock_out
+ADD CONSTRAINT fk_knock_out_penalties
+FOREIGN KEY(penalty_id)
+REFERENCES penalties(id);
+
+
+ALTER TABLE champions
+ADD CONSTRAINT fk_champions_divisions
+FOREIGN KEY(division_id)
+REFERENCES divisions(id);
+
+ALTER TABLE champions
+ADD CONSTRAINT fk_champions_clubs
 FOREIGN KEY(club_id)
 REFERENCES clubs(id);
 
@@ -216,16 +401,52 @@ BEGIN
 END
 $
 
+CREATE TRIGGER update_goals_diff
+BEFORE UPDATE ON championships
+FOR EACH ROW
+BEGIN
+    SET NEW.goals_diff = NEW.goals_for - NEW.goals_away;
+END
+$
+
 DELIMITER ;
 
-/* NAMES - FOR TESTING ONLY */
 
-CREATE TABLE first_names(
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    value VARCHAR(100) NOT NULL
+/* PLAYER SKILL 
+
+sliding_tackle
+shooting
+strength
+vision
+
+short_passing
+long_passing
+
+marking
+
+penalties
+*/
+
+
+/* CUPS TABLES 
+
+On knock_out
+match_number -> 1 or 2
+ex: if single_match False
+    game 1 of 2
+    game 2 of 2
+*/
+
+/*
+CREATE TABLE overall(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    season CHAR(4) NOT NULL,
+    overall INT NOT NULL,
+    player_id INT
 );
 
-CREATE TABLE last_names(
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    value VARCHAR(100) NOT NULL
-);
+ALTER TABLE overall
+ADD CONSTRAINT fk_overall_players
+FOREIGN KEY(player_id)
+REFERENCES players(id);
+*/

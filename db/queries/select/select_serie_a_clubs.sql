@@ -1,5 +1,10 @@
-SELECT clubs.id, clubs.name, clubs.country, championships.division  
+SELECT  clubs.id, 
+        clubs.name, 
+        clubs.country, 
+        divisions.name  
 FROM clubs 
-INNER JOIN championships 
+INNER JOIN championships
+INNER JOIN divisions 
     ON clubs.id = championships.club_id
-WHERE championships.division = 'Serie A';
+    AND championships.division_id = divisions.id
+WHERE divisions.name = 'Serie A' AND championships.season = %s;

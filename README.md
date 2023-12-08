@@ -25,7 +25,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">Tournament Soccer</h3>
+<h3 align="center">Football Tournament</h3>
 
 <p align="center">
     Game to simulates the brazillian divisions on football and the libertadores cup with generic players!
@@ -78,17 +78,18 @@
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 -->
 
-This project was create to get fake data and statistcs about my favorite sport. And then i created this to
-generate players and games and finally getting this data.
+This project was created to get fake data and statistcs about my favorite sport. So i built this system to generate football data.
 
-Licences:
+Championships:
 
 * Campeonato brasileiro serie A
 * Campeonato brasileiro serie B
 * Campeonato brasileiro serie C
-<!-- * Libertadores da America (2020) -->
+<!-- * Libertadores da America  -->
+<!-- * Copa do Brasil -->
+<!-- * Liga Profesional de Futbol (ARG) -->
 
-I do not own the rights of any of it. It's just for fun.
+I do not own the rights of any of this. It's just for fun.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -106,8 +107,7 @@ I do not own the rights of any of it. It's just for fun.
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+
 
 ### Prerequisites
 
@@ -128,24 +128,28 @@ Clone, setup and running.
     git clone https://github.com/Rochamarc/tournament
     ```
 2. Initialize Name Generator Database 
-    ```sh
-    ./NameGenerator/database_initialize.sh  
     ```
-3. Run
-    ```nb
-      ./NameGenerator/Insert_first_names.ipynb
-      ./NameGeneerator/Insert_last_names.ipynb
+      Copy the content inside the file on NameGenerator/queries/main.sql into mysql terminal
+    ```
+3. Populate Name Generator Database
+    ```py
+      python NameGenerator/configure.py
     ```
 4. Initialize Tournament Database
-    ```sh
-      ./database_initialize.sh
     ```
-5. Run
-    ```sh
-      ./coaches_creation.ipynb
-      ./insert_coaches_contract.ipnyb
-      ./players_creation.ipnyb
-      ./insert_players_overall.ipnyb
+      Copy the content inside the file on db/queries/main.sql into mysql terminal
+    ```
+5. Populate Tournament Database with clubs & championships
+    ```
+      Copy the content inside the file on db/queries/insert/main.sql into mysql terminal
+    ```
+6. Populate Tournament Database with Data
+    ```py
+      python ./configure.py
+    ```
+7. Run the main code
+    ```py
+      python main.py
     ```
 
 
@@ -156,11 +160,11 @@ Clone, setup and running.
 ## Other Docs
 
 * [Classes](./docs/classes.md)
-* [Helper](./docs/helper.md)
+* [Tournament](./docs/tournament.md)
 * [Database](./docs/database.md)
-* [Game](./docs/game.md)
-* [Name](./docs/name_nationality.md)
-* [Ranking](./docs/ranking.md)
+* [Controllers](./docs/controllers.md)
+* [NameGenerator](./docs/name_generator.md)
+
 
 <!-- USAGE EXAMPLES -->
 <!--

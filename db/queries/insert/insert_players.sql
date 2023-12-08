@@ -1,0 +1,1 @@
+INSERT INTO players VALUES(NULL, %s, %s, %s, %s, %s, %s, %s);
