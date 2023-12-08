@@ -1,8 +1,0 @@
-import sys
-import os
-
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(SCRIPT_DIR))
-
-from NameGenerator.base_controller import BaseController
-from NameGenerator.names_controller import NamesController
