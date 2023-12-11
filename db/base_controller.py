@@ -135,6 +135,7 @@ class BaseController:
             'insert',
             '{}.sql'.format(file_name)            
         )
+        
         try:
             with open(file_path, 'r') as file:
                 return ''.join(file.readlines())
