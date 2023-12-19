@@ -49,19 +49,21 @@ class ChampionshipsController(BaseController):
 
     
     @classmethod
-    def select_championships_to_insert(cls, division_name: str) -> list[set]:
+    def select_championships_to_insert(cls, division_name: str, previous_season: int) -> list[set]:
         """Select championships table ordered by points
 
         Parameters
         ----------
         division_name : str
             Name of division that will be used as where clause
-        
+        previous_season : int
+            A int value for the previous tables
+
         Returns
         -------
             A list of sets with [ club_id, division_id ]
         """
-        return cls.select_register(cls.get_select_query('select_championships_to_insert'), data=[division_name])
+        return cls.select_register(cls.get_select_query('select_championships_to_insert'), data=[division_name, previous_season])
 
 
     @classmethod
