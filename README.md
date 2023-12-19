@@ -125,29 +125,17 @@ Clone, setup and running.
 
 1. Clone the repo
     ```sh
-    git clone https://github.com/Rochamarc/tournament
+      git clone https://github.com/Rochamarc/tournament
     ```
-2. Initialize Name Generator Database 
-    ```
-      Copy the content inside the file on NameGenerator/queries/main.sql into mysql terminal
+2. Initialize Database 
+    ```sh
+      ./database_initialize.sh mysql_user mysql_password
     ```
 3. Populate Name Generator Database
     ```py
       python NameGenerator/configure.py
     ```
-4. Initialize Tournament Database
-    ```
-      Copy the content inside the file on db/queries/main.sql into mysql terminal
-    ```
-5. Populate Tournament Database with clubs & championships
-    ```
-      Copy the content inside the file on db/queries/insert/main.sql into mysql terminal
-    ```
-6. Populate Tournament Database with Data
-    ```py
-      python ./configure.py
-    ```
-7. Run the main code
+4. Run the main code
     ```py
       python main.py
     ```
