@@ -1,9 +1,5 @@
 /* DATABASE */
 
-CREATE DATABASE tournament;
-
-USE tournament;
-
 /* TABLES */
 
 CREATE TABLE clubs(
