@@ -1,6 +1,16 @@
 
 def tuple_to_list(data: list) -> list[list]:
-    """Change a list of sets or tuples to list objects """
+    """Convert a list of sets or tuples to list objects
+
+    Parameters
+    ----------
+    data : list
+        A set of data
+    
+    Returns
+    -------
+        A python list objects of the inserted data
+    """
 
     return [ list(a) for a in data ]
 
@@ -77,7 +87,7 @@ def formulate_clubs_to_championships(data_1: list, data_2: list, data_3: list) -
     return data_1 + data_2 + data_3
     
 
-def relegate_serie_a(championships_data: list, next_season: str) -> dict:
+def relegate_brazillian_tournament(championships_data: list, next_season: str, division: str) -> dict:
     """Manipulate championships to to separate clubs that will stay in the
     serie a division to the relegated
 
@@ -85,6 +95,10 @@ def relegate_serie_a(championships_data: list, next_season: str) -> dict:
     ----------
     championships_data : list
         A list of sets with [ club_id, division_id ]
+    next_season : int
+        Int value for the next season 
+    division : str
+        A value for division: serie_a, serie_b, or serie_c 
     
     Returns
     -------
@@ -92,58 +106,29 @@ def relegate_serie_a(championships_data: list, next_season: str) -> dict:
     """
 
     championships_data = tuple_to_list(championships_data)
-    championships_data = [ [next_season] + i for i in championships_data ]
+    # sum a list with [next_season] value with all [club_id, division_id ] for each club
+    championships_data = [ [next_season] + club_data for club_data in championships_data ]
 
-    return {
-        'remains': championships_data[0:16],
-        'relegated' : change_to_b(championships_data[16:20])
-    }
-
-
-def relegate_serie_b(championships_data: list, next_season: str) -> dict:
-    """Manipulate championships to to separate clubs that will stay in the
-    serie b division to the relegated
-
-    Parameters
-    ----------
-    championships_data : list
-        A list of sets with [ club_id, division_id ]
+    # Get the clubs that stays in serie_a and the clubs that are being relegated
     
-    Returns
-    -------
-        A dict with { remains: [ [club_id, division_id, next_season] ], relegated: [ [club_id, serie_b_division_id, next_season] ] }
-    """
-
-    championships_data = tuple_to_list(championships_data)
-    championships_data = [ [next_season] + i for i in championships_data ]
-
-    return {
+    if division == 'serie_a':
+        result = {
+            'remains': championships_data[0:16],
+            'relegated' : change_to_b(championships_data[16:20])
+        }
+    elif division == 'serie_b':
+        result = {
         'promoted': change_to_a(championships_data[0:4]),
         'remains': championships_data[4:16],
         'relegated' : change_to_c(championships_data[16:20])
-    }
-
-def relegate_serie_c(championships_data: list, next_season: str) -> dict:
-    """Manipulate championships to to separate clubs that will stay in the
-    serie c division to the relegated
-
-    Parameters
-    ----------
-    championships_data : list
-        A list of sets with [ club_id, division_id ]
-    
-    Returns
-    -------
-        A dict with { remains: [ [club_id, division_id, next_season] ], relegated: [ [club_id, serie_b_division_id, next_season] ] }
-    """
-
-    championships_data = tuple_to_list(championships_data)
-    championships_data = [ [next_season] + i for i in championships_data ]
-
-    return {
+        }
+    else:
+        result = {
         'promoted': change_to_b(championships_data[0:4]),
         'remains': championships_data[4:20]
-    }
+        }
+
+    return result
 
 
 if __name__ == "__main__":
