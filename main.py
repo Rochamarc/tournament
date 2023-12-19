@@ -13,8 +13,6 @@ from data_manipulation import formulate_clubs_to_championships, relegate_brazill
 
 from logs_helper import LogsHandler
 
-from alive_progress import alive_it
-
 from insert_functions import check_yes_no, check_for_season
 
 # TODO nao ta atualizando o championships 
