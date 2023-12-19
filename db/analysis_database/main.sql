@@ -36,32 +36,32 @@ SELECT  NULL,
         players.id AS 'player_id',
         players.name,
         players.position,
-        player_stats.season,
-        player_stats.matches,            
-        player_stats.shots,              
-        player_stats.shots_on_target,    
-        player_stats.goals,              
-        player_stats.assists,            
-        player_stats.fouls_committed,    
-        player_stats.tackles,            
-        player_stats.passes,             
-        player_stats.wrong_passes,       
-        player_stats.intercepted_passes, 
-        player_stats.clearances,         
-        player_stats.stolen_balls,       
-        player_stats.clean_sheets,       
-        player_stats.defenses,           
-        player_stats.difficult_defenses, 
-        player_stats.goals_conceded,
+        stats.season,
+        stats.matches,            
+        stats.shots,              
+        stats.shots_on_target,    
+        stats.goals,              
+        stats.assists,            
+        stats.fouls_committed,    
+        stats.tackles,            
+        stats.passes,             
+        stats.wrong_passes,       
+        stats.intercepted_passes, 
+        stats.clearances,         
+        stats.stolen_balls,       
+        stats.clean_sheets,       
+        stats.defenses,           
+        stats.difficult_defenses, 
+        stats.goals_conceded,
         competitions.name AS 'competition',
         divisions.name AS 'division',
         club_owner.name AS 'club_owner',
         CONCAT(home.name,' x ',away.name) AS 'match' 
-FROM player_stats 
+FROM stats 
 INNER JOIN players 
-    ON player_stats.player_id = players.id
+    ON stats.player_id = players.id
 INNER JOIN games
-    ON player_stats.game_id = games.id
+    ON stats.game_id = games.id
 INNER JOIN competitions
     ON games.competition_id = competitions.id
 INNER JOIN player_contracts
