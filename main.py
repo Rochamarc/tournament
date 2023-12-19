@@ -9,11 +9,13 @@ from db.stadiums_controller import StadiumsController
 
 from tournament import run_league
 
-from data_manipulation import formulate_clubs_to_championships, relegate_serie_a, relegate_serie_b, relegate_serie_c
+from data_manipulation import formulate_clubs_to_championships, relegate_brazillian_tournament
 
 from logs_helper import LogsHandler
 
 from alive_progress import alive_it
+
+from insert_functions import check_yes_no, check_for_season
 
 # TODO nao ta atualizando o championships 
 #
@@ -47,21 +49,27 @@ competition_name = 'Campeonato Brasileiro'
 competition_id = competitions_controller.select_competition_id(competition_name)[0][0]
 
 # Promoted and relegate
-promo = input("Want to promote and relegate [Y/n]: ")
+print("Want to promote and relegate?")
+promo = check_yes_no(other_values=['y'])
 
+ 
 if promo in ['Y','y']:
     print("Promoting and relegating clubs")
 
-    season = str(int(season) + 1)
+    # this block will change the season 
+    print("Enter a valid season")
+    season = check_for_season() 
+    
+    previous_season = str(int(season) -1)
 
     # select from championships
-    a = championships_controller.select_championships_to_insert('Serie A')
-    b = championships_controller.select_championships_to_insert('Serie B')
-    c = championships_controller.select_championships_to_insert('Serie C')
+    a = championships_controller.select_championships_to_insert('Serie A', previous_season)
+    b = championships_controller.select_championships_to_insert('Serie B', previous_season)
+    c = championships_controller.select_championships_to_insert('Serie C', previous_season)
 
-    a = relegate_serie_a(a, season)
-    b = relegate_serie_b(b, season)
-    c = relegate_serie_c(c, season)
+    a = relegate_brazillian_tournament(a, season, 'serie_a')
+    b = relegate_brazillian_tournament(b, season, 'serie_b')
+    c = relegate_brazillian_tournament(c, season, 'serie_c')
 
     # formulate data
     serie_a = formulate_clubs_to_championships(a['remains'],b['promoted'], [])
