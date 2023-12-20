@@ -61,5 +61,5 @@ def run_league(games: list, season: str) -> None:
         away_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.away, season)
 
         # update championships on database
-        championships_controller.update_championship_table(home_data)
-        championships_controller.update_championship_table(away_data)
+        championships_controller.update_championship_table(home_data, game.competition)
+        championships_controller.update_championship_table(away_data, game.competition)

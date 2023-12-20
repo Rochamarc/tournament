@@ -118,6 +118,6 @@ a_champion = championships_controller.select_champion(season, 'Serie A')[0]
 b_champion = championships_controller.select_champion(season, 'Serie B')[0]
 c_champion = championships_controller.select_champion(season, 'Serie C')[0]
 
-champions_controller.insert_champion(a_champion[0],a_champion[1],a_champion[2])
-champions_controller.insert_champion(b_champion[0],b_champion[1],b_champion[2])
-champions_controller.insert_champion(c_champion[0],c_champion[1],c_champion[2])
+champions_controller.insert_champion(a_champion[0],a_champion[1],a_champion[2], 'Campeonato Brasileiro', 'Serie A')
+champions_controller.insert_champion(b_champion[0],b_champion[1],b_champion[2], 'Campeonato Brasileiro', 'Serie B')
+champions_controller.insert_champion(c_champion[0],c_champion[1],c_champion[2], 'Campeonato Brasileiro', 'Serie C')
