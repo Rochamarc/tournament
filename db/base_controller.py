@@ -14,6 +14,38 @@ class BaseController:
     """
 
     @classmethod
+    def get_check_query(cls, file_name: str) -> str:
+        """Get one query on db/queries/check
+
+        Parameters
+        ----------
+        file_name : str
+            Name of the file inside the path without the file extension
+        
+        Returns
+        -------
+            A string with the query in the file
+
+        Raises
+        ------
+        FileNotFoundError
+            If the file doesnt exists
+        """
+
+        file_path = os.path.join(
+            CURRENT_PATH,
+            'queries',
+            'check',
+            '{}.sql'.format(file_name)            
+        )
+
+        try:
+            with open(file_path, 'r') as file:
+                return ''.join(file.readlines())
+        except: 
+            raise FileNotFoundError("File {} doesn't exists".format(file_path))
+
+    @classmethod
     def get_delete_query(cls, file_name: str) -> str:
         """Get one query on db/queries/select
 
@@ -219,7 +251,24 @@ class BaseController:
         conn.close()    
 
         return None
-            
+    
+    @classmethod
+    def check_register(cls, query: str, data: list) -> list[set]:
+        """
+        """
+        
+        conn = mysql.connector.connect(**cls.database_config)
+        cursor = conn.cursor()
+
+        cursor.execute(query, data)
+        
+        exit_data = cursor.fetchall()
+
+        conn.close()
+
+        return exit_data
+    
+
     @classmethod
     @property
     def database_config(cls):

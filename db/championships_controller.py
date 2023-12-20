@@ -39,12 +39,25 @@ class ChampionshipsController(BaseController):
         ----------
         clubs_data : list
             Each list has to have [ season, club_id, division_id ]
-        
+        competition_name : str
+            A string containing competition's name
+
+        Raises
+        ------
+            Exception if one club_id has a table associate with the season
+
         Returns
         -------
             None
         """
         
+        for club in clubs_data:
+            club_id = club[1]
+            season = club[0]
+
+            if cls.check_for_initial_table(club_id, season):
+                raise Exception("Club with id: {}, is already associate to a table with season {}".format(club_id, season))
+
         return cls.insert_registers(cls.get_insert_query('insert_championships'), clubs_data)
 
     
@@ -105,19 +118,31 @@ class ChampionshipsController(BaseController):
         return cls.select_register(cls.get_select_query('select_championship_by_division'), [season, division_name])
 
     @classmethod
-    def update_championship_table(cls, data: list) -> None:
+    def update_championship_table(cls, data: list, competition_name: str) -> None:
         """Update the club's championships table based on division
         
         Parameters
         ----------
         data : list
             A list containing: points, win, loss, draw, goals_for, goals_away, club_id, season
-        
+        competition_name : str
+            A string containing competition's name
+            
+        Raises
+        ------
+            Exception if club has more than 38 matches in table 
+            
         Returns
         -------
             None
         """
 
+        club_id = data[-2]
+        season = data[-1]
+   
+        if not cls.check_for_38_matches(club_id, season, competition_name):
+            raise Exception("Club with id: {}, already has 38 matches in {} season {}".format(club_id, competition_name, season))
+   
         return cls.update_register(cls.get_update_query('update_championship'), data)
     
     @classmethod
@@ -207,4 +232,47 @@ class ChampionshipsController(BaseController):
 
         return cls.select_register(cls.get_select_query('select_id_from_championships_serie_b_c'), [season])
 
-         
+    @classmethod
+    def check_for_38_matches(cls, club_id: int, season: str, competition_name) -> bool:
+        """Check if the table already has 38 matches for the club 
+        
+        Parameters
+        ----------
+            club_id : int
+
+            season : str
+
+            competition_name : str
+
+        Returns
+        -------
+            True if returns some data False if returns noting 
+        """
+
+        data = cls.check_register(cls.get_check_query('check_championships'), [club_id, season, competition_name])
+
+        if data:
+            return True
+        return False
+
+    @classmethod
+    def check_for_initial_table(cls, club_id: int, season: str) -> bool:
+        """Check if the club has another table insertion with specific season
+
+        Parameters
+        ----------
+        club_id : int
+            A int value that refere to club's id
+        season : str
+            A string value containing season
+        
+        Returns
+        -------
+            A True if has data and false if returns nothing
+        """
+
+        data = cls.check_register(cls.get_check_query('check_championships_intial_table'), [club_id, season])
+
+        if data:
+            return True 
+        return False
