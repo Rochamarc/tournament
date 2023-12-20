@@ -36,3 +36,9 @@
     * Adicionar novas opções de nomes e de nacionalidades e melhorar o esquema de seleção de nacionalidade e nome.
     
 
+# Sistema que faz os clubes mais ricos e tradicionais terem jogadores melhores
+
+
+# New Season 
+    - Checar por jogadores em fim de Contrato
+    - Renovar contratos baseados em desempenho e salario
