@@ -152,7 +152,18 @@ class PlayersController(BaseController):
         """        
 
         return cls.select_register(cls.get_select_query('select_players_by_contracts'), [season])
+    
+    @classmethod
+    def select_players_by_contracts_and_class(cls) -> list[set]:
+        """Select players by contracts
 
+        Returns
+        -------
+            A list of sets with ['player_id', 'club_class', 'position']
+        """
+        
+        return cls.select_register(cls.get_select_query('select_players_and_clubs_class_by_contracts'))
+    
     @classmethod
     def delete_players(cls) -> None:
         """Delete all players and his constraints
@@ -163,8 +174,6 @@ class PlayersController(BaseController):
         """
 
         return cls.delete_register(cls.get_delete_query('delete_players'))
-
-
 
 if __name__ == "__main__":
     print(PlayersController().select_players_by_club('2022'))

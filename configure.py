@@ -1,4 +1,3 @@
-import mysql.connector
 from random import choice, randint, shuffle, uniform
 
 from NameGenerator.names_controller import NamesController
@@ -9,7 +8,7 @@ from db.players_controller import PlayersController
 from db.player_contracts_controller import PlayerContractsController
 from db.skills_controller import SkillsController
 
-from data_generator import get_skill_by_position
+from data_generator import generate_players_skills
 
 from alive_progress import alive_it
 
@@ -98,7 +97,8 @@ for club in alive_it(clubs):
 
     # Select the 30 last players created and insert a contract between a club and player
     last_players = players_controller.select_last_players()
-
+    
+    # Here we insert contracts beteween clubs and players
     player_contracts = []
     for player in last_players:
         # append players contracts
@@ -117,19 +117,8 @@ players = players_controller.select_all_players_id_position()
 
 # Create and insert data into database 
 
-print("Creating Player Skills")
-player_skills = []
-for player in alive_it(players):
-    id = player[0]
-    position = player[1]
-
-    skills = get_skill_by_position(position)
-    skills.append(id)
-
-    player_skills.append(skills)
-
-print("Inserting Player Skills")
-skills_controller.insert_skills(player_skills, season)
+print("Creating & Saving Player Skills")
+generate_players_skills(season)
 
 # CREATE COACHES
 
