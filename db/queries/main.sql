@@ -2,10 +2,16 @@
 
 /* TABLES */
 
+CREATE TABLE club_classes(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name CHAR(1)
+);
+
 CREATE TABLE clubs(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    country VARCHAR(100) NOT NULL
+    country VARCHAR(100) NOT NULL,
+    club_class_id INT
 );
 
 CREATE TABLE coaches(
@@ -256,6 +262,11 @@ CREATE TABLE champions(
 );
 
 /* CONSTRAINTS */
+
+ALTER TABLE clubs
+ADD CONSTRAINT fk_clubs_clubs_classes
+FOREIGN KEY(club_class_id)
+REFERENCES club_classes(id);
 
 ALTER TABLE player_contracts
 ADD CONSTRAINT fk_player_contracts_clubs

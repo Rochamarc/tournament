@@ -17,28 +17,33 @@ INSERT INTO divisions VALUES(NULL, 'Serie C', 1);
 -- Argentinian first division
 INSERT INTO divisions VALUES(NULL, 'Primera Divison', 2);
 
-/* INSERT SERIE A CLUBS OF 2022 SEASON */
+INSERT INTO club_classes VALUES(NULL, 'A');
+INSERT INTO club_classes VALUES(NULL, 'B');
+INSERT INTO club_classes VALUES(NULL, 'C');
+INSERT INTO club_classes VALUES(NULL, 'D');
 
-INSERT INTO clubs VALUES(NULL, 'América Mineiro', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Atlético Mineiro', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Athletico Paranaense', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Ceará', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Fortaleza', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Flamengo', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Fluminense', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Cuiabá', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Grêmio', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'International', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Chapecoense', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Juventude', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'São Paulo', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Corinthians', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Palmeiras', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Santos', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Red Bull Bragantino', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Sport Recife', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Bahia', 'Brazil');
-INSERT INTO clubs VALUES(NULL, 'Atlético Goianiense', 'Brazil');
+
+/* INSERT SERIE A CLUBS OF 2022 SEASON */
+INSERT INTO clubs VALUES(NULL, 'América Mineiro', 'Brazil', 2);
+INSERT INTO clubs VALUES(NULL, 'Atlético Mineiro', 'Brazil', 1);
+INSERT INTO clubs VALUES(NULL, 'Athletico Paranaense', 'Brazil', 2);
+INSERT INTO clubs VALUES(NULL, 'Ceará', 'Brazil', 2);
+INSERT INTO clubs VALUES(NULL, 'Fortaleza', 'Brazil', 2);
+INSERT INTO clubs VALUES(NULL, 'Flamengo', 'Brazil', 1);
+INSERT INTO clubs VALUES(NULL, 'Fluminense', 'Brazil', 1);
+INSERT INTO clubs VALUES(NULL, 'Cuiabá', 'Brazil', 2);
+INSERT INTO clubs VALUES(NULL, 'Grêmio', 'Brazil', 1);
+INSERT INTO clubs VALUES(NULL, 'International', 'Brazil', 1);
+INSERT INTO clubs VALUES(NULL, 'Chapecoense', 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, 'Juventude', 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, 'São Paulo', 'Brazil', 1);
+INSERT INTO clubs VALUES(NULL, 'Corinthians', 'Brazil', 1);
+INSERT INTO clubs VALUES(NULL, 'Palmeiras', 'Brazil', 1);
+INSERT INTO clubs VALUES(NULL, 'Santos', 'Brazil', 2);
+INSERT INTO clubs VALUES(NULL, 'Red Bull Bragantino', 'Brazil', 2);
+INSERT INTO clubs VALUES(NULL, 'Sport Recife', 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, 'Bahia', 'Brazil', 2);
+INSERT INTO clubs VALUES(NULL, 'Atlético Goianiense', 'Brazil', 2);
 
 /* INSERTING CLUBS OF THE FIRST division FROM THE BRAZILLAN CHAMPIONSHIP */
 
@@ -65,26 +70,26 @@ INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 20, 1)
 
 /* SECOND division */
 
-INSERT INTO clubs VALUES(NULL, "Vasco da Gama", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Botafogo", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Cruzeiro", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Operário", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Coritiba", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Goiás", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Guarani", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Avaí", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "CRB", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "CSA", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Náutico", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Sampaio Corrêa", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Vila Nova", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Ponte Preta", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Brusque", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Remo", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Londrina", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Vitória", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Confiança", 'Brazil');
-INSERT INTO clubs VALUES(NULL, "Brasil de Pelotas", 'Brazil');
+INSERT INTO clubs VALUES(NULL, "Vasco da Gama", 'Brazil', 2);
+INSERT INTO clubs VALUES(NULL, "Botafogo", 'Brazil', 2);
+INSERT INTO clubs VALUES(NULL, "Cruzeiro", 'Brazil', 2);
+INSERT INTO clubs VALUES(NULL, "Operário", 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, "Coritiba", 'Brazil', 2);
+INSERT INTO clubs VALUES(NULL, "Goiás", 'Brazil', 2);
+INSERT INTO clubs VALUES(NULL, "Guarani", 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, "Avaí", 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, "CRB", 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, "CSA", 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, "Náutico", 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, "Sampaio Corrêa", 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, "Vila Nova", 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, "Ponte Preta", 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, "Brusque", 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, "Remo", 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, "Londrina", 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, "Vitória", 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, "Confiança", 'Brazil', 3);
+INSERT INTO clubs VALUES(NULL, "Brasil de Pelotas", 'Brazil', 3);
 
 INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 21, 2);
 INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 22, 2);
@@ -109,26 +114,26 @@ INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 40, 2)
 
 /* THIRD division*/
 
-INSERT INTO clubs VALUES(NULL, "Paysandu", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Tombense", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Botafogo-PB", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Manaus", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Volta Redonda", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Ferroviário", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Altos", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Floresta", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Jacuipense", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Santa Cruz", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Novorizontino", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Ituano", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Ypiranga", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Criciúma", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Figueirense", "Brazil");
-INSERT INTO clubs VALUES(NULL, "São José", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Botafogo SP", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Mirasol", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Paraná", "Brazil");
-INSERT INTO clubs VALUES(NULL, "Oeste", "Brazil");
+INSERT INTO clubs VALUES(NULL, "Paysandu", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Tombense", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Botafogo-PB", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Manaus", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Volta Redonda", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Ferroviário", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Altos", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Floresta", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Jacuipense", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Santa Cruz", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Novorizontino", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Ituano", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Ypiranga", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Criciúma", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Figueirense", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "São José", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Botafogo SP", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Mirasol", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Paraná", "Brazil", 4);
+INSERT INTO clubs VALUES(NULL, "Oeste", "Brazil", 4);
 
 INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 41, 3);
 INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 42, 3);
@@ -153,34 +158,34 @@ INSERT INTO championships (season, club_id, division_id ) VALUES ('2022', 60, 3)
 
 /* ARGENTINIAN CHAMPIONSHIPS */
 
-INSERT INTO clubs VALUES(NULL, "River Plate", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Talleres (Córdoba)", "Argentina");
-INSERT INTO clubs VALUES(NULL, "San Lorenzo", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Lanús", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Estudiantes de La Plata", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Defensa y Justicia", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Boca Juniors", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Rosário Central", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Godoy Cruz Antonio Tomba", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Argentinos Juniors", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Atlético Tucumán", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Racing Club", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Belgrano (Córdoba)", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Newell's Old Boys", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Barracas Central", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Tigre", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Platense", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Instituto (Córdoba)", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Sarmiento (Junín)", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Unión (Santa Fe)", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Banfield", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Gimnasia La Plata", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Central Córdoba (Santiago del Estero)", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Independiente", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Vélez Sarsfield", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Huracán", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Colón (Santa Fe)", "Argentina");
-INSERT INTO clubs VALUES(NULL, "Arsenal Sarandi", "Argentina");
+INSERT INTO clubs VALUES(NULL, "River Plate", "Argentina", 2);
+INSERT INTO clubs VALUES(NULL, "Talleres (Córdoba)", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "San Lorenzo", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Lanús", "Argentina", 2);
+INSERT INTO clubs VALUES(NULL, "Estudiantes de La Plata", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Defensa y Justicia", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Boca Juniors", "Argentina", 2);
+INSERT INTO clubs VALUES(NULL, "Rosário Central", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Godoy Cruz Antonio Tomba", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Argentinos Juniors", "Argentina", 2);
+INSERT INTO clubs VALUES(NULL, "Atlético Tucumán", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Racing Club", "Argentina", 2);
+INSERT INTO clubs VALUES(NULL, "Belgrano (Córdoba)", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Newell's Old Boys", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Barracas Central", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Tigre", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Platense", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Instituto (Córdoba)", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Sarmiento (Junín)", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Unión (Santa Fe)", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Banfield", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Gimnasia La Plata", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Central Córdoba (Santiago del Estero)", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Independiente", "Argentina", 2);
+INSERT INTO clubs VALUES(NULL, "Vélez Sarsfield", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Huracán", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Colón (Santa Fe)", "Argentina", 3);
+INSERT INTO clubs VALUES(NULL, "Arsenal Sarandi", "Argentina", 3);
 
 INSERT INTO championships(season, club_id, division_id) VALUES ('2022', 61, 4);
 INSERT INTO championships(season, club_id, division_id) VALUES ('2022', 62, 4);
