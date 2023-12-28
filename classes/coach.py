@@ -8,14 +8,14 @@ class Coach(Person):
 
     Attributes
     ----------
-        id :  int
-            Unique value the representes each coach
-        name : str
-            The name of the coach
-        nationality : str
-            The nationality from the coach
-        birth : int
-            The birth year of the coach
+    id :  int
+        Unique value the representes each coach
+    name : str
+        The name of the coach
+    nationality : str
+        The nationality from the coach
+    birth : int
+        The birth year of the coach
     """
 
     def __init__(self, id: int, name: str, nationality: str, birth: int):

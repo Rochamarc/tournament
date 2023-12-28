@@ -8,55 +8,55 @@ class Player(Person):
 
     Attributes
     ----------
-        id :  int
-            Unique value the representes each coach
-        name : str
-            The name of the coach
-        nationality : str
-            The nationality from the coach
-        birth : int
-            The birth year of the coach
-        position : str
-            Two capital letters that represents the players position
-        height : float
-            Players height
-        weight : float
-            Players weight
-        foot : str
-            A capital letter that represents the player favorite foot
-        positioning : int
-            A integer that value for player positioning GK only
-        reflexes : int
-            A integer that value for player reflexes GK only
-        diving : int
-            A integer that value for player diving GK only
-        standing_tackle : int
-            A integer that value for player standing tackle Non GK players
-        physical : int
-            A integer that value for player physical Non GK players
-        passing : int
-            A integer that value for player passing Non GK players
-        dribbling : int
-            A integer that value for player dribbling Non GK players
-        long_shot : int
-            A integer that value for player long shot Non GK players
-        finishing : int
-            A integer that value for player finishing Non GK players
-        club_id : int
-            The id from the club that the athlete plays for 
+    id :  int
+        Unique value the representes each coach
+    name : str
+        The name of the coach
+    nationality : str
+        The nationality from the coach
+    birth : int
+        The birth year of the coach
+    position : str
+        Two capital letters that represents the players position
+    height : float
+        Players height
+    weight : float
+        Players weight
+    foot : str
+        A capital letter that represents the player favorite foot
+    positioning : int
+        A integer that value for player positioning GK only
+    reflexes : int
+        A integer that value for player reflexes GK only
+    diving : int
+        A integer that value for player diving GK only
+    standing_tackle : int
+        A integer that value for player standing tackle Non GK players
+    physical : int
+        A integer that value for player physical Non GK players
+    passing : int
+        A integer that value for player passing Non GK players
+    dribbling : int
+        A integer that value for player dribbling Non GK players
+    long_shot : int
+        A integer that value for player long shot Non GK players
+    finishing : int
+        A integer that value for player finishing Non GK players
+    club_id : int
+        The id from the club that the athlete plays for 
     
     Properties
     ----------
-        desc()
-            Returns player attributes
-        gk_average
-            Calculates goal keeper skills average
-        defense_average
-            Calculates defensive players skills average
-        attacking_average
-            Calculates defensive players skills average
-        overall
-            Calculates full players skills average
+    desc()
+        Returns player attributes
+    gk_average
+        Calculates goal keeper skills average
+    defense_average
+        Calculates defensive players skills average
+    attacking_average
+        Calculates defensive players skills average
+    overall
+        Calculates full players skills average
     """
 
     def __init__(self, id: int, name: str, nationality: str, birth: int, position: str, 
@@ -151,8 +151,7 @@ class Player(Person):
         
         Returns
         -------
-            gk_average if is a goalkeeper. the full average if it's not. 
-        
+            gk_average if is a goalkeeper or the full average if it's not a goalkeeper. 
         """
         
         if self.position == 'GK':

@@ -6,14 +6,14 @@ class Stadium:
 
     Attributes
     ----------
-        name : str
-            The name of the Stadium
-        country : str
-            Stadium country
-        city : str
-            Stadium city
-        capacity : int
-            The maximum capacity of audience supported by the stadium
+    name : str
+        The name of the Stadium
+    country : str
+        Stadium country
+    city : str
+        Stadium city
+    capacity : int
+        The maximum capacity of audience supported by the stadium
     """
 
     def __init__(self, name: str, country: str, city: str, capacity: int):
