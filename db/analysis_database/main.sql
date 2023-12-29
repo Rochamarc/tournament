@@ -1,7 +1,8 @@
-CREATE DATABASE football_analysis;
+CREATE DATABASE tournament_analysis;
 
-USE football_analysis;
+USE tournament_analysis;
 
+-- Player stats analysis
 CREATE TABLE player_stats(
     id INT AUTO_INCREMENT PRIMARY KEY,
     player_id INT NOT NULL,
@@ -30,8 +31,28 @@ CREATE TABLE player_stats(
     match_clubs VARCHAR(200) NOT NULL
 );
 
-/* COPY FILES FROM MAIN DB TO ANALISYS DB */
-INSERT INTO football_analysis.player_stats
+-- Championships table analysis
+CREATE TABLE championship_stats(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    club VARCHAR(100) NOT NULL,
+    season CHAR(4) NOT NULL,
+    competition VARCHAR(100) NOT NULL,
+    division VARCHAR(100),
+    matches INT,
+    win INT,
+    draw INT,
+    loss INT,
+    goals_for INT,
+    goals_away INT,
+    goals_diff INT,
+    points INT
+);
+
+
+USE tournament; 
+
+-- COPY FILES FROM MAIN DB TO ANALISYS DB 
+INSERT INTO tournament_analysis.player_stats
 SELECT  NULL,
         players.id AS 'player_id',
         players.name,
@@ -81,3 +102,26 @@ INNER JOIN championships
 INNER JOIN divisions
     ON divisions.id = championships.division_id
 ORDER BY players.id;
+
+-- Insert values from tournament table
+INSERT INTO tournament_analysis.championship_stats
+SELECT  NULL,
+        clubs.name,
+        championships.season,
+        competitions.name,
+        divisions.name,
+        championships.matches, 
+        championships.win, 
+        championships.draw, 
+        championships.loss, 
+        championships.goals_for, 
+        championships.goals_away, 
+        championships.goals_diff, 
+        championships.points
+FROM championships 
+INNER JOIN clubs
+    ON (clubs.id = championships.club_id)
+INNER JOIN divisions
+    ON (divisions.id = championships.division_id)
+INNER JOIN competitions
+    ON (competitions.id = divisions.competition_id);
