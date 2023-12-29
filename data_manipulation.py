@@ -1,4 +1,3 @@
-
 def tuple_to_list(data: list) -> list[list]:
     """Convert a list of sets or tuples to list objects
 
@@ -15,21 +14,51 @@ def tuple_to_list(data: list) -> list[list]:
     return [ list(a) for a in data ]
 
 def change_to_a(data: list) -> list[list]:
-    """Change the division id to 1 """
+    """Change the division id to 1
+
+    Parameters
+    ----------
+    data : list
+        A list of lists with club's information
+
+    Returns
+    -------
+        The data list with updated id value 
+    """
 
     for a in data:
         a[-1] = 1
     return data 
 
 def change_to_b(data: list) -> list[list]:
-    """Change the division id to 2 """
+    """Change the division id to 2
+
+    Parameters
+    ----------
+    data : list
+        A list of lists with club's information
+
+    Returns
+    -------
+        The data list with updated id value 
+    """
 
     for a in data:
         a[-1] = 2
     return data 
 
 def change_to_c(data: list) -> list[list]:
-    """Change the division id to 3 """
+    """Change the division id to 3
+
+    Parameters
+    ----------
+    data : list
+        A list of lists with club's information
+
+    Returns
+    -------
+        The data list with updated id value 
+    """
 
     for a in data:
         a[-1] = 3
@@ -130,6 +159,21 @@ def relegate_brazillian_tournament(championships_data: list, next_season: str, d
 
     return result
 
+def apply_reduction(value: int) -> int:
+    """Reduce value by multiplying the value for 
+    0.25
+
+    Parameters
+    ----------
+    value : int
+        An int value from 55 to 99
+
+    Returns
+    -------
+        A convert int value from result of value * 0.25 
+    """
+
+    return int(value * 0.25)
 
 if __name__ == "__main__":
     print(fomrmulate_clubs_to_simple_cup([[1]],[[2]]))
