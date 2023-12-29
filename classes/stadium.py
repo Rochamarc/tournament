@@ -23,4 +23,4 @@ class Stadium:
         self.capacity = capacity
         
     def __repr__(self) -> str:
-        return 'Stadium({})'.format(self.name)
+        return f'Stadium({self.name})'
