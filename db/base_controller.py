@@ -176,7 +176,18 @@ class BaseController:
     
     @classmethod
     def insert_register(cls, query: str, data: list) -> None:
-        """
+        """Make an insert on database
+
+        Parameters
+        ---------- 
+        query : str
+            A string containing an sql query
+        data : list
+            List containing data 
+
+        Returns
+        -------
+            None        
         """
 
         conn = mysql.connector.connect(**cls.database_config)
@@ -191,7 +202,18 @@ class BaseController:
 
     @classmethod
     def insert_registers(cls, query: str, datas: list) -> None:
-        """
+        """Make multiple inserts on database
+
+        Parameters
+        ---------- 
+        query : str
+            A string containing an sql query
+        data : list
+            List containing the necessary data 
+
+        Returns
+        -------
+            None
         """
 
         conn = mysql.connector.connect(**cls.database_config)
@@ -207,7 +229,18 @@ class BaseController:
 
     @classmethod
     def select_register(cls, query: str, data: list = []) -> list[set]:
-        """
+        """Make a select on database
+
+        Parameters
+        ---------- 
+        query : str
+            A string containing an sql query
+        data : list
+            List containing data if necessary, default value is an empty list [] 
+
+        Returns
+        -------
+            A list with of sets
         """
 
         conn = mysql.connector.connect(**cls.database_config)
@@ -226,7 +259,16 @@ class BaseController:
 
     @classmethod
     def delete_register(cls, query: str) -> None:
-        """
+        """Make a delete on database
+
+        Parameters
+        ---------- 
+        query : str
+            A string containing an sql query
+    
+        Returns
+        -------
+            A list with of sets
         """
 
         conn = mysql.connector.connect(**cls.database_config)
@@ -240,7 +282,18 @@ class BaseController:
     
     @classmethod
     def update_register(cls, query: str, data: list) -> None:
-        """
+        """Make a update on database
+
+        Parameters
+        ---------- 
+        query : str
+            A string containing an sql query
+        data : list
+            List containing the necessary data
+
+        Returns
+        -------
+            None
         """
 
         conn = mysql.connector.connect(**cls.database_config)
@@ -255,7 +308,21 @@ class BaseController:
     
     @classmethod
     def check_register(cls, query: str, data: list) -> list[set]:
-        """
+        """Make a check in the database based on the business rule.
+        Use this to find if theres data located on table or with a parameter
+        that cant be double. If there's data raise an error.
+
+        Parameters
+        ----------
+        query : str
+            A string containing a query located on db/queries/check
+        data : list
+            A list with necessary data
+        
+        Returns
+        -------
+            A list of sets if there's data where the check is going on, Otherwise will returns an empty
+            list
         """
         
         conn = mysql.connector.connect(**cls.database_config)
@@ -273,6 +340,10 @@ class BaseController:
     @classmethod
     @property
     def database_config(cls):
+        """Return a dict with database configuration, change the user,
+        host and password based on database 
+        """
+        
         return { 
             'user': 'tournament_user', 
             'host': 'localhost', 
