@@ -4,6 +4,8 @@ from classes.player import Player
 from classes.club import Club
 from classes.stadium import Stadium
 
+from data_manipulation import apply_reduction
+
 import numpy as np
 
 # TODO change overall as int for decisions 
@@ -91,12 +93,12 @@ class Game(BaseGame):
         time = 0
         move_info = self.move(self.home, self.away, 'middle')
 
-        while time < 90:
+        while time < 180:
             # This is the ninety minutes simulation part 
 
             # Games doenst have more of seven goals
-            seven_goals = self.home_goal == 7 or self.away_goal == 7
-            if seven_goals: 
+            five_goals = self.home_goal == 5 or self.away_goal == 5
+            if five_goals: 
                 break 
             
             move_info = self.move(move_info['club_possession'], move_info['other_club'], move_info['field_part'], move_info['sender'])
@@ -141,7 +143,7 @@ class Game(BaseGame):
         keep_ball_possession =  False 
 
         # Define an attacker
-        attacker = sender or self.select_player(attack_club, 'any')
+        attacker = sender or self.select_player(attack_club)
 
         # Define an defensor
         defensor = self.select_player_on_field(defense_club, field_part)
@@ -154,6 +156,10 @@ class Game(BaseGame):
         
         # Defines a decision of the player with the ball
         player_decision = self.player_decision(field_part) 
+
+        
+        # variables about club's overall
+        attack_overall = apply_reduction(attack_club.overall)
 
         if player_decision == 'keep_ball_possession':
             # Keep ball possession
@@ -175,15 +181,18 @@ class Game(BaseGame):
             self.update_game_stats_on_logs('passes', attack_club.name)
             self.update_player_stats_on_logs('passes', attacker)
             self.update_player_stats('passes', attacker)
+            
+            # check if the pass is sucess full
+            f_move = self.move_decision(attacker, defensor, 'pass')
 
             # check for a foul to update on logs
-            if not self.decision(defensor.overall):
+            if not self.decision2(defensor.standing_tackle):
                 self.update_game_stats_on_logs('fouls', attack_club.name)
                 
                 self.update_player_stats_on_logs('fouls', defensor)
                 self.update_player_stats('fouls_committed', defensor)
 
-            if not self.move_decision(attacker, defensor):
+            if not f_move:
                 # not sucessfull pass
                 # keep the field part and invert the ball possession
                 
@@ -224,8 +233,9 @@ class Game(BaseGame):
             self.update_player_stats_on_logs('passes', attacker)
             self.update_player_stats('passes', attacker)
 
+            f_move = self.move_decision(attacker, defensor, choice(['pass','projection'])) 
 
-            if not self.move_decision(attacker, defensor):
+            if not f_move:
                 # failed pass or projection
 
                 # TODO add interception and uodate just like above
@@ -263,7 +273,7 @@ class Game(BaseGame):
         
         else:
             # take_a_risk
-            keeper = self.select_player(defense_club, 'goalkeeper')
+            keeper = self.select_player(defense_club, player_position='goalkeeper')
             # attack_move = 'finish'
 
             # i can decrease the attacker chance based on the part of the field 
@@ -277,10 +287,11 @@ class Game(BaseGame):
                 
                 self.update_game_stats_on_logs('passes', attack_club.name)
                 
-                attacker =  self.select_player(attack_club, 'any', unless='GK')
+                attacker = self.select_player(attack_club, player_position='goalkeeper', unless='GK')
 
+            f_shot = choice(['shot','long_shot'])
 
-            if self.move_decision(attacker, keeper) == False:
+            if self.move_decision(attacker, keeper, f_shot) is False:
                 ''' Defense or kick out '''
 
                 field_part = 'back'
@@ -288,7 +299,7 @@ class Game(BaseGame):
 
                 # Define for a defense or a kick out
                 # to update the logs
-                if self.decision(keeper.overall):
+                if self.decision2(keeper.overall):
                     self.update_game_stats_on_logs('saves', defense_club.name)
 
                     self.update_game_stats_on_logs('shots on target', attack_club.name)
@@ -306,15 +317,12 @@ class Game(BaseGame):
                 else:
                     self.update_game_stats_on_logs('shots', attack_club.name)
                     self.update_player_stats('shots', attacker)
-
-
             else:
-
-                if self.decision(attacker.finishing):
+                if self.decision2(attacker.overall) and self.decision2(attack_overall):
                     ''' goal '''
                     
                     # update attacking team move
-                    midfielder =  self.select_player(attack_club, 'midfielder')
+                    midfielder =  self.select_player(attack_club, player_position='midfielder')
                     self.finish(midfielder, attacker, attack_club)
                     self.update_game_stats_on_logs('shots on target', attack_club.name)
                     
@@ -322,7 +330,7 @@ class Game(BaseGame):
                     field_part = 'middle'
                     
                     # change sender to defensor
-                    sender = self.select_player(defense_club, 'attacker') 
+                    sender = self.select_player(defense_club, player_position='attacker') 
 
             club_possession, other_club = self.invert_ball_possession(attack_club, defense_club)
                 
@@ -400,7 +408,7 @@ class Game(BaseGame):
         # 3/6 chances of ball_possession, 2/6 chances of advance 1/6 chances of take_a_risk
         return choice(['keep_ball_possession', 'keep_ball_possession','keep_ball_possession', 'advance', 'advance', 'take_a_risk'])
 
-    def move_decision(self, attacker: Player, defensor: Player) -> bool:
+    def move_decision(self, attacker: Player, defensor: Player, move: str) -> bool:
         """Make a bool decision about the movement
 
         Parameters
@@ -409,13 +417,25 @@ class Game(BaseGame):
            Attacking player that will provides his overall
         defensor : Player
             Defensor player that will provides his overall
+        move : str
+            A string containing a football move
 
         Returns
         -------
             A bool based on the denial of defensor decision and a true attacker decision
         """
 
-        return not self.decision(defensor.overall) and self.decision(attacker.overall, 5)  
+        if move in ['pass','projection']:
+            # TODO add pass intercepetion to players 
+            # for now i'm using defensor's overall
+
+            return not self.decision2(defensor.overall) and self.decision2(attacker.passing)
+        elif move == 'shot':
+            return not self.decision2(defensor.diving) and self.decision2(attacker.finishing)
+        elif move == 'long_shot':
+            return not self.decision2(defensor.positioning) and self.decision2(attacker.long_shot)
+        else:
+            return not self.decision2(defensor.overall) and self.decision2(attacker.overall)  
 
     def select_player_on_field(self, club: Club, field_part: str) -> Player:
         """Select a random player based on his field part 
@@ -432,7 +452,7 @@ class Game(BaseGame):
             A Player object
         """
 
-        return self.select_player(club, self.select_position_by_field(field_part))
+        return self.select_player(club, player_position=self.select_position_by_field(field_part))
 
     def select_position_by_field(self, field_part: str) -> str:
         """Select a player football role based on field_part
@@ -454,7 +474,7 @@ class Game(BaseGame):
         
         return 'defender'
 
-    def select_player(self, club: Club, player_position: str, unless: str = None) -> Player:
+    def select_player(self, club: Club, player_position: str = None, unless: str = None) -> Player:
         """Select a player by a specific position
         
         Parameters
@@ -462,14 +482,26 @@ class Game(BaseGame):
         club : Club
             A Club object that will set the list of players to be selected
         player_position : str
-            A string with a player position. If position == 'any' select player by any position
+            A string with a player position to be included or excluded from the selection.
+            ex: If the unless parameter are gonna be used, pass the name of the position, like: 
+            'goalkeeper','midfielder'. 
         unless : str
-            A string containing a position that is not allowed
+            A string containing an acronym for a position to be excluded from selection.
+            ex: 'GK' for goalkeeper, 'CB' for center back.
+        
+        Raises
+        ------
+        Exception : if the unless parameters are true and player_position if false,
+            player_position can be True and unless False but not the other way
+        NameError : if club doesnt't belongs to match self.home or self.away
         Returns
         -------
             A Player Object
         """
 
+        if unless and not player_position:
+            raise Exception("If you pass a unless parameter you're have to pass a player_position parameter.")
+        
         if club == self.home:
             start_eleven = self.home_players
         elif club == self.away:
@@ -477,13 +509,18 @@ class Game(BaseGame):
         else:
             raise NameError('Club {} does not match {} or {}'.format(club, self.home.name, self.away.name))
 
-        if player_position == 'any':
-            return choice(start_eleven)
+        #   check for player position and unless clause
+        #   if both are true the use want exclude a position
+        #   if player position are true and unless false the user want a specific position 
+        #   if both are false the user want any player
 
-        if unless:
-            options = [player for player in start_eleven if player.position in self.positions[player_position].remove(unless)]
+        if player_position and unless:
+            options = [ player for player in start_eleven if player.position not in self.positions[player_position] ]
+        elif not (player_position and unless):
+            options = start_eleven
         else:
-            options = [player for player in start_eleven if player.position in self.positions[player_position]]
+            options = [ player for player in start_eleven if player_position in self.positions[player_position] ]
+
 
         return choice(options)
 
@@ -620,11 +657,13 @@ class Game(BaseGame):
 
         Returns
         -------
-            A boolean 
+            A random boolean for number of subs greater than zero 
         """
 
-        if n_sub > 0 :  return choice([True, False]) 
-            
+        if n_sub > 0:  
+            return choice([True, False]) 
+        return False
+
     def select_club_by_home_away(self, club: Club) -> Club:
         """Select home or away class attribute based on club
 
@@ -650,7 +689,7 @@ class Game(BaseGame):
         
         Returns
         -------
-            An integer
+            An integer with the number of subs 
         """
         
         return self.home_subs if club == self.home else self.away_subs
@@ -724,7 +763,7 @@ class Game(BaseGame):
             A bool
         """
         
-        return randint(1,100) > p_overall 
+        return randint(1,30) < apply_reduction(p_overall)
     
     def check_subs(self, n_subs) -> bool:
         """Check for a sub based on number of subs
@@ -753,12 +792,14 @@ class Game(BaseGame):
         -------
             A bool
         """
+
+        p_overall = apply_reduction(p_overall)
                 
         # Garante que p_overall está no intervalo [0, 100]
         # p_overall = max(0, min(100, p_overall))
 
         # Calcula a probabilidade de sucesso
-        p_success = 1 - p_overall / 100.0
+        p_success = 1 - p_overall / 50.0
 
         # Gera um número binomial com a probabilidade de sucesso
         result = np.random.binomial(num_trials, p_success)
