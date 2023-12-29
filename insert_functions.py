@@ -10,7 +10,6 @@ def check_yes_no(other_values: list = []):
 
     if value not in ['Y', 'n'] + other_values:
         raise ValueError(f'{value} is not valid! Try again!')
-        exit()
         
     return value
 
