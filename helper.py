@@ -40,6 +40,8 @@ class ClassConstructor:
 		Generates confronts between clubs
 	prepare_games(games: list, stadiums: list, competition: str, season: int)
 		Instantiate games
+	prepare_cup_games(games: list, competition: str, competition_id: int, season: str, phase: str, game_number: int, stadiums: list, first_leg_home_goals: int=0, first_leg_away_goals: int=0)
+		Instantiate cup games
 	prepare_clubs(cls, clubs_data: list, players_data: list)
 		Instantiate clubs & players and configure their formation
 	"""
@@ -188,7 +190,32 @@ class ClassConstructor:
 	def prepare_cup_games(games: list, competition: str, competition_id: int, 
 					   	  season: str, phase: str, game_number: int, stadiums: list, 
 						  first_leg_home_goals: int=0, first_leg_away_goals: int=0) -> list[Game]:
-		"""
+		"""Transform data into CupGame objects
+
+		Paramters
+		---------
+		games : list
+			A list of game data containing two clubs
+		competition : str
+			Name of the competition of this games
+		competition_id : int
+			A int value for the competition id
+		season : int
+			Season relating to this games
+		phase : str
+			A string value containing the phase name ex: round of 32 | round of 16 | ...
+		game_number : int
+			A int value between 1 or 2 for the match number
+		stadiums : list
+			A list of Stadium Objects
+		first_leg_home_goals : int
+			A int value for the home first leg goals. Default value is 0
+		first_leg_away_goals : int
+			A int value for the away first leg goals. Default value is 0
+		
+		Returns
+		-------
+			A list of CupGame objects 
 		"""
 		
 		return [ CupGame(i[0], i[1], competition, competition_id, season, phase, game_number, choice(stadiums), 
