@@ -44,7 +44,7 @@ class ChampionsController(BaseController):
 
 
         data = [season, division_id, club_id]
-        return cls.insert_register(cls.get_insert_query('insert_champions'), data)
+        return cls.insert_register(cls.get_query('insert','insert_champions'), data)
 
     @classmethod
     def check_champion(cls, season: str, competition_name: str, division_name: str) -> bool:
@@ -64,7 +64,7 @@ class ChampionsController(BaseController):
             True if there's a champion inserted on database and a False for not 
         """
 
-        data = cls.check_register(cls.get_check_query('check_champions'), [competition_name, division_name, season])
+        data = cls.check_register(cls.get_query('check', 'check_champions'), [competition_name, division_name, season])
         if data:
             return True
         return False

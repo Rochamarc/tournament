@@ -1,24 +1,49 @@
 import os
 import pathlib
 
-CURRENT_PATH = pathlib.Path(__file__).parent.resolve()
-
-# TODO refact all that get_query to just one receiving the method => insert, update, delete, etc
-
 import mysql.connector
+
+CURRENT_PATH = pathlib.Path(__file__).parent.resolve()
 
 
 class BaseController:
     """
     Base class that contains every property and functions used in other controllers
+    ...
+
+    Property
+    --------
+
+    database_config
+        A dict with database configuration
+
+    Methods
+    -------
+
+    get_query(db_method: str, file_name: str)
+        Get one query and returns as string
+    insert_register(query: str, data: list)
+        Make an insertion on database
+    insert_registers(query: str, data: list)
+        Make more than one insertion on database
+    select_register(query: str, data: list = [])
+        Make a selection on database
+    delete_register(query: str)
+        Make a delete on database
+    update_register(query: str, data: list)
+        Make an update on database
+    check_register(query: str, data: list)
+        Make a consult on database
     """
 
     @classmethod
-    def get_check_query(cls, file_name: str) -> str:
-        """Get one query on db/queries/check
+    def get_query(cls, db_method: str, file_name: str) -> str:
+        """Get one query on db/queries/
 
         Parameters
         ----------
+        db_method : str
+            Name of the action that the user wanna made ex: select | insert | update | delete | check
         file_name : str
             Name of the file inside the path without the file extension
         
@@ -31,11 +56,11 @@ class BaseController:
         FileNotFoundError
             If the file doesnt exists
         """
-
+        
         file_path = os.path.join(
             CURRENT_PATH,
             'queries',
-            'check',
+            db_method,
             '{}.sql'.format(file_name)            
         )
 
@@ -43,136 +68,7 @@ class BaseController:
             with open(file_path, 'r') as file:
                 return ''.join(file.readlines())
         except: 
-            raise FileNotFoundError("File {} doesn't exists".format(file_path))
-
-    @classmethod
-    def get_delete_query(cls, file_name: str) -> str:
-        """Get one query on db/queries/select
-
-        Parameters
-        ----------
-        file_name : str
-            Name of the file inside the path without the file extension
-        
-        Returns
-        -------
-            A string with the query in the file
-
-        Raises
-        ------
-        FileNotFoundError
-            If the file doesnt exists
-        """
-
-        file_path = os.path.join(
-            CURRENT_PATH,
-            'queries',
-            'delete',
-            '{}.sql'.format(file_name)            
-        )
-
-        try:
-            with open(file_path, 'r') as file:
-                return ''.join(file.readlines())
-        except: 
-            raise FileNotFoundError("File {} doesn't exists".format(file_path))
-
-
-    @classmethod
-    def get_select_query(cls, file_name: str) -> str:
-        """Get one query on db/queries/select
-
-        Parameters
-        ----------
-        file_name : str
-            Name of the file inside the path without the file extension
-        
-        Returns
-        -------
-            A string with the query in the file
-
-        Raises
-        ------
-        FileNotFoundError
-            If the file doesnt exists
-        """
-        
-        file_path = os.path.join(
-            CURRENT_PATH,
-            'queries',
-            'select',
-            '{}.sql'.format(file_name)            
-        )
-
-        try:
-            with open(file_path, 'r') as file:
-                return ''.join(file.readlines())
-        except: 
-            raise FileNotFoundError("File {} doesn't exists".format(file_path))
-    
-    @classmethod
-    def get_update_query(cls, file_name: str) -> str:
-        """Get one query on db/queries/update
-
-        Parameters
-        ----------
-        file_name : str
-            Name of the file inside the path without the file extension
-        
-        Returns
-        -------
-            A string with the query in the file 
-
-        Raises
-        ------
-        FileNotFoundError
-            If the file doesnt exists
-        """
-
-        file_path = os.path.join(
-            CURRENT_PATH,
-            'queries',
-            'update',
-            '{}.sql'.format(file_name)            
-        )
-        
-        try:
-            with open(file_path, 'r') as file:
-                return ''.join(file.readlines())
-        except:
-            raise FileNotFoundError("File {} doesn't exists".format(file_path))
-
-    @classmethod
-    def get_insert_query(cls, file_name: str) -> str:
-        """Get one query on db/queries/insert
-
-        Parameters
-        ----------
-        file_name : str
-            Name of the file inside the path without the file extension
-        
-        Returns
-        -------
-            A string with the query in the file
-
-        Raises
-        ------
-        FileNotFoundError
-            If the file doesnt exists
-        """
-
-        file_path = os.path.join(
-            CURRENT_PATH,
-            'queries',
-            'insert',
-            '{}.sql'.format(file_name)            
-        )
-        
-        try:
-            with open(file_path, 'r') as file:
-                return ''.join(file.readlines())
-        except:
-            raise FileNotFoundError("File {} doesn't exists".format(file_path))
+            raise FileNotFoundError("File {} doesn't exists".format(file_path))        
     
     @classmethod
     def insert_register(cls, query: str, data: list) -> None:
@@ -336,7 +232,6 @@ class BaseController:
 
         return exit_data
     
-
     @classmethod
     @property
     def database_config(cls):

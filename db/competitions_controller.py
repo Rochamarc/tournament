@@ -25,5 +25,5 @@ class CompetitionsController(BaseController):
             A list with a set containing the id from competition
         """
 
-        return cls.select_register(cls.get_select_query('select_competition_id'), [competition_name])
+        return cls.select_register(cls.get_query('select','select_competition_id'), [competition_name])
         
