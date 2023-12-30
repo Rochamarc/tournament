@@ -1,9 +1,18 @@
 def check_yes_no(other_values: list = []):
-    """Will ask for user to type an Y or n
+    """Asks for an input and check if the input is Y or n
+
+    Parameters
+    ----------
+    other_values : list
+        A default empty lists, add other valid values for input 
+
+    Raises
+    ------
+        ValueError if the value passed on input is invalid
 
     Return
     ------
-        One digit string with Y or n
+        A string containing a valid value for 'yes' or 'no'
     """
 
     value = input("Do you wanna procede [Y/n]: ")
@@ -15,11 +24,17 @@ def check_yes_no(other_values: list = []):
 
 
 def check_for_season():
-    """Check if the user type a viable value for season
+    """Asks for an input and check if the input is a string value that can be 
+    convert as an integer and if the value has length of 4
+
+    Raises
+    ------
+        ValueError if the len is diff than 4
+        TypeError if the value cannot be convert to an integer
 
     Returns
     -------
-        A string containing a season
+        A string containing a valid value for season
     """
 
     value = input("Type the season: ")
