@@ -249,7 +249,7 @@ class ChampionshipsController(BaseController):
             True if returns some data False if returns noting 
         """
 
-        data = cls.check_register(cls.get_check_query('check_championships'), [club_id, season, competition_name])
+        data = cls.check_register(cls.get_query('check', 'check_championships'), [club_id, season, competition_name])
 
         if data:
             return True
@@ -276,3 +276,15 @@ class ChampionshipsController(BaseController):
         if data:
             return True 
         return False
+    
+    @classmethod
+    def select_seasons_from_championships(cls) -> list[set]:
+        """Select championships seasons that are registerd in championships
+        
+        Returns
+        -------
+            A list of set with values of season
+        """
+
+        return cls.select_register(cls.get_query('select', 'select_distinct_championships_season'))
+    
