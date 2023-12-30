@@ -42,7 +42,7 @@ class PlayersController(BaseController):
             None
         """
         
-        return cls.insert_registers(cls.get_insert_query('insert_players'), players_data)
+        return cls.insert_registers(cls.get_query('insert', 'insert_players'), players_data)
 
     @classmethod
     def insert_player_stats(cls, stats_data : list) -> None:
@@ -60,7 +60,7 @@ class PlayersController(BaseController):
             None
         """
 
-        return cls.insert_register(cls.get_insert_query('insert_stats'), stats_data)
+        return cls.insert_register(cls.get_query('insert', 'insert_stats'), stats_data)
     
     @classmethod
     def insert_players_stats(cls, stats_datas : list) -> None:
@@ -78,7 +78,7 @@ class PlayersController(BaseController):
             None
         """
 
-        return cls.insert_registers(cls.get_insert_query('insert_stats'), stats_datas)
+        return cls.insert_registers(cls.get_query('insert', 'insert_stats'), stats_datas)
     
     @classmethod
     def select_last_players(cls) -> list:
@@ -89,7 +89,7 @@ class PlayersController(BaseController):
             A list with 30 length containing player information
         """
 
-        return cls.select_register(cls.get_select_query('select_last_players'))
+        return cls.select_register(cls.get_query('select','select_last_players'))
         
     @classmethod
     def select_all_players_id(cls) -> list:
@@ -100,7 +100,7 @@ class PlayersController(BaseController):
             A list of sets with (id,) column from the tournament.players
         """
         
-        return cls.select_register(cls.get_select_query('select_id_from_players'))
+        return cls.select_register(cls.get_query('select','select_id_from_players'))
 
     @classmethod
     def select_all_players_id_position(cls) -> list[set]:
@@ -111,7 +111,7 @@ class PlayersController(BaseController):
             A list of sets with (id, position,) from tournament.players
         """
 
-        return cls.select_register(cls.get_select_query('select_id_position_from_players'))
+        return cls.select_register(cls.get_query('select','select_id_position_from_players'))
 
 
     @classmethod
@@ -132,7 +132,7 @@ class PlayersController(BaseController):
             A list of Players data 
         """
 
-        return cls.select_register(cls.get_select_query('select_players_by_clubs'), [club_name, season])
+        return cls.select_register(cls.get_query('select','select_players_by_clubs'), [club_name, season])
 
 
     @classmethod
@@ -151,7 +151,7 @@ class PlayersController(BaseController):
             A list of Players data 
         """        
 
-        return cls.select_register(cls.get_select_query('select_players_by_contracts'), [season])
+        return cls.select_register(cls.get_query('select','select_players_by_contracts'), [season])
     
     @classmethod
     def select_players_by_contracts_and_class(cls) -> list[set]:
@@ -162,7 +162,7 @@ class PlayersController(BaseController):
             A list of sets with ['player_id', 'club_class', 'position']
         """
         
-        return cls.select_register(cls.get_select_query('select_players_and_clubs_class_by_contracts'))
+        return cls.select_register(cls.get_query('select','select_players_and_clubs_class_by_contracts'))
     
     @classmethod
     def delete_players(cls) -> None:

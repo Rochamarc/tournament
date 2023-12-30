@@ -29,7 +29,7 @@ class CoachesController(BaseController):
             None
         """
 
-        return cls.insert_registers(cls.get_insert_query('insert_coaches'), coaches_data)
+        return cls.insert_registers(cls.get_query('insert', 'insert_coaches'), coaches_data)
 
 
     @classmethod
@@ -41,7 +41,7 @@ class CoachesController(BaseController):
             A list of lists with: id
         """
 
-        return cls.select_register(cls.get_select_query('select_id_from_coaches')) 
+        return cls.select_register(cls.get_query('select','select_id_from_coaches')) 
 
     @classmethod
     def delete_coaches(cls) -> None:
@@ -52,7 +52,7 @@ class CoachesController(BaseController):
             None
         """
 
-        return cls.delete_register(cls.get_delete_query('delete_coaches'))
+        return cls.delete_register(cls.get_query('delete', 'delete_coaches'))
 
 if __name__ == "__main__":
     print(CoachesController().select_id())

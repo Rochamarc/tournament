@@ -27,4 +27,4 @@ class PlayerContractsController(BaseController):
             None
         """
         
-        return cls.insert_registers(cls.get_insert_query('insert_player_contracts'), player_contracts_data)
+        return cls.insert_registers(cls.get_query('insert', 'insert_player_contracts'), player_contracts_data)

@@ -27,6 +27,6 @@ class CoachContractsController(BaseController):
             None
         """
 
-        return cls.insert_registers(cls.get_insert_query('insert_coach_contracts'), coach_contracts_data)
+        return cls.insert_registers(cls.get_query('insert', 'insert_coach_contracts'), coach_contracts_data)
          
     

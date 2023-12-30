@@ -35,7 +35,7 @@ class GamesController(BaseController):
             None
         """
         
-        return cls.insert_registers(cls.get_insert_query('insert_game'), games_data)
+        return cls.insert_registers(cls.get_query('insert', 'insert_game'), games_data)
     
     @classmethod
     def insert_game(cls, game_data: list) -> list[set]:
@@ -52,9 +52,9 @@ class GamesController(BaseController):
         """
         
         # insert a game into database
-        cls.insert_register(cls.get_insert_query('insert_game'), game_data)
+        cls.insert_register(cls.get_query('insert', 'insert_game'), game_data)
 
-        return cls.select_register(cls.get_select_query('select_last_game'))
+        return cls.select_register(cls.get_query('select','select_last_game'))
 
 
     @classmethod
@@ -72,7 +72,7 @@ class GamesController(BaseController):
             A list containing the game_stats.id from the game_stats inserted in db
         """
 
-        cls.insert_register(cls.get_insert_query('insert_game_stats'), game_data)
+        cls.insert_register(cls.get_query('insert', 'insert_game_stats'), game_data)
         
         return cls.select_last_game_stats_id()
     
@@ -85,7 +85,7 @@ class GamesController(BaseController):
             A list with id from last game_stats row
         """
         
-        return cls.select_register(cls.get_select_query('select_game_stats_id_last_inserted'))
+        return cls.select_register(cls.get_query('select','select_game_stats_id_last_inserted'))
 
     @classmethod
     def insert_knock_out(cls, knock_out_data: list, second_leg: bool = False) -> None:
@@ -108,9 +108,9 @@ class GamesController(BaseController):
         cursor = conn.cursor()
 
         if not second_leg:
-            cursor.execute(cls.get_insert_query('insert_knock_out_first_leg'), knock_out_data)
+            cursor.execute(cls.get_query('insert', 'insert_knock_out_first_leg'), knock_out_data)
         else:
-            cursor.execute(cls.get_insert_query('insert_knock_out_second_leg'), knock_out_data)
+            cursor.execute(cls.get_query('insert', 'insert_knock_out_second_leg'), knock_out_data)
 
         conn.commit()
         conn.close()
