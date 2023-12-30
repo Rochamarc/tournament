@@ -15,6 +15,8 @@ from logs_helper import LogsHandler
 
 from insert_functions import check_yes_no, check_for_season
 
+from data_formulation import pretty_print, print_stars
+
 # TODO nao ta atualizando o championships 
 #
 #
@@ -52,10 +54,16 @@ promo = check_yes_no(other_values=['y'])
 
  
 if promo in ['Y','y']:
+    # Seasons that are registered in db
+
+    print_stars('Seasons saved on championships season')
+    seasons = championships_controller.select_seasons_from_championships()
+    pretty_print(seasons)
+
     print("Promoting and relegating clubs")
 
     # this block will change the season 
-    print("Enter a valid season")
+    print_stars("Enter a valid season")
     season = check_for_season() 
     
     previous_season = str(int(season) -1)
