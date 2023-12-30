@@ -221,6 +221,13 @@ CREATE TABLE group_phase(
     competition_id INT
 );
 
+CREATE TABLE international_competition_classifications(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    season CHAR(4) NOT NULL,
+    competition_id INT NOT NULL,
+    club_id INT NOT NULL 
+);
+
 
 /* NEW SYSTEM 
 
@@ -393,6 +400,17 @@ REFERENCES divisions(id);
 
 ALTER TABLE champions
 ADD CONSTRAINT fk_champions_clubs
+FOREIGN KEY(club_id)
+REFERENCES clubs(id);
+
+-- INTERNATIONAL CLUBS CLASSIFICATION FOR LIBERTADORES/SUDAMERICANA
+ALTER TABLE international_competition_classifications
+ADD CONSTRAINT FK_INERNATIONAL_COMPETITION_CLASSIFICATIONS_COMPETITIONS
+FOREIGN KEY (competition_id)
+REFERENCES competitions(id);
+
+ALTER TABLE international_competition_classifications
+ADD CONSTRAINT FK_INERNATIONAL_COMPETITION_CLASSIFICATIONS_CLUBS
 FOREIGN KEY(club_id)
 REFERENCES clubs(id);
 
