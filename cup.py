@@ -22,6 +22,7 @@ cup_helper = CupHelper()
 
 initial_season = '2022'
 
+copa_do_brasil_id = 3
 
 # Select stadiums 
 stadiums_data = stadiums_controller.select_all_stadiums()
@@ -44,14 +45,14 @@ clubs = class_constructor.prepare_clubs(clubs_data, players_data)
 
 # First leg of round of 32
 game_data = cup_helper.sort_simple_cup_confronts(clubs) # Define the condronts
-games = class_constructor.prepare_games(game_data, stadiums, 'Copa do Brasil', int(initial_season)) # Here are the round of 32 games
+games = class_constructor.prepare_games(game_data, stadiums, 'Copa do Brasil', copa_do_brasil_id, int(initial_season)) # Here are the round of 32 games
 
 rnd_32 = cup_helper.run_cup_phase('Round of 32', 1, 3, games)
 print(rnd_32)
 
 # Second leg
 game_data = cup_helper.invert_confronts(game_data)
-games = class_constructor.prepare_games(game_data, stadiums, 'Copa do Brasil', int(initial_season))
+games = class_constructor.prepare_games(game_data, stadiums, 'Copa do Brasil', copa_do_brasil_id, int(initial_season))
 
 rnd_32 = cup_helper.run_cup_phase('Round of 32', 2, 3, games)
 print(rnd_32)
