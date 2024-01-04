@@ -5,8 +5,8 @@ from game import Game
 
 from random import choice
 
-# TODO  1- adicionar um sistema de penaltis
-#       2- adicisionar penaltis nos logs
+# TODO  1- adicionar um sistema de penaltis (x)
+#       2- adicionar penaltis nos logs
 #       3- declarar um vencedor caso vá aos penaltis
 #       4- modificar a base de dados para se adequar ao novo sistema
 #       
@@ -79,7 +79,11 @@ class CupGame(Game):
         return self.logs 
     
     def check_winner(self) -> bool:
-        """
+        """Check's if the game has a winner on second game
+
+        Returns
+        -------
+            True if has a winner and False if it's a tie
         """
         
         home_goals = self.home_goal + self.first_leg_home_goals
@@ -92,14 +96,25 @@ class CupGame(Game):
         return True
 
     def add_first_leg_goals(self, home_goals: int, away_goals: int) -> None:
-        """
+        """Add goals on logs
+
+        Parameters
+        ----------
+        home_goals : int
+            A integer value of home_goals
+        away_goals : int
+            A integer value of away_goals
+
+        Returns
+        -------
+            None
         """
     
         self.logs['game_info']['first_leg_home_goals'] = home_goals
         self.logs['game_info']['first_leg_away_goals'] = away_goals
 
     def penalty_shootout(self) -> None:
-        """Simulates a panlty shootout 5 alternate penalties for each club.
+        """Simulates a penalty shootout 5 alternate penalties for each club.
         if tie, the run one shoot until one of the club misses and the other get it right
         
         Returns
@@ -164,13 +179,19 @@ class CupGame(Game):
 
         Returns
         -------
-            A bool for shooter & keeper decision using AND operator
+            decision between shooter and keeper
         """
-        return self.decision(shooter.overall) and self.decision(keeper.overall, num_trials=3)
+
+        return self.decision(shooter.overall) and self.decision(keeper.overall)
 
     def check_penalties_winner(self) -> Club:
+        """Check for a penalties winner
+
+        Returns
+        -------
+            home if home_penalties > away_penalties or away         
         """
-        """
+
         if self.home_penalties > self.away_penalties:
             return self.home
         return self.away    
