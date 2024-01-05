@@ -1,0 +1,1 @@
+INSERT INTO qualifiers VALUES (NULL, %s, %s, %s, %s);

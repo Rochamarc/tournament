@@ -242,6 +242,13 @@ now
     away_penalties -> penalties
 */
 
+CREATE TABLE qualifiers(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    season CHAR(4) NOT NULL,
+    phase VARCHAR(100) NOT NULL,
+    club_id INT,
+    competition_id INT
+);
 
 CREATE TABLE knock_out(
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -413,6 +420,16 @@ ALTER TABLE international_competition_classifications
 ADD CONSTRAINT FK_INERNATIONAL_COMPETITION_CLASSIFICATIONS_CLUBS
 FOREIGN KEY(club_id)
 REFERENCES clubs(id);
+
+ALTER TABLE qualifiers
+ADD CONSTRAINT fk_qualifiers_clubs
+FOREIGN KEY(club_id)
+REFERENCES clubs(id);
+
+ALTER TABLE qualifiers
+ADD CONSTRAINT fk_qualifiers_competitions
+FOREIGN KEY(competition_id)
+REFERENCES competitions(id);
 
 /* ADD TRIGGERS */
 
