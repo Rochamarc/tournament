@@ -94,25 +94,31 @@ class GamesController(BaseController):
         Parameters
         ----------
         knock_out_data : list
-            A list containing data to knock_out table 
-            if second_leg is False knock_out_data = [ season, phase, single_match, match_number, home_id, away_id, home_game_stats, away_game_stats, competition_id ]
-            if second_leg is True knock_out_data = [ season, phase, single_match, match_number, penalties, home_penalties, away_penalties, home_id, away_id, home_game_stats, away_game_stats, competition_id ]
+            Data for knock out phase, single_match, match_number, game_id, penalty_id
         second_leg : bool
             Parameter to select insert query
         Returns
         -------
             None
         """
-
-        conn = mysql.connector.connect(**cls.database_config)
-        cursor = conn.cursor()
-
-        if not second_leg:
-            cursor.execute(cls.get_query('insert', 'insert_knock_out_first_leg'), knock_out_data)
-        else:
-            cursor.execute(cls.get_query('insert', 'insert_knock_out_second_leg'), knock_out_data)
-
-        conn.commit()
-        conn.close()
+        cls.insert_register(cls.get_query('insert', 'insert_knock_out_first_leg'), knock_out_data)
 
         return None
+    
+    @classmethod
+    def insert_penalty(cls, data: list) -> list[set]:
+        """Insert a penalty data into tournament.penalties
+
+        Parameters
+        ----------
+        data : list
+            A list continaint 0 or 1 for penalty | a value for away_penalty | a int value for away penalty
+        
+        Returns
+        -------
+            A int for penalty id
+        """
+
+        cls.insert_register(cls.get_query('insert', 'insert_penalty'))
+
+        return cls.select_register(cls.get_query('select', 'select_last_penalty'))

@@ -1,5 +1,1 @@
-INSERT INTO knock_out(  phase, 
-                        single_match, 
-                        match_number, 
-                        game_id) 
-VALUES (%s, %s, %s, %s);
+INSERT INTO knock_out VALUES (NULL, %s, %s, %s, %s, %s);
