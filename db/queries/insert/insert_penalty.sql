@@ -1,0 +1,1 @@
+INSERT INTO penalties VALUES(NULL, %s, %s, %s);
