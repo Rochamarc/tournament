@@ -193,7 +193,19 @@ class BaseGame:
 
         self.logs['others']['home_goals'] = self.home_goal
         self.logs['others']['away_goals'] = self.away_goal
+    
+    def prepare_penalties_data(self) -> list:
+        """Return penalties data from self.logs
 
+        Returns
+        -------
+            A list containing 1, home_penalties, away_penalties
+        """
+        
+        if self.home_penalties or self.away_penalties:
+            return [ 1, self.home_penalties, self.away_penalties ]
+        return [ 0, 0, 0 ]
+        
     def update_penalties_on_logs(self) -> None:
         """Update the penalties on logs['others']['home_penalties'] & logs['others']['away_penalties']
         ps: This adds two new values to dictionary, they don't have this two keys originaly

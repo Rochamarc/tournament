@@ -1,0 +1,1 @@
+SELECT id FROM penalties ORDER BY (id) DESC LIMIT 1;
