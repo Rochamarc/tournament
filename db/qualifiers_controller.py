@@ -5,11 +5,13 @@ class QualifiersController(BaseController):
     """
 
     @classmethod
-    def insert_qualifiers(cls, clubs: list, phase: str, competition_id: int) -> None:
+    def insert_qualifiers(cls, season: str, clubs: list, phase: str, competition_id: int) -> None:
         """Insert a list of clubs qualifiers to a phase of a competition
 
         Parameters
         ----------
+        season : str
+            A string containing a season
         clubs : list
             A list of ids of clubs
         phase : str
@@ -23,6 +25,6 @@ class QualifiersController(BaseController):
         """
         
         for club in clubs:
-            cls.insert_register(cls.get_query('insert','insert_qualifiers'), [phase, club, competition_id])
+            cls.insert_register(cls.get_query('insert','insert_qualifiers'), [season, phase, club, competition_id])
 
         return None
