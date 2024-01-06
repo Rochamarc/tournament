@@ -88,15 +88,14 @@ class GamesController(BaseController):
         return cls.select_register(cls.get_query('select','select_game_stats_id_last_inserted'))
 
     @classmethod
-    def insert_knock_out(cls, knock_out_data: list, second_leg: bool = False) -> None:
+    def insert_knock_out(cls, knock_out_data: list) -> None:
         """Insert a knock_out_data into tournament.knock_out
 
         Parameters
         ----------
         knock_out_data : list
             Data for knock out phase, single_match, match_number, game_id, penalty_id
-        second_leg : bool
-            Parameter to select insert query
+            
         Returns
         -------
             None
@@ -119,6 +118,6 @@ class GamesController(BaseController):
             A int for penalty id
         """
 
-        cls.insert_register(cls.get_query('insert', 'insert_penalty'))
+        cls.insert_register(cls.get_query('insert', 'insert_penalty'), data)
 
         return cls.select_register(cls.get_query('select', 'select_last_penalty'))
