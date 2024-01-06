@@ -22,7 +22,6 @@ class ClassConstructor:
 	"""
     Class focused in transform db data into objects
 
-    ...
 
     Methods
     -------
@@ -189,10 +188,11 @@ class ClassConstructor:
 	@staticmethod
 	def prepare_cup_games(games: list, competition: str, competition_id: int, 
 					   	  season: str, phase: str, game_number: int, stadiums: list, 
-						  first_leg_home_goals: int=0, first_leg_away_goals: int=0) -> list[Game]:
+						  first_leg_home_goals: int=0, first_leg_away_goals: int=0) -> list[CupGame]:
+		
 		"""Transform data into CupGame objects
 
-		Paramters
+		Parameters
 		---------
 		games : list
 			A list of game data containing two clubs
@@ -251,6 +251,8 @@ class CupHelper:
 	"""
 	Class focused on dealing with cup only functions
 
+	Methods
+	-------
 	sort_simple_cup_confronts(clubs_id: list)
 		Sort clubs confronts to the Copa Do Brasil
 	invert_confronts(confronts: list)
@@ -260,20 +262,48 @@ class CupHelper:
 	"""
 	
 	@staticmethod
-	def invert_confronts(confronts: list) -> list:
-		"""Prepare data for the 2 of 2 game
+	def invert_confronts(confronts: list, competition: str, competition_id: int, season: str, phase: str,
+					     game_number: int, stadiums: list) -> list[CupGame]:
+		"""Prepare games 2 of 2
 
 		Parameters
 		----------
 		confronts : list
-			A list of lists containing a pair of Club Objects
-
+			A list of game objects that alredy has been started
+		competition : str
+			Name of the competition of this games
+		competition_id : int
+			A int value for the competition id
+		season : int
+			Season relating to this games
+		phase : str
+			A string value containing the phase name ex: round of 32 | round of 16 | ...
+		game_number : int
+			A int value between 1 or 2 for the match number
+		stadiums : list
+			A list of Stadium Objects
+		
 		Returns
 		-------
-			A list of lists with inverted club position
+			A list of new CupGame updated with info necessary for the game 2 of 2
 		"""
 
-		return [ [confront[-1], confront[0]] for confront in confronts ]
+		games = []
+
+		for conf in confronts:
+			home = conf['clubs']['away']
+			away = conf['clubs']['home']
+			first_leg_home_goals = conf['cup_info']['first_leg_away_goals']
+			first_leg_away_goals = conf['cup_info']['first_leg_home_goals']
+			
+			stadium = choice(stadiums)
+
+			games.append(CupGame(home, away, competition, competition_id, season, 
+								phase, game_number, stadium, 
+								first_leg_home_goals=first_leg_home_goals, 
+								first_leg_away_goals=first_leg_away_goals))
+
+		return games
 	
 	@staticmethod
 	def sort_simple_cup_confronts(clubs: list) -> list[list]:
@@ -288,11 +318,12 @@ class CupHelper:
 		-------
 			A list of lists with two Club objects inside of each one
 		"""
+
 		shuffle(clubs)
 
 		data = []
 
-		for _ in range(len(clubs)//2):
+		for _ in range(len(clubs) // 2):
 			home = clubs.pop()
 			away = clubs.pop()
 
@@ -301,18 +332,26 @@ class CupHelper:
 		return data
 	
 	@staticmethod
-	def run_cup_phase(phase: str, match_number: int, competition_id: int, games: list) -> list:
-		"""Run all games from a cup
+	def run_cup_phase(phase: str, match_number: int, games: list, single_phase : int=0) -> list[CupGame]:
+		"""Run games from a cup phase
 
 		Parameters
 		----------
 		phase : str
 			A string with cup phase
+		match_number : int
+			A int value between 1 and two if the game is home/away
 		games : list
-			A list of games 
+			A list of cup games 
+		single_phase : int
+			A int value for single_phase. 0 if False 1 if True
+			
+		Returns
+		-------
+			A list of CupGame that already been started
 		"""
 		
-		single_phase = False 
+		logs = []
 
 		for game in games:
 			game.start()
@@ -324,14 +363,25 @@ class CupHelper:
 			home = games_controller.insert_game_stat_with_id_return(stats_data[0])
 			away = games_controller.insert_game_stat_with_id_return(stats_data[1])
 
-			# Game
-			game_stats_ids = [home[0][0], away[0][0]]
+			# Game stats id's
+			game_stats_ids = [ home[0][0], away[0][0] ]
 
 			game_data = logs_handler.prepare_game_logs_to_db(game.logs, game_stats_ids)
+			
+			# insert game data and return id
 			game_id = games_controller.insert_game(game_data)
+			game_id = game_id[0][0]
 
-			# knock out data
-			# this is obsolete, the kncok_out table has changed
-			knock_data = logs_handler.prepare_knock_out_logs_to_db(phase, single_phase, match_number, game_id[0][0])
+			# insert penalty into database
+			penalty_id = games_controller.insert_penalty(game.prepare_penalties_data())
+			penalty_id = penalty_id[0][0]
 
+			# prepare knock out data 
+			knock_data = logs_handler.prepare_knock_out_logs_to_db(phase, single_phase, match_number, game_id, penalties_id=penalty_id)
+			
+			# insert knock out
 			games_controller.insert_knock_out(knock_data)
+
+			logs.append(game.logs)
+			
+		return logs

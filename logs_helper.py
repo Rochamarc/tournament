@@ -204,15 +204,15 @@ class LogsHandler:
         return game_data
     
     @staticmethod
-    def prepare_knock_out_logs_to_db(phase: str, single_match: bool, match_number: int, game_id: int, penalties_id: int=False) -> list:
+    def prepare_knock_out_logs_to_db(phase: str, single_match: int, match_number: int, game_id: int, penalties_id: int=False) -> list:
         """Prepare data list for knock out table on database
         
         Attributes
         ----------
         phase : str
             A string with phase ex: 'round of 32', 'round of 16', 'quarter finals', 'semi finals', 'final'
-        single_match : bool
-            A bool value for two legs or one leg
+        single_match : int
+            A int value for single_match. 0 for false 1 for true
         match_number : int
             Number of the match 1 of 2 or 2 of 2 case of single_match = False
         game_id : int
