@@ -61,3 +61,8 @@ rnd_32 = cup_helper.run_cup_phase('Round of 32', 1, games, 3)
 games = cup_helper.invert_confronts(rnd_32, competition_name, copa_do_brasil_id, initial_season, 'Round of 32', 2, stadiums)
 
 rnd_32 = cup_helper.run_cup_phase('Round of 32', 2, games, 3)
+
+# TODO i can acess all the club.id from this rnd_32 varible
+# and can restart the process by running all the phases that are missing
+# Before that of course, we have to insert this clubs into database on qualifiers for the round of 16 phase
+# and also create a check for the qualifiers with this season, phase, match_number and competition
