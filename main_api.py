@@ -1,5 +1,3 @@
-from typing import Union
-
 from fastapi import FastAPI
 
 from db.clubs_controller import ClubsController
