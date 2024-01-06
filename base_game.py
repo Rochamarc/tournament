@@ -35,18 +35,15 @@ class BaseGame:
     def __init__(self, home: Club, away: Club, season: str, stadium: Stadium, competition: str, competition_id: int, ticket: int):
         ''' This will handle all that code that have to do with the game data '''
 
-        # THIS CAN BE IN BASEGAME
         self.home_goal = 0
         self.away_goal = 0
 
         self.home_penalties = 0
         self.away_penalties = 0
 
-        # THIS CAN BE IN BASEGAME
         self.home_player_goals = defaultdict(int)
         self.away_player_goals = defaultdict(int)
 
-        # THIS CAN BE IN BASEGAME
         self.home_subs = 5
         self.away_subs = 5
 
@@ -125,15 +122,19 @@ class BaseGame:
             },
             "clubs": {
                 "home_id": home.id,
-                "away_id": away.id
+                "away_id": away.id,
+                "home": home,
+                "away": away,
             },
             "competitions": {
                 "name": competition,
                 "id": competition_id
             },
             "stats": self.prepare_player_data_dict(home.squad, away.squad),
-            "game_info": {
-                
+            "game_info": {},
+            "cup_info": {
+                "first_leg_home_goals": 0,
+                "first_leg_away_goals": 0
             }
         }
 
@@ -243,17 +244,36 @@ class BaseGame:
             None
         """
         
-        if self.home_goal == self.away_goal:
-            self.logs['others']['draw'] = True 
-            return None
-        
-        if self.home_goal > self.away_goal:
-            winner = self.home.name
-            loser = self.away.name
+        if self.game_number == 2:
+            tie = (self.home_goal + self.first_leg_home_goals) == (self.away_goal + self.first_leg_away_goals)
+            home_winner = (self.home_goal + self.first_leg_home_goals) > (self.away_goal + self.first_leg_away_goals)
+            
+            if tie:
+                self.logs['others']['draw'] = True 
+                return None
+            
+            if home_winner:
+                winner = self.home.name
+                loser = self.away.name
+            else:
+                winner = self.away.name
+                loser = self.home.name 
         else:
-            winner = self.away.name
-            loser = self.home.name 
+            tie = self.home_goal == self.away_goal
+            home_winner = self.home_goal > self.away_goal
 
+            if tie:
+                self.logs['others']['draw'] = True 
+                return None
+            
+            if home_winner:
+                winner = self.home.name
+                loser = self.away.name
+            else:
+                winner = self.away.name
+                loser = self.home.name 
+
+            
         self.logs['others']['winner'] = winner
         self.logs['others']['loser'] = loser
     
