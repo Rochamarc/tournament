@@ -37,22 +37,21 @@
 
 ### TODO list da finalização e aumento de escopo
     PRIORIDADE (finalização do escopo)
-        - Rebaixar, promover (x)
-        - Levar pra libertadores os times 
+        - Rebaixar, promover (x) 
         - Premirar campeoes 
         - Inserir numeros dos jogadores na base de dados (x)
-        - Salvar campeões 
+        - Salvar campeões (x) 
         - Levar pra libertadores os times
         - Premirar campeoes (x)
-        - Inserir numeros dos jogadores na base de dados
+        - Inserir numeros dos jogadores na base de dados (x)
         - Salvar campeões (x)
         - Rodar as copas (do brasil, libetadores e sulamericana)
-        - Rankear jogadores por seus numeros (defesas, passes, gols e assistencias)
+        - Rankear jogadores por seus numeros (defesas, passes, gols e assistencias) (praticamente sendo feito atraves dos notebooks)
         - Gerar jogadores pros times de outros paises
         - Inserir outras ligas
         - Consertar saldo de gols na base de dados (x)
-        - Inserir competition id nos games normais
-        - Criar um selecionar de competições e divisões para pegar o id
+        - Inserir competition id nos games normais (x)
+        - Criar um selecionar de competições e divisões para pegar o id (x)
         
     NAO PRIORIDADE (aumento de escopo)
         - Nivelar as gerações de dados (comentado no Analysis Notebook)
@@ -63,7 +62,8 @@
         - Gerar jogadores de categorias de base 
         - Mercado de compra e venda de jogadores 
 
-Rodando a copa:
+# Finalizado
+Rodando a copa: (x)
     - Buscar gols do jogo de ida no banco de dados 
     - Guardar esses dados na classe Game -> Alterar BaseGame
     - Talvez fosse o caso de criar um CupGame(Game)
