@@ -40,12 +40,16 @@ CREATE TABLE stadiums(
     capacity INT
 );
 
+/*  Change this not null to null to adapt this   
+    to FREE AGENT 
+*/
+
 CREATE TABLE player_contracts(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    start CHAR(4) NOT NULL,
-    end CHAR(4) NOT NULL,
+    start CHAR(4),
+    end CHAR(4),
     transfer_amount INT,
-    salary INT NOT NULL,
+    salary INT,
     termination_fine INT,
     club_id INT,
     player_id INT
@@ -436,7 +440,9 @@ $
 DELIMITER ;
 
 
-/* PLAYER SKILL 
+/* 
+
+PLAYER SKILL 
 
 sliding_tackle
 shooting
@@ -449,10 +455,13 @@ long_passing
 marking
 
 penalties
+
 */
 
 
-/* CUPS TABLES 
+/* 
+
+CUPS TABLES 
 
 On knock_out
 match_number -> 1 or 2
@@ -462,6 +471,7 @@ ex: if single_match False
 */
 
 /*
+
 CREATE TABLE overall(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     season CHAR(4) NOT NULL,
@@ -473,4 +483,5 @@ ALTER TABLE overall
 ADD CONSTRAINT fk_overall_players
 FOREIGN KEY(player_id)
 REFERENCES players(id);
+
 */
