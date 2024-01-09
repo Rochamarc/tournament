@@ -86,7 +86,7 @@ class PlayersController(BaseController):
 
         Returns
         -------
-            A list with 30 length containing player information
+            A list with 30 length containing player's id, birth & position
         """
 
         return cls.select_register(cls.get_query('select','select_last_players'))
