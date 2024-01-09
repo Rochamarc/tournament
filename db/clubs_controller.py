@@ -21,12 +21,12 @@ class ClubsController(BaseController):
     """
     
     @classmethod
-    def select_id_name(cls) -> list[set]:
-        """Select id and name from clubs
+    def select_id_name_class(cls) -> list[set]:
+        """Select club's id, name & club_class
 
         Returns
         -------
-            A list of lists with: id, name
+            A list of lists with: id, name, club_class
         """
 
         return cls.select_register(cls.get_query('select','select_id_name_from_clubs'))

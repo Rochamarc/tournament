@@ -57,41 +57,36 @@ def get_skill_by_class(club_class: str) -> int:
         return randint(50,60)
         
 
-def generate_players_skills(season: str) -> None:
-    """Generate skill data for players and insert into database
+def generate_players_skills(season: str, players: list, club_class: str) -> None:
+    """Generate skill data for players
 
     Parameters
     ----------
     season : str
         A string with season value for the skill
+    players : list
+        A list containing player's data with: id and position
+    club_class : str
+        A 1 length string between A and D
+    
 
     Returns
     -------
-        None
+        A list of lists containing skills data 
     """ 
-
-    # TODO
-    # Essa função vai retirar todos os jogadores atraves do player contracts 
-    # e com isso terá acesso a classe do clube e assim criará a skill do jogador
-    # baseado nisso.
-    # Dados necessários: player_id, club_class, player_position, season
-    # skills_table: -> fk_player_id
-
-    players = players_controller.select_players_by_contracts_and_class()
     
     player_skills = []
 
     for player in players:
         player_id = player[0]
         player_position = player[-1]
-        club_class = player[1]
 
         data = get_skill_by_position(player_position, club_class)
         data.append(player_id)
 
         player_skills.append(data)
-
-    skills_controller.insert_skills(player_skills, season)
+        
+    return player_skills
     
 
 if __name__ == "__main__":
