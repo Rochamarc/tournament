@@ -40,7 +40,7 @@ class ClubsController(BaseController):
             A list of lists with: id
         """
 
-        res = cls.select_id_name()
+        res = cls.select_id_name_class()
         
         return [ r[0] for r in res ]
 
