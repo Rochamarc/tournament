@@ -23,6 +23,9 @@ skills_controller = SkillsController()
 
 # CREATE PLAYERS AND PLAYERS CONTRACT
 
+# Suport variables
+season = '2022'
+
 # Suport lists
 gk = ['GK']
 df = ['LB', 'RB', 'CB']
@@ -44,13 +47,15 @@ g_first_names = names_controller.select_first_names(nationality)
 g_last_names = names_controller.select_last_names(nationality)
 
 # Select clubs names and id
-clubs = clubs_controller.select_id_name()
+clubs = clubs_controller.select_id_name_class()
 
 # Create and insert a list of players data and insert into database
 print("Creating Players")
 
 for club in alive_it(clubs):
     club_id = club[0]
+    club_class = club[-1]
+
     n_for_player = { 'GK': 3, 'DF': 9, 'MF': 11, 'AT': 7 }
 
     players_data = []
@@ -92,12 +97,19 @@ for club in alive_it(clubs):
             # append player data
             players_data.append([ name, nationality, position, birth, height, weight, foot ])
             
-    # players insertion
+    # Insert 30 players into database
     players_controller.insert_players(players_data)
 
-    # Select the 30 last players created and insert a contract between a club and player
+    # Select last 30 last player from database
     last_players = players_controller.select_last_players()
     
+    # Inserting player's skills
+    print(f"Creating & Saving Player Skills from {club[1]}")
+    skills_data = generate_players_skills(season, last_players, club_class)
+
+    skills_controller.insert_skills(skills_data, season)
+
+
     # Here we insert contracts beteween clubs and players
     player_contracts = []
     for player in last_players:
@@ -106,19 +118,6 @@ for club in alive_it(clubs):
     
     player_contracts_controller.insert_player_contracts(player_contracts)
     
-
-# INSERT PLAYERS OVERALL
-
-# insert a players overall table with 
-season = '2022'
-
-# Select players id
-players = players_controller.select_all_players_id_position()
-
-# Create and insert data into database 
-
-print("Creating & Saving Player Skills")
-generate_players_skills(season)
 
 # CREATE COACHES
 
