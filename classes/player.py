@@ -47,8 +47,6 @@ class Player(Person):
     
     Properties
     ----------
-    desc()
-        Returns player attributes
     gk_average
         Calculates goal keeper skills average
     defense_average
@@ -85,32 +83,6 @@ class Player(Person):
         self.dribbling = dribbling
         self.long_shot = long_shot
         self.finishing = finishing
-
-    def desc(self) -> str:
-        """Describe player's information
-
-        Returns
-        -------
-            A big string with with all player attributes
-        """
-        
-        return f"""
-        id : {self.id}
-        position : {self.position}
-        height : {self.height}
-        weight : {self.weight}
-        foot : {self.foot}
-        club_id : {self.club_id}
-        positioning : {self.positioning} 
-        reflexes : {self.reflexes}
-        diving : {self.diving}
-        standing_tackle : {self.standing_tackle}
-        physical : {self.physical}
-        passing : {self.passing} 
-        dribbling : {self.dribbling}
-        long_shot : {self.long_shot}
-        finishing : {self.finishing}   
-        """
 
     @property
     def gk_average(self) -> int:
