@@ -51,8 +51,7 @@ def get_skill_by_class(club_class: str) -> int:
         return randint(50,60)
         
 
-# TODO change the -> None to list[list]
-def generate_players_skills(players: list, club_class: str) -> None:
+def generate_players_skills(players: list, club_class: str) -> list[list]:
     """Generate skill data for players
 
     Parameters
