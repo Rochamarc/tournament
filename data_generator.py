@@ -130,10 +130,6 @@ def generate_player_contracts(players: list, club_id: int, current_season: str) 
         A list of lists containing player_contracts data
     """
 
-    # TODO add transfer amount and termination fine as a none default varibles
-    # insert these variable through the query, to do this change the query
-    # to insert all columns from the player_contracts 
-
     player_contracts = []
 
     for player in players:
@@ -142,11 +138,14 @@ def generate_player_contracts(players: list, club_id: int, current_season: str) 
         # used to define extension
         age = int(current_season) - int(player[-1]) 
 
+        # columns of player_contracts by order
         start = current_season
         end = define_extension_by_age(age, current_season)
+        transfer_amount = None
         salary = 100_000 
+        termination_fine = None 
 
-        contract_data = [ start, end, salary, club_id, player_id ]
+        contract_data = [ start, end, transfer_amount, salary, termination_fine, club_id, player_id ]
 
         player_contracts.append(contract_data)
    
