@@ -159,7 +159,7 @@ def relegate_brazillian_tournament(championships_data: list, next_season: str, d
 
     return result
 
-def apply_reduction(value: int) -> int:
+def apply_reduction(value: int, weight: float) -> int:
     """Reduce value by multiplying the value for 
     0.25
 
@@ -167,13 +167,22 @@ def apply_reduction(value: int) -> int:
     ----------
     value : int
         An int value from 55 to 99
+    weight : float
+        A float value to multiply the value param. (the value has to between 1 and 0, and diff of one and zero)
+
+    Raises
+    ------
+        ValueError if the weight doenst follow the rule
 
     Returns
     -------
         A convert int value from result of value * 0.25 
     """
 
-    return int(value * 0.25)
+    if weight > 0 and weight < 0:
+        raise ValueError("The weight {} isn't between 1 and 0".format(weight))
+
+    return int(value * weight)
 
 if __name__ == "__main__":
     print(fomrmulate_clubs_to_simple_cup([[1]],[[2]]))

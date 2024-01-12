@@ -159,7 +159,7 @@ class Game(BaseGame):
 
         
         # variables about club's overall
-        attack_overall = apply_reduction(attack_club.overall)
+        attack_overall = apply_reduction(attack_club.overall, 0.25)
 
         if player_decision == 'keep_ball_possession':
             # Keep ball possession
@@ -763,7 +763,7 @@ class Game(BaseGame):
             A bool
         """
         
-        return randint(1,30) < apply_reduction(p_overall)
+        return randint(1,30) < apply_reduction(p_overall, 0.25)
     
     def check_subs(self, n_subs) -> bool:
         """Check for a sub based on number of subs
@@ -793,7 +793,7 @@ class Game(BaseGame):
             A bool
         """
 
-        p_overall = apply_reduction(p_overall)
+        p_overall = apply_reduction(p_overall, 0.25)
                 
         # Garante que p_overall está no intervalo [0, 100]
         # p_overall = max(0, min(100, p_overall))
