@@ -179,7 +179,7 @@ def apply_reduction(value: int, weight: float) -> int:
         A convert int value from result of value * 0.25 
     """
 
-    if weight > 0 and weight < 0:
+    if 0 < weight < 1:
         raise ValueError("The weight {} isn't between 1 and 0".format(weight))
 
     return int(value * weight)
