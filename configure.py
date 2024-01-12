@@ -8,7 +8,7 @@ from db.players_controller import PlayersController
 from db.player_contracts_controller import PlayerContractsController
 from db.skills_controller import SkillsController
 
-from data_generator import generate_players_skills
+from data_generator import generate_players_skills, generate_player_contracts
 
 from alive_progress import alive_it
 
@@ -20,8 +20,6 @@ names_controller = NamesController()
 players_controller = PlayersController()
 player_contracts_controller = PlayerContractsController()
 skills_controller = SkillsController()
-
-# CREATE PLAYERS AND PLAYERS CONTRACT
 
 # Suport variables
 season = '2022'
@@ -109,13 +107,10 @@ for club in alive_it(clubs):
 
     skills_controller.insert_skills(skills_data, season)
 
+    # Generate player contracts
+    player_contracts = generate_player_contracts(last_players, club_id, season)
 
-    # Here we insert contracts beteween clubs and players
-    player_contracts = []
-    for player in last_players:
-        # append players contracts
-        player_contracts.append([ '2022', '2026', 100_000, club_id, player[0] ])
-    
+    # Insert player contracts on database
     player_contracts_controller.insert_player_contracts(player_contracts)
     
 
@@ -123,6 +118,7 @@ for club in alive_it(clubs):
 
 # Create a list of countries to be coach.nationality
 countries = ['Brazil', 'Chile', 'Argentina', 'Uruguay', 'Portugal', 'Paraguay', 'Colombia', 'Venezuela' ]
+
 
 # Select clubs id
 clubs = clubs_controller.select_id()
