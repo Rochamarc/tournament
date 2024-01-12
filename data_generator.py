@@ -151,5 +151,33 @@ def generate_player_contracts(players: list, club_id: int, current_season: str) 
    
     return player_contracts
 
+def calculate_overall_per_player(values: list) -> list[int]:
+    """Calculate the overall of a player by list
+    
+    Parameters
+    ----------
+    values : list
+        A list of lists with skills values and player_id 
+
+    Returns
+    -------
+        A list of average mean of skills
+    """
+    
+    res = []
+
+    for value in values:
+        player_id = value.pop()
+
+        # remove the zeros 
+        v = [ i for i in value if i != 0 ]
+
+        # calculate average
+        avg = sum(v) // len(v) if len(v) > 0 else 0
+
+        res.append([avg, player_id])
+
+    return res
+
 if __name__ == "__main__":
     pass
