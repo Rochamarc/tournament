@@ -38,3 +38,19 @@ class SkillsController(BaseController):
                 query = cls.get_query('insert', 'insert_skills')
             
             cls.insert_register(query, skill)
+        
+    @classmethod
+    def select_skills(cls, season: str) -> list[set]:
+        """Select a list of skills_data
+
+        Parameters
+        ----------
+        season : str
+            A string value with valid season 
+        
+        Returns
+        -------
+            A list of sets with all skills data. last arg is player_id
+        """
+
+        return cls.select_register(cls.get_query('select', 'select_skills_by_season'), [season])
