@@ -168,6 +168,7 @@ def calculate_overall_per_player(values: list) -> list[int]:
     res = []
 
     for value in values:
+        value = list(value)
         player_id = value.pop()
 
         # remove the zeros 
