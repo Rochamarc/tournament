@@ -120,7 +120,7 @@ def generate_player_contracts(players: list, club_id: int, current_season: str) 
     Parameters
     ----------
     players : list
-        A list of lists contining players data: id & birth
+        A list of lists contining players data: id, birth & position
     club_id : int
         A integer value for club id
     current_season : str
@@ -137,7 +137,7 @@ def generate_player_contracts(players: list, club_id: int, current_season: str) 
         player_id = player[0]
 
         # used to define extension
-        age = int(current_season) - int(player[-1]) 
+        age = int(current_season) - int(player[1]) 
 
         # columns of player_contracts by order
         start = current_season
