@@ -54,3 +54,25 @@ class SkillsController(BaseController):
         """
 
         return cls.select_register(cls.get_query('select', 'select_skills_by_season'), [season])
+    
+    @classmethod
+    def select_last_skills(cls, season: str) -> list[set]:
+        """Select the last skills inserted from tournament.skills
+
+        Returns
+        -------
+            A list with 30 length containing [
+            positioning,
+            reflexes,
+            diving,
+            standing_tackle,
+            physical,
+            passing,
+            dribbling,
+            long_shot,
+            finishing,
+            player_id
+            ]
+        """
+
+        return cls.select_register(cls.get_query('select', 'select_last_skills'), [season])
