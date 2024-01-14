@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, randrange
 from data_manipulation import apply_reduction
 
 def get_skill_by_position(position: str, club_class: str) -> list[int]:
@@ -204,13 +204,13 @@ def define_value_by_age(age: int, overall: int=0) -> int:
     # 33_ -> min 5_000 max 10_000 
 
     if age >= 33:
-        return randint(5_000, 10_000)
+        return randrange(5_000, 10_000, 1_000)
     elif 29 <= age <= 32:
-        return randint(20_000, 40_000)
+        return randrange(20_000, 40_000, 1_000)
     elif 23 <= age <= 28:
-        return randint(40_000, 100_000)
+        return randrange(40_000, 100_000, 1_000)
     else:
-        return randint(10_000, 50_000)
+        return randrange(10_000, 50_000, 1_000)
 
 def define_value_by_position(position: str, overall: int=0) -> int:
     """Calculate a partial value for market value based on player's position
@@ -236,14 +236,14 @@ def define_value_by_position(position: str, overall: int=0) -> int:
     # AT -> min 10_000 max 100_000 
     
     if position == 'GK':
-        return randint(5_000, 10_000)
+        return randrange(5_000, 10_000, 1_000)
     
     if position in ['RB','LB', 'CB']:
-        return randint(5_000, 20_000)
+        return randrange(5_000, 20_000, 1_000)
     elif position in ['DM','AM','LM','RM','CM']:
-        return randint(5_000, 50_000)
+        return randrange(5_000, 50_000, 1_000)
     else:
-        return randint(10_000, 100_000)
+        return randrange(10_000, 100_000, 1_000)
 
 def define_value_by_overall(overall: int) -> int:
     """Calculate a partial value for the market value based on player's position
@@ -265,15 +265,15 @@ def define_value_by_overall(overall: int) -> int:
     #
 
     if red_overall == 5:
-        return randint(1_000, 5_000)
+        return randrange(1_000, 5_000, 1_000)
     if red_overall == 6:
-        return randint(10_000, 20_000)
+        return randrange(10_000, 20_000, 1_000)
     if red_overall == 7:
-        return randint(20_000, 30_000)
+        return randrange(20_000, 30_000, 1_000)
     if red_overall == 8:
-        return randint(50_000, 60_000)
+        return randrange(50_000, 60_000, 1_000)
     else:
-        return randint(70_000, 90_000)
+        return randrange(70_000, 90_000, 1_000)
 
 
 def calculate_market_value(players_data: list, season: str) -> list[list]:
