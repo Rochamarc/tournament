@@ -1,9 +1,8 @@
 import os
-import pathlib
 
 import mysql.connector
 
-CURRENT_PATH = pathlib.Path(__file__).parent.resolve()
+ABOVE_PATH = os.path.abspath(os.path.join(__file__, '../..'))
 
 
 class BaseController:
@@ -58,7 +57,7 @@ class BaseController:
         """
         
         file_path = os.path.join(
-            CURRENT_PATH,
+            ABOVE_PATH,
             'db',
             'queries',
             db_method,
