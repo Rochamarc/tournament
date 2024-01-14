@@ -1,4 +1,5 @@
 from random import randint
+from data_manipulation import apply_reduction
 
 def get_skill_by_position(position: str, club_class: str) -> list[int]:
     '''Define a list of values based on player position 
@@ -178,6 +179,136 @@ def calculate_overall_per_player(values: list) -> list[int]:
         res.append([avg, player_id])
 
     return res
+
+def define_value_by_age(age: int, overall: int=0) -> int:
+    """Calculate a partial value for market value based on player's age
+
+    Parameters
+    ----------
+    age : int
+        A valid integer value for a player age
+    overall : int
+        An integer value that matches his overall skills
+
+    Returns
+    -------
+        An int value 5_000 and 100_000
+    """
+    # TODO for now, the overall it's not gonna be
+    # used, add this calc before this scope is running fine
+
+    # 16_22 -> min 10_000 max 50_000 
+    # 23_28 -> min 40_000 max 100_000 
+    # 29_32 -> min 20_000 max 40_000 
+    # 33_ -> min 5_000 max 10_000 
+
+    if age >= 33:
+        return randint(5_000, 10_000)
+    elif 29 <= age <= 32:
+        return randint(20_000, 40_000)
+    elif 23 <= age <= 28:
+        return randint(40_000, 100_000)
+    else:
+        return randint(10_000, 50_000)
+
+def define_value_by_position(position: str, overall: int=0) -> int:
+    """Calculate a partial value for market value based on player's position
+
+    Parameters
+    ----------
+    position : str
+        A valid string value for a position
+    overall : int
+        An integer value that matches his overall skills
+
+    Returns
+    -------
+        An int value between 5_000 and 100_000
+    """
+
+    # TODO for now, the overall it's not gonna be
+    # used, add this calc before this scope is running fine
+
+    # GK -> min 5_000  max 10_000 
+    # DEF -> min 5_000 max 20_000
+    # MID -> min 5_000 max 50_000
+    # AT -> min 10_000 max 100_000 
+    
+    if position == 'GK':
+        return randint(5_000, 10_000)
+    
+    if position in ['RB','LB', 'CB']:
+        return randint(5_000, 20_000)
+    elif position in ['DM','AM','LM','RM','CM']:
+        return randint(5_000, 50_000)
+    else:
+        return randint(10_000, 100_000)
+
+def define_value_by_overall(overall: int) -> int:
+    """Calculate a partial value for the market value based on player's position
+
+    Parameters
+    ----------
+    overall : int
+        An integer that matches his overall skills
+
+    Returns
+    -------
+        An int value between 1_000 and 90_000
+    """
+    
+    red_overall = apply_reduction(overall, 0.1)
+    
+    # the red_overall goes from 5 to 10
+    # so we have basically 5 categories of values
+    #
+
+    if red_overall == 5:
+        return randint(1_000, 5_000)
+    if red_overall == 6:
+        return randint(10_000, 20_000)
+    if red_overall == 7:
+        return randint(20_000, 30_000)
+    if red_overall == 8:
+        return randint(50_000, 60_000)
+    else:
+        return randint(70_000, 90_000)
+
+
+def calculate_market_value(players_data: list, season: str) -> list[list]:
+    """Calculate the market value for the player
+
+    Parameters
+    ----------
+    players_data : list
+        A list containing players information as: id, birth, position, overall (for now thats all the data i need)
+    season : str
+        A string containing a valid value for season
+
+    Returns
+    -------
+        A list of list containing the season, market_value & player's id (the market_value table columns)    
+    """
+    
+    data = []
+
+    for player in players_data:
+        # get the id
+        player_id = player[0]
+
+        # get the player's age
+        age = int(season) - int(player[1])
+        position = player[2] 
+        overall = player[-1]
+
+        # first step of defining a partial value
+        market_value = define_value_by_age(age)
+        market_value += define_value_by_position(position)
+        market_value += define_value_by_overall(overall)    
+
+        data.append([ season, market_value, player_id ])
+
+    return 
 
 if __name__ == "__main__":
     pass
