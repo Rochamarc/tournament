@@ -1,1 +1,0 @@
-INSERT INTO overall VALUES(NULL, %s, %s, %s)
