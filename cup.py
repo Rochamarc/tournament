@@ -1,9 +1,9 @@
-from db.championships_controller import ChampionshipsController
-from db.clubs_controller import ClubsController
-from db.games_controller import GamesController
-from db.stadiums_controller import StadiumsController
-from db.players_controller import PlayersController
-from db.qualifiers_controller import QualifiersController
+from controllers.championships_controller import ChampionshipsController
+from controllers.clubs_controller import ClubsController
+from controllers.games_controller import GamesController
+from controllers.stadiums_controller import StadiumsController
+from controllers.players_controller import PlayersController
+from controllers.qualifiers_controller import QualifiersController
 
 from logs_helper import LogsHandler
 from data_manipulation import fomrmulate_clubs_to_simple_cup

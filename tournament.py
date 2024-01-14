@@ -3,9 +3,9 @@ from alive_progress import alive_it
 from data_helper import prepare_player_stats_to_db
 from logs_helper import LogsHandler
 
-from db.championships_controller import ChampionshipsController
-from db.games_controller import GamesController
-from db.players_controller import PlayersController
+from controllers.championships_controller import ChampionshipsController
+from controllers.games_controller import GamesController
+from controllers.players_controller import PlayersController
 
 logs_handler = LogsHandler()
 

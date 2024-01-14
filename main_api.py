@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from db.clubs_controller import ClubsController
-from db.players_controller import PlayersController
+from controllers.clubs_controller import ClubsController
+from controllers.players_controller import PlayersController
 
 clubs_controller = ClubsController()
 players_controller = PlayersController()

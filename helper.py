@@ -3,7 +3,7 @@ from classes.formation import Formation
 from classes.player import Player
 from classes.stadium import Stadium
 
-from db.games_controller import GamesController
+from controllers.games_controller import GamesController
 
 from logs_helper import LogsHandler
 
