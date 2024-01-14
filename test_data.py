@@ -1,4 +1,4 @@
-from data_manipulation import apply_reduction
+from data_manipulation import apply_reduction, formulate_data_for_market_value
 from data_generator import define_value_by_age, define_value_by_position, define_value_by_overall
 
 import unittest
@@ -60,3 +60,34 @@ def test_value_80_89():
 def test_value_90_higher():
     assert 70_000 <= define_value_by_overall(98) <= 90_000
 
+
+class TestDataMarket(unittest.TestCase):
+    # define three lists
+    a = [
+        [ 1,'1997', 'GK' ],
+        [ 2,'1996', 'CB' ],
+        [ 3,'1995', 'AM' ],
+    ]
+
+    b = [
+        [78, 1],
+        [77, 2],
+        [87, 3],
+    ]
+
+    c = [
+        [ 1,'1997', 'GK', 78 ],
+        [ 2,'1996', 'CB', 77 ],
+        [ 3,'1995', 'AM', 87 ],
+    ]
+
+    # test data for market value
+    def test_data_for_market_value(self):
+        assert formulate_data_for_market_value(self.a, self.b) == self.c
+    
+    def test_data_with_diff_length(self):
+        b = self.b.copy()
+        b.remove(b[-1])
+
+        with self.assertRaises(Exception):
+            formulate_data_for_market_value(self.a, b)
