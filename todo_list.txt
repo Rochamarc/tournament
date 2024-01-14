@@ -1,19 +1,3 @@
-- Otimização 
-    * Criar contratos para treinadores (x)
-    * Reconstruir os clubes de acordo com a nova versão (x)
-
-- Criação (x)
-    * Criar os demais controllers que fazem o simulador rodar 
-    * Connectar os controllers aos arquivos que fazem o simulador rodar
-
-- Debug (x)
-    * Rodar o simulador de acordo com as novas versões ´basicamente game.py´
-
-- Refatoração (x)
-    * Refatorar provavelmente 70% do game.py
-    * Redistribuição de funcionalidades do game.py para outros modulos/classes/funções 
-
-
 # Novembro de 2023
     TODO LIST
         * Adicionar o update dos championships table 
@@ -37,21 +21,12 @@
 
 ### TODO list da finalização e aumento de escopo
     PRIORIDADE (finalização do escopo)
-        - Rebaixar, promover (x) 
         - Premirar campeoes 
-        - Inserir numeros dos jogadores na base de dados (x)
-        - Salvar campeões (x) 
         - Levar pra libertadores os times
-        - Premirar campeoes (x)
-        - Inserir numeros dos jogadores na base de dados (x)
-        - Salvar campeões (x)
         - Rodar as copas (do brasil, libetadores e sulamericana)
         - Rankear jogadores por seus numeros (defesas, passes, gols e assistencias) (praticamente sendo feito atraves dos notebooks)
         - Gerar jogadores pros times de outros paises
         - Inserir outras ligas
-        - Consertar saldo de gols na base de dados (x)
-        - Inserir competition id nos games normais (x)
-        - Criar um selecionar de competições e divisões para pegar o id (x)
         
     NAO PRIORIDADE (aumento de escopo)
         - Nivelar as gerações de dados (comentado no Analysis Notebook)
@@ -62,25 +37,50 @@
         - Gerar jogadores de categorias de base 
         - Mercado de compra e venda de jogadores 
 
-# Finalizado
-Rodando a copa: (x)
-    - Buscar gols do jogo de ida no banco de dados 
-    - Guardar esses dados na classe Game -> Alterar BaseGame
-    - Talvez fosse o caso de criar um CupGame(Game)
+# Db working tree
+Now
+    db/
+        analysis_database/
+        testing_tournament/
+        queries/
+            check/
+            delete/
+            insert/
+            select/
+                analysis_queries/
+            update/
+New
+    db/
+        tournament_analysis/
+            queries/
+                select/
+                insert/
+        tournament_test/
+        tournament/
+            queries/
+                insert/
+                delete/
+                check/
+                update/
+                select/
+                    # this is separeted by controller not db_table
+                    players/
+                    championships/
+                    ...
+                reset/
 
-    stats.matches,
-    stats.shots,
-    stats.shots_on_target,
-    stats.goals,
-    stats.assists,
-    stats.fouls_committed,
-    stats.tackles,
-    stats.passes,
-    stats.wrong_passes,
-    stats.intercepted_passes,
-    stats.clearances,
-    stats.stolen_balls,
-    stats.clean_sheets,
-    stats.defenses,
-    stats.difficult_defenses,
-    stats.goals_conceded,
+# atualizar base controler on select para se adequar a nova arvore
+# analisar/atualizar os controllers que fazem pelo menos por enquanto o select
+# analisar/atualizar o database_initialize.sh para ver se há necessidade
+
+# Merging controllers
+champions_controller -> championships_controller
+player_contracts_controller, skills_controller -> players_controller
+coach_contracts_controller -> coach_controller
+
+# Examples
+# run pydoc markdown
+    * pydoc-markdown -I classes/. --render-toc > classes.md 
+
+# run uvicorn
+    * uvicorn main_api:app --reload
