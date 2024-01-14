@@ -8,7 +8,8 @@ from db.players_controller import PlayersController
 from db.player_contracts_controller import PlayerContractsController
 from db.skills_controller import SkillsController
 
-from data_generator import generate_players_skills, generate_player_contracts
+from data_generator import generate_players_skills, generate_player_contracts, calculate_market_value, calculate_overall_per_player
+from data_manipulation import formulate_data_for_market_value
 
 from alive_progress import alive_it
 
@@ -103,9 +104,26 @@ for club in alive_it(clubs):
     
     # Inserting player's skills
     print(f"Creating & Saving Player Skills from {club[1]}")
-    skills_data = generate_players_skills(season, last_players, club_class)
+    skills_data = generate_players_skills(last_players, club_class)
 
+    # insert the skills per season     
     skills_controller.insert_skills(skills_data, season)
+    
+    # select last skills
+    last_skills = skills_controller.select_last_skills(season)
+    
+    # here we create the market_value
+
+    # calculate the average of overall
+    # here we have a list of overalls and player_id
+    players_overall_data = calculate_overall_per_player(last_skills)
+
+    # formulate market value pre data
+    mk_value_formulate = formulate_data_for_market_value(last_players, players_overall_data)
+    market_value_data = calculate_market_value(mk_value_formulate, season)
+
+    # insert market value on database
+    players_controller.insert_players_market_value(market_value_data)
 
     # Generate player contracts
     player_contracts = generate_player_contracts(last_players, club_id, season)
