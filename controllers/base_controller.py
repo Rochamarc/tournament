@@ -59,6 +59,7 @@ class BaseController:
         file_path = os.path.join(
             ABOVE_PATH,
             'db',
+            'tournament',
             'queries',
             db_method,
             '{}.sql'.format(file_name)            
