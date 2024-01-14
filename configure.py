@@ -1,12 +1,12 @@
 from random import choice, randint, shuffle, uniform
 
 from NameGenerator.names_controller import NamesController
-from db.clubs_controller import ClubsController
-from db.coaches_controller import CoachesController
-from db.coach_contracts_controller import CoachContractsController
-from db.players_controller import PlayersController
-from db.player_contracts_controller import PlayerContractsController
-from db.skills_controller import SkillsController
+from controllers.clubs_controller import ClubsController
+from controllers.coaches_controller import CoachesController
+from controllers.coach_contracts_controller import CoachContractsController
+from controllers.players_controller import PlayersController
+from controllers.player_contracts_controller import PlayerContractsController
+from controllers.skills_controller import SkillsController
 
 from data_generator import generate_players_skills, generate_player_contracts, calculate_market_value, calculate_overall_per_player
 from data_manipulation import formulate_data_for_market_value

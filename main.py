@@ -1,11 +1,11 @@
 from helper import ClassConstructor
-from db.champions_controller import ChampionsController
-from db.championships_controller import ChampionshipsController
-from db.competitions_controller import CompetitionsController
-from db.clubs_controller import ClubsController
-from db.games_controller import GamesController
-from db.players_controller import PlayersController
-from db.stadiums_controller import StadiumsController
+from controllers.champions_controller import ChampionsController
+from controllers.championships_controller import ChampionshipsController
+from controllers.competitions_controller import CompetitionsController
+from controllers.clubs_controller import ClubsController
+from controllers.games_controller import GamesController
+from controllers.players_controller import PlayersController
+from controllers.stadiums_controller import StadiumsController
 
 from tournament import run_league
 
