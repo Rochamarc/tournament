@@ -285,7 +285,7 @@ FOREIGN KEY(club_id)
 REFERENCES clubs(id);
 
 ALTER TABLE player_contracts
-ADD CONSTRAINT fk_player_contracts_coaches
+ADD CONSTRAINT fk_player_contracts_players
 FOREIGN KEY(player_id)
 REFERENCES players(id);
 
