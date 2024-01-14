@@ -309,7 +309,7 @@ def calculate_market_value(players_data: list, season: str) -> list[list]:
 
         data.append([ season, market_value, player_id ])
 
-    return 
+    return data
 
 if __name__ == "__main__":
     pass
