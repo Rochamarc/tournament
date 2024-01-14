@@ -25,6 +25,6 @@ class QualifiersController(BaseController):
         """
         
         for club in clubs:
-            cls.insert_register(cls.get_query('insert','insert_qualifiers'), [season, phase, club, competition_id])
+            cls.insert_register(cls.get_query('insert','qualifiers','qualifiers'), [season, phase, club, competition_id])
 
         return None

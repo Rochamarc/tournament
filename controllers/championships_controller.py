@@ -58,7 +58,7 @@ class ChampionshipsController(BaseController):
             if cls.check_for_initial_table(club_id, season):
                 raise Exception("Club with id: {}, is already associate to a table with season {}".format(club_id, season))
 
-        return cls.insert_registers(cls.get_query('insert', 'insert_championships'), clubs_data)
+        return cls.insert_registers(cls.get_query('insert','championships','championships'), clubs_data)
 
     
     @classmethod
@@ -76,7 +76,7 @@ class ChampionshipsController(BaseController):
         -------
             A list of sets with [ club_id, division_id ]
         """
-        return cls.select_register(cls.get_query('select','select_championships_to_insert'), data=[division_name, previous_season])
+        return cls.select_register(cls.get_query('select','championships','championships_to_insert'), data=[division_name, previous_season])
 
 
     @classmethod
@@ -96,7 +96,7 @@ class ChampionshipsController(BaseController):
             matches, win, draw, loss, goals_for, goals_away, goals_conceded, goals_diff, points
         """
 
-        return cls.select_register(cls.get_query('select','select_championship_by_club'), [season, club_id])
+        return cls.select_register(cls.get_query('select','championships','championship_by_club'), [season, club_id])
         
     @classmethod
     def select_championship_table_by_division(cls, season: int, division_name: str) -> list[set]:
@@ -115,7 +115,7 @@ class ChampionshipsController(BaseController):
             matches, win, draw, loss, goals_for, goals_away, goals_diff, points
         """
 
-        return cls.select_register(cls.get_query('select','select_championship_by_division'), [season, division_name])
+        return cls.select_register(cls.get_query('select','championships','championship_by_division'), [season, division_name])
 
     @classmethod
     def update_championship_table(cls, data: list, competition_name: str) -> None:
@@ -143,7 +143,7 @@ class ChampionshipsController(BaseController):
         if not cls.check_for_38_matches(club_id, season, competition_name):
             raise Exception("Club with id: {}, already has 38 matches in {} season {}".format(club_id, competition_name, season))
    
-        return cls.update_register(cls.get_query('update', 'update_championship'), data)
+        return cls.update_register(cls.get_query('update','championships','championship'), data)
     
     @classmethod
     def select_champion(cls, season: str, division_name: str) -> list[set]:
@@ -161,7 +161,7 @@ class ChampionshipsController(BaseController):
             A list with a set with [ season, division_id, club_id ]
         """
 
-        return cls.select_register(cls.get_query('select','select_champion'), [season, division_name])
+        return cls.select_register(cls.get_query('select','championships','champion'), [season, division_name])
         
     @classmethod
     def select_relegated(cls, season: str, division_name: str) -> list[set]:
@@ -179,7 +179,7 @@ class ChampionshipsController(BaseController):
             A list with a set with [ name, matches, win, draw, loss, goals_for, goals_away, goals_diff, points ]
         """
 
-        return cls.select_register(cls.get_query('select','select_relegated_zone'), [season, division_name])
+        return cls.select_register(cls.get_query('select','championships','relegated_zone'), [season, division_name])
 
      
     @classmethod
@@ -198,7 +198,7 @@ class ChampionshipsController(BaseController):
             A list with a set with [ name, matches, win, draw, loss, goals_for, goals_away, goals_diff, points ]
         """
 
-        return cls.select_register(cls.get_query('select','select_promoted_zone'), [season, division_name])
+        return cls.select_register(cls.get_query('select','championships','promoted_zone'), [season, division_name])
     
     @classmethod
     def select_serie_a_cup(cls, season: str) -> list[set]:
@@ -214,7 +214,7 @@ class ChampionshipsController(BaseController):
             A 20 length list with a set of id's
         """
         
-        return cls.select_register(cls.get_query('select','select_id_from_championships_serie_a'), [season])
+        return cls.select_register(cls.get_query('select','championships','id_from_championships_serie_a'), [season])
     
     @classmethod
     def select_serie_b_c_cup(cls, season: str) -> list[set]:
@@ -230,7 +230,7 @@ class ChampionshipsController(BaseController):
             A 12 length list with a set of id's
         """
 
-        return cls.select_register(cls.get_query('select','select_id_from_championships_serie_b_c'), [season])
+        return cls.select_register(cls.get_query('select','championships','id_from_championships_serie_b_c'), [season])
 
     @classmethod
     def check_for_38_matches(cls, club_id: int, season: str, competition_name) -> bool:
@@ -249,7 +249,7 @@ class ChampionshipsController(BaseController):
             True if returns some data False if returns noting 
         """
 
-        data = cls.check_register(cls.get_query('check', 'check_championships'), [club_id, season, competition_name])
+        data = cls.check_register(cls.get_query('check','championships','championships'), [club_id, season, competition_name])
 
         if data:
             return True
@@ -271,7 +271,7 @@ class ChampionshipsController(BaseController):
             A True if has data and false if returns nothing
         """
 
-        data = cls.check_register(cls.get_query('check', 'check_championships_intial_table'), [club_id, season])
+        data = cls.check_register(cls.get_query('check','championships','championships_intial_table'), [club_id, season])
 
         if data:
             return True 
@@ -286,7 +286,7 @@ class ChampionshipsController(BaseController):
             A list of set with values of season
         """
 
-        return cls.select_register(cls.get_query('select', 'select_distinct_championships_season'))
+        return cls.select_register(cls.get_query('select','championships','distinct_championships_season'))
     
     @classmethod
     def insert_champion(cls, season: str, division_id: int, club_id: int, competition_name: str, division_name: str) -> None:
@@ -319,7 +319,7 @@ class ChampionshipsController(BaseController):
 
 
         data = [season, division_id, club_id]
-        return cls.insert_register(cls.get_query('insert','insert_champions'), data)
+        return cls.insert_register(cls.get_query('insert','championships','champions'), data)
 
     @classmethod
     def check_champion(cls, season: str, competition_name: str, division_name: str) -> bool:
@@ -339,7 +339,7 @@ class ChampionshipsController(BaseController):
             True if there's a champion inserted on database and a False for not 
         """
 
-        data = cls.check_register(cls.get_query('check', 'check_champions'), [competition_name, division_name, season])
+        data = cls.check_register(cls.get_query('check','championships' ,'champions'), [competition_name, division_name, season])
         if data:
             return True
         return False

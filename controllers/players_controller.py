@@ -42,7 +42,7 @@ class PlayersController(BaseController):
             None
         """
         
-        return cls.insert_registers(cls.get_query('insert', 'insert_players'), players_data)
+        return cls.insert_registers(cls.get_query('insert','players','players'), players_data)
 
     @classmethod
     def insert_player_stats(cls, stats_data : list) -> None:
@@ -60,7 +60,7 @@ class PlayersController(BaseController):
             None
         """
 
-        return cls.insert_register(cls.get_query('insert', 'insert_stats'), stats_data)
+        return cls.insert_register(cls.get_query('insert','players','stats'), stats_data)
     
     @classmethod
     def insert_players_stats(cls, stats_datas : list) -> None:
@@ -78,7 +78,7 @@ class PlayersController(BaseController):
             None
         """
 
-        return cls.insert_registers(cls.get_query('insert', 'insert_stats'), stats_datas)
+        return cls.insert_registers(cls.get_query('insert','players','stats'), stats_datas)
     
     @classmethod
     def insert_players_market_value(cls, market_value_datas: list) -> None:
@@ -98,7 +98,7 @@ class PlayersController(BaseController):
             None
         """
 
-        return cls.insert_registers(cls.get_query('insert', 'insert_market_value'), market_value_datas)
+        return cls.insert_registers(cls.get_query('insert','players','market_value'), market_value_datas)
 
     @classmethod
     def select_last_players(cls) -> list:
@@ -109,7 +109,7 @@ class PlayersController(BaseController):
             A list with 30 length containing player's id, birth & position
         """
 
-        return cls.select_register(cls.get_query('select','select_last_players'))
+        return cls.select_register(cls.get_query('select','players','last_players'))
         
     @classmethod
     def select_all_players_id(cls) -> list:
@@ -120,7 +120,7 @@ class PlayersController(BaseController):
             A list of sets with (id,) column from the tournament.players
         """
         
-        return cls.select_register(cls.get_query('select','select_id_from_players'))
+        return cls.select_register(cls.get_query('select','players','id_from_players'))
 
     @classmethod
     def select_all_players_id_position(cls) -> list[set]:
@@ -131,7 +131,7 @@ class PlayersController(BaseController):
             A list of sets with (id, position,) from tournament.players
         """
 
-        return cls.select_register(cls.get_query('select','select_id_position_from_players'))
+        return cls.select_register(cls.get_query('select','players','id_position_from_players'))
 
 
     @classmethod
@@ -152,7 +152,7 @@ class PlayersController(BaseController):
             A list of Players data 
         """
 
-        return cls.select_register(cls.get_query('select','select_players_by_clubs'), [club_name, season])
+        return cls.select_register(cls.get_query('select','players','players_by_clubs'), [club_name, season])
 
 
     @classmethod
@@ -171,7 +171,7 @@ class PlayersController(BaseController):
             A list of Players data 
         """        
 
-        return cls.select_register(cls.get_query('select','select_players_by_contracts'), [season])
+        return cls.select_register(cls.get_query('select','players','players_by_contracts'), [season])
     
     @classmethod
     def select_players_by_contracts_and_class(cls) -> list[set]:
@@ -182,7 +182,7 @@ class PlayersController(BaseController):
             A list of sets with ['player_id', 'club_class', 'position']
         """
         
-        return cls.select_register(cls.get_query('select','select_players_and_clubs_class_by_contracts'))
+        return cls.select_register(cls.get_query('select','players','players_and_clubs_class_by_contracts'))
     
     @classmethod
     def delete_players(cls) -> None:
@@ -193,7 +193,7 @@ class PlayersController(BaseController):
             None
         """
 
-        return cls.delete_register(cls.get_delete_query('delete_players'))
+        return cls.delete_register(cls.get_query('delete','players','players'))
 
     @classmethod
     def insert_player_contracts(cls, player_contracts_data: list) -> None:
@@ -210,7 +210,7 @@ class PlayersController(BaseController):
             None
         """
         
-        return cls.insert_registers(cls.get_query('insert', 'insert_player_contracts'), player_contracts_data)
+        return cls.insert_registers(cls.get_query('insert','players','player_contracts'), player_contracts_data)
 
     @classmethod
     def select_players_with_no_contract(cls) -> list[set]:
@@ -221,7 +221,7 @@ class PlayersController(BaseController):
             A list of sets with [player_contracts.id, players.id]
         """
 
-        return cls.select_register(cls.get_query('select','select_players_with_no_contract'))
+        return cls.select_register(cls.get_query('select','players','players_with_no_contract'))
 
     @classmethod
     def select_players_with_end_contract(cls, season: str) -> list[set]:
@@ -237,7 +237,7 @@ class PlayersController(BaseController):
             A list of sets with [player_contracts.id, players.id]
         """
 
-        return cls.select_register(cls.get_query('select', 'select_players_with_end_contract'), season)
+        return cls.select_register(cls.get_query('select', 'players','players_with_end_contract'), season)
     @classmethod
     def insert_skills(cls, skills_data: list, season: str) -> None:
         """Insert a list of overall data into tournament.overall
@@ -258,9 +258,9 @@ class PlayersController(BaseController):
             skill.insert(0, season) # insert season at data
 
             if len(skill) == 5:
-                query = cls.get_query('insert', 'insert_gk_skills')
+                query = cls.get_query('insert','players','gk_skills')
             else:
-                query = cls.get_query('insert', 'insert_skills')
+                query = cls.get_query('insert','players','skills')
             
             cls.insert_register(query, skill)
         
@@ -278,7 +278,7 @@ class PlayersController(BaseController):
             A list of sets with all skills data. last arg is player_id
         """
 
-        return cls.select_register(cls.get_query('select', 'select_skills_by_season'), [season])
+        return cls.select_register(cls.get_query('select', 'players','skills_by_season'), [season])
     
     @classmethod
     def select_last_skills(cls, season: str) -> list[set]:
@@ -300,4 +300,4 @@ class PlayersController(BaseController):
             ]
         """
 
-        return cls.select_register(cls.get_query('select', 'select_last_skills'), [season])
+        return cls.select_register(cls.get_query('select', 'players','last_skills'), [season])

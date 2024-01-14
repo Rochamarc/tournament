@@ -29,7 +29,7 @@ class ClubsController(BaseController):
             A list of lists with: id, name, club_class
         """
 
-        return cls.select_register(cls.get_query('select','select_id_name_from_clubs'))
+        return cls.select_register(cls.get_query('select','clubs','id_name_from_clubs'))
     
     @classmethod
     def select_id(cls) -> list[set]:
@@ -53,7 +53,7 @@ class ClubsController(BaseController):
             A list of lists with: id, name, country, division 
         """
 
-        return cls.select_register(cls.get_query('select','select_serie_a_clubs'), [season])
+        return cls.select_register(cls.get_query('select','clubs','serie_a_clubs'), [season])
 
     @classmethod
     def select_serie_b_clubs(cls, season: str) -> list[set]:
@@ -64,7 +64,7 @@ class ClubsController(BaseController):
             A list of lists with: id, name, country, division 
         """
 
-        return cls.select_register(cls.get_query('select','select_serie_b_clubs'), [season])    
+        return cls.select_register(cls.get_query('select','clubs','serie_b_clubs'), [season])    
 
     @classmethod
     def select_serie_c_clubs(cls, season: str) -> list[set]:
@@ -75,7 +75,7 @@ class ClubsController(BaseController):
             A list of lists with: id, name, country, division 
         """
 
-        return cls.select_register(cls.get_query('select','select_serie_c_clubs'), [season])
+        return cls.select_register(cls.get_query('select','clubs','serie_c_clubs'), [season])
 
 
     @classmethod
@@ -92,7 +92,7 @@ class ClubsController(BaseController):
             A list of set with club: id, name, country
         """
 
-        return cls.select_register(cls.get_query('select','select_club_by_id'), [id])
+        return cls.select_register(cls.get_query('select','clubs','club_by_id'), [id])
     
 if __name__ == "__main__":
     print(ClubsController().select_serie_a_clubs())
