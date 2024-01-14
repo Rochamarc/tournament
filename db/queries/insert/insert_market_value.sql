@@ -1,0 +1,1 @@
+INSERT INTO market_value VALUES (NULL, %s, %s, %s);
