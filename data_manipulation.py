@@ -183,5 +183,39 @@ def apply_reduction(value: int, weight: float) -> int:
     
     return int(value * weight)
 
-if __name__ == "__main__":
-    print(apply_reduction(11,0.3))
+def formulate_data_for_market_value(players_data: list, players_overall: list) -> list[list]:
+    """Formulate players_data and overall_data
+
+    Parameters
+    ----------
+    players_data: list
+        A list of players data
+    skills_data : list
+        A list of overall and id 
+    
+    Raises
+    ------
+        Exception if the len of the two datas are not the same size
+        
+    Returns
+    -------
+        A list of lists with player_id, birth, position & overall
+    """
+
+    if len(players_data) != len(players_overall):
+        raise Exception(f'players_data length {len(players_data)} is different from players_overall length {len(players_overall)}')
+
+    data = []
+
+    for pos in range(len(players_data)):
+        p_data = []
+
+        p_data += players_data[pos]
+
+        for over in players_overall:
+            if p_data[0] == over[-1]:
+                p_data.append(over[0]) 
+
+        data.append(p_data)
+    
+    return data 
