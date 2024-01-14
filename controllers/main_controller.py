@@ -11,7 +11,7 @@ class MainController(BaseController):
             A list of sets with competitions info
         """
 
-        return cls.select_register(cls.get_query('select', 'select_competitions'))
+        return cls.select_register(cls.get_query('select','competitions','competitions'))
 
     @classmethod
     def select_clubs(cls) -> list[set]:
@@ -22,4 +22,4 @@ class MainController(BaseController):
             A list of sets with clubs info
         """
 
-        return cls.select_register(cls.get_query('select', 'select_clubs'))
+        return cls.select_register(cls.get_query('select','clubs','clubs'))

@@ -22,4 +22,4 @@ class StadiumsController(BaseController):
             A list of lists with stadium data
         """
 
-        return cls.select_register(cls.get_query('select','select_stadiums'))
+        return cls.select_register(cls.get_query('select','stadiums','stadiums'))
