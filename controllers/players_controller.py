@@ -195,5 +195,109 @@ class PlayersController(BaseController):
 
         return cls.delete_register(cls.get_delete_query('delete_players'))
 
-if __name__ == "__main__":
-    print(PlayersController().select_players_by_club('2022'))
+    @classmethod
+    def insert_player_contracts(cls, player_contracts_data: list) -> None:
+        """Insert a list of player_contracts_data into tournament.player_contracts
+
+        Parameters
+        ----------
+        player_contracts_data : list
+            A list of lists containing: 
+            start: str, end: str, salary: int, club_id: int, player_id: int
+        
+        Returns
+        -------
+            None
+        """
+        
+        return cls.insert_registers(cls.get_query('insert', 'insert_player_contracts'), player_contracts_data)
+
+    @classmethod
+    def select_players_with_no_contract(cls) -> list[set]:
+        """Select a list of Free Agent players data from tournament.player_contracts
+
+        Returns
+        -------
+            A list of sets with [player_contracts.id, players.id]
+        """
+
+        return cls.select_register(cls.get_query('select','select_players_with_no_contract'))
+
+    @classmethod
+    def select_players_with_end_contract(cls, season: str) -> list[set]:
+        """Select a list of Free Agent players data from tournament.player_contracts
+
+        Parameters
+        ----------
+        season : str
+            An string value with end of season 
+        
+        Returns
+        -------
+            A list of sets with [player_contracts.id, players.id]
+        """
+
+        return cls.select_register(cls.get_query('select', 'select_players_with_end_contract'), season)
+    @classmethod
+    def insert_skills(cls, skills_data: list, season: str) -> None:
+        """Insert a list of overall data into tournament.overall
+        
+        Parameters
+        ----------
+        overall_data : list
+            A list of list containing
+            positioning: int, reflexes: int, diving: int, standing_tackle: int, physical: int, 
+            passing: int, dribbling: int, long_shot: int, finishing: int, player_id: int
+        
+        Returns
+        -------
+            None
+        """
+
+        for skill in skills_data:   
+            skill.insert(0, season) # insert season at data
+
+            if len(skill) == 5:
+                query = cls.get_query('insert', 'insert_gk_skills')
+            else:
+                query = cls.get_query('insert', 'insert_skills')
+            
+            cls.insert_register(query, skill)
+        
+    @classmethod
+    def select_skills(cls, season: str) -> list[set]:
+        """Select a list of skills_data
+
+        Parameters
+        ----------
+        season : str
+            A string value with valid season 
+        
+        Returns
+        -------
+            A list of sets with all skills data. last arg is player_id
+        """
+
+        return cls.select_register(cls.get_query('select', 'select_skills_by_season'), [season])
+    
+    @classmethod
+    def select_last_skills(cls, season: str) -> list[set]:
+        """Select the last skills inserted from tournament.skills
+
+        Returns
+        -------
+            A list with 30 length containing [
+            positioning,
+            reflexes,
+            diving,
+            standing_tackle,
+            physical,
+            passing,
+            dribbling,
+            long_shot,
+            finishing,
+            player_id
+            ]
+        """
+
+        return cls.select_register(cls.get_query('select', 'select_last_skills'), [season])
