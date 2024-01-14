@@ -98,7 +98,7 @@ class PlayersController(BaseController):
             None
         """
 
-        return cls.insert_registers(cls.get_query('insert', 'insert_market_value'))
+        return cls.insert_registers(cls.get_query('insert', 'insert_market_value'), market_value_datas)
 
     @classmethod
     def select_last_players(cls) -> list:
