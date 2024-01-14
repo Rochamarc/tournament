@@ -36,13 +36,15 @@ class BaseController:
     """
 
     @classmethod
-    def get_query(cls, db_method: str, file_name: str) -> str:
+    def get_query(cls, db_method: str, controller_name: str, file_name: str) -> str:
         """Get one query on db/queries/
 
         Parameters
         ----------
         db_method : str
             Name of the action that the user wanna made ex: select | insert | update | delete | check
+        controller_name : str
+            Name of the controller that goes inside the path
         file_name : str
             Name of the file inside the path without the file extension
         
@@ -62,6 +64,7 @@ class BaseController:
             'tournament',
             'queries',
             db_method,
+            controller_name,
             '{}.sql'.format(file_name)            
         )
 
