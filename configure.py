@@ -1,14 +1,14 @@
+from NameGenerator.names_controller import NamesController
+
 from random import choice, randint, shuffle, uniform
 
-from NameGenerator.names_controller import NamesController
-from controllers.clubs_controller import ClubsController
 from controllers.coaches_controller import CoachesController
-from controllers.coach_contracts_controller import CoachContractsController
+from controllers.clubs_controller import ClubsController
 from controllers.players_controller import PlayersController
-from controllers.player_contracts_controller import PlayerContractsController
-from controllers.skills_controller import SkillsController
 
-from data_generator import generate_players_skills, generate_player_contracts, calculate_market_value, calculate_overall_per_player
+from data_generator import calculate_market_value, calculate_overall_per_player
+from data_generator import generate_player_contracts, generate_players_skills
+
 from data_manipulation import formulate_data_for_market_value
 
 from alive_progress import alive_it
@@ -16,11 +16,8 @@ from alive_progress import alive_it
 
 clubs_controller = ClubsController()
 coaches_controller = CoachesController()
-coach_contracts_controller = CoachContractsController()
 names_controller = NamesController()
 players_controller = PlayersController()
-player_contracts_controller = PlayerContractsController()
-skills_controller = SkillsController()
 
 # Suport variables
 season = '2022'
@@ -107,10 +104,10 @@ for club in alive_it(clubs):
     skills_data = generate_players_skills(last_players, club_class)
 
     # insert the skills per season     
-    skills_controller.insert_skills(skills_data, season)
+    players_controller.insert_skills(skills_data, season)
     
     # select last skills
-    last_skills = skills_controller.select_last_skills(season)
+    last_skills = players_controller.select_last_skills(season)
     
     # here we create the market_value
 
@@ -129,7 +126,7 @@ for club in alive_it(clubs):
     player_contracts = generate_player_contracts(last_players, club_id, season)
 
     # Insert player contracts on database
-    player_contracts_controller.insert_player_contracts(player_contracts)
+    players_controller.insert_player_contracts(player_contracts)
     
 
 # CREATE COACHES
@@ -190,4 +187,4 @@ for _ in alive_it(range(len(clubs))):
     coach_contracts.append([start, end, salary, club_id, coach_id])
 
 print("Inserting Coach Contracts")
-coach_contracts_controller.insert_coach_contracts(coach_contracts)
+coaches_controller.insert_coach_contracts(coach_contracts)
