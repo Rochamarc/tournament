@@ -47,6 +47,9 @@ class BaseGame:
         self.home_subs = 5
         self.away_subs = 5
 
+        # doing this just not to handle the
+        # error on the line 247 for now
+        self.game_number = None
 
         # define the audience with the whole stadium capacity with half of the capacity
         audience = randint((stadium.capacity // 4), stadium.capacity)
