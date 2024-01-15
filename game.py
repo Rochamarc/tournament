@@ -192,7 +192,7 @@ class Game(BaseGame):
                 self.update_player_stats_on_logs('fouls', defensor)
                 self.update_player_stats('fouls_committed', defensor)
 
-            if not f_move:
+            if f_move is False:
                 # not sucessfull pass
                 # keep the field part and invert the ball possession
                 
@@ -235,7 +235,7 @@ class Game(BaseGame):
 
             f_move = self.move_decision(attacker, defensor, choice(['pass','projection'])) 
 
-            if not f_move:
+            if f_move is False:
                 # failed pass or projection
 
                 # TODO add interception and uodate just like above
@@ -290,8 +290,9 @@ class Game(BaseGame):
                 attacker = self.select_player(attack_club, player_position='goalkeeper', unless='GK')
 
             f_shot = choice(['shot','long_shot'])
+            f_move = self.move_decision(attacker, keeper, f_shot)
 
-            if self.move_decision(attacker, keeper, f_shot) is False:
+            if f_move is False:
                 ''' Defense or kick out '''
 
                 field_part = 'back'
