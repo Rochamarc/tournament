@@ -431,7 +431,9 @@ class Game(BaseGame):
         """
 
         if move in ['pass','projection']:
-            # TODO add pass intercepetion to players 
+            # TODO 
+            # pass, projection and interception to
+            # skills table 
             # for now i'm using defensor's overall
 
             return not self.decision2(defensor.overall) and self.decision2(attacker.passing)
