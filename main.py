@@ -1,5 +1,3 @@
-from helper import ClassConstructor
-from controllers.champions_controller import ChampionsController
 from controllers.championships_controller import ChampionshipsController
 from controllers.competitions_controller import CompetitionsController
 from controllers.clubs_controller import ClubsController
@@ -7,19 +5,12 @@ from controllers.games_controller import GamesController
 from controllers.players_controller import PlayersController
 from controllers.stadiums_controller import StadiumsController
 
-from tournament import run_league
-
-from data_manipulation import formulate_clubs_to_championships, relegate_brazillian_tournament
-
-from logs_helper import LogsHandler
-
-from insert_functions import check_yes_no, check_for_season
-
 from data_formulation import pretty_print, print_stars
-
-# TODO nao ta atualizando o championships 
-#
-#
+from data_manipulation import formulate_clubs_to_championships, relegate_brazillian_tournament
+from helper import ClassConstructor
+from insert_functions import check_yes_no, check_for_season
+from logs_helper import LogsHandler
+from tournament import run_league
 
 # define a season
 
@@ -28,7 +19,6 @@ season = '2022'
 # Static classes
 class_const = ClassConstructor()
 
-champions_controller = ChampionsController()
 championships_controller = ChampionshipsController()
 competitions_controller = CompetitionsController()
 clubs_controller = ClubsController()
@@ -126,6 +116,6 @@ a_champion = championships_controller.select_champion(season, 'Serie A')[0]
 b_champion = championships_controller.select_champion(season, 'Serie B')[0]
 c_champion = championships_controller.select_champion(season, 'Serie C')[0]
 
-champions_controller.insert_champion(a_champion[0],a_champion[1],a_champion[2], 'Campeonato Brasileiro', 'Serie A')
-champions_controller.insert_champion(b_champion[0],b_champion[1],b_champion[2], 'Campeonato Brasileiro', 'Serie B')
-champions_controller.insert_champion(c_champion[0],c_champion[1],c_champion[2], 'Campeonato Brasileiro', 'Serie C')
+championships_controller.insert_champion(a_champion[0],a_champion[1],a_champion[2], 'Campeonato Brasileiro', 'Serie A')
+championships_controller.insert_champion(b_champion[0],b_champion[1],b_champion[2], 'Campeonato Brasileiro', 'Serie B')
+championships_controller.insert_champion(c_champion[0],c_champion[1],c_champion[2], 'Campeonato Brasileiro', 'Serie C')
