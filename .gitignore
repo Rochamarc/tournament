@@ -134,6 +134,9 @@ db/database.db
 db/custom.db
 config_db
 
+# Controllers
+./controllers/__pycache__
+
 # Statistics
 files/brasileirao/serie a/2021/
 
