@@ -640,10 +640,14 @@ class Game(BaseGame):
             A boolean
         """
         
+        # get the same club by pointing to self.home or self.away
+        # maybe this can be excluded without worries
+        
         sub_club = self.select_club_by_home_away(club)
         n_subs = self.select_club_number_of_subs_by_home_away(sub_club)
 
         if self.check_number_subs(n_subs):
+            # here i make a substituiton
             self.subs(sub_club)
             return True 
         return False 
@@ -666,7 +670,7 @@ class Game(BaseGame):
         return False
 
     def select_club_by_home_away(self, club: Club) -> Club:
-        """Select home or away class attribute based on club
+        """Point to a club based on club parameter
 
         Parameters
         ---------- 
@@ -678,10 +682,13 @@ class Game(BaseGame):
             A Club Object
         """
 
+        # TODO exclude this method
+        # i dont think he is needed
+
         return self.home if club == self.home else self.away
 
     def select_club_number_of_subs_by_home_away(self, club: Club) -> int:
-        """Select home_subs or away_subs class attribute based on club
+        """Point to a club subs based on club parameter
 
         Parameters
         ----------
