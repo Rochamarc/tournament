@@ -4,7 +4,7 @@ from classes.player import Player
 from classes.club import Club
 from classes.stadium import Stadium
 
-from data_generator import apply_reduction
+from decision_maker import simple_decision
 
 import numpy as np
 
@@ -74,6 +74,7 @@ class Game(BaseGame):
         self.match_round = match_round
         self.stadium = stadium
 
+        # i think this lists have to be copies
         self.home_players = self.home.start_eleven
         self.home_bench = self.home.bench
 
@@ -176,7 +177,7 @@ class Game(BaseGame):
             f_move = self.move_decision(attacker, defensor, 'pass')
 
             # check for a foul to update on logs
-            if not self.decision2(defensor.standing_tackle):
+            if not simple_decision(defensor.standing_tackle):
                 self.update_game_stats_on_logs('fouls', attack_club.name)
                 
                 self.update_player_stats_on_logs('fouls', defensor)
@@ -296,7 +297,7 @@ class Game(BaseGame):
 
                 # Define for a defense or a kick out
                 # to update the logs
-                if self.decision2(keeper.overall):
+                if simple_decision(keeper.overall):
                     self.update_game_stats_on_logs('saves', defense_club.name)
 
                     self.update_game_stats_on_logs('shots on target', attack_club.name)
@@ -318,9 +319,9 @@ class Game(BaseGame):
                     self.update_player_stats('shots', attacker)
             else:
                 # club's overall
-                attack_club_overall = apply_reduction(attack_club.overall, 0.25)
+                attack_club_overall = attack_club.overall
                 
-                decision = self.decision2(attacker.overall) and self.decision2(attack_club_overall)
+                decision = simple_decision(attacker.overall) and simple_decision(attack_club_overall)
 
                 if decision:
                     # Goal
@@ -436,13 +437,13 @@ class Game(BaseGame):
             # skills table 
             # for now i'm using defensor's overall
 
-            return not self.decision2(defensor.overall) and self.decision2(attacker.passing)
+            return not simple_decision(defensor.overall) and simple_decision(attacker.passing)
         elif move == 'shot':
-            return not self.decision2(defensor.diving) and self.decision2(attacker.finishing)
+            return not simple_decision(defensor.diving) and simple_decision(attacker.finishing)
         elif move == 'long_shot':
-            return not self.decision2(defensor.positioning) and self.decision2(attacker.long_shot)
+            return not simple_decision(defensor.positioning) and simple_decision(attacker.long_shot)
         else:
-            return not self.decision2(defensor.overall) and self.decision2(attacker.overall)  
+            return not simple_decision(defensor.overall) and simple_decision(attacker.overall)  
 
     def select_player_on_field(self, club: Club, field_part: str) -> Player:
         """Select a random player based on his field part 
@@ -649,12 +650,11 @@ class Game(BaseGame):
         # get the same club by pointing to self.home or self.away
         # maybe this can be excluded without worries
         
-        sub_club = self.select_club_by_home_away(club)
-        n_subs = self.select_club_number_of_subs_by_home_away(sub_club)
+        n_subs = self.select_club_number_of_subs_by_home_away(club)
 
         if self.check_number_subs(n_subs):
             # here i make a substituiton
-            self.subs(sub_club)
+            self.subs(club)
             return True 
         return False 
 
@@ -674,24 +674,6 @@ class Game(BaseGame):
         if n_sub > 0:  
             return choice([True, False]) 
         return False
-
-    def select_club_by_home_away(self, club: Club) -> Club:
-        """Point to a club based on club parameter
-
-        Parameters
-        ---------- 
-        club : Club
-            A Club Object  
-        
-        Returns
-        -------
-            A Club Object
-        """
-
-        # TODO exclude this method
-        # i dont think he is needed
-
-        return self.home if club == self.home else self.away
 
     def select_club_number_of_subs_by_home_away(self, club: Club) -> int:
         """Point to a club subs based on club parameter
@@ -764,21 +746,6 @@ class Game(BaseGame):
                 return [ b for b in bench if b.position in positions[key] ]
         return None
     
-    def decision2(self, p_overall) -> bool:
-        """Calculates a decision based on players overall
-
-        Parameters
-        ----------
-        p_overall : int
-            An integer with players overall
-
-        Returns
-        -------
-            A bool
-        """
-        
-        return randint(1,30) < apply_reduction(p_overall, 0.25)
-    
     def check_subs(self, n_subs) -> bool:
         """Check for a sub based on number of subs
 
@@ -793,33 +760,7 @@ class Game(BaseGame):
         """
         
         return n_subs > 0
-    
-    def decision(self, p_overall: int, num_trials: int = 1) -> bool:
-        """Calculates a decision based on players overall
 
-        Parameters
-        ----------
-        p_overall : int
-            An integer with players overall
-
-        Returns
-        -------
-            A bool
-        """
-
-        p_overall = apply_reduction(p_overall, 0.25)
-                
-        # Garante que p_overall está no intervalo [0, 100]
-        # p_overall = max(0, min(100, p_overall))
-
-        # Calcula a probabilidade de sucesso
-        p_success = 1 - p_overall / 50.0
-
-        # Gera um número binomial com a probabilidade de sucesso
-        result = np.random.binomial(num_trials, p_success)
-
-        # Retorna True se o número de sucessos for 0 (mais frequentemente)
-        return result == 0
 
     def __repr__(self) -> str:
         return 'Game({} x {})'.format(self.home, self.away)
