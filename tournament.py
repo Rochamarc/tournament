@@ -1,6 +1,5 @@
 from alive_progress import alive_it
 
-from data_manipulation import prepare_player_stats_to_db
 from logs_helper import LogsHandler
 
 from controllers.championships_controller import ChampionshipsController
@@ -51,7 +50,7 @@ def run_league(games: list, season: str) -> None:
 
         # prapare players stats per game data
         player_stats = game.logs['stats']
-        player_stats_data = prepare_player_stats_to_db(player_stats, season, game_id)
+        player_stats_data = logs_handler.prepare_player_stats_to_db(player_stats, season, game_id)
 
         # insert players stats per game on db
         player_controller.insert_players_stats(player_stats_data)
