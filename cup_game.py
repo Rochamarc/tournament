@@ -4,6 +4,8 @@ from classes.stadium import Stadium
 from game import Game 
 
 
+from decision_maker import complex_decision
+
 class CupGame(Game):
     """Class that deals with Cup Game Simulation, generates data and makes game decisions automatically
     inherits from Game and BaseGame
@@ -184,7 +186,7 @@ class CupGame(Game):
             decision between shooter and keeper
         """
 
-        return self.decision(shooter.overall) and self.decision(keeper.overall)
+        return complex_decision(shooter.overall) and complex_decision(keeper.overall)
 
     def check_penalties_winner(self) -> Club:
         """Check for a penalties winner
