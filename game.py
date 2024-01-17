@@ -4,7 +4,7 @@ from classes.player import Player
 from classes.club import Club
 from classes.stadium import Stadium
 
-from data_manipulation import apply_reduction
+from data_generator import apply_reduction
 
 import numpy as np
 

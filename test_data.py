@@ -1,5 +1,5 @@
-from data_manipulation import apply_reduction, formulate_data_for_market_value
-from data_generator import define_value_by_age, define_value_by_position, define_value_by_overall
+from data_manipulation import formulate_data_for_market_value
+from data_generator import define_value_by_age, define_value_by_position, define_value_by_overall, apply_reduction
 
 import unittest
 
