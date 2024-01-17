@@ -10,9 +10,8 @@ class BaseController:
     Base class that contains every property and functions used in other controllers
     ...
 
-    Property
+    Attributes
     --------
-
     database_config
         A dict with database configuration
 
@@ -33,7 +32,16 @@ class BaseController:
         Make an update on database
     check_register(query: str, data: list)
         Make a consult on database
+    change_database(new_database: str):
+        Change the database
     """
+
+    database_config = { 
+        'user': 'tournament_user', 
+        'host': 'localhost', 
+        'password': 'tournament_pass', 
+        'database': 'tournament' 
+    }
 
     @classmethod
     def get_query(cls, db_method: str, controller_name: str, file_name: str) -> str:
@@ -237,15 +245,19 @@ class BaseController:
         return exit_data
     
     @classmethod
-    @property
-    def database_config(cls):
-        """Return a dict with database configuration, change the user,
-        host and password based on database 
-        """
+    def change_database(cls, new_database: str) -> None:
+        """Change database config on database_config
+
+        Parameters
+        ----------
+        new_database : str
+            A string value with a new database 
         
-        return { 
-            'user': 'tournament_user', 
-            'host': 'localhost', 
-            'password': 'tournament_pass', 
-            'database': 'tournament' 
-        }
+        Returns
+        -------
+            None
+        """
+
+        cls.database_config['database'] = new_database
+        
+        return None
