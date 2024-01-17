@@ -159,29 +159,6 @@ def relegate_brazillian_tournament(championships_data: list, next_season: str, d
 
     return result
 
-def apply_reduction(value: int, weight: float) -> int:
-    """Reduce value by multiplying the value for the weight
-
-    Parameters
-    ----------
-    value : int
-        Any int value
-    weight : float
-        A float value to multiply the value param. (the value has to between 1 and 0, and diff of one and zero)
-
-    Raises
-    ------
-        ValueError if the weight doenst follow the rule
-
-    Returns
-    -------
-        A convert int value from result of value * weight 
-    """
-
-    if not (0 < weight < 1):
-        raise ValueError("The weight {} isn't between 0 and 1".format(weight)) 
-    
-    return int(value * weight)
 
 def formulate_data_for_market_value(players_data: list, players_overall: list) -> list[list]:
     """Formulate players_data and overall_data
@@ -219,3 +196,48 @@ def formulate_data_for_market_value(players_data: list, players_overall: list) -
         data.append(p_data)
     
     return data 
+
+def prepare_player_stats_to_db(player_stats: dict, season: str, game_id: int) -> list[list]:
+    """Prepare a list of data to insert into tournament.stats schema
+
+    Parameters
+    ----------
+    player_stats : dict
+        Stats from Game.logs['stats'] format
+    season : str
+        A str with season 
+    game_id : int
+        A integer of the id from the game
+
+    Returns
+    -------
+        A list of list with tournament.stats data
+    """
+    player_data = []
+
+    for _, item in player_stats.items():
+        data = [
+            season,
+            item['matches'],
+            item['shots'],
+            item['shots_on_target'],
+            item['goals'],
+            item['assists'],
+            item['fouls_committed'],
+            item['tackles'],
+            item['passes'],
+            item['wrong_passes'],
+            item['intercepted_passes'],
+            item['clearances'],
+            item['stolen_balls'],
+            item['clean_sheets'],
+            item['defenses'],
+            item['difficult_defenses'],
+            item['goals_conceded'],
+            item['player_id'],
+            game_id
+        ]
+
+        player_data.append(data)
+
+    return player_data

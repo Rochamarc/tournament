@@ -1,6 +1,6 @@
 from alive_progress import alive_it
 
-from data_helper import prepare_player_stats_to_db
+from data_manipulation import prepare_player_stats_to_db
 from logs_helper import LogsHandler
 
 from controllers.championships_controller import ChampionshipsController
