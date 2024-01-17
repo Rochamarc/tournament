@@ -6,8 +6,6 @@ from classes.stadium import Stadium
 
 from decision_maker import simple_decision
 
-import numpy as np
-
 # TODO change overall as int for decisions 
 
 class Game(BaseGame):
