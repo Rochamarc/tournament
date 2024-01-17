@@ -272,7 +272,32 @@ CREATE TABLE champions(
     club_id INT NOT NULL
 );
 
+CREATE TABLE transfers(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    year CHAR(4) NOT NULL,
+    transfer_amount INT,
+    gloves INT,
+    player_id INT,
+    club_out_id INT,
+    club_in_id INT NOT NULL
+);
+
 /* CONSTRAINTS */
+
+ALTER TABLE transfers
+ADD CONSTRAINT fk_transfers_players
+FOREIGN KEY(player_id)
+REFERENCES players(id);
+
+ALTER TABLE transfers
+ADD CONSTRAINT fk_transfers_clubs_out
+FOREIGN KEY(club_out_id)
+REFERENCES clubs(id);
+
+ALTER TABLE transfers
+ADD CONSTRAINT fk_transfers_clubs_in
+FOREIGN KEY(club_in_id)
+REFERENCES clubs(id);
 
 ALTER TABLE clubs
 ADD CONSTRAINT fk_clubs_clubs_classes
