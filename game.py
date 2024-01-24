@@ -4,9 +4,7 @@ from classes.player import Player
 from classes.club import Club
 from classes.stadium import Stadium
 
-from data_manipulation import apply_reduction
-
-import numpy as np
+from decision_maker import simple_decision
 
 # TODO change overall as int for decisions 
 
@@ -74,6 +72,7 @@ class Game(BaseGame):
         self.match_round = match_round
         self.stadium = stadium
 
+        # i think this lists have to be copies
         self.home_players = self.home.start_eleven
         self.home_bench = self.home.bench
 
@@ -139,7 +138,6 @@ class Game(BaseGame):
 
         # TODO make the game have way more passes 
 
-
         keep_ball_possession =  False 
 
         # Define an attacker
@@ -156,11 +154,7 @@ class Game(BaseGame):
         
         # Defines a decision of the player with the ball
         player_decision = self.player_decision(field_part) 
-
         
-        # variables about club's overall
-        attack_overall = apply_reduction(attack_club.overall, 0.25)
-
         if player_decision == 'keep_ball_possession':
             # Keep ball possession
             # send to another player and keep the field
@@ -172,11 +166,6 @@ class Game(BaseGame):
 
             keep_ball_possession = True
 
-            # In case the attack was not sucessfull this will change
-            # inside the move decision
-            club_possession, other_club = attack_club, defense_club
-            sender = self.select_player_on_field(attack_club, field_part)
-
             # update for the pass
             self.update_game_stats_on_logs('passes', attack_club.name)
             self.update_player_stats_on_logs('passes', attacker)
@@ -186,20 +175,21 @@ class Game(BaseGame):
             f_move = self.move_decision(attacker, defensor, 'pass')
 
             # check for a foul to update on logs
-            if not self.decision2(defensor.standing_tackle):
+            if not simple_decision(defensor.standing_tackle):
                 self.update_game_stats_on_logs('fouls', attack_club.name)
                 
                 self.update_player_stats_on_logs('fouls', defensor)
                 self.update_player_stats('fouls_committed', defensor)
 
-            if not f_move:
+            if f_move is False:
                 # not sucessfull pass
                 # keep the field part and invert the ball possession
                 
                 # basic method to separate a interception from a wrong pass
                 # doesnt affect the game if dynamic, just the logs data
-                # TODO make this if statement a proper function with better algorithm
-                if randint(1,2) == 1:
+                
+                interception = bool(randint(0,1))
+                if interception:
                     # interception
                     self.update_game_stats_on_logs('interceptions', defense_club.name)
 
@@ -212,10 +202,14 @@ class Game(BaseGame):
                     self.update_player_stats_on_logs('wrong_passes', attacker)
                     self.update_player_stats('wrong_passes', attacker)
                     
-
+                # invert ball possession
+                # changes what alredy has been set
                 club_possession, other_club = self.invert_ball_possession(attack_club, defense_club)
                 sender = defensor
-    
+            else:
+                # define info needed to insert on move
+                club_possession, other_club = attack_club, defense_club
+                sender = self.select_player_on_field(attack_club, field_part)
         
         elif player_decision == 'advance':
             # Make an attack move
@@ -235,38 +229,39 @@ class Game(BaseGame):
 
             f_move = self.move_decision(attacker, defensor, choice(['pass','projection'])) 
 
-            if not f_move:
+            if f_move is False:
+                # this is the defense sucess
                 # failed pass or projection
 
-                # TODO add interception and uodate just like above
                 defense_move = choice(['tackle','ball_steal'])
 
                 # this could also have a wrong pass & interception
                 if defense_move == 'tackle':
-                    ''' Tackle '''
+                    # Tackle
                     self.update_game_stats_on_logs('tackles', defense_club.name)
 
                     self.update_player_stats_on_logs('tackles', defensor)
                     self.update_player_stats('tackles', defensor)
 
-                elif defense_move == 'ball_steal': 
-                    ''' Ball steal '''              
+                else: 
+                    # Ball Steal              
                     self.update_game_stats_on_logs('stolen_balls', defense_club.name)
 
                     self.update_player_stats_on_logs('stolen_balls', defensor)
                     self.update_player_stats('stolen_balls', defensor)
 
+                # invert ball possession
                 club_possession, other_club = self.invert_ball_possession(attack_club, defense_club)
                 sender = defensor 
+            
             else:
-                # sucessfull pass or projection 
-                # change the field_part to destiny
-                # doesnt change the sender or club_possession
-
+                # Pass 
                 self.update_game_stats_on_logs('passes', attack_club.name)
 
                 self.update_player_stats('passes', attacker)
 
+                # keep the ball possession
+                # change the field_part to destiny
                 field_part = destiny
                 club_possession, other_club = attack_club, defense_club
                 
@@ -280,8 +275,8 @@ class Game(BaseGame):
             # that he is shooting passing a decrease_attacker_chance = 0 and adding
             # to the value of the attacker decision 
 
+            # check for goalkeeper attacking
             if attacker.position == 'GK':
-                # add a pass to the keeper
                 self.update_player_stats_on_logs('passes', attacker)
                 self.update_player_stats('passes', attacker)
                 
@@ -290,8 +285,9 @@ class Game(BaseGame):
                 attacker = self.select_player(attack_club, player_position='goalkeeper', unless='GK')
 
             f_shot = choice(['shot','long_shot'])
+            f_move = self.move_decision(attacker, keeper, f_shot)
 
-            if self.move_decision(attacker, keeper, f_shot) is False:
+            if f_move is False:
                 ''' Defense or kick out '''
 
                 field_part = 'back'
@@ -299,27 +295,34 @@ class Game(BaseGame):
 
                 # Define for a defense or a kick out
                 # to update the logs
-                if self.decision2(keeper.overall):
+                if simple_decision(keeper.overall):
                     self.update_game_stats_on_logs('saves', defense_club.name)
 
                     self.update_game_stats_on_logs('shots on target', attack_club.name)
                     self.update_player_stats('shots_on_target', attacker)
                     
-                    if randint(0,1):
-                        # Difficult defense
+                    # check for difficult defense
+                    difficult_defense = bool(randint(0,1))
+
+                    if difficult_defense:
                         self.update_player_stats('difficult_defenses', keeper)
                         self.update_player_stats_on_logs('difficult_defenses', keeper)                
                     else:
-                        # update keeper stats
                         self.update_player_stats_on_logs('defenses', keeper)
                         self.update_player_stats('defenses', keeper)
 
                 else:
+                    # kick out
                     self.update_game_stats_on_logs('shots', attack_club.name)
                     self.update_player_stats('shots', attacker)
             else:
-                if self.decision2(attacker.overall) and self.decision2(attack_overall):
-                    ''' goal '''
+                # club's overall
+                attack_club_overall = attack_club.overall
+                
+                decision = simple_decision(attacker.overall) and simple_decision(attack_club_overall)
+
+                if decision:
+                    # Goal
                     
                     # update attacking team move
                     midfielder =  self.select_player(attack_club, player_position='midfielder')
@@ -331,7 +334,8 @@ class Game(BaseGame):
                     
                     # change sender to defensor
                     sender = self.select_player(defense_club, player_position='attacker') 
-
+            
+            # outside goal if block
             club_possession, other_club = self.invert_ball_possession(attack_club, defense_club)
                 
         
@@ -426,16 +430,18 @@ class Game(BaseGame):
         """
 
         if move in ['pass','projection']:
-            # TODO add pass intercepetion to players 
+            # TODO 
+            # pass, projection and interception to
+            # skills table 
             # for now i'm using defensor's overall
 
-            return not self.decision2(defensor.overall) and self.decision2(attacker.passing)
+            return not simple_decision(defensor.overall) and simple_decision(attacker.passing)
         elif move == 'shot':
-            return not self.decision2(defensor.diving) and self.decision2(attacker.finishing)
+            return not simple_decision(defensor.diving) and simple_decision(attacker.finishing)
         elif move == 'long_shot':
-            return not self.decision2(defensor.positioning) and self.decision2(attacker.long_shot)
+            return not simple_decision(defensor.positioning) and simple_decision(attacker.long_shot)
         else:
-            return not self.decision2(defensor.overall) and self.decision2(attacker.overall)  
+            return not simple_decision(defensor.overall) and simple_decision(attacker.overall)  
 
     def select_player_on_field(self, club: Club, field_part: str) -> Player:
         """Select a random player based on his field part 
@@ -639,11 +645,14 @@ class Game(BaseGame):
             A boolean
         """
         
-        sub_club = self.select_club_by_home_away(club)
-        n_subs = self.select_club_number_of_subs_by_home_away(sub_club)
+        # get the same club by pointing to self.home or self.away
+        # maybe this can be excluded without worries
+        
+        n_subs = self.select_club_number_of_subs_by_home_away(club)
 
         if self.check_number_subs(n_subs):
-            self.subs(sub_club)
+            # here i make a substituiton
+            self.subs(club)
             return True 
         return False 
 
@@ -664,23 +673,8 @@ class Game(BaseGame):
             return choice([True, False]) 
         return False
 
-    def select_club_by_home_away(self, club: Club) -> Club:
-        """Select home or away class attribute based on club
-
-        Parameters
-        ---------- 
-        club : Club
-            A Club Object  
-        
-        Returns
-        -------
-            A Club Object
-        """
-
-        return self.home if club == self.home else self.away
-
     def select_club_number_of_subs_by_home_away(self, club: Club) -> int:
-        """Select home_subs or away_subs class attribute based on club
+        """Point to a club subs based on club parameter
 
         Parameters
         ----------
@@ -750,21 +744,6 @@ class Game(BaseGame):
                 return [ b for b in bench if b.position in positions[key] ]
         return None
     
-    def decision2(self, p_overall) -> bool:
-        """Calculates a decision based on players overall
-
-        Parameters
-        ----------
-        p_overall : int
-            An integer with players overall
-
-        Returns
-        -------
-            A bool
-        """
-        
-        return randint(1,30) < apply_reduction(p_overall, 0.25)
-    
     def check_subs(self, n_subs) -> bool:
         """Check for a sub based on number of subs
 
@@ -779,33 +758,7 @@ class Game(BaseGame):
         """
         
         return n_subs > 0
-    
-    def decision(self, p_overall: int, num_trials: int = 1) -> bool:
-        """Calculates a decision based on players overall
 
-        Parameters
-        ----------
-        p_overall : int
-            An integer with players overall
-
-        Returns
-        -------
-            A bool
-        """
-
-        p_overall = apply_reduction(p_overall, 0.25)
-                
-        # Garante que p_overall está no intervalo [0, 100]
-        # p_overall = max(0, min(100, p_overall))
-
-        # Calcula a probabilidade de sucesso
-        p_success = 1 - p_overall / 50.0
-
-        # Gera um número binomial com a probabilidade de sucesso
-        result = np.random.binomial(num_trials, p_success)
-
-        # Retorna True se o número de sucessos for 0 (mais frequentemente)
-        return result == 0
 
     def __repr__(self) -> str:
         return 'Game({} x {})'.format(self.home, self.away)

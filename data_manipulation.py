@@ -159,29 +159,6 @@ def relegate_brazillian_tournament(championships_data: list, next_season: str, d
 
     return result
 
-def apply_reduction(value: int, weight: float) -> int:
-    """Reduce value by multiplying the value for the weight
-
-    Parameters
-    ----------
-    value : int
-        Any int value
-    weight : float
-        A float value to multiply the value param. (the value has to between 1 and 0, and diff of one and zero)
-
-    Raises
-    ------
-        ValueError if the weight doenst follow the rule
-
-    Returns
-    -------
-        A convert int value from result of value * weight 
-    """
-
-    if not (0 < weight < 1):
-        raise ValueError("The weight {} isn't between 0 and 1".format(weight)) 
-    
-    return int(value * weight)
 
 def formulate_data_for_market_value(players_data: list, players_overall: list) -> list[list]:
     """Formulate players_data and overall_data

@@ -41,6 +41,13 @@ competition_id = competitions_controller.select_competition_id(competition_name)
 print("Want to promote and relegate?")
 promo = check_yes_no(other_values=['y'])
 
+#   TODO 
+#   this code now, has to make a check every new season,
+#   to retire players, add new players coming from youth team
+#   and sell and buy players between clubs
+#   
+#   Every new season, the club.squad is not the same as the before
+#
  
 if promo in ['Y','y']:
     # Seasons that are registered in db
