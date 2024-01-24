@@ -1,5 +1,4 @@
 from controllers.base_controller import BaseController
-import mysql.connector 
 
 class GamesController(BaseController):
     """
