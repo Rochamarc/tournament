@@ -1,0 +1,1 @@
+CALL GET_PLAYERS_BY_AGE(%s, %s);
