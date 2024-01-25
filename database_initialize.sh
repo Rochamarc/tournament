@@ -24,6 +24,35 @@ function catching_errors(){
     fi
 }
 
+function show_help(){
+    # show the help informations 
+    #
+
+    s_help="${1}"
+
+    if [ $s_help ]; then 
+        if [ ${s_help} = "user" ]; then
+            # helper for the user
+            #
+
+            echo "Type the user name for the mysql user"
+            exit 
+        elif [ ${s_help} = "password" ]; then
+            # helper for the password
+            #
+
+            echo "Type the passowrd value for the mysql user"
+            exit
+        fi
+    else 
+        echo -e "Database Initilize Help\n"
+        echo -e "usage:\t\t\t ./database_initialise.sh [user] [password]\n"
+        echo -e "user:\t\t\t mysql user name" 
+        echo -e "password:\t\t mysql user password"
+        exit
+    fi     
+}
+
 
 # Name generator initialization
 #
@@ -32,11 +61,8 @@ function catching_errors(){
 
 if [ "$1" = "help" ]
 then
-    echo "Database Initilize Help"
-    echo "usage: ./database_initialise.sh [user] [password]"
-    echo "user\t\t\t: mysql user name" 
-    echo "password\t\t: mysql user password"
-    exit
+    show_help "$2"
+
 else
     # NameGenerator initialization
     #
