@@ -91,7 +91,7 @@ else
     #
 
     echo "Creating Tournament tables and constraints"
-    mysql -h localhost -u "$1" --password="$2" tournament < ./db/queries/main.sql || set -e
+    mysql -h localhost -u "$1" --password="$2" tournament < ./db/queries/main.sql
     
     exitcode=$?
 
@@ -101,7 +101,7 @@ else
     #
 
     echo "Creating procedures and triggers"
-    mysql -h localhost -u "$1" --password="$2" tournament < ./db/queries/procedures_triggers.sql || set -e
+    mysql -h localhost -u "$1" --password="$2" tournament < ./db/queries/procedures_triggers.sql
     
     exitcode=$?
 
@@ -111,7 +111,7 @@ else
     #
 
     echo "Inserting Tournament initial data"
-    mysql -h localhost -u "$1" --password="$2" tournament < ./db/queries/insert/main.sql || set -e
+    mysql -h localhost -u "$1" --password="$2" tournament < ./db/queries/insert/main.sql
 
     exitcode=$?
 
@@ -122,7 +122,7 @@ else
     #
 
     echo "Populating Tournament Database"
-    python ./configure.py || set -e
+    python ./configure.py
 
     exitcode=$?
 
