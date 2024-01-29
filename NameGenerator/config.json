@@ -1,0 +1,6 @@
+{ 
+    "user": "tournament_user", 
+    "host": "localhost", 
+    "password": "tournament_pass", 
+    "database": "tournament_name" 
+}

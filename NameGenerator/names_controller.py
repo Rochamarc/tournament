@@ -46,7 +46,7 @@ class NamesController(BaseController):
         cursor = conn.cursor()
 
         for first_name in first_names:
-            cursor.execute(cls.get_insert_query('insert_first_names'), [first_name, nationality])
+            cursor.execute(cls.get_insert_query('insert','insert_first_names'), [first_name, nationality])
         
         conn.commit()
         conn.close()
@@ -73,7 +73,7 @@ class NamesController(BaseController):
         cursor = conn.cursor()
 
         for last_name in last_names:
-            cursor.execute(cls.get_insert_query('insert_last_names'), [last_name, nationality])
+            cursor.execute(cls.get_insert_query('insert','insert_last_names'), [last_name, nationality])
         
         conn.commit()
         conn.close()
@@ -97,7 +97,7 @@ class NamesController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_first_names'), [nationality])
+        cursor.execute(cls.get_select_query('select','select_first_names'), [nationality])
         res = cursor.fetchall()
 
         conn.close()
@@ -121,7 +121,7 @@ class NamesController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_last_names'), [nationality])
+        cursor.execute(cls.get_select_query('select','select_last_names'), [nationality])
         res = cursor.fetchall()
 
         conn.close()
@@ -145,12 +145,9 @@ class NamesController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        cursor.execute(cls.get_select_query('select_random_name_by_nationality'), [nationality, nationality])
+        cursor.execute(cls.get_select_query('select','select_random_name_by_nationality'), [nationality, nationality])
         res = cursor.fetchall()
 
         conn.close()
 
         return res
-
-if __name__ == "__main__":
-    print(NamesController().select_full_name_by_nationality('portuguese br'))
