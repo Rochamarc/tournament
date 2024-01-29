@@ -442,6 +442,16 @@ ADD CONSTRAINT fk_qualifiers_competitions
 FOREIGN KEY(competition_id)
 REFERENCES competitions(id);
 
+/* add constraint unique */
+
+ALTER TABLE coach_contracts
+ADD CONSTRAINT UQ_coach_contracts_coaches
+UNIQUE(coach_id);
+
+ALTER TABLE coach_contracts
+ADD CONSTRAINT UQ_coach_contracts_clubs
+UNIQUE(club_id);
+
 
 /* 
 
