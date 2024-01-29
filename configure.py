@@ -1,13 +1,15 @@
 from NameGenerator.names_controller import NamesController
 
-from random import choice, randint, shuffle, uniform
+from random import randint, shuffle
 
 from controllers.coaches_controller import CoachesController
 from controllers.clubs_controller import ClubsController
 from controllers.players_controller import PlayersController
 
 from data_generator import calculate_market_value, calculate_overall_per_player
+from data_generator import generate_height_and_position, generate_name_nationality
 from data_generator import generate_player_contracts, generate_players_skills
+from data_generator import generate_weight_foot_and_birth
 
 from data_manipulation import formulate_data_for_market_value
 
@@ -19,28 +21,23 @@ coaches_controller = CoachesController()
 names_controller = NamesController()
 players_controller = PlayersController()
 
-# Suport variables
+# TODO this cannot be a constant
+# this has to be a variable
 season = '2022'
-
-# Suport lists
-gk = ['GK']
-df = ['LB', 'RB', 'CB']
-mf = ['DM', 'CM', 'RM', 'LM', 'AM' ]
-at = ['SS', 'WG', 'CF' ]
 
 countries = ['Argentina', 'Colombia', 'Uruguay', 'Paraguay', 'Chile']
 
 # Select brazilian first & last names
 nationality = "portuguese br"
 
-br_first_names = names_controller.select_first_names(nationality)
-br_last_names = names_controller.select_last_names(nationality)
+br_first_names = names_controller.select_first_names(nationality)[0]
+br_last_names = names_controller.select_last_names(nationality)[0]
 
 # Select spanish first & last names
 nationality = 'spanish'
 
-g_first_names = names_controller.select_first_names(nationality)
-g_last_names = names_controller.select_last_names(nationality)
+g_first_names = names_controller.select_first_names(nationality)[0]
+g_last_names = names_controller.select_last_names(nationality)[0]
 
 # Select clubs names and id
 clubs = clubs_controller.select_id_name_class()
@@ -56,41 +53,19 @@ for club in alive_it(clubs):
 
     players_data = []
 
-    # for position, number_of_players_per_position
-    for ps, n_ps in n_for_player.items():
-        # Player creation block 
+    # iterate player_functions by number of player_functions
+    for player_funtion, n_player_function in n_for_player.items():
         
-        for _ in range(n_ps):
-            if ps == 'GK':
-                position = 'GK'
-                height = round(uniform(1.87, 1.99), 2)
-            elif ps == 'DF':
-                position = choice(df)
-                height = round(uniform(1.80, 1.90), 2)
-            elif ps == 'MF':
-                position = choice(mf)
-                height = round(uniform(1.60, 1.90), 2)
-            elif ps == 'AT':
-                position = choice(at)
-                height = round(uniform(1.60, 1.95), 2)
-            else:
-                position = None
-
-            weight = round(uniform(60.0, 90.9), 2)
-            foot = choice(['R','L'])
-            birth = str(randint(1984,2006))
-    
-            gringo_chance = randint(1,10)
+        # Player creation block 
+        for _ in range(n_player_function):
+            # Generate players body info
+            position, height = generate_height_and_position(player_funtion)
+            weight, foot, birth = generate_weight_foot_and_birth()  
 
             # 3 chances in 10 of a gringo player
-            if gringo_chance in [1,5,9]:
-                nationality = choice(countries)
-                name = ' '.join([choice(g_first_names)[0], choice(g_last_names)[0]]) 
-            else: 
-                nationality = 'Brazil'
-                name = ' '.join([choice(br_first_names)[0], choice(br_last_names)[0]])
-                
-            # append player data
+            name, nationality = generate_name_nationality(countries, br_first_names, br_last_names, g_first_names, g_last_names)
+    
+            # Players data by club
             players_data.append([ name, nationality, position, birth, height, weight, foot ])
             
     # Insert 30 players into database
@@ -131,8 +106,8 @@ for club in alive_it(clubs):
 
 # CREATE COACHES
 
-# Create a list of countries to be coach.nationality
-countries = ['Brazil', 'Chile', 'Argentina', 'Uruguay', 'Portugal', 'Paraguay', 'Colombia', 'Venezuela' ]
+# Create a list of countries to be coach nationality
+# countries = ['Brazil', 'Chile', 'Argentina', 'Uruguay', 'Portugal', 'Paraguay', 'Colombia', 'Venezuela' ]
 
 
 # Select clubs id
@@ -146,14 +121,12 @@ for c in alive_it(clubs):
     # Select the name
     name = names_controller.select_full_name_by_nationality('portuguese br') 
     
-    # define the name
+    # Define coach info
     full_name = ' '.join([name[0][0], name[0][-1]])     
-    
-    nationality = choice(countries) # nationality
-    
-    birth = str(randint(1950, 1979)) # birth
+    nationality = 'Brazil' 
+    birth = str(randint(1950, 1979)) 
 
-    # Coaches controller
+    # Coaches data
     coaches.append([full_name, nationality, birth])
 
 print("Inserting Coaches")

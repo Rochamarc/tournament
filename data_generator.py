@@ -1,4 +1,98 @@
-from random import randint, randrange
+from random import choice, randint, randrange, uniform
+
+def generate_weight_foot_and_birth() -> list:
+    """Generate random weight, foot and birth for players
+
+    Returns
+    -------
+        A list with weight: float, foot: str, birth: str
+    """
+
+    weight = round(uniform(60.0, 90.9), 2)
+    foot = choice(['R','L'])
+    birth = str(randint(1984,2006))
+
+    return [ weight, foot, birth ]
+
+def generate_height_and_position(player_function: str) -> tuple[str, float]:
+    """Generate height and position 
+
+    Paramters
+    ---------
+    player_function : str
+        A string containing 
+    
+    Raises
+    ------
+        An exception if the player_function is invalid
+    
+    Returns
+    -------
+        A tuple with position and height
+    """
+
+    # gk = ['GK']
+    df = ['LB', 'RB', 'CB']
+    mf = ['DM', 'CM', 'RM', 'LM', 'AM' ]
+    at = ['SS', 'WG', 'CF' ]
+
+
+    if player_function == 'GK':
+        position = 'GK'
+        height = round(uniform(1.87, 1.99), 2)
+    elif player_function == 'DF':
+        position = choice(df)
+        height = round(uniform(1.80, 1.90), 2)
+    elif player_function == 'MF':
+        position = choice(mf)
+        height = round(uniform(1.60, 1.90), 2)
+    elif player_function == 'AT':
+        position = choice(at)
+        height = round(uniform(1.60, 1.95), 2)
+    else:
+        raise Exception(f'{player_function} is not a real player function!')
+        
+    return position, height
+
+
+def generate_name_nationality(countries: list, brazilian_first_names: list, 
+                                brazilian_last_names: list, gringo_first_names: list, 
+                                gringo_last_names: list) -> tuple[str, str]:
+    """Generate name and nationality
+
+    Parameters
+    ----------
+    countries : list
+        A list of countries
+    brazilian_first_names : list
+        A list of brazilian first names
+    brazilian_last_names : list
+        A list of brazilian last names
+    gringo_first_names : list
+        A list of gringo first names
+    gringo_last_names : list
+        A list of gringo last names
+    
+    Returns
+    -------
+        A tuple with nationality and full name
+    """
+
+    if randint(0,10) < 3:
+        nationality = choice(countries)
+        name = ' '.join([
+            choice(gringo_first_names), 
+            choice(gringo_last_names)
+        ]) 
+    
+    nationality = 'Brazil'
+    name = ' '.join([
+        choice(brazilian_first_names), 
+        choice(brazilian_last_names)
+    ])
+
+    return nationality, name
+
 
 def get_skill_by_position(position: str, club_class: str) -> list[int]:
     '''Define a list of values based on player position 
