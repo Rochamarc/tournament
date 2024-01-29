@@ -247,21 +247,3 @@ class BaseController:
         conn.close()
 
         return exit_data
-    
-    @classmethod
-    def change_database(cls, new_database: str) -> None:
-        """Change database config on database_config
-
-        Parameters
-        ----------
-        new_database : str
-            A string value with a new database 
-        
-        Returns
-        -------
-            None
-        """
-
-        cls.database_config['database'] = new_database
-        
-        return None
