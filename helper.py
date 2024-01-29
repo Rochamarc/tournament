@@ -61,7 +61,7 @@ class ClassConstructor:
 			A list of Player Objects constructed with the data received
 		"""
 
-		return [ Player(pd[0], pd[1], pd[2], pd[3], pd[4], pd[5], pd[6], pd[7], pd[8], pd[9], pd[10], pd[11], pd[12], pd[13], pd[14], pd[15], pd[16], pd[17]) for pd in players_data ]
+		return [ Player(*pd) for pd in players_data ]
 
 	@staticmethod
 	def clubs(clubs_data: list) -> list[Club]:
@@ -78,7 +78,7 @@ class ClassConstructor:
 			A list of Club Objects constructed with the data received
 		"""
 
-		return [ Club(cd[0], cd[1], cd[2]) for cd in clubs_data ]
+		return [ Club(*cd[:-1]) for cd in clubs_data ]
 	
 	@staticmethod
 	def stadiums(stadiums_data: list) -> list[Stadium]:
@@ -95,7 +95,7 @@ class ClassConstructor:
 			A list of Stadium Objects constructed with the data received
 		"""
 
-		return [ Stadium(sd[0], sd[1], sd[2], sd[3]) for sd in stadiums_data ] 
+		return [ Stadium(*sd) for sd in stadiums_data ] 
 	
 
 	@staticmethod
