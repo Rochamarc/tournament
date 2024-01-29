@@ -1,6 +1,7 @@
 import os
 
 import mysql.connector
+import json 
 
 ABOVE_PATH = os.path.abspath(os.path.join(__file__, '../..'))
 
@@ -36,12 +37,15 @@ class BaseController:
         Change the database
     """
 
-    database_config = { 
-        'user': 'tournament_user', 
-        'host': 'localhost', 
-        'password': 'tournament_pass', 
-        'database': 'tournament' 
-    }
+    # database_config = { 
+    #     'user': 'tournament_user', 
+    #     'host': 'localhost', 
+    #     'password': 'tournament_pass', 
+    #     'database': 'tournament' 
+    # }
+
+    with open(os.path.join(ABOVE_PATH, 'config.json')) as f:
+        database_config = json.load(f)
 
     @classmethod
     def get_query(cls, db_method: str, controller_name: str, file_name: str) -> str:
