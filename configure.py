@@ -66,7 +66,15 @@ for club in alive_it(clubs):
             name, nationality = generate_name_nationality(countries, br_first_names, br_last_names, g_first_names, g_last_names)
     
             # Players data by club
-            players_data.append([ name, nationality, position, birth, height, weight, foot ])
+            players_data.append([
+                name, 
+                nationality, 
+                position, 
+                birth, 
+                height, 
+                weight, 
+                foot 
+            ])
             
     # Insert 30 players into database
     players_controller.insert_players(players_data)
@@ -117,21 +125,23 @@ clubs = clubs_controller.select_id()
 
 print("Creating Coaches")
 coaches = []
-for c in alive_it(clubs):
+for _ in alive_it(clubs):
     # Select the name
     name = names_controller.select_full_name_by_nationality('portuguese br') 
     
-    # Define coach info
-    full_name = ' '.join([name[0][0], name[0][-1]])     
+    # Define coach info    
     nationality = 'Brazil' 
     birth = str(randint(1950, 1979)) 
 
     # Coaches data
-    coaches.append([full_name, nationality, birth])
+    coaches.append([
+        name[0][0], 
+        nationality, 
+        birth
+    ])
 
 print("Inserting Coaches")
 coaches_controller.insert_coaches(coaches)
-
 
 # COACHES CONTRACTS 
 
