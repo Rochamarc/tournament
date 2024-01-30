@@ -100,6 +100,7 @@ I do not own the rights of any of this. It's just for fun.
 * [Mysql](https://www.mysql.com/)
 * [Matplotlib](https://matplotlib.org/)
 * [Jupyter](https://jupyter.org/)
+* [Docker](https://www.docker.com/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -120,8 +121,7 @@ This is an example of how to list things you need to use the software and how to
   ```
 
 ### Installation
-
-Clone, setup and running.
+---
 
 1. Clone the repo
     ```sh
@@ -131,15 +131,59 @@ Clone, setup and running.
     ```sh
       ./database_initialize.sh mysql_user mysql_password
     ```
-3. Populate Name Generator Database
+3. Change config.json like the following example
+    ```json
+        {
+          "port": 3306,
+          "host": "localhost",
+          "user": "mysqluser",
+          "password": "mysqlpassword"
+        }
+    ```
+4. Populate Name Generator Database
     ```py
       python NameGenerator/configure.py
     ```
-4. Run the main code
+5. Populate Main database
+    ```py
+      python configure.py
+    ```
+6. Run the main code
     ```py
       python main.py
     ```
 
+### Installation with docker
+---
+1. Clone the repo
+    ```sh
+      git clone https://github.com/Rochamarc/tournament
+    ```
+2. Build docker database
+    ```sh
+      docker build -t tournament-db .
+    ```
+3. Start docker container
+    ```sh
+      docker run -d -p 5500:3306 -e MYSQL_ROOT_PASSWORD=RootPassword -e MYSQL_DATABASE=Tournament -e MYSQL_USER=MainUser -e MYSQL_PASSWORD=MainPassword tournament-db
+    ```
+4. Exec container bash
+    ```sh
+      docker exec -it <container-id> bash
+    ```
+5. Copy the content on database/tournament into mysql
+6. Populate Name Generator Database
+    ```py
+      python NameGenerator/configure.py
+    ```
+7. Populate Main database
+    ```py
+      python configure.py
+    ```
+8. Run the main code
+    ```py
+      python main.py
+    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -153,6 +197,22 @@ Clone, setup and running.
 * [Controllers](./docs/controllers.md)
 * [NameGenerator](./docs/name_generator.md)
 
+
+
+## Database
+
+To change information on main database, just add changes on the json file  
+
+```sh
+  ./config.json
+```
+
+---
+To change information on name database, just add changes on the json file  
+
+```sh
+  ./NameGenerator/config.json
+``` 
 
 <!-- USAGE EXAMPLES -->
 <!--
