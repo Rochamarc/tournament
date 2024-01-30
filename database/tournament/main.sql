@@ -1,6 +1,13 @@
 /* DATABASE */
 
 /* TABLES */
+USE Tournament;
+
+SET character_set_client = utf8;
+SET character_set_connection = utf8;
+SET character_set_results = utf8;
+SET collation_connection = utf8_general_ci;
+
 
 CREATE TABLE club_classes(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
