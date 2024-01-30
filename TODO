@@ -1,0 +1,33 @@
+# This will finish the scope 
+
+- Search players by:
+	- overall (x)
+	- stats by season 
+	- stats by interval season
+	- position (x)
+	- by age (x)
+	- by more than one category (x)
+
+- Transfers:
+	- free agent -> club
+	- club -> free agente
+	- club -> club
+
+- Configure by season:
+	- create more players
+	- retire players
+	- transfers
+	- each club cant have less than 32 players
+	- each club cant have more than 64 players
+
+# informações
+players:
+	id,
+	name,
+	age,
+	position,
+	height,
+	foot,
+	overall,
+	market_value,
+	salary
