@@ -101,17 +101,6 @@ else
     catching_errors $exitcode "Tournament Data Insertion Failed" "Tournament Data Inserted Sucessfully"
 
 
-    # populate tournament database
-    #
-
-    echo "Populating Tournament Database"
-    python ./configure.py
-
-    exitcode=$?
-
-    catching_errors $exitcode "Tournament Database Population Failed" "Tournament Database Populated Sucessfully"
-
-
     # NameGenerator initialization
     #
     #
@@ -132,6 +121,16 @@ else
     exitcode=$?
 
     catching_errors $exitcode "Name Generator DB Population Failed" "NameGenerator DB Populated Sucessfully"
+
+    # populate tournament database
+    #
+
+    echo "Populating Tournament Database"
+    python ./configure.py
+
+    exitcode=$?
+
+    catching_errors $exitcode "Tournament Database Population Failed" "Tournament Database Populated Sucessfully"
 fi
 
 
