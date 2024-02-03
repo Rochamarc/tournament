@@ -54,70 +54,27 @@ function show_help(){
 }
 
 
-# Name generator initialization
-#
-#
+# mysql -h 0.0.0.0 -P 5500 -u MainRoot --password="RootPassword" -e "CREATE DATABASE TournamentName"
 
+
+HOST=0.0.0.0
+PORT=5500
+DATABASE=Tournament
 
 if [ "$1" = "help" ]
 then
     show_help "$2"
 
 else
-    # NameGenerator initialization
-    #
-    #
-
-    echo "Creating NameGenerator database"
-    mysql -u "$1" --password="$2" -e "create database tournament_name";
-    
-    # return of the code
-    exitcode=$?
-
-    # testing if the code is sucessfull
-    catching_errors $exitcode "Name Generator DB failed" "Name Generator DB Created Sucessfully"
-
-    # Creating tables
-    #
-
-    echo "Creating NameGenerator tables"
-    mysql -h localhost -u "$1" --password="$2" tournament_name < ./NameGenerator/queries/main.sql
-    
-    exitcode=$?
-
-    catching_errors $exitcode "Name Generator Tables failed" "Name Generator Tables Created sucesfully" 
-
-    # populate Name Generator database
-    #
-
-    echo "Populating NameGenerator Database"
-    python ./NameGenerator/configure.py 
-
-    exitcode=$?
-
-    catching_errors $exitcode "Name Generator DB Population Failed" "NameGenerator DB Populated Sucessfully"
-
-
     # Tournament initilialization
     #
     #
-
-
-    # Create database
-    #
-
-    echo "Creating Tournament database"
-    mysql -u "$1" --password="$2" -e "create database tournament";
-
-    exitcode=$?
-
-    catching_errors $exitcode "Tournament DB failed" "Tournament DB Created Sucessfully"
 
     # Create tables and constrainsts
     #
 
     echo "Creating Tournament tables and constraints"
-    mysql -h localhost -u "$1" --password="$2" tournament < ./db/queries/main.sql
+    mysql -h $HOST -P $PORT -u "$1" --password="$2" $DATABASE < ./database/tournament/main.sql
     
     exitcode=$?
 
@@ -127,7 +84,7 @@ else
     #
 
     echo "Creating procedures and triggers"
-    mysql -h localhost -u "$1" --password="$2" tournament < ./db/queries/procedures_triggers.sql
+    mysql -h $HOST -P $PORT -u "$1" --password="$2" $DATABASE < ./database/tournament/procedures_triggers.sql
     
     exitcode=$?
 
@@ -137,7 +94,7 @@ else
     #
 
     echo "Inserting Tournament initial data"
-    mysql -h localhost -u "$1" --password="$2" tournament < ./db/queries/insert/main.sql
+    mysql -h $HOST -P $PORT -u "$1" --password="$2" $DATABASE < ./database/tournament/queries/insert/main.sql
 
     exitcode=$?
 
@@ -153,6 +110,28 @@ else
     exitcode=$?
 
     catching_errors $exitcode "Tournament Database Population Failed" "Tournament Database Populated Sucessfully"
+
+
+    # NameGenerator initialization
+    #
+    #
+
+    echo "Creating NameGenerator tables"
+    mysql -h $HOST -P $PORT -u "$1" --password="$2" $DATABASE < ./NameGenerator/queries/main.sql
+    
+    exitcode=$?
+
+    catching_errors $exitcode "Name Generator Tables failed" "Name Generator Tables Created sucesfully" 
+
+    # populate Name Generator database
+    #
+
+    echo "Populating NameGenerator Database"
+    python ./NameGenerator/configure.py 
+
+    exitcode=$?
+
+    catching_errors $exitcode "Name Generator DB Population Failed" "NameGenerator DB Populated Sucessfully"
 fi
 
 
