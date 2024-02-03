@@ -30,14 +30,14 @@ countries = ['Argentina', 'Colombia', 'Uruguay', 'Paraguay', 'Chile']
 # Select brazilian first & last names
 nationality = "portuguese br"
 
-br_first_names = names_controller.select_first_names(nationality)[0]
-br_last_names = names_controller.select_last_names(nationality)[0]
+br_first_names = names_controller.select_first_names(nationality)
+br_last_names = names_controller.select_last_names(nationality)
 
 # Select spanish first & last names
 nationality = 'spanish'
 
-g_first_names = names_controller.select_first_names(nationality)[0]
-g_last_names = names_controller.select_last_names(nationality)[0]
+g_first_names = names_controller.select_first_names(nationality)
+g_last_names = names_controller.select_last_names(nationality)
 
 # Select clubs names and id
 clubs = clubs_controller.select_id_name_class()

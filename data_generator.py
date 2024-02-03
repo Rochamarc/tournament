@@ -81,17 +81,17 @@ def generate_name_nationality(countries: list, brazilian_first_names: list,
     if randint(0,10) < 3:
         nationality = choice(countries)
         name = ' '.join([
-            choice(gringo_first_names), 
-            choice(gringo_last_names)
+            choice(gringo_first_names)[0], 
+            choice(gringo_last_names)[0]
         ]) 
     
     nationality = 'Brazil'
     name = ' '.join([
-        choice(brazilian_first_names), 
-        choice(brazilian_last_names)
+        choice(brazilian_first_names)[0], 
+        choice(brazilian_last_names)[0]
     ])
 
-    return nationality, name
+    return name, nationality
 
 
 def get_skill_by_position(position: str, club_class: str) -> list[int]:
