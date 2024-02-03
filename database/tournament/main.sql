@@ -455,6 +455,9 @@ ALTER TABLE coach_contracts
 ADD CONSTRAINT UQ_coach_contracts_clubs
 UNIQUE(club_id);
 
+ALTER TABLE player_contracts
+ADD CONSTRAINT UQ_player_contracts_players
+UNIQUE(player_id);
 
 /* 
 
