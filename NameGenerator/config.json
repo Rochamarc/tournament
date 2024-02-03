@@ -1,6 +1,7 @@
 { 
-    "user": "tournament_user", 
-    "host": "localhost", 
-    "password": "tournament_pass", 
-    "database": "tournament_name" 
+    "user": "MainUser", 
+    "host": "0.0.0.0",
+    "port": 5500, 
+    "password": "MainPassword", 
+    "database": "Tournament"
 }
