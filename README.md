@@ -140,15 +140,11 @@ This is an example of how to list things you need to use the software and how to
           "password": "mysqlpassword"
         }
     ```
-4. Populate Name Generator Database
-    ```py
-      python NameGenerator/configure.py
+4. Exec shell script to initialize database
+    ```sh
+      ./database_initialize.sh ${MYSQL_USER} ${MYSQL_PASSWORD}
     ```
-5. Populate Main database
-    ```py
-      python configure.py
-    ```
-6. Run the main code
+5. Run the main code
     ```py
       python main.py
     ```
@@ -171,16 +167,11 @@ This is an example of how to list things you need to use the software and how to
     ```sh
       docker exec -it <container-id> bash
     ```
-5. Copy the content on database/tournament into mysql
-6. Populate Name Generator Database
-    ```py
-      python NameGenerator/configure.py
+5. Exec shell script to initialize database
+    ```sh
+      ./database_initialize.sh ${MYSQL_USER} ${MYSQL_PASSWORD}
     ```
-7. Populate Main database
-    ```py
-      python configure.py
-    ```
-8. Run the main code
+6. Run the main code
     ```py
       python main.py
     ```
