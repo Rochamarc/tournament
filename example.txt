@@ -1,0 +1,6 @@
+# Examples
+# run pydoc markdown
+    * pydoc-markdown -I classes/. --render-toc > classes.md 
+
+# run uvicorn
+    * uvicorn main_api:app --reload
