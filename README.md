@@ -205,6 +205,12 @@ To change information on name database, just add changes on the json file
   ./NameGenerator/config.json
 ``` 
 
+## Versions
+
+* [Mysql 5.7](https://downloads.mysql.com/docs/refman-5.7-en.pdf) 
+* [Python 3.10.12](https://docs.python.org/3.10/) 
+
+
 <!-- USAGE EXAMPLES -->
 <!--
 ## Usage
