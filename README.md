@@ -161,7 +161,7 @@ This is an example of how to list things you need to use the software and how to
     ```
 3. Start docker container
     ```sh
-      docker run -d -p 5500:3306 -e MYSQL_ROOT_PASSWORD=RootPassword -e MYSQL_DATABASE=Tournament -e MYSQL_USER=MainUser -e MYSQL_PASSWORD=MainPassword tournament-db
+      docker compose up -d
     ```
 4. Exec container bash
     ```sh
