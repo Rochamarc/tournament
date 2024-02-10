@@ -1,0 +1,45 @@
+services:
+  mysql1:
+    image: mysql:5.7
+    container_name: tournament-db-main
+    environment:
+     MYSQL_ROOT_PASSWORD: RootPassword
+     MYSQL_USER: MainUser
+     MYSQL_HOST: localhost
+     MYSQL_PASSWORD: MainPassword
+     MYSQL_DATABASE: Tournament
+    ports:
+      - "5500:3306"
+  mysql2:
+    image: mysql:5.7
+    container_name: tournament-db-name
+    environment:
+     MYSQL_ROOT_PASSWORD: RootPassword
+     MYSQL_USER: MainUser
+     MYSQL_HOST: localhost
+     MYSQL_PASSWORD: MainPassword
+     MYSQL_DATABASE: TournamentName
+    ports:
+      - "5501:3306"
+  mysql3:
+    image: mysql:5.7
+    container_name: tournament-db-test
+    environment:
+     MYSQL_ROOT_PASSWORD: RootPassword
+     MYSQL_USER: MainUser
+     MYSQL_HOST: localhost
+     MYSQL_PASSWORD: MainPassword
+     MYSQL_DATABASE: TournamentTest
+    ports:
+      - "5502:3306"
+  mysql4:
+    image: mysql:5.7
+    container_name: tournament-db-analysis
+    environment:
+     MYSQL_ROOT_PASSWORD: RootPassword
+     MYSQL_USER: MainUser
+     MYSQL_HOST: localhost
+     MYSQL_PASSWORD: MainPassword
+     MYSQL_DATABASE: TournamentAnalysis
+    ports:
+      - "5503:3306"
