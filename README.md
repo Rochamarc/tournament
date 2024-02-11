@@ -120,7 +120,7 @@ This is an example of how to list things you need to use the software and how to
   python3 -m pip install -r requirements.txt
   ```
 
-### Installation
+### Installation using local mysql
 ---
 
 1. Clone the repo
@@ -133,12 +133,13 @@ This is an example of how to list things you need to use the software and how to
     ```
 3. Change config.json like the following example
     ```json
-        {
-          "port": 3306,
-          "host": "localhost",
-          "user": "mysqluser",
-          "password": "mysqlpassword"
-        }
+      {
+        "port": 3306,
+        "host": "localhost",
+        "user": "mysqluser",
+        "password": "mysqlpassword",
+        "database": "databasename"
+      }
     ```
 4. Exec shell script to initialize database
     ```sh
@@ -149,7 +150,7 @@ This is an example of how to list things you need to use the software and how to
       python main.py
     ```
 
-### Installation with docker
+### Installation with docker compose
 ---
 1. Clone the repo
     ```sh
@@ -171,7 +172,17 @@ This is an example of how to list things you need to use the software and how to
     ```sh
       ./database_initialize.sh ${MYSQL_USER} ${MYSQL_PASSWORD}
     ```
-6. Run the main code
+6. Change config.json like the following example, on the root directory and NameGenerator directory
+    ```json
+      {
+        "port": 5500,
+        "host": "localhost",
+        "user": "mysqluser",
+        "password": "mysqlpassword",
+        "database": "databasename"
+      }
+    ```
+7. Run the main code
     ```py
       python main.py
     ```
