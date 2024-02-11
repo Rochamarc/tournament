@@ -1,3 +1,7 @@
+USE TournamentName;
+
+ALTER DATABASE TournamentName CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 CREATE TABLE first_names(
     id INT PRIMARY KEY AUTO_INCREMENT,
     value VARCHAR(100) NOT NULL,

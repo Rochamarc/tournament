@@ -58,8 +58,11 @@ function show_help(){
 
 
 HOST=0.0.0.0
-PORT=5500
-DATABASE=Tournament
+MAIN_PORT=5500
+MAIN_DATABASE=Tournament
+
+NAME_DATABASE_PORT=5501
+NAME_DATABASE=TournamentName
 
 if [ "$1" = "help" ]
 then
@@ -74,7 +77,7 @@ else
     #
 
     echo "Creating Tournament tables and constraints"
-    mysql -h $HOST -P $PORT -u "$1" --password="$2" $DATABASE < ./database/tournament/main.sql
+    mysql -h $HOST -P $MAIN_PORT -u "$1" --password="$2" $MAIN_DATABASE < ./database/tournament/main.sql
     
     exitcode=$?
 
@@ -84,7 +87,7 @@ else
     #
 
     echo "Creating procedures and triggers"
-    mysql -h $HOST -P $PORT -u "$1" --password="$2" $DATABASE < ./database/tournament/procedures_triggers.sql
+    mysql -h $HOST -P $MAIN_PORT -u "$1" --password="$2" $MAIN_DATABASE < ./database/tournament/procedures_triggers.sql
     
     exitcode=$?
 
@@ -94,7 +97,7 @@ else
     #
 
     echo "Inserting Tournament initial data"
-    mysql -h $HOST -P $PORT -u "$1" --password="$2" $DATABASE < ./database/tournament/queries/insert/main.sql
+    mysql -h $HOST -P $MAIN_PORT -u "$1" --password="$2" $MAIN_DATABASE < ./database/tournament/queries/insert/main.sql
 
     exitcode=$?
 
@@ -106,7 +109,7 @@ else
     #
 
     echo "Creating NameGenerator tables"
-    mysql -h $HOST -P $PORT -u "$1" --password="$2" $DATABASE < ./NameGenerator/queries/main.sql
+    mysql -h $HOST -P $NAME_DATABASE_PORT -u "$1" --password="$2" $NAME_DATABASE < ./NameGenerator/queries/main.sql
     
     exitcode=$?
 
