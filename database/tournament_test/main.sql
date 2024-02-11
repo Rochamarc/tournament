@@ -215,6 +215,59 @@ CREATE TABLE player_game_stats(
 	game_id INT	
 );
 
+
+CREATE TABLE backup_player_contracts(
+	id INT,
+	start CHAR(4),
+	end CHAR(4),
+	transfer_amount INT,
+	salary INT,
+	termination_fine INT,
+	old_club_id INT,
+	new_club_id INT,
+	player_id INT
+);
+
+CREATE TRIGGER update_contract 
+AFTER UPDATE ON player_contracts
+	FOR EACH ROW INSERT INTO backup_player_contracts VALUES(OLD.id, NEW.start, NEW.end, NEW.transfer_amount, NEW.salary, NEW.termination_fine, OLD.club_id, NEW.club_id, OLD.player_id);
+
+
+-- dbeaver code
+CREATE TABLE backup_player_contracts(
+	player_contract_id INT,
+	old_start CHAR(4),
+	old_end CHAR(4),
+	old_transfer_amount INT,
+	old_salary INT,
+	old_termination_fine INT,
+	old_club_id INT,
+	new_start CHAR(4),
+	new_end CHAR(4),
+	new_transfer_amount INT,
+	new_salary INT,
+	new_termination_fine INT,
+	new_club_id INT,
+	player_id INT
+);
+
+desc backup_player_contracts 
+
+CREATE TRIGGER update_contract 
+AFTER UPDATE ON player_contracts
+FOR EACH ROW 
+INSERT INTO backup_player_contracts VALUES(OLD.id, OLD.start, OLD.end, OLD.transfer_amount, OLD.salary, OLD.termination_fine, OLD.club_id, NEW.start, NEW.end, NEW.transfer_amount, NEW.salary, NEW.termination_fine, NEW.club_id, OLD.player_id);
+
+
+SELECT * FROM player_contracts pc;
+
+UPDATE player_contracts 
+SET start = 2022, end = 2024, transfer_amount = 1000000, salary = 150000, termination_fine = 4000000, club_id = 5, player_id  = 30 
+where id = 1; 
+
+select * from backup_player_contracts bpc;
+
+
 /*
 player_id FOREIGN KEY
 game_id FOREIGN KEY
