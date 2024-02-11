@@ -1,7 +1,3 @@
-CREATE DATABASE tournament_analysis;
-
-USE tournament_analysis;
-
 -- Player stats analysis
 CREATE TABLE player_stats(
     id INT AUTO_INCREMENT PRIMARY KEY,
