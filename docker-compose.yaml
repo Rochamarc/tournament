@@ -1,6 +1,7 @@
 services:
-  mysql1:
-    image: mysql:5.7
+  main-db:
+    build:
+      dockerfile: DatabaseFiles/tournament-main/Dockerfile
     container_name: tournament-db-main
     environment:
      MYSQL_ROOT_PASSWORD: RootPassword
@@ -10,8 +11,9 @@ services:
      MYSQL_DATABASE: Tournament
     ports:
       - "5500:3306"
-  mysql2:
-    image: mysql:5.7
+  name-db:
+    build:
+      dockerfile: DatabaseFiles/name/Dockerfile
     container_name: tournament-db-name
     environment:
      MYSQL_ROOT_PASSWORD: RootPassword
@@ -21,8 +23,9 @@ services:
      MYSQL_DATABASE: TournamentName
     ports:
       - "5501:3306"
-  mysql3:
-    image: mysql:5.7
+  test-db:
+    build:
+      dockerfile: DatabaseFiles/tournament-test/Dockerfile
     container_name: tournament-db-test
     environment:
      MYSQL_ROOT_PASSWORD: RootPassword
@@ -32,8 +35,9 @@ services:
      MYSQL_DATABASE: TournamentTest
     ports:
       - "5502:3306"
-  mysql4:
-    image: mysql:5.7
+  analysis-db:
+    build:
+      dockerfile: DatabaseFiles/tournament-analysis/Dockerfile
     container_name: tournament-db-analysis
     environment:
      MYSQL_ROOT_PASSWORD: RootPassword
