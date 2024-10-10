@@ -164,15 +164,11 @@ This is an example of how to list things you need to use the software and how to
     ```sh
       docker compose up -d
     ```
-4. Exec container bash
+4. Exec container scripts
     ```sh
-      docker exec -it <container-id> bash
+      ./exec_docker_initialize.sh
     ```
-5. Exec shell script to initialize database
-    ```sh
-      ./database_initialize.sh ${MYSQL_USER} ${MYSQL_PASSWORD}
-    ```
-6. Change config.json like the following example, on the root directory and NameGenerator directory
+5. Change config.json like the following example, on the root directory and NameGenerator directory
     ```json
       {
         "port": 5500,
@@ -182,7 +178,7 @@ This is an example of how to list things you need to use the software and how to
         "database": "databasename"
       }
     ```
-7. Run the main code
+6. Run the main code
     ```py
       python main.py
     ```
