@@ -8,6 +8,8 @@ from NameGenerator.base_controller import BaseController
 
 import mysql.connector
 
+from alive_progress import alive_it
+
 class NamesController(BaseController):
     """
     Class that handle tournament_name database
@@ -45,7 +47,7 @@ class NamesController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        for first_name in first_names:
+        for first_name in alive_it(first_names):
             cursor.execute(cls.get_query('insert','insert_first_names'), [first_name, nationality])
         
         conn.commit()
@@ -72,7 +74,7 @@ class NamesController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
-        for last_name in last_names:
+        for last_name in alive_it(last_names):
             cursor.execute(cls.get_query('insert','insert_last_names'), [last_name, nationality])
         
         conn.commit()
