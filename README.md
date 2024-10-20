@@ -178,7 +178,15 @@ This is an example of how to list things you need to use the software and how to
         "database": "databasename"
       }
     ```
-6. Run the main code
+6. Run the config file for NameGenerator
+    ```py
+      python NameGenerator/configure.py
+    ```
+7. Run the config file for Main
+    ```py
+      python configure.py
+    ```
+8. Run the main code
     ```py
       python main.py
     ```
