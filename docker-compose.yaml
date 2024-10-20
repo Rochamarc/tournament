@@ -1,7 +1,7 @@
 services:
   main-db:
     build:
-      dockerfile: DatabaseFiles/tournament-main/Dockerfile
+      dockerfile: DockerFiles/tournament-main/Dockerfile
     container_name: tournament-db-main
     environment:
      MYSQL_ROOT_PASSWORD: RootPassword
@@ -13,7 +13,7 @@ services:
       - "5500:3306"
   name-db:
     build:
-      dockerfile: DatabaseFiles/name/Dockerfile
+      dockerfile: DockerFiles/name/Dockerfile
     container_name: tournament-db-name
     environment:
      MYSQL_ROOT_PASSWORD: RootPassword
@@ -25,7 +25,7 @@ services:
       - "5501:3306"
   test-db:
     build:
-      dockerfile: DatabaseFiles/tournament-test/Dockerfile
+      dockerfile: DockerFiles/tournament-test/Dockerfile
     container_name: tournament-db-test
     environment:
      MYSQL_ROOT_PASSWORD: RootPassword
@@ -37,7 +37,7 @@ services:
       - "5502:3306"
   analysis-db:
     build:
-      dockerfile: DatabaseFiles/tournament-analysis/Dockerfile
+      dockerfile: DockerFiles/tournament-analysis/Dockerfile
     container_name: tournament-db-analysis
     environment:
      MYSQL_ROOT_PASSWORD: RootPassword
