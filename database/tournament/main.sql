@@ -459,6 +459,13 @@ ALTER TABLE player_contracts
 ADD CONSTRAINT UQ_player_contracts_players
 UNIQUE(player_id);
 
+ALTER TABLE champions 
+ADD CONSTRAINT UQ_champion
+UNIQUE(season, division_id);
+
+ALTER TABLE competitions
+ADD CONSTRAINT UQ_championship
+UNIQUE(name);
 
 /* Keeping track from the contract updates */
 
