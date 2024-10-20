@@ -38,17 +38,51 @@ class Club:
     """
     
     def __init__(self, id: int, name: str, country: str):
-        self.id = id
-        self.name = name
-        self.country = country
-        self.short_country = self.country[:3].upper()
+        self.__id = id
+        self.__name = name
+        self.__country = country
+        self.__short_country = country[:3].upper()
 
-        self.squad = []
-        self.start_eleven = []
-        self.bench = []
+        self.__squad = []
+        self.__start_eleven = []
+        self.__bench = []
+
+    @property
+    def id(self) -> int:
+        return self.__id
+
+    @property
+    def name(self) -> str:
+        return self.__name
+
+    @property
+    def country(self) -> str:
+        return self.__country
+
+    @property
+    def short_country(self) -> str:
+        return self.__short_country
+
+    @property
+    def squad(self) -> list:
+        """Return a copy of the original list
+        """
+        return self.__squad.copy()
+    
+    @property
+    def start_eleven(self) -> list:
+        """Return a copy of the original list
+        """
+        return self.__start_eleven.copy()
+    
+    @property
+    def bench(self) -> list:
+        """Return a copy of the original list
+        """
+        return self.__bench.copy()
 
     def __repr__(self):
-        return f"Club({self.name})"
+        return f"Club({self.__name})"
     
     def add_to_squad(self, *values: list):
         """Add players to squad
@@ -63,7 +97,7 @@ class Club:
             None
         """
         
-        self.squad += values
+        self.__squad += values
 
     def add_to_start_eleven(self, *values: list):
         """Add players to start eleven
@@ -78,7 +112,7 @@ class Club:
             None
         """
         
-        self.start_eleven += values 
+        self.__start_eleven += values 
     
     def add_to_bench(self, *values: list):
         """Add players to bench
@@ -93,7 +127,7 @@ class Club:
             None
         """
 
-        self.bench += values
+        self.__bench += values
     
     @property
     def overall(self):
