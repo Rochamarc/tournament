@@ -37,15 +37,27 @@ class BaseController:
         Change the database
     """
 
-    # database_config = { 
-    #     'user': 'tournament_user', 
-    #     'host': 'localhost', 
-    #     'password': 'tournament_pass', 
-    #     'database': 'tournament' 
-    # }
+    database_pointer = 'mainDb'
 
-    with open(os.path.join(ABOVE_PATH, 'config.json')) as f:
-        database_config = json.load(f)
+    @classmethod
+    def change_database_pointer(cls) -> None:
+        """Switch the database automatically. Database options: main & test
+        """
+
+        option = ['mainDb', 'testDb']
+        option.remove(cls.database_pointer)
+
+        cls.database_pointer = option[0]
+        
+        print("Current Database: {}".format(cls.database_pointer))
+
+        return None 
+    
+    @property
+    def database_config(cls) -> dict:
+        """A dict containing all the database information, like: host, username, database_name & password"""
+        with open(os.path.join(ABOVE_PATH, 'config.json')) as f:
+            return json.load(f)[cls.database_pointer]
 
     @classmethod
     def get_query(cls, db_method: str, controller_name: str, file_name: str) -> str:
@@ -247,3 +259,8 @@ class BaseController:
         conn.close()
 
         return exit_data
+
+if __name__ == "__main__":
+    print(BaseController.database_pointer)
+    BaseController.change_database_pointer()
+    BaseController.change_database_pointer()
