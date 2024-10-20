@@ -1,6 +1,6 @@
-from classes.person import Person 
+from classes.habilities import Hability
 
-class Player(Person):
+class Player(Hability):
     """
     A class that represents a Football/Soccer player
 
@@ -47,14 +47,18 @@ class Player(Person):
     
     Properties
     ----------
-    gk_average
-        Calculates goal keeper skills average
-    defense_average
-        Calculates defensive players skills average
-    attacking_average
-        Calculates defensive players skills average
-    overall
-        Calculates full players skills average
+    name
+    nationality
+    id
+    club_id
+    foot
+    height
+    weight
+
+    Methods
+    -------
+    age(year: int)
+        Calculates players age
     """
 
     def __init__(self, id: int, name: str, nationality: str, birth: int, position: str, 
@@ -62,79 +66,76 @@ class Player(Person):
                  diving: int, standing_tackle: int, physical: int, passing: int,
                  dribbling: int, long_shot: int, finishing: int, club_id: int):
         
-        super().__init__(name, nationality, birth)
-        self.id = id
-        self.position = position
+        super().__init__(position, positioning, reflexes, diving, standing_tackle, physical, passing, dribbling, long_shot, finishing)
 
-        # physical
-        self.height = height
-        self.weight = weight
-        self.foot = foot
+        self.__name = name 
+        self.__nationality = nationality
+        self.__birth = birth 
 
-        self.club_id = club_id
-        
-        # skills
-        self.positioning = positioning 
-        self.reflexes = reflexes
-        self.diving = diving
-        self.standing_tackle = standing_tackle
-        self.physical = physical
-        self.passing = passing 
-        self.dribbling = dribbling
-        self.long_shot = long_shot
-        self.finishing = finishing
+        self.__id = id
+        self.__height = height
+        self.__weight = weight
+        self.__foot = foot
+        self.__club_id = club_id
 
     @property
-    def gk_average(self) -> int:
-        """Calculates the goal keeper average
-        
-        Returns
-        -------
-            Average of position, reflexes & diving
-        """
-
-        return (self.positioning + self.reflexes + self.diving) // 3
+    def name(self) -> str:
+        return self.__name
     
     @property
-    def defense_overall(self) -> int:
-        """Calculates the defensive players average
-        
-        Returns
-        -------
-            Average of stading_tackle, physical & passing
-        """
-
-        return (self.standing_tackle + self.physical + self.passing) // 3
+    def nationality(self) -> str:
+        return self.__nationality
+    
+    @property
+    def id(self) -> int:
+        return self.__id
+    
+    @property
+    def club_id(self) -> int:
+        return self.__club_id
+    
+    @property
+    def foot(self) -> str:
+        return self.__foot
 
     @property
-    def attacking_overall(self) -> int:
-        """Calculates the attacking players average
-
-        Returns
-        -------
-            Average of driblling, long_shot & finishing
-        """
-        
-        return (self.dribbling + self.long_shot + self.finishing) // 3
-
+    def height(self) -> float:
+        return self.__height
+    
     @property
-    def overall(self) -> int:
-        """Calculates the full skill players average
+    def weight(self) -> float:
+        return self.__weight
+    
+    def age(self, year: int) -> int:
+        """Show player's age
+
+        Parameters
+        ----------
+        year : int
+            A four digit value for a year
         
         Returns
         -------
-            gk_average if is a goalkeeper or the full average if it's not a goalkeeper. 
+        int : Value for the player age
+        """
+
+        return year - self.__birth
+    
+    def transfer(self, new_club_id: int) -> None:
+        """Change the player's club
+        
+        Returns
+        -------
+            None
         """
         
-        if self.position == 'GK':
-            return self.gk_average
-        
-        if self.defense_overall > self.attacking_overall:
-            return (self.defense_overall * 2 + self.attacking_overall) // 3
-        return (self.attacking_overall * 2 + self.defense_overall) // 3
+        self.__club_id = new_club_id
 
     def __repr__(self):
-        return f'Player({self.name})'
+        return f'Player({self.__name})'
 
     def __str__(self):
-        return f'Player({self.name})'
+        return f'Player({self.__name})'
+
+if __name__ == "__main__":
+    ...
