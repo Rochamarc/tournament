@@ -53,12 +53,14 @@ class BaseController:
 
         return None 
     
-    @property
+    @classmethod
     def database_config(cls) -> dict:
         """A dict containing all the database information, like: host, username, database_name & password"""
         with open(os.path.join(ABOVE_PATH, 'config.json')) as f:
-            return json.load(f)[cls.database_pointer]
+            value : dict = json.load(f)[cls.database_pointer]
 
+        return value
+    
     @classmethod
     def get_query(cls, db_method: str, controller_name: str, file_name: str) -> str:
         """Get one query on db/queries/
@@ -114,7 +116,7 @@ class BaseController:
             None        
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
+        conn = mysql.connector.connect(**cls.database_config())
         cursor = conn.cursor()
 
         cursor.execute(query, data)
@@ -140,7 +142,7 @@ class BaseController:
             None
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
+        conn = mysql.connector.connect(**cls.database_config())
         cursor = conn.cursor()
 
         for data in datas:
@@ -167,7 +169,7 @@ class BaseController:
             A list with of sets
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
+        conn = mysql.connector.connect(**cls.database_config())
         cursor = conn.cursor()
 
         if data:
@@ -195,7 +197,7 @@ class BaseController:
             A list with of sets
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
+        conn = mysql.connector.connect(**cls.database_config())
         cursor = conn.cursor()
 
         cursor.execute(query)
@@ -220,7 +222,7 @@ class BaseController:
             None
         """
 
-        conn = mysql.connector.connect(**cls.database_config)
+        conn = mysql.connector.connect(**cls.database_config())
         cursor = conn.cursor()
 
         cursor.execute(query, data)
@@ -249,7 +251,7 @@ class BaseController:
             list
         """
         
-        conn = mysql.connector.connect(**cls.database_config)
+        conn = mysql.connector.connect(**cls.database_config())
         cursor = conn.cursor()
 
         cursor.execute(query, data)
