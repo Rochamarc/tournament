@@ -5,6 +5,7 @@ import json
 
 ABOVE_PATH = os.path.abspath(os.path.join(__file__, '../..'))
 
+from alive_progress import alive_it
 
 class BaseController:
     """
@@ -145,7 +146,7 @@ class BaseController:
         conn = mysql.connector.connect(**cls.database_config())
         cursor = conn.cursor()
 
-        for data in datas:
+        for data in alive_it(datas):
             cursor.execute(query, data)
         
         conn.commit()
