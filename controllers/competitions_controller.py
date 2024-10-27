@@ -1,4 +1,5 @@
 from controllers.base_controller import BaseController
+from alive_progress import alive_it
 
 class CompetitionsController(BaseController):
     """Class that handle tournament.competitions & divisions
@@ -25,7 +26,7 @@ class CompetitionsController(BaseController):
             None
         """
         
-        for competition in competitions:
+        for competition in alive_it(competitions):
             cls.insert_registers(cls.get_query('insert', 'competitions', 'competitions'), [competition])
     
         return None 
