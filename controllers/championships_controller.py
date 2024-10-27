@@ -314,12 +314,14 @@ class ChampionshipsController(BaseController):
             None
         """
 
-        if cls.check_champion(season, competition_name, division_name):
-            raise Exception("DataBase error: there's alredy an champions with this season: {}, on competition: {} {}.".format(season, competition_name, division_name))
+        # Remove this check by adding a unique constraint on DB
+        
+        cls.insert_register(
+            cls.get_query('insert','championships','champions'), 
+            [season, division_id, club_id]
+        )
 
-
-        data = [season, division_id, club_id]
-        return cls.insert_register(cls.get_query('insert','championships','champions'), data)
+        return None
 
     @classmethod
     def check_champion(cls, season: str, competition_name: str, division_name: str) -> bool:
@@ -340,6 +342,7 @@ class ChampionshipsController(BaseController):
         """
 
         data = cls.check_register(cls.get_query('check','championships' ,'champions'), [competition_name, division_name, season])
+        
         if data:
             return True
         return False
