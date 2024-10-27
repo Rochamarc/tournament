@@ -12,6 +12,25 @@ class CompetitionsController(BaseController):
     """
     
     @classmethod
+    def insert_competitions(cls, competitions: list[str]) -> None:
+        """Insert registers into tournament.competitions
+
+        Parameters
+        ----------
+        competitions : list
+            A list with competitions names
+        
+        Return
+        ------
+            None
+        """
+        
+        for competition in competitions:
+            cls.insert_registers(cls.get_query('insert', 'competitions', 'competitions'), [competition])
+    
+        return None 
+
+    @classmethod
     def select_competition_id(cls, competition_name: str) -> list[set]:
         """Select the id from tournament.competitions
 
