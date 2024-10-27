@@ -74,7 +74,7 @@ class Club:
         """Return a copy of the original list
         """
         return self.__start_eleven.copy()
-    
+
     @property
     def bench(self) -> list:
         """Return a copy of the original list
@@ -83,7 +83,15 @@ class Club:
 
     def __repr__(self):
         return f"Club({self.__name})"
-    
+
+    @start_eleven.setter
+    def start_eleven(self, other_value: list) -> None:
+        self.__start_eleven = other_value
+
+    @bench.setter 
+    def bench(self, other_value: list) -> None:
+        self.__bench = other_value
+
     def add_to_squad(self, *values: list):
         """Add players to squad
 
