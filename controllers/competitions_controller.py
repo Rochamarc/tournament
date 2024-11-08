@@ -26,8 +26,10 @@ class CompetitionsController(BaseController):
             None
         """
         
-        for competition in alive_it(competitions):
-            cls.insert_registers(cls.get_query('insert', 'competitions', 'competitions'), [competition])
+        cls.insert_registers(
+            cls.get_query('insert', 'competitions', 'competitions'), 
+            competitions
+            )
     
         return None 
 
