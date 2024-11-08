@@ -21,6 +21,17 @@ class ClubsController(BaseController):
     """
     
     @classmethod
+    def insert_clubs(cls, clubs_data: list[list]) -> None:
+        """
+        """
+
+        cls.insert_registers(
+            cls.get_query('insert', 'clubs', 'clubs'),
+            clubs_data
+        )
+        
+
+    @classmethod
     def select_id_name_class(cls) -> list[set]:
         """Select club's id, name & club_class
 

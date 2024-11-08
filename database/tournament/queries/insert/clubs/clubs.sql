@@ -1,0 +1,1 @@
+INSERT INTO clubs VALUES (NULL, %s, %s, %s);
