@@ -156,19 +156,15 @@ This is an example of how to list things you need to use the software and how to
     ```sh
       git clone https://github.com/Rochamarc/tournament
     ```
-2. Build docker database
-    ```sh
-      docker build -t tournament-db .
-    ```
-3. Start docker container
+2. Start docker container
     ```sh
       docker compose up -d
     ```
-4. Exec container scripts
+3. Exec container scripts
     ```sh
       ./exec_docker_initialize.sh
     ```
-5. Change config.json like the following example, on the root directory and NameGenerator directory
+4. Change config.json like the following example, on the root directory and NameGenerator directory
     ```json
       {
         "port": 5500,
@@ -178,15 +174,15 @@ This is an example of how to list things you need to use the software and how to
         "database": "databasename"
       }
     ```
-6. Run the config file for NameGenerator
+5. Run the config file for NameGenerator
     ```py
       python NameGenerator/configure.py
     ```
-7. Run the config file for Main
+6. Run the config file for the Tournament
     ```py
       python configure.py
     ```
-8. Run the main code
+7. Run the main code to simulate a season
     ```py
       python main.py
     ```
