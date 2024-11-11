@@ -37,12 +37,12 @@ catching_errors $exitcode "Tournament Procedures and Triggers Failed" "Tournamen
 
 # Insert main data on tournament
 
-echo "Inserting Tournament initial data"
-mysql -u root --password=${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE} < ./insert/main.sql
+# echo "Inserting Tournament initial data"
+# mysql -u root --password=${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE} < ./insert/main.sql
 
-exitcode=$?
+# exitcode=$?
 
-catching_errors $exitcode "Tournament Data Insertion Failed" "Tournament Data Inserted Sucessfully"
+# catching_errors $exitcode "Tournament Data Insertion Failed" "Tournament Data Inserted Sucessfully"
 
 
 
