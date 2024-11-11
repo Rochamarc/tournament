@@ -1,9 +1,13 @@
 class Person:
     def __init__(self, name: str, nationality: str, birth: int):
         self.__name = name
-        self.nationality = nationality
+        self.__nationality = nationality
         self.__birth = birth
 
+    @property
+    def nationality(self):
+        return self.__nationality
+    
     @property
     def name(self):
         return self.__name
