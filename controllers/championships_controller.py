@@ -97,7 +97,7 @@ class ChampionshipsController(BaseController):
         """
 
         return cls.select_register(cls.get_query('select','championships','championship_by_club'), [season, club_id])
-        
+    
     @classmethod
     def select_championship_table_by_division(cls, season: int, division_name: str) -> list[set]:
         """Select all the rows of the championsips table based on the season and divison
