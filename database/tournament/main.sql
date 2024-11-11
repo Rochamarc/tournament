@@ -3,7 +3,7 @@
 /* TABLES */
 USE Tournament;
 
-ALTER DATABASE `Tournament` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; 
+ALTER DATABASE `Tournament` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE club_classes(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
