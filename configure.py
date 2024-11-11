@@ -1,9 +1,9 @@
-from NameGenerator.names_controller import NamesController
-
 from random import randint, shuffle
 
-from controllers.coaches_controller import CoachesController
+from NameGenerator.names_controller import NamesController
+
 from controllers.clubs_controller import ClubsController
+from controllers.coaches_controller import CoachesController
 from controllers.players_controller import PlayersController
 
 from data_generator import calculate_market_value, calculate_overall_per_player
@@ -13,16 +13,12 @@ from data_generator import generate_weight_foot_and_birth
 
 from data_manipulation import formulate_data_for_market_value
 
-from alive_progress import alive_it
-
 
 clubs_controller = ClubsController()
 coaches_controller = CoachesController()
 names_controller = NamesController()
 players_controller = PlayersController()
 
-# TODO this cannot be a constant
-# this has to be a variable
 season = '2022'
 
 countries = ['Argentina', 'Colombia', 'Uruguay', 'Paraguay', 'Chile']
@@ -39,27 +35,32 @@ nationality = 'spanish'
 g_first_names = names_controller.select_first_names(nationality)
 g_last_names = names_controller.select_last_names(nationality)
 
-# Select clubs names and id
+# Select club's data => name, id and club_class
 clubs = clubs_controller.select_id_name_class()
 
 # Create and insert a list of players data and insert into database
 print("Creating Players")
 
-for club in alive_it(clubs):
+for club in clubs:
     club_id = club[0]
     club_class = club[-1]
 
-    n_for_player = { 'GK': 3, 'DF': 9, 'MF': 11, 'AT': 7 }
+    n_for_player = { 
+        'GK': 3, 
+        'DF': 9, 
+        'MF': 11, 
+        'AT': 7 
+    }
 
     players_data = []
 
     # iterate player_functions by number of player_functions
-    for player_funtion, n_player_function in n_for_player.items():
+    for player_function, n_player_function in n_for_player.items():
         
         # Player creation block 
         for _ in range(n_player_function):
             # Generate players body info
-            position, height = generate_height_and_position(player_funtion)
+            position, height = generate_height_and_position(player_function)
             weight, foot, birth = generate_weight_foot_and_birth()  
 
             # 3 chances in 10 of a gringo player
@@ -125,8 +126,9 @@ clubs = clubs_controller.select_id()
 
 print("Creating Coaches")
 coaches = []
-for _ in alive_it(clubs):
-    # Select the name
+
+for _ in clubs:
+    # Select coach's name
     name = names_controller.select_full_name_by_nationality('portuguese br') 
     
     # Define coach info    
@@ -154,19 +156,17 @@ salary = 100_000
 coaches = coaches_controller.select_id()
 clubs = clubs_controller.select_id()
 
-# Shuffle the data
+# Randomizing coach and clubs initial contract
 shuffle(coaches)
 shuffle(clubs)
 
-# Create and inser data into the database
-
+# Create and insert data into the database
 print("Creating Coach Contracts")
 
 coach_contracts = []
-for _ in alive_it(range(len(clubs))):
+for _ in range(len(clubs)):
     club_id = clubs.pop()
     coach_id = coaches.pop()[0]
-
     coach_contracts.append([start, end, salary, club_id, coach_id])
 
 print("Inserting Coach Contracts")
