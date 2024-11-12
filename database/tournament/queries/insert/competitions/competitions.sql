@@ -1,1 +1,1 @@
-INSERT INTO competitions VALUES(NULL, %s);
+INSERT INTO competitions (name) VALUES(%s);
