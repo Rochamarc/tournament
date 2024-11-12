@@ -47,6 +47,8 @@ class NamesController(BaseController):
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
 
+        print(f"Inserting {nationality} first names...")
+
         for first_name in alive_it(first_names):
             cursor.execute(cls.get_query('insert','insert_first_names'), [first_name, nationality])
         
@@ -73,6 +75,8 @@ class NamesController(BaseController):
 
         conn = mysql.connector.connect(**cls.database_config)
         cursor = conn.cursor()
+
+        print(f"Inserting {nationality} last names...")
 
         for last_name in alive_it(last_names):
             cursor.execute(cls.get_query('insert','insert_last_names'), [last_name, nationality])
