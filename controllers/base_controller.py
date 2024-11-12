@@ -147,7 +147,11 @@ class BaseController:
         cursor = conn.cursor()
 
         for data in alive_it(datas):
-            cursor.execute(query, data)
+            
+            if type(data) == list:
+                cursor.execute(query, data)
+            else:
+                cursor.execute(query, [data,])
         
         conn.commit()
         conn.close()

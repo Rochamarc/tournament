@@ -33,7 +33,7 @@ club_classes = [
     'D'
 ]
 
-competitions_controller.insert_competitions(competitions=competitions)
+competitions_controller.insert_competitions(competitions)
 
 club_class_controller.insert_club_classes(club_classes=club_classes)
 
