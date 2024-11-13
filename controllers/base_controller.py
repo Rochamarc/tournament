@@ -128,7 +128,7 @@ class BaseController:
         return None
 
     @classmethod
-    def insert_registers(cls, query: str, datas: list) -> None:
+    def insert_registers(cls, query: str, datas: list, complex: bool=True, progress_bar: bool=True) -> None:
         """Make multiple inserts on database
 
         Parameters
@@ -137,6 +137,10 @@ class BaseController:
             A string containing an sql query
         data : list
             List containing the necessary data 
+        complex : bool
+            Bool for the complexity of the data, if the data is a list of list, leave marked as True else, insert False
+        progress_bar : bool
+            A bool value for the progress bar
 
         Returns
         -------
@@ -146,13 +150,22 @@ class BaseController:
         conn = mysql.connector.connect(**cls.database_config())
         cursor = conn.cursor()
 
-        for data in alive_it(datas):
-            
-            if type(data) == list:
-                cursor.execute(query, data)
-            else:
-                cursor.execute(query, [data,])
-        
+        if progress_bar:
+            for data in alive_it(datas):    
+                if complex:
+                    cursor.execute(query, data)
+                else:
+                    cursor.execute(query, [data])
+        else:
+            # skip alive progress
+
+            for data in datas:
+                if complex:
+                    cursor.execute(query, data)
+                else:
+                    cursor.execute(query, [data])
+
+
         conn.commit()
         conn.close()
 
@@ -268,6 +281,4 @@ class BaseController:
         return exit_data
 
 if __name__ == "__main__":
-    print(BaseController.database_pointer)
-    BaseController.change_database_pointer()
-    BaseController.change_database_pointer()
+    ...
