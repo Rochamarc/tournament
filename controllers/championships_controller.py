@@ -50,16 +50,13 @@ class ChampionshipsController(BaseController):
         -------
             None
         """
-        
-        for club in clubs_data:
-            club_id = club[1]
-            season = club[0]
 
-            if cls.check_for_initial_table(club_id, season):
-                raise Exception("Club with id: {}, is already associate to a table with season {}".format(club_id, season))
+        cls.insert_registers(
+            cls.get_query('insert','championships','championships'), 
+            clubs_data
+        )
 
-        return cls.insert_registers(cls.get_query('insert','championships','championships'), clubs_data)
-
+        return None
     
     @classmethod
     def select_championships_to_insert(cls, division_name: str, previous_season: int) -> list[set]:

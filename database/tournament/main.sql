@@ -467,6 +467,10 @@ ALTER TABLE competitions
 ADD CONSTRAINT UQ_championship
 UNIQUE(name);
 
+ALTER TABLE championships
+ADD CONSTRAINT UQ_championships_club_and_season
+UNIQUE(season, division_id, club_id)
+
 /* Keeping track from the contract updates */
 
 CREATE TABLE backup_player_contracts(
