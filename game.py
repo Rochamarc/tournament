@@ -4,7 +4,7 @@ from classes.player import Player
 from classes.club import Club
 from classes.stadium import Stadium
 
-from decision_maker import simple_decision
+from decision_maker import generate_player_hash, complex_decision_2
 
 # TODO change overall as int for decisions 
 
@@ -175,7 +175,7 @@ class Game(BaseGame):
             f_move = self.move_decision(attacker, defensor, 'pass')
 
             # check for a foul to update on logs
-            if not simple_decision(defensor.standing_tackle):
+            if not complex_decision_2(generate_player_hash(defensor.overall)):
                 self.update_game_stats_on_logs('fouls', attack_club.name)
                 
                 self.update_player_stats_on_logs('fouls', defensor)
@@ -295,7 +295,7 @@ class Game(BaseGame):
 
                 # Define for a defense or a kick out
                 # to update the logs
-                if simple_decision(keeper.overall):
+                if complex_decision_2(generate_player_hash(keeper.overall)):
                     self.update_game_stats_on_logs('saves', defense_club.name)
 
                     self.update_game_stats_on_logs('shots on target', attack_club.name)
@@ -317,15 +317,15 @@ class Game(BaseGame):
                     self.update_player_stats('shots', attacker)
             else:
                 # club's overall
-                attack_club_overall = attack_club.overall
+                # attack_club_overall = attack_club.overall
                 
-                decision = simple_decision(attacker.overall) and simple_decision(attack_club_overall)
+                decision = complex_decision_2(generate_player_hash(attacker.overall)) # and simple_decision(attack_club_overall)
 
                 if decision:
                     # Goal
                     
                     # update attacking team move
-                    midfielder =  self.select_player(attack_club, player_position='midfielder')
+                    midfielder = self.select_player(attack_club, player_position='midfielder')
                     self.finish(midfielder, attacker, attack_club)
                     self.update_game_stats_on_logs('shots on target', attack_club.name)
                     
@@ -435,13 +435,13 @@ class Game(BaseGame):
             # skills table 
             # for now i'm using defensor's overall
 
-            return not simple_decision(defensor.overall) and simple_decision(attacker.passing)
+            return not complex_decision_2(generate_player_hash(defensor.overall)) and complex_decision_2(generate_player_hash(attacker.passing))
         elif move == 'shot':
-            return not simple_decision(defensor.diving) and simple_decision(attacker.finishing)
+            return not complex_decision_2(generate_player_hash(defensor.diving)) and complex_decision_2(generate_player_hash(attacker.finishing))
         elif move == 'long_shot':
-            return not simple_decision(defensor.positioning) and simple_decision(attacker.long_shot)
+            return not complex_decision_2(generate_player_hash(defensor.positioning)) and complex_decision_2(generate_player_hash(attacker.long_shot))
         else:
-            return not simple_decision(defensor.overall) and simple_decision(attacker.overall)  
+            return not complex_decision_2(generate_player_hash(defensor.overall)) and complex_decision_2(generate_player_hash(attacker.overall))  
 
     def select_player_on_field(self, club: Club, field_part: str) -> Player:
         """Select a random player based on his field part 
@@ -500,6 +500,7 @@ class Game(BaseGame):
         Exception : if the unless parameters are true and player_position if false,
             player_position can be True and unless False but not the other way
         NameError : if club doesnt't belongs to match self.home or self.away
+        
         Returns
         -------
             A Player Object
