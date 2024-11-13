@@ -78,7 +78,11 @@ class PlayersController(BaseController):
             None
         """
 
-        return cls.insert_registers(cls.get_query('insert','players','stats'), stats_datas)
+        return cls.insert_registers(
+            cls.get_query('insert','players','stats'), 
+            stats_datas,
+            progress_bar=False
+        )
     
     @classmethod
     def insert_players_market_value(cls, market_value_datas: list) -> None:
