@@ -1,6 +1,7 @@
 from data_generator import apply_reduction
 
 import numpy as np 
+import random 
 
 def simple_decision(p_overall) -> bool:
     """Calculates a decision based on players overall
@@ -43,3 +44,42 @@ def complex_decision(p_overall: int, num_trials: int = 1) -> bool:
 
     # Retorna True se o número de sucessos for 0 (mais frequentemente)
     return result == 0
+
+def generate_player_hash(player_overall: int, weight: int=9, power: float=1.4) -> set[float]:
+    """Generate a list of unique float values between zero and one
+
+    Parameters
+    ----------
+    player_overall : int
+        A value between 50 and 100
+    weight : int
+        A int value for the number that will be multiplied by the onverall
+    power : float
+        A float value for the power of the weight
+        
+    Return
+    ------
+    list : float
+        A list with random float values
+    """
+
+    rng_value = int(player_overall * weight**power)
+
+    return set([round(random.random(), 4) for _ in range(rng_value) ])
+
+def complex_decision_2(player_hash: set) -> bool:
+    """Generate a decision based on the player's hash
+
+    Parameters
+    ----------
+    player_hash : set
+        A set of automated values
+
+    Returns
+    -------
+    bool : for the sorted value in player_hash
+    """
+
+    decision_value = round(random.random(), 4)
+
+    return decision_value in player_hash
