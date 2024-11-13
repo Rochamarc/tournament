@@ -2,13 +2,14 @@ from controllers.competitions_controller import CompetitionsController
 from controllers.championships_controller import ChampionshipsController
 from controllers.club_class_controller import ClubClassController
 from controllers.clubs_controller import ClubsController
+from controllers.stadiums_controller import StadiumsController
+
 
 competitions_controller = CompetitionsController()
 championships_contoller = ChampionshipsController()
 club_class_controller = ClubClassController()
 clubs_controller = ClubsController()
-
-# championships_contoller.insert_championship()
+stadiums_controller = StadiumsController()
 
 # General Data
 
@@ -20,10 +21,10 @@ competitions = [
 ]
 
 divisions = [
-    'Serie A',
-    'Serie B',
-    'Serie C',
-    'Primera Divison'
+    ['Serie A', 1],
+    ['Serie B', 1],
+    ['Serie C', 1],
+    ['Primera Divison', 2]
 ]
 
 club_classes = [
@@ -32,10 +33,6 @@ club_classes = [
     'C',
     'D'
 ]
-
-competitions_controller.insert_competitions(competitions)
-
-club_class_controller.insert_club_classes(club_classes=club_classes)
 
 # Serie A Data
 serie_a_clubs = [
@@ -83,8 +80,6 @@ serie_a_championships = [
     ['2022', 19, 1],
     ['2022', 20, 1],
 ]
-
-clubs_controller.insert_clubs(serie_a_clubs)
 
 # Serie B Data
 
@@ -134,9 +129,6 @@ serie_b_championships = [
     [ '2022', 40, 2],
 ]
 
-clubs_controller.insert_clubs(serie_b_clubs)
-
-
 # Serie C Data
 serie_c_clubs = [
     [ "Paysandu", "Brazil", 4],
@@ -183,8 +175,6 @@ serie_c_championships = [
     [ '2022', 59, 3],
     [ '2022', 60, 3],
 ]
-
-clubs_controller.insert_clubs(serie_c_clubs)
 
 argentinian_clubs = [    
     ["River Plate", "Argentina", 2],
@@ -249,30 +239,22 @@ argentinian_championships = [
 
 ]
 
-clubs_controller.insert_clubs(argentinian_clubs)
-
-
-
-# /* GENERIC STADIUMS */
-# whitout city
-
 generic_stadiums = [
-    [ 'Rei Pelé Arena', 100000 ,'Brazil'],
-    [ 'Estádio Porto Alegre', 65000 ,'Brazil'],
-    [ 'Estádio Arthur Antunes Coimbra', 70000 ,'Brazil'],
-    [ 'Arena do Castelo', 90000 ,'Brazil'],
-    [ 'Arena Dom Pedro II', 150000 ,'Brazil'],
-    [ 'Estádio do Tupiniquim', 30000 ,'Brazil'],
-    [ 'Zumbi dos Palmares', 30000 ,'Brazil'],
-    [ 'Arena Princesa Izabel', 62000 ,'Brazil'],
-    [ 'Arena Joviedade', 200000 ,'Brazil'],
-    [ 'Estádio da Paulista', 150000 ,'Brazil'],
-    [ 'Estádio Sertanejo', 120000 ,'Brazil'],
-    [ 'Arena Mário Jorge Lobo Zagallo', 70000 ,'Brazil'],
-    [ 'Arena João Leite Ortiz', 35000 ,'Brazil'],
+    [ 'Rei Pelé Arena', 100000 ,'Brazil', 'Brazil'],
+    [ 'Estádio Porto Alegre', 65000 ,'Brazil', 'Brazil'],
+    [ 'Estádio Arthur Antunes Coimbra', 70000 ,'Brazil', 'Brazil'],
+    [ 'Arena do Castelo', 90000 ,'Brazil', 'Brazil'],
+    [ 'Arena Dom Pedro II', 150000 ,'Brazil', 'Brazil'],
+    [ 'Estádio do Tupiniquim', 30000 ,'Brazil', 'Brazil'],
+    [ 'Zumbi dos Palmares', 30000 ,'Brazil', 'Brazil'],
+    [ 'Arena Princesa Izabel', 62000 ,'Brazil', 'Brazil'],
+    [ 'Arena Joviedade', 200000 ,'Brazil', 'Brazil'],
+    [ 'Estádio da Paulista', 150000 ,'Brazil', 'Brazil'],
+    [ 'Estádio Sertanejo', 120000 ,'Brazil', 'Brazil'],
+    [ 'Arena Mário Jorge Lobo Zagallo', 70000 ,'Brazil', 'Brazil'],
+    [ 'Arena João Leite Ortiz', 35000 ,'Brazil', 'Brazil'],
 ]
 
-# /* REAL STADIUMS */
 real_stadiums = [
     ["Monumental de la U",80903,"Peru","Lima"],
     ["Maracanã",78838,"Brazil","Rio de Janeiro"],
@@ -307,15 +289,84 @@ real_stadiums = [
     ["Atanasio Girardot",44739,"Colombia","Medellin"],
 ]
 
+ownership_data = [
+    [ 6, 15 ],
+    [ 7, 15 ],
+    [ 14, 36 ],
+    [ 13, 17 ],
+    [ 61, 18 ],
+    [ 23, 19 ],
+    [ 9, 20 ],
+    [ 5, 29 ],
+    [ 4, 29 ],
+    [ 10, 33 ],
+    [ 67, 26 ],
+]
 
-# INSERT INTO stadium_ownership VALUES(NULL, 6, 15);
-# INSERT INTO stadium_ownership VALUES(NULL, 7, 15);
-# INSERT INTO stadium_ownership VALUES(NULL, 14, 36);
-# INSERT INTO stadium_ownership VALUES(NULL, 13, 17);
-# INSERT INTO stadium_ownership VALUES(NULL, 61, 18);
-# INSERT INTO stadium_ownership VALUES(NULL, 23, 19);
-# INSERT INTO stadium_ownership VALUES(NULL, 9, 20);
-# INSERT INTO stadium_ownership VALUES(NULL, 5, 29);
-# INSERT INTO stadium_ownership VALUES(NULL, 4, 29);
-# INSERT INTO stadium_ownership VALUES(NULL, 10, 33);
-# INSERT INTO stadium_ownership VALUES(NULL, 67, 26);
+if __name__ == "__main__":
+
+    import sys 
+
+    if "--skip-insert" in sys.argv:
+        
+        if not "general_data" in sys.argv:
+            competitions_controller.insert_competitions(competitions)
+            competitions_controller.insert_divisions(divisions)
+            club_class_controller.insert_club_classes(club_classes)
+
+
+        if not "clubs" in sys.argv:
+            print("Inserting brazilian clubs")
+
+            clubs_controller.insert_clubs(serie_a_clubs)
+            championships_contoller.insert_championship(serie_a_championships)  
+
+
+            clubs_controller.insert_clubs(serie_b_clubs)
+            championships_contoller.insert_championship(serie_b_championships)
+
+            clubs_controller.insert_clubs(serie_c_clubs)
+            championships_contoller.insert_championship(serie_c_championships)
+
+            print("Insert Argentinian clubs")
+            clubs_controller.insert_clubs(argentinian_clubs)
+            championships_contoller.insert_championship(argentinian_championships)
+
+        if not "stadiums" in sys.argv:
+            print("Inserting generic stadiums")
+            stadiums_controller.insert_stadiums(generic_stadiums)
+
+            print("Inserting real stadiums")
+            stadiums_controller.insert_stadiums(real_stadiums)
+
+            stadiums_controller.insert_stadiums_ownership(ownership_data)
+    else:
+        
+        competitions_controller.insert_competitions(competitions)
+        competitions_controller.insert_divisions(divisions)
+        club_class_controller.insert_club_classes(club_classes)
+
+
+        print("Inserting brazilian clubs")
+
+        clubs_controller.insert_clubs(serie_a_clubs)
+        championships_contoller.insert_championship(serie_a_championships)  
+
+
+        clubs_controller.insert_clubs(serie_b_clubs)
+        championships_contoller.insert_championship(serie_b_championships)
+
+        clubs_controller.insert_clubs(serie_c_clubs)
+        championships_contoller.insert_championship(serie_c_championships)
+
+        print("Insert Argentinian clubs")
+        clubs_controller.insert_clubs(argentinian_clubs)
+        championships_contoller.insert_championship(argentinian_championships)
+
+        print("Inserting generic stadiums")
+        stadiums_controller.insert_stadiums(generic_stadiums)
+
+        print("Inserting real stadiums")
+        stadiums_controller.insert_stadiums(real_stadiums)
+        stadiums_controller.insert_stadiums_ownership(ownership_data)
+
