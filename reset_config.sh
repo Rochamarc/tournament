@@ -10,5 +10,7 @@ sleep 30 && \
 ./exec_docker_initialize.sh && \
 echo "Configuring Name Generator" && \
 python NameGenerator/configure.py && \
+echo "First insert into main database" && \
+python championships_configuration.py
 echo "Configuring Tournament" && \
 python configure.py
