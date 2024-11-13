@@ -1,0 +1,1 @@
+INSERT INTO divisions VALUES (NULL, %s, %s);

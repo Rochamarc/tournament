@@ -1,5 +1,4 @@
 from controllers.base_controller import BaseController
-from alive_progress import alive_it
 
 class CompetitionsController(BaseController):
     """Class that handle tournament.competitions & divisions
@@ -11,6 +10,27 @@ class CompetitionsController(BaseController):
     select_competition_id(competition_name: str)
         Select competition id based on name
     """
+    
+    @classmethod
+    def insert_divisions(cls, divisions: list) -> None:
+        """Insert registers into tournament.divisions
+
+        Parameters
+        ----------
+        divisions : list
+            A list with division name and competition id
+        
+        Returns
+        -------
+        None
+        """
+
+        cls.insert_registers(
+            cls.get_query('insert', 'competitions', 'divisions'),
+            divisions,
+        )
+    
+        return None
     
     @classmethod
     def insert_competitions(cls, competitions: list[str]) -> None:
@@ -28,7 +48,8 @@ class CompetitionsController(BaseController):
         
         cls.insert_registers(
             cls.get_query('insert', 'competitions', 'competitions'), 
-            competitions
+            competitions,
+            complex=False
             )
     
         return None 
