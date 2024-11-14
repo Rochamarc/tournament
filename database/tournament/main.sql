@@ -47,6 +47,12 @@ CREATE TABLE stadiums(
     to FREE AGENT 
 */
 
+CREATE TABLE player_hash(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    hash_value JSON NOT NULL,
+    player_id INT NOT NULL
+);
+
 CREATE TABLE player_contracts(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     start CHAR(4),
@@ -286,6 +292,11 @@ CREATE TABLE transfers(
 );
 
 /* CONSTRAINTS */
+
+ALTER TABLE player_hash
+ADD CONSTRAINT fk_player_hash_player
+FOREIGN KEY(player_id)
+REFERENCES players(id);
 
 ALTER TABLE transfers
 ADD CONSTRAINT fk_transfers_players
