@@ -136,7 +136,7 @@ class LogsHandler:
         ]
 
     @staticmethod
-    def prepare_championships_logs_to_db(logs: dict, club: Club, season: str) -> list:
+    def prepare_championships_logs_to_db(logs: dict, club: Club, season: str, home: bool) -> list:
         """Convert and prepare the logs to insert a chmapionships table
         
         Parameters
@@ -147,7 +147,8 @@ class LogsHandler:
             A Club Object
         season : str
             The value of the season from the championship
-
+        home : bool
+            True if the data is for the home team, False if it is for the away team
         Returns
         -------
             A formated list with a data to be inserted in the 
@@ -167,9 +168,14 @@ class LogsHandler:
         else:
             data += [0,0,0,1]
 
-        # goals_for, goals_away
-        data.append(logs['others']['home_goals'])
-        data.append(logs['others']['away_goals'])
+
+        # check for home or away
+        if home:
+            data.append(logs['others']['home_goals'])
+            data.append(logs['others']['away_goals'])
+        else:
+            data.append(logs['others']['away_goals'])
+            data.append(logs['others']['home_goals'])
 
         # club_id, season
         data.append(club.id)
