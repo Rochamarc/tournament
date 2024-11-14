@@ -45,7 +45,7 @@ def complex_decision(p_overall: int, num_trials: int = 1) -> bool:
     # Retorna True se o número de sucessos for 0 (mais frequentemente)
     return result == 0
 
-def generate_player_hash(player_overall: int, weight: int=9, power: float=1.4) -> set[float]:
+def generate_player_hash(player_overall: int, weight: int=9, power: float=1.7) -> set[float]:
     """Generate a list of unique float values between zero and one
 
     Parameters
