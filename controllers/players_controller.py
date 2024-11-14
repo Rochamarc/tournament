@@ -105,6 +105,19 @@ class PlayersController(BaseController):
         return cls.insert_registers(cls.get_query('insert','players','market_value'), market_value_datas)
 
     @classmethod
+    def select_players(cls) -> list:
+        """Select all players
+
+        Returns
+        -------
+        list : with id, name, birth and position
+        """
+
+        return cls.select_register(
+            cls.get_query('select', 'players', 'players')
+        )
+
+    @classmethod
     def select_last_players(cls) -> list:
         """Select the last players from tournament.players
 
