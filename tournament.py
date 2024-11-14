@@ -56,8 +56,19 @@ def run_league(games: list, season: str) -> None:
         player_controller.insert_players_stats(player_stats_data)
 
         # Preapre data to update on db
-        home_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.home, season)
-        away_data = logs_handler.prepare_championships_logs_to_db(game.logs, game.away, season)
+        home_data = logs_handler.prepare_championships_logs_to_db(
+            game.logs, 
+            game.home, 
+            season,
+            home=True
+        )
+        
+        away_data = logs_handler.prepare_championships_logs_to_db(
+            game.logs, 
+            game.away, 
+            season,
+            home=False
+        )
 
         # update championships on database
         championships_controller.update_championship_table(home_data, game.competition)

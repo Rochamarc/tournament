@@ -45,6 +45,19 @@ class PlayersController(BaseController):
         return cls.insert_registers(cls.get_query('insert','players','players'), players_data)
 
     @classmethod
+    def insert_player_hashes(cls, data: list) -> None:
+        """
+        """
+    
+        cls.insert_registers(
+            cls.get_query('insert', 'players', 'player_hash'),
+            data,
+            progress_bar=False
+        )
+
+        return None
+    
+    @classmethod
     def insert_player_stats(cls, stats_data : list) -> None:
         """Insert stats_data into tournament.stats
 

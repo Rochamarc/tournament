@@ -1,0 +1,1 @@
+INSERT INTO player_hash VALUES (NULL, %s, %s);

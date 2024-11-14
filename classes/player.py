@@ -77,7 +77,16 @@ class Player(Hability):
         self.__weight = weight
         self.__foot = foot
         self.__club_id = club_id
+        self.__hash = None
 
+    @hash.setter
+    def hash(self, hash_value: set[float]) -> None:
+        self.__hash = hash_value
+
+    @property
+    def hash(self) -> set[float]:
+        return self.__hash
+    
     @property
     def name(self) -> str:
         return self.__name
