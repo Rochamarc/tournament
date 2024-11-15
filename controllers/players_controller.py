@@ -51,8 +51,7 @@ class PlayersController(BaseController):
     
         cls.insert_registers(
             cls.get_query('insert', 'players', 'player_hash'),
-            data,
-            progress_bar=False
+            data
         )
 
         return None

@@ -13,4 +13,6 @@ python NameGenerator/configure.py && \
 echo "First insert into main database" && \
 python championships_configuration.py
 echo "Configuring Tournament" && \
-python configure.py
+python configure.py && \
+echo "Prepare player's hash" && \
+python configure_hash.py 

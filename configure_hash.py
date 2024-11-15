@@ -26,6 +26,8 @@ for player in players:
 
 players = class_const.players(new_list)
 
+print("Preparing and inserting hashes...")
+
 hashes = [ 
     [ json.dumps(list(generate_player_hash(player.overall))), player.id ] for player in players
 ]
