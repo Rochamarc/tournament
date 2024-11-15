@@ -117,6 +117,25 @@ class PlayersController(BaseController):
         return cls.insert_registers(cls.get_query('insert','players','market_value'), market_value_datas)
 
     @classmethod
+    def select_player_hash(cls, player_id: int) -> list[str]:
+        """Select player hash
+
+        Parameters
+        ----------
+        player_id : int
+            A valid id for player
+        
+        Returns
+        -------
+        list[str] : a list containing one json 
+        """
+
+        return cls.select_register(
+            cls.get_query('select', 'players', 'player_hash'),
+            data = [player_id,]
+        )
+    
+    @classmethod
     def select_players(cls) -> list:
         """Select all players
 

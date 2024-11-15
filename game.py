@@ -4,7 +4,7 @@ from classes.player import Player
 from classes.club import Club
 from classes.stadium import Stadium
 
-from decision_maker import generate_player_hash, complex_decision_2
+from decision_maker import complex_decision_2
 
 # TODO change overall as int for decisions 
 
@@ -175,7 +175,7 @@ class Game(BaseGame):
             f_move = self.move_decision(attacker, defensor, 'pass')
 
             # check for a foul to update on logs
-            if not complex_decision_2(generate_player_hash(defensor.overall)):
+            if not complex_decision_2(defensor.hash):
                 self.update_game_stats_on_logs('fouls', attack_club.name)
                 
                 self.update_player_stats_on_logs('fouls', defensor)
@@ -295,7 +295,7 @@ class Game(BaseGame):
 
                 # Define for a defense or a kick out
                 # to update the logs
-                if complex_decision_2(generate_player_hash(keeper.overall)):
+                if complex_decision_2(keeper.hash):
                     self.update_game_stats_on_logs('saves', defense_club.name)
 
                     self.update_game_stats_on_logs('shots on target', attack_club.name)
@@ -319,7 +319,7 @@ class Game(BaseGame):
                 # club's overall
                 # attack_club_overall = attack_club.overall
                 
-                decision = complex_decision_2(generate_player_hash(attacker.overall)) # and simple_decision(attack_club_overall)
+                decision = complex_decision_2(attacker.hash)# generate_player_hash(attacker.overall)) # and simple_decision(attack_club_overall)
 
                 if decision:
                     # Goal
@@ -428,20 +428,22 @@ class Game(BaseGame):
         -------
             A bool based on the denial of defensor decision and a true attacker decision
         """
+        
+        return not complex_decision_2(defensor.hash) and complex_decision_2(attacker.hash)
+    
+        # if move in ['pass','projection']:
+        #     # TODO 
+        #     # pass, projection and interception to
+        #     # skills table 
+        #     # for now i'm using defensor's overall
 
-        if move in ['pass','projection']:
-            # TODO 
-            # pass, projection and interception to
-            # skills table 
-            # for now i'm using defensor's overall
-
-            return not complex_decision_2(generate_player_hash(defensor.overall)) and complex_decision_2(generate_player_hash(attacker.passing))
-        elif move == 'shot':
-            return not complex_decision_2(generate_player_hash(defensor.diving)) and complex_decision_2(generate_player_hash(attacker.finishing))
-        elif move == 'long_shot':
-            return not complex_decision_2(generate_player_hash(defensor.positioning)) and complex_decision_2(generate_player_hash(attacker.long_shot))
-        else:
-            return not complex_decision_2(generate_player_hash(defensor.overall)) and complex_decision_2(generate_player_hash(attacker.overall))  
+        #     return not complex_decision_2((defensor.overall)) and complex_decision_2((attacker.passing))
+        # elif move == 'shot':
+        #     return not complex_decision_2((defensor.diving)) and complex_decision_2((attacker.finishing))
+        # elif move == 'long_shot':
+        #     return not complex_decision_2((defensor.positioning)) and complex_decision_2((attacker.long_shot))
+        # else:
+        #     return not complex_decision_2((defensor.overall)) and complex_decision_2((attacker.overall))  
 
     def select_player_on_field(self, club: Club, field_part: str) -> Player:
         """Select a random player based on his field part 

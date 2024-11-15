@@ -4,6 +4,7 @@ from classes.player import Player
 from classes.stadium import Stadium
 
 from controllers.games_controller import GamesController
+from controllers.players_controller import PlayersController
 
 from logs_helper import LogsHandler
 
@@ -12,8 +13,10 @@ from cup_game import CupGame
 
 from random import choice, shuffle
 
+import json
 
 games_controller = GamesController()
+players_controller = PlayersController()
 logs_handler = LogsHandler()
 
 formation = Formation()
@@ -46,7 +49,7 @@ class ClassConstructor:
 	"""
     
 	@staticmethod
-	def players(players_data: list) -> list[Player]:	
+	def players(players_data: list, reconstruct_hash: bool=False) -> list[Player]:	
 		"""Transform data into Player Objects
 		
 		Parameters
@@ -55,14 +58,24 @@ class ClassConstructor:
 			A list of data with the following format
 			[ id, name, nationality, birth, position, height, weight, foot, positioning,
 			reflexes, diving, dribling, long_shot, finishing, club_id ]
-		
+		reconstruct_hash : bool
+			True if wanna put the player hash into the Player Object
+
 		Returns
 		-------
-			A list of Player Objects constructed with the data received
+		list[Player] : A list of Player Objects constructed with the data received
 		"""
 
-		return [ Player(*pd) for pd in players_data ]
+		players: list[Player] = [ Player(*pd) for pd in players_data ]
+		
+		if reconstruct_hash:
+			for player in players:
+				hash: str = players_controller.select_player_hash(player.id)[0][0]
+				hash: list[float] = json.loads(hash)
+				player.hash = hash
 
+		return players 
+	
 	@staticmethod
 	def clubs(clubs_data: list) -> list[Club]:
 		"""Transform data into Club Objects
@@ -238,7 +251,7 @@ class ClassConstructor:
 			A list of club objects configure and prepared to player
 		"""
 		
-		players = cls.players(players_data) # Instance player objects
+		players = cls.players(players_data, reconstruct_hash=True) # Instance player objects
 		clubs = cls.clubs(clubs_data) # Instance club objects
 
 		clubs = cls.add_players_to_clubs(clubs, players) # Add players to clubs
