@@ -151,3 +151,6 @@ db/__pycache__/
 /testing_queries_insertion_DELETE
 
 /dump_file.sql
+
+/output_dataset/
+/data/
