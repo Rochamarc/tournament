@@ -196,7 +196,9 @@ class ClassConstructor:
 			A list of Game Objetcs 
 		"""
 		
-		return [ Game(i[0], i[1], competition, competition_id, season, 1, choice(stadiums)) for i in games ]
+		match_round = 1
+
+		return [ Game(game[0], game[1], competition, competition_id, season, match_round, choice(stadiums)) for game in games ]
 	
 	@staticmethod
 	def prepare_cup_games(games: list, competition: str, competition_id: int, 
@@ -231,8 +233,8 @@ class ClassConstructor:
 			A list of CupGame objects 
 		"""
 		
-		return [ CupGame(i[0], i[1], competition, competition_id, season, phase, game_number, choice(stadiums), 
-				   		 first_leg_home_goals=first_leg_home_goals, first_leg_away_goals=first_leg_away_goals ) for i in games 
+		return [ CupGame(game[0], game[1], competition, competition_id, season, phase, game_number, choice(stadiums), 
+				   		 first_leg_home_goals=first_leg_home_goals, first_leg_away_goals=first_leg_away_goals ) for game in games 
 		]
 
 	@classmethod
@@ -304,17 +306,16 @@ class CupHelper:
 		games = []
 
 		for conf in confronts:
-			home = conf['clubs']['away']
-			away = conf['clubs']['home']
-			first_leg_home_goals = conf['cup_info']['first_leg_away_goals']
-			first_leg_away_goals = conf['cup_info']['first_leg_home_goals']
+			# invert home and away clubs and first leg goals
+			home, away = conf['clubs']['away'], conf['clubs']['home']
+			first_leg_home_goals, first_leg_away_goals = conf['cup_info']['first_leg_away_goals'], conf['cup_info']['first_leg_home_goals']
 			
 			stadium = choice(stadiums)
 
-			games.append(CupGame(home, away, competition, competition_id, season, 
-								phase, game_number, stadium, 
-								first_leg_home_goals=first_leg_home_goals, 
-								first_leg_away_goals=first_leg_away_goals))
+			games.append(
+				CupGame(home, away, competition, competition_id, season, phase, 
+						game_number, stadium, first_leg_home_goals=first_leg_home_goals, 
+						first_leg_away_goals=first_leg_away_goals))
 
 		return games
 	

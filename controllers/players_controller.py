@@ -197,10 +197,25 @@ class PlayersController(BaseController):
 
         Returns
         -------
-            A list of Players data 
+        list :  [   player.name,
+                    player.nationality,
+                    player.`position`,
+                    player.birth,
+                    player.height,
+                    player.weight,
+                    player.foot,
+                    player_contract.salary,
+                    club.name
+                ]
         """
 
-        return cls.select_register(cls.get_query('select','players','players_by_clubs'), [club_name, season])
+        # Use this later
+        season = season 
+
+        return cls.select_register(
+            cls.get_query('select','players','players_by_clubs'), 
+            [club_name,]
+        )
 
 
     @classmethod
